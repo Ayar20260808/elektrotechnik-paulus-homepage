@@ -112,13 +112,27 @@
   .nav{display:flex;align-items:center;justify-content:space-between;height:130px;}
   .logo{display:inline-flex;align-items:center;margin-right:auto;}
   .logo img{display:block;}
-  .nav-links{display:flex;gap:34px;font-size:18px;font-weight:500;margin-left:auto;background:#000000;color:#ffffff;padding:12px 28px;border-radius:50px;align-items:center;}
-  .nav-links a{color:#ffffff;transition:.2s;position:relative;}
+  .nav-links{display:flex;flex-shrink:0;gap:30px;font-size:17px;font-weight:500;margin-left:auto;background:#000000;color:#ffffff;padding:12px 28px;border-radius:50px;align-items:center;}
+  .nav-links a{color:#ffffff;transition:.2s;position:relative;white-space:nowrap;}
   .nav-links a:hover{color:#ffcc00;}
-  .nav-cta{display:none;gap:12px;align-items:center;}
-  .nav-cta .tel{font-family:var(--font-mono);font-size:14px;color:var(--ink);display:flex;align-items:center;gap:8px;}
+  .nav-cta{display:flex;gap:20px;align-items:center;margin-left:28px;}
+  .nav-cta .tel{font-family:var(--font-mono);font-size:14px;font-weight:500;color:var(--ink);display:flex;align-items:center;gap:8px;white-space:nowrap;}
+  .nav-cta .tel svg{color:var(--copper);flex-shrink:0;}
+  .nav-cta .tel:hover{color:var(--copper);}
+  .nav-cta .btn{padding:12px 22px;font-size:14px;white-space:nowrap;}
   .burger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;}
   .burger span{width:24px;height:2px;background:var(--ink);}
+
+  /* Sticky mobile call bar */
+  .mobile-callbar{
+    display:none;position:fixed;left:0;right:0;bottom:0;z-index:100;
+    background:var(--ink);border-top:1px solid rgba(255,255,255,.1);
+    padding:10px 14px calc(10px + env(safe-area-inset-bottom));
+  }
+  .mobile-callbar-row{display:flex;gap:10px;}
+  .mobile-callbar .btn{flex:1;justify-content:center;padding:13px 14px;font-size:14.5px;}
+  .mobile-callbar .btn-primary{background:var(--yellow);color:var(--ink);}
+  .mobile-callbar .btn-wa{background:#25d366;color:#fff;}
 
   /* HERO */
   .hero{
@@ -284,7 +298,19 @@
     #warum .wrap{grid-template-columns:1fr;}
     .kontakt-grid{grid-template-columns:1fr;}
     .nav-links{display:none;}
+    .nav-links.mobile-open{
+      display:flex;flex-direction:column;align-items:flex-start;gap:2px;
+      position:fixed;top:88px;left:0;right:0;
+      background:var(--white);padding:16px 24px 24px;
+      border-bottom:1px solid var(--line);
+      box-shadow:0 12px 24px rgba(28,37,48,.08);
+    }
+    .nav-links.mobile-open a{color:var(--ink);padding:12px 0;width:100%;border-bottom:1px solid var(--line);}
+    .nav-links.mobile-open a:hover{color:var(--copper);}
+    .nav-cta{display:none;}
     .burger{display:flex;}
+    .mobile-callbar{display:block;}
+    body{padding-bottom:76px;}
   }
   @media(max-width:600px){
     .services-grid{grid-template-columns:1fr;}
@@ -512,7 +538,11 @@
       <a href="#kontakt">Kontakt</a>
     </nav>
     <div class="nav-cta">
-        
+      <a class="tel" href="tel:+4922129894083">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        0221 2989 4083
+      </a>
+      <a class="btn btn-primary" href="#kontakt">Anfrage senden</a>
     </div>
     <button class="burger" aria-label="Menü"><span></span><span></span><span></span></button>
   </div>
@@ -1014,6 +1044,14 @@
   </div>
 </footer>
 
+<!-- Sticky mobile call bar -->
+<div class="mobile-callbar">
+  <div class="mobile-callbar-row">
+    <a class="btn btn-primary" href="tel:+4922129894083">Anrufen</a>
+    <a class="btn btn-wa" href="https://wa.me/4922129894083" target="_blank" rel="noopener">WhatsApp</a>
+  </div>
+</div>
+
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
 
@@ -1021,9 +1059,7 @@
   const burger = document.querySelector('.burger');
   const navLinks = document.querySelector('.nav-links');
   burger.addEventListener('click', () => {
-    const open = navLinks.style.display === 'flex';
-    navLinks.style.display = open ? 'none' : 'flex';
-    navLinks.style.cssText += open ? '' : 'position:fixed;top:130px;left:0;right:0;background:var(--white);flex-direction:column;padding:24px 32px;border-bottom:1px solid var(--line);';
+    navLinks.classList.toggle('mobile-open');
   });
 
   // Reveal on scroll
@@ -1032,6 +1068,11 @@
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
   }, { threshold: 0.15 });
   revealEls.forEach(el => io.observe(el));
+
+  // Close mobile menu after tapping a link
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    navLinks.classList.remove('mobile-open');
+  }));
 
   // Contact form (placeholder — no backend yet)
   document.getElementById('kontaktform').addEventListener('submit', function(e){
