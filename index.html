@@ -120,7 +120,10 @@
   .burger span{width:24px;height:2px;background:var(--ink);}
 
   /* HERO */
-  .hero{position:relative;background:var(--ink);min-height:480px;display:flex;align-items:center;overflow:hidden;}
+  /* Hero füllt zusammen mit Header (max. 138px) und Vertrauensleiste (ca. 110px)
+     genau eine Bildschirmhöhe, damit die Leistungen erst danach beginnen.
+     Untergrenze 480px für kleine bzw. niedrige Fenster. */
+  .hero{position:relative;background:var(--ink);min-height:max(480px, calc(100vh - 248px));display:flex;align-items:center;overflow:hidden;}
   .bg-slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1.6s ease-in-out;}
   .bg-slide.active{opacity:1;}
   .bg-slide.active [data-zoom-img]{animation:ep-ken 22s ease-in-out infinite alternate;}
