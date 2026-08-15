@@ -158,8 +158,8 @@
 
   /* LEISTUNGEN */
   #leistungen{background:var(--grey-100);border-bottom:2px solid var(--ink);}
-  .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--grey-300);border:1px solid var(--grey-300);}
-  .service-card{background:var(--grey-0);display:flex;flex-direction:column;transition:transform .3s ease, box-shadow .3s ease, background .25s ease;}
+  .services-grid{max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,72px);display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+  .service-card{background:var(--grey-0);border:1px solid var(--grey-300);display:flex;flex-direction:column;transition:transform .3s ease, box-shadow .3s ease, background .25s ease;}
   .service-card:hover{background:var(--grey-100);transform:translateY(-3px);box-shadow:0 10px 24px rgba(18,24,30,.09);}
   .service-img{position:relative;height:200px;overflow:hidden;}
   .service-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.25,.8,.25,1);}
