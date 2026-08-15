@@ -111,7 +111,7 @@
 
   /* HEADER */
   header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:2px solid var(--ink);}
-  .nav-inner{max-width:1400px;margin:0 auto;padding:12px clamp(20px,4vw,48px);min-height:clamp(68px,7vw,96px);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+  .nav-inner{padding:12px clamp(20px,4vw,48px);min-height:clamp(68px,7vw,96px);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
   .logo img{height:clamp(30px,3.2vw,46px);width:auto;display:block;}
   .nav-links{display:flex;gap:clamp(12px,1.8vw,30px);white-space:nowrap;overflow-x:auto;background:var(--ink);border-radius:999px;padding:9px clamp(14px,1.8vw,24px);align-items:center;}
   .nav-links a{font-family:var(--font-heading);font-weight:500;font-size:clamp(13.5px,1.4vw,17px);color:#fff;}
@@ -857,13 +857,12 @@
     a.addEventListener('click', function () { navLinks.classList.remove('mobile-open'); });
   });
 
-  // Reveal-on-Scroll mit Sicherheitsnetz
+  // Reveal-on-Scroll: löst sofort aus (150px Vorlauf), kein Warten mehr auf Timeout
   var revealEls = document.querySelectorAll('[data-reveal]');
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-  }, { threshold: 0.15 });
+  }, { threshold: 0, rootMargin: '0px 0px 150px 0px' });
   revealEls.forEach(function (el) { io.observe(el); });
-  setTimeout(function () { revealEls.forEach(function (el) { el.classList.add('in'); }); }, 1500);
   document.addEventListener('visibilitychange', function () {
     if (!document.hidden) revealEls.forEach(function (el) { el.classList.add('in'); });
   });
