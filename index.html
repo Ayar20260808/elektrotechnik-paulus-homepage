@@ -123,6 +123,11 @@
   /* Hero füllt zusammen mit Header (max. 138px) und Vertrauensleiste (ca. 110px)
      genau eine Bildschirmhöhe, damit die Leistungen erst danach beginnen.
      Untergrenze 480px für kleine bzw. niedrige Fenster. */
+  /* Sprungziele der Navigation enden unterhalb des fixierten Headers,
+     sonst verdeckt dieser beim Klick die Überschrift der Zielsektion.
+     --header-hoehe wird per JS aus der echten Headerhöhe gesetzt. */
+  section[id], div[id]{scroll-margin-top:var(--header-hoehe, 140px);}
+
   /* --seite1-rest wird per JS aus der echten Höhe von Header und
      Vertrauensleiste berechnet; der calc-Wert ist nur der Startwert,
      bevor das Skript läuft. */
@@ -862,8 +867,12 @@
     var trustEl = document.querySelector('.trustbar');
     if (!headerEl || !trustEl) return;
     function setzeHeroHoehe() {
-      var rest = window.innerHeight - headerEl.offsetHeight - trustEl.offsetHeight;
+      var kopfHoehe = headerEl.offsetHeight;
+      var rest = window.innerHeight - kopfHoehe - trustEl.offsetHeight;
       document.documentElement.style.setProperty('--seite1-rest', rest + 'px');
+      // Damit beim Klick auf einen Menüpunkt der fixierte Header die
+      // Überschrift der Zielsektion nicht überdeckt.
+      document.documentElement.style.setProperty('--header-hoehe', kopfHoehe + 'px');
     }
     setzeHeroHoehe();
     window.addEventListener('resize', setzeHeroHoehe);
