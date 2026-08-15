@@ -20,18 +20,18 @@
 <style>
   :root{
     --ink:#212B35; --dark:#12181E; --yellow:#FFD500; --yellow-hover:#E6C000; --yellow-tint:#FFF7D1;
-    --yellow-text:#8A6B00; --grey-0:#FFFFFF; --grey-100:#F5F6F7; --grey-300:#DDE0E3; --grey-600:#6B7480;
-    --link-blue:#1F6FB2; --tech-blue:#00A3D9; --green:#4A7C59; --green-text:#2F5340;
+    --yellow-text:#7A5F00; --grey-0:#FFFFFF; --grey-100:#F5F6F7; --grey-300:#DDE0E3; --grey-600:#5F6874;
+    --link-blue:#1F6FB2; --tech-blue:#00A3D9;--tech-blue-dark:#0A6E91; --green:#4A7C59; --green-text:#2F5340;
     --font-heading:'Archivo', system-ui, sans-serif; --font-body:'IBM Plex Sans', system-ui, sans-serif;
   }
   *{margin:0;padding:0;box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
+  html{scroll-behavior:smooth;scroll-padding-top:clamp(96px,11vw,140px);}
   body{background:var(--grey-0);color:var(--ink);font-family:var(--font-body);line-height:1.6;}
   a{color:var(--link-blue);text-decoration:none;}
   a:hover{color:var(--dark);text-decoration:underline;}
   img{max-width:100%;display:block;}
   ul{list-style:none;}
-  :focus-visible{outline:2px solid var(--tech-blue);outline-offset:2px;}
+  :focus-visible{outline:2px solid var(--tech-blue-dark);outline-offset:2px;}
   ::selection{background:#FFE87A;color:var(--dark);}
   h1,h2,h3{font-family:var(--font-heading);color:var(--ink);}
   .wrap{max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,72px);}
@@ -122,7 +122,8 @@
   footer{padding:32px 0;}
   .footer-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
   .footer-copy{font-size:13px;color:var(--grey-600);}
-  footer a{font-size:13.5px;color:var(--grey-600);}
+  footer a{font-size:13.5px;color:var(--grey-600);display:inline-flex;align-items:center;min-height:44px;padding:0 8px;text-decoration:underline;text-underline-offset:3px;}
+  .footer-legal{display:flex;gap:6px;flex-wrap:wrap;}
   footer a:hover{color:var(--yellow-text);}
 </style>
 </head>
@@ -131,13 +132,13 @@
 <header>
   <div class="nav-inner">
     <a class="logo" href="index.html" aria-label="Elektrotechnik Paulus – Startseite"><img src="logo.png" alt="Elektrotechnik Paulus"></a>
-    <nav class="nav-links">
+    <nav class="nav-links" id="hauptnavigation" aria-label="Hauptnavigation">
       <a href="index.html#hero">Start</a>
       <a href="index.html#leistungen">Leistungen</a>
       <a href="leistung-photovoltaik.html">Photovoltaik</a>
       <a href="index.html#kontakt">Kontakt</a>
     </nav>
-    <button class="burger" aria-label="Menü"><span></span><span></span><span></span></button>
+    <button class="burger" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="hauptnavigation"><span></span><span></span><span></span></button>
   </div>
 </header>
 
@@ -240,7 +241,11 @@
 <footer>
   <div class="wrap footer-row">
     <div class="footer-copy">© <span id="year"></span> Elektrotechnik Paulus · Köln Nippes</div>
-    <a href="index.html">Zurück zur Startseite</a>
+    <nav class="footer-legal" aria-label="Rechtliches">
+      <a href="index.html">Startseite</a>
+      <a href="impressum.html">Impressum</a>
+      <a href="datenschutz.html">Datenschutz</a>
+    </nav>
   </div>
 </footer>
 
@@ -248,7 +253,12 @@
   document.getElementById('year').textContent = new Date().getFullYear();
   var burger = document.querySelector('.burger');
   var navLinks = document.querySelector('.nav-links');
-  burger.addEventListener('click', function () { navLinks.classList.toggle('mobile-open'); });
+  burger.addEventListener('click', function () {
+    var offen = !navLinks.classList.contains('mobile-open');
+    navLinks.classList.toggle('mobile-open', offen);
+    burger.setAttribute('aria-expanded', offen ? 'true' : 'false');
+    burger.setAttribute('aria-label', offen ? 'Menü schließen' : 'Menü öffnen');
+  });
 </script>
 
 </body>
