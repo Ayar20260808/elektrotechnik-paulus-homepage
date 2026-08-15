@@ -857,13 +857,12 @@
     a.addEventListener('click', function () { navLinks.classList.remove('mobile-open'); });
   });
 
-  // Reveal-on-Scroll mit Sicherheitsnetz
+  // Reveal-on-Scroll: löst sofort aus (150px Vorlauf), kein Warten mehr auf Timeout
   var revealEls = document.querySelectorAll('[data-reveal]');
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-  }, { threshold: 0.15 });
+  }, { threshold: 0, rootMargin: '0px 0px 150px 0px' });
   revealEls.forEach(function (el) { io.observe(el); });
-  setTimeout(function () { revealEls.forEach(function (el) { el.classList.add('in'); }); }, 1500);
   document.addEventListener('visibilitychange', function () {
     if (!document.hidden) revealEls.forEach(function (el) { el.classList.add('in'); });
   });
