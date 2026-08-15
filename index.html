@@ -163,11 +163,14 @@
   /* Leistungen und das Bilderband darunter bilden eine zusammenhängende
      Fläche: gleicher Hintergrund, keine Trennlinie dazwischen, der
      Abschluss nach unten sitzt am Band. */
-  #leistungen{background:var(--grey-100);padding-bottom:24px;}
-  .services-grid{max-width:1440px;margin:0 auto;padding:0 clamp(20px,5vw,72px);display:grid;grid-template-columns:repeat(3,1fr);gap:40px;}
+  #leistungen .section-head{margin-bottom:clamp(12px,1.9vh,48px);}
+  #leistungen .section-head h2{font-size:clamp(24px,3.1vh,40px);}
+  #leistungen .section-head p{font-size:clamp(14px,1.6vh,16.5px);margin-top:clamp(6px,1vh,14px);}
+  #leistungen{background:var(--grey-100);padding-top:clamp(24px,4.2vh,84px);padding-bottom:clamp(6px,1vh,24px);}
+  .services-grid{padding:0 clamp(20px,5vw,72px);display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,2.1vh,40px);}
   .service-card{background:var(--grey-0);border:1px solid var(--grey-300);display:flex;flex-direction:column;transition:transform .3s ease, box-shadow .3s ease, background .25s ease;}
   .service-card:hover{background:var(--grey-100);transform:translateY(-3px);box-shadow:0 10px 24px rgba(18,24,30,.09);}
-  .service-img{position:relative;height:250px;overflow:hidden;}
+  .service-img{position:relative;height:clamp(80px,8.6vh,250px);overflow:hidden;}
   .service-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.25,.8,.25,1);}
   .service-card:hover .service-img img{transform:scale(1.08);}
   .service-shade{position:absolute;inset:0;background:linear-gradient(180deg, rgba(18,24,30,0) 40%, rgba(18,24,30,.55) 100%);opacity:0;transition:opacity .4s ease;}
@@ -175,7 +178,7 @@
   .service-overlay{position:absolute;left:0;right:0;bottom:0;padding:20px 24px;opacity:0;transform:translateY(10px);transition:opacity .35s ease, transform .35s cubic-bezier(.22,.61,.36,1);background:linear-gradient(180deg, rgba(18,24,30,0) 0%, rgba(18,24,30,.86) 45%);}
   .service-card:hover .service-overlay{opacity:1;transform:none;}
   .service-overlay li{font-size:14px;color:#fff;line-height:1.6;}
-  .service-body{padding:34px 34px 38px;display:flex;flex-direction:column;gap:12px;flex:1;}
+  .service-body{padding:clamp(12px,1.4vh,34px) clamp(18px,2vw,34px) clamp(13px,1.5vh,38px);display:flex;flex-direction:column;gap:clamp(6px,0.9vh,12px);flex:1;}
   .service-icon{width:34px;height:34px;color:var(--tech-blue);}
   .service-num{font-family:var(--font-heading);font-weight:600;font-size:12px;color:var(--grey-600);transition:color .25s ease;}
   .service-card:hover .service-num{color:var(--yellow-text);}
@@ -191,15 +194,15 @@
      schneidet und der Inhalt sonst rechts ins Padding hineinläuft. */
   .marquee-section.inset{padding-left:clamp(20px,5vw,72px);padding-right:clamp(20px,5vw,72px);overflow:visible;}
   /* Band als unterer Teil der Leistungen-Fläche */
-  .marquee-section.attached{background:var(--grey-100);padding-top:16px;border-bottom:2px solid var(--ink);}
+  .marquee-section.attached{background:var(--grey-100);padding-top:clamp(4px,0.8vh,16px);padding-bottom:clamp(14px,2.4vh,56px);border-bottom:2px solid var(--ink);}
   .marquee-clip{overflow:hidden;}
-  .marquee-head{text-align:center;font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--grey-600);margin-bottom:32px;}
+  .marquee-head{text-align:center;font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--grey-600);margin-bottom:clamp(12px,1.8vh,32px);}
   .marquee-track{display:flex;width:max-content;animation:ep-marquee 26s linear infinite;}
   .marquee-track.slow{animation-duration:42s;}
   .marquee-group{display:flex;align-items:center;gap:64px;padding-right:64px;}
   .brand-name{font-family:var(--font-heading);font-weight:700;font-size:21px;color:var(--grey-600);white-space:nowrap;}
   .imgband-group{display:flex;gap:2px;padding-right:2px;}
-  .imgband-group img{height:clamp(140px,16vw,210px);width:auto;object-fit:cover;display:block;}
+  .imgband-group img{height:clamp(70px,8.6vh,210px);width:auto;object-fit:cover;display:block;}
 
   /* KUNDEN */
   .kunden-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:32px clamp(32px,5vw,72px);align-items:center;margin-bottom:72px;}
