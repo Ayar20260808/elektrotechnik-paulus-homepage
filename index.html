@@ -157,7 +157,10 @@
   .section-head p{color:var(--grey-600);margin-top:14px;font-size:16.5px;max-width:62ch;}
 
   /* LEISTUNGEN */
-  #leistungen{background:var(--grey-100);border-bottom:2px solid var(--ink);}
+  /* Leistungen und das Bilderband darunter bilden eine zusammenhängende
+     Fläche: gleicher Hintergrund, keine Trennlinie dazwischen, der
+     Abschluss nach unten sitzt am Band. */
+  #leistungen{background:var(--grey-100);padding-bottom:24px;}
   .services-grid{max-width:1440px;margin:0 auto;padding:0 clamp(20px,5vw,72px);display:grid;grid-template-columns:repeat(3,1fr);gap:40px;}
   .service-card{background:var(--grey-0);border:1px solid var(--grey-300);display:flex;flex-direction:column;transition:transform .3s ease, box-shadow .3s ease, background .25s ease;}
   .service-card:hover{background:var(--grey-100);transform:translateY(-3px);box-shadow:0 10px 24px rgba(18,24,30,.09);}
@@ -184,6 +187,8 @@
      Eigener Clip-Container nötig, da overflow:hidden an der Padding-Box
      schneidet und der Inhalt sonst rechts ins Padding hineinläuft. */
   .marquee-section.inset{padding-left:clamp(20px,5vw,72px);padding-right:clamp(20px,5vw,72px);overflow:visible;}
+  /* Band als unterer Teil der Leistungen-Fläche */
+  .marquee-section.attached{background:var(--grey-100);padding-top:16px;border-bottom:2px solid var(--ink);}
   .marquee-clip{overflow:hidden;}
   .marquee-head{text-align:center;font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--grey-600);margin-bottom:32px;}
   .marquee-track{display:flex;width:max-content;animation:ep-marquee 26s linear infinite;}
@@ -387,30 +392,6 @@
   </div>
 </section>
 
-<div class="marquee-section inset">
-  <div class="marquee-head">Aus dem Arbeitsalltag</div>
-  <div class="marquee-clip">
-    <div class="marquee-track slow">
-      <div class="imgband-group">
-        <img src="leistung-elektroinstallation.jpg" alt="" loading="lazy">
-        <img src="leistung-wallbox.jpg" alt="" loading="lazy">
-        <img src="leistung-solar.jpg" alt="" loading="lazy">
-        <img src="leistung-smarthome.jpg" alt="" loading="lazy">
-        <img src="leistung-tuersprechanlage.jpg" alt="" loading="lazy">
-        <img src="leistung-netzwerk.jpg" alt="" loading="lazy">
-      </div>
-      <div class="imgband-group" aria-hidden="true">
-        <img src="leistung-elektroinstallation.jpg" alt="" loading="lazy">
-        <img src="leistung-wallbox.jpg" alt="" loading="lazy">
-        <img src="leistung-solar.jpg" alt="" loading="lazy">
-        <img src="leistung-smarthome.jpg" alt="" loading="lazy">
-        <img src="leistung-tuersprechanlage.jpg" alt="" loading="lazy">
-        <img src="leistung-netzwerk.jpg" alt="" loading="lazy">
-      </div>
-    </div>
-  </div>
-</div>
-
 <div class="trustbar">
   <div class="trustbar-inner">
     <div class="trust-item">
@@ -558,6 +539,30 @@
 
   </div>
 </section>
+
+<div class="marquee-section inset attached">
+  <div class="marquee-head">Aus dem Arbeitsalltag</div>
+  <div class="marquee-clip">
+    <div class="marquee-track slow">
+      <div class="imgband-group">
+        <img src="leistung-elektroinstallation.jpg" alt="" loading="lazy">
+        <img src="leistung-wallbox.jpg" alt="" loading="lazy">
+        <img src="leistung-solar.jpg" alt="" loading="lazy">
+        <img src="leistung-smarthome.jpg" alt="" loading="lazy">
+        <img src="leistung-tuersprechanlage.jpg" alt="" loading="lazy">
+        <img src="leistung-netzwerk.jpg" alt="" loading="lazy">
+      </div>
+      <div class="imgband-group" aria-hidden="true">
+        <img src="leistung-elektroinstallation.jpg" alt="" loading="lazy">
+        <img src="leistung-wallbox.jpg" alt="" loading="lazy">
+        <img src="leistung-solar.jpg" alt="" loading="lazy">
+        <img src="leistung-smarthome.jpg" alt="" loading="lazy">
+        <img src="leistung-tuersprechanlage.jpg" alt="" loading="lazy">
+        <img src="leistung-netzwerk.jpg" alt="" loading="lazy">
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="marquee-section">
   <div class="marquee-head">Marken, mit denen wir arbeiten</div>
