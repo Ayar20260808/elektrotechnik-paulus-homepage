@@ -123,7 +123,10 @@
   /* Hero füllt zusammen mit Header (max. 138px) und Vertrauensleiste (ca. 110px)
      genau eine Bildschirmhöhe, damit die Leistungen erst danach beginnen.
      Untergrenze 480px für kleine bzw. niedrige Fenster. */
-  .hero{position:relative;background:var(--ink);min-height:max(480px, calc(100vh - 248px));display:flex;align-items:center;overflow:hidden;}
+  /* --seite1-rest wird per JS aus der echten Höhe von Header und
+     Vertrauensleiste berechnet; der calc-Wert ist nur der Startwert,
+     bevor das Skript läuft. */
+  .hero{position:relative;background:var(--ink);min-height:max(480px, var(--seite1-rest, calc(100vh - 250px)));display:flex;align-items:center;overflow:hidden;}
   .bg-slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1.6s ease-in-out;}
   .bg-slide.active{opacity:1;}
   .bg-slide.active [data-zoom-img]{animation:ep-ken 22s ease-in-out infinite alternate;}
@@ -850,6 +853,24 @@
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Hero exakt so hoch machen, dass Header + Hero + Vertrauensleiste
+  // genau eine Bildschirmhöhe ergeben. Die Höhen werden gemessen statt
+  // geschätzt, damit es bei jedem Zoom und jeder Auflösung aufgeht.
+  (function () {
+    var headerEl = document.querySelector('header');
+    var trustEl = document.querySelector('.trustbar');
+    if (!headerEl || !trustEl) return;
+    function setzeHeroHoehe() {
+      var rest = window.innerHeight - headerEl.offsetHeight - trustEl.offsetHeight;
+      document.documentElement.style.setProperty('--seite1-rest', rest + 'px');
+    }
+    setzeHeroHoehe();
+    window.addEventListener('resize', setzeHeroHoehe);
+    window.addEventListener('orientationchange', setzeHeroHoehe);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(setzeHeroHoehe);
+    window.addEventListener('load', setzeHeroHoehe);
+  })();
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // Mobile-Menü
