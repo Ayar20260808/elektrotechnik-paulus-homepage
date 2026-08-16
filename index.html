@@ -166,10 +166,30 @@
      Vertrauensleiste berechnet; der calc-Wert ist nur der Startwert,
      bevor das Skript läuft. */
   .hero{padding:0;position:relative;background:var(--ink);height:max(360px, var(--seite1-rest, calc(100vh - 250px)));display:flex;align-items:center;overflow:hidden;}
-  .bg-slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1.6s ease-in-out;}
-  .bg-slide.active{opacity:1;}
-  .bg-slide.active [data-zoom-img]{animation:ep-ken 22s ease-in-out infinite alternate;}
-  .zoom-img{position:absolute;inset:0;background-size:cover;background-position:center;transform:scale(1);}
+  /* Hero-Hintergrund: der Installationsplan wandert langsam durchs Bild,
+     darueber zieht in grossem Abstand ein heller Streifen wie ein
+     Scheinwerfer ueber das Papier. Beide Bewegungen sind bewusst traege,
+     der Text soll lesbar bleiben. */
+  .hero-plan{position:absolute;inset:0;overflow:hidden;}
+  .hero-plan-img{position:absolute;inset:-8%;background:url('hero-plan.jpg') center/cover no-repeat;
+    opacity:.42;will-change:transform;animation:ep-plan 90s ease-in-out infinite alternate;}
+  @keyframes ep-plan{
+    from{transform:scale(1.05) translate3d(1.5%, 1%, 0);}
+    to  {transform:scale(1.18) translate3d(-2.5%, -1.5%, 0);}
+  }
+  .hero-sweep{position:absolute;top:-40%;bottom:-40%;left:0;width:34%;pointer-events:none;
+    background:linear-gradient(100deg, rgba(255,215,0,0) 0%, rgba(255,215,0,.10) 42%,
+      rgba(62,216,245,.10) 58%, rgba(62,216,245,0) 100%);
+    will-change:transform;animation:ep-sweep 18s linear infinite;}
+  @keyframes ep-sweep{
+    from{transform:translateX(-130%) rotate(8deg);}
+    to  {transform:translateX(330%) rotate(8deg);}
+  }
+  /* Wer Bewegung im System abgestellt hat, bekommt ein ruhiges Standbild. */
+  @media(prefers-reduced-motion: reduce){
+    .hero-plan-img{animation:none;transform:scale(1.08);}
+    .hero-sweep{display:none;}
+  }
   .hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg, rgba(18,24,30,.92) 0%, rgba(18,24,30,.78) 55%, rgba(18,24,30,.45) 100%);}
   .hero-techlines{position:absolute;left:0;right:0;bottom:0;height:64px;opacity:.45;pointer-events:none;}
   .hero-content{position:relative;z-index:2;padding:clamp(18px,calc(var(--sh) * 5.6),64px) clamp(20px,5vw,72px);width:100%;}
@@ -506,10 +526,10 @@
 </header>
 
 <section id="hero" class="hero">
-  <div class="bg-slide" data-zoom><div class="zoom-img" data-zoom-img style="background-image:url('hero-1.jpg');"></div></div>
-  <div class="bg-slide" data-zoom><div class="zoom-img" data-zoom-img style="background-image:url('hero-2.jpg');"></div></div>
-  <div class="bg-slide" data-zoom><div class="zoom-img" data-zoom-img style="background-image:url('hero-3.jpg');"></div></div>
-  <div class="bg-slide" data-zoom><div class="zoom-img" data-zoom-img style="background-image:url('hero-4.jpg');"></div></div>
+  <div class="hero-plan" aria-hidden="true">
+    <div class="hero-plan-img"></div>
+    <div class="hero-sweep"></div>
+  </div>
   <div class="hero-overlay"></div>
   <svg class="hero-techlines" viewBox="0 0 1200 64" preserveAspectRatio="none" aria-hidden="true">
     <path d="M0 32 H200 L230 12 H420 L450 52 H700 L730 32 H1000 L1030 12 H1200" fill="none" stroke="#3ED8F5" stroke-width="2"/>
@@ -1182,21 +1202,17 @@
 
   // Hero: Bildwechsel + Projektzeile synchron
   (function () {
-    var slides = document.querySelectorAll('.bg-slide');
+    // Der Hero-Hintergrund ist jetzt der laufende Plan, es gibt keine
+    // Bildebenen mehr. Die Projektzeile wechselt deshalb fuer sich allein.
     var lines = document.querySelectorAll('.hero-projectline span');
-    if (!slides.length) return;
+    if (!lines.length) return;
     var i = 0;
-    // Das erste Bild sofort zeigen. Vorher wurde es erst beim ersten
-    // Intervallwechsel eingeblendet, der Hero war sechs Sekunden lang leer.
-    slides[0].classList.add('active');
-    lines[0] && lines[0].classList.add('active');
+    lines[0].classList.add('active');
     if (!reduceMotion) {
       setInterval(function () {
-        slides[i].classList.remove('active');
-        lines[i] && lines[i].classList.remove('active');
-        i = (i + 1) % slides.length;
-        slides[i].classList.add('active');
-        lines[i] && lines[i].classList.add('active');
+        lines[i].classList.remove('active');
+        i = (i + 1) % lines.length;
+        lines[i].classList.add('active');
       }, 6000);
     }
   })();
