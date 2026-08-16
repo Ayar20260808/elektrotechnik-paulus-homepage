@@ -118,14 +118,23 @@
   header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:2px solid var(--ink);}
   .nav-inner{padding:17px clamp(20px,5vw,72px);min-height:clamp(98px,10vw,138px);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
   .logo img{height:clamp(43px,4.6vw,66px);width:auto;display:block;}
-  /* Menuepunkte einzeln und zurueckhaltend: keine dunkle Sammelflaeche
-     mehr, sondern je Punkt eine eigene helle Schaltflaeche. */
-  .nav-links{display:flex;gap:clamp(4px,0.7vw,12px);white-space:nowrap;overflow-x:auto;align-items:center;background:none;border-radius:0;padding:0;}
-  .nav-links a{font-family:var(--font-heading);font-weight:500;font-size:clamp(17px,1.65vw,20px);color:var(--ink);
-    padding:clamp(8px,0.9vw,12px) clamp(12px,1.3vw,20px);border:1px solid var(--grey-300);border-radius:999px;
-    transition:background .2s ease, border-color .2s ease, color .2s ease;}
-  .nav-links a:hover{background:var(--grey-100);border-color:var(--ink);color:var(--ink);text-decoration:none;}
-  .nav-links a:focus-visible{border-color:var(--ink);}
+  /* Menuepunkte als schlichte Textlinks, ohne Rahmen und ohne Flaeche.
+     Wo es Unterseiten gibt, weist ein kleiner Pfeil darauf hin. */
+  .nav-links{display:flex;gap:clamp(16px,2.1vw,42px);white-space:nowrap;align-items:center;background:none;border-radius:0;padding:0;}
+  .nav-links a{font-family:var(--font-heading);font-weight:500;font-size:clamp(16px,1.5vw,19px);color:var(--ink);
+    padding:10px 0;border:none;border-radius:0;display:inline-flex;align-items:center;gap:8px;
+    transition:color .2s ease;}
+  .nav-links a:hover{color:var(--yellow-text);text-decoration:none;}
+  .caret{width:0;height:0;border-left:4px solid transparent;border-right:4px solid transparent;
+    border-top:5px solid currentColor;opacity:.7;transition:transform .2s ease;}
+  .nav-item{position:relative;}
+  .nav-item:hover .caret{transform:rotate(180deg);}
+  .submenu{position:absolute;top:100%;left:-18px;min-width:262px;background:var(--grey-0);
+    border:1px solid var(--grey-300);box-shadow:0 14px 30px rgba(18,24,30,.14);padding:8px 0;
+    display:none;z-index:120;}
+  .nav-item:hover .submenu, .nav-item:focus-within .submenu{display:block;}
+  .submenu a{display:block;padding:10px 20px;font-family:var(--font-body);font-size:15.5px;font-weight:400;color:var(--ink);}
+  .submenu a:hover{background:var(--grey-100);color:var(--ink);text-decoration:none;}
   .burger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:6px;position:relative;z-index:2;}
   .burger span{width:24px;height:2px;background:var(--ink);}
 
@@ -408,6 +417,10 @@
     border-radius:0;
   }
   .nav-links.mobile-open a{color:var(--ink);padding:14px 0;width:100%;border:none;border-bottom:1px solid var(--grey-300);border-radius:0;}
+  .nav-links.mobile-open .nav-item{width:100%;}
+  .nav-links.mobile-open .submenu{position:static;display:block;border:none;box-shadow:none;padding:0 0 6px 16px;min-width:0;}
+  .nav-links.mobile-open .submenu a{padding:11px 0;font-size:14.5px;color:var(--grey-600);}
+  .nav-links.mobile-open .caret{display:none;}
   .nav-links.mobile-open a:hover{color:var(--yellow-text);}
 </style>
 </head>
@@ -420,7 +433,19 @@
     </a>
     <nav class="nav-links">
       <a href="#hero">Start</a>
-      <a href="#leistungen">Leistungen</a>
+      <div class="nav-item">
+        <a href="#leistungen" aria-haspopup="true" aria-expanded="false">Leistungen<span class="caret" aria-hidden="true"></span></a>
+        <div class="submenu">
+          <a href="leistung-elektroinstallation.html">Elektroinstallation</a>
+          <a href="leistung-wallbox.html">Wallbox &amp; Ladetechnik</a>
+          <a href="leistung-photovoltaik.html">Solaranlagen</a>
+          <a href="leistung-waermepumpe.html">Wärmepumpe anschließen</a>
+          <a href="leistung-smarthome.html">Smart Home</a>
+          <a href="leistung-tuersprechanlage.html">Video &amp; Türsprechanlage</a>
+          <a href="leistung-netzwerk.html">Netzwerktechnik</a>
+          <a href="leistung-vde.html">VDE-Messungen</a>
+        </div>
+      </div>
       <a href="#kunden">Unsere Kunden</a>
       <a href="#ablauf">Ablauf</a>
       <a href="#kontakt">Kontakt</a>
