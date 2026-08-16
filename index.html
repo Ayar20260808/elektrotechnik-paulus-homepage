@@ -7,20 +7,23 @@
 <meta name="description" content="Ihr Elektrobetrieb in Köln Nippes: Elektroinstallation, Wallbox, Photovoltaik, Smart Home und Netzwerktechnik. Mitglied der Elektroinnung Köln. Jetzt kostenlos beraten lassen: 0221 2989 4083.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://www.elektrotechnik-paulus.de/">
-<link rel="icon" href="logo-icon.png" type="image/png">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="bildmarke-farbe.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="png/bildmarke-180.png">
+<meta name="theme-color" content="#232F3B">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Elektrotechnik Paulus – Ihr Elektriker in Köln">
 <meta property="og:description" content="Elektroinstallation, Wallbox, Photovoltaik, Smart Home und Netzwerktechnik aus einer Hand. Köln Nippes.">
 <meta property="og:locale" content="de_DE">
 <meta property="og:url" content="https://www.elektrotechnik-paulus.de/">
-<meta property="og:image" content="https://www.elektrotechnik-paulus.de/logo.png">
+<meta property="og:image" content="https://www.elektrotechnik-paulus.de/png/logo-quer-farbe-2000.png">
 <script type="application/ld+json">
 {
   "@context":"https://schema.org",
   "@type":"Electrician",
   "name":"Elektrotechnik Paulus GmbH",
   "foundingDate":"2018",
-  "image":"https://www.elektrotechnik-paulus.de/logo.png",
+  "image":"https://www.elektrotechnik-paulus.de/png/logo-quer-farbe-2000.png",
   "url":"https://www.elektrotechnik-paulus.de/",
   "telephone":"+4922129894083",
   "email":"info@elektrotechnik-paulus.de",
@@ -49,22 +52,20 @@
   ]
 }
 </script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="marke.css">
 <style>
   :root{
-    --ink:#212B35;
-    --dark:#12181E;
-    --yellow:#FFD500;
-    --yellow-hover:#E6C000;
+    --ink:var(--farbe-anthrazit);
+    --dark:var(--farbe-anthrazit);
+    --yellow:var(--farbe-gelb);
+    --yellow-hover:var(--farbe-gelb-dunkel);
     --yellow-tint:#FFF7D1;
     --yellow-tint-2:#FFE87A;
     --yellow-text:#8A6B00;
-    --grey-0:#FFFFFF;
-    --grey-100:#F5F6F7;
+    --grey-0:var(--farbe-weiss);
+    --grey-100:var(--farbe-grau-hell);
     --grey-300:#DDE0E3;
-    --grey-600:#6B7480;
+    --grey-600:var(--farbe-grau);
     --link-blue:#1F6FB2;
     --tech-blue:#00A3D9;
     --tech-blue-light:#3ED8F5;
@@ -72,8 +73,8 @@
     --green-text:#2F5340;
     --green-tint:#E7EFE9;
     --green-light:#8FB89B;
-    --font-heading:'Archivo', system-ui, sans-serif;
-    --font-body:'IBM Plex Sans', system-ui, sans-serif;
+    --font-heading:var(--schrift);
+    --font-body:var(--schrift);
     /* Breite des zentrierten Inhaltsbandes in Kopfzeile, Vertrauensleiste
        und Fusszeile -- nach der Vorlage rund 66 Prozent der Fensterbreite,
        nach unten und oben begrenzt, damit die Navigation nicht umbricht
@@ -122,7 +123,9 @@
   /* HEADER */
   header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:2px solid var(--ink);}
   .nav-inner{width:var(--inhalt-breite);max-width:100%;margin:0 auto;padding:17px 0;min-height:clamp(98px,10vw,138px);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
-  .logo img{height:clamp(43px,3.6vw,81px);width:auto;display:block;}
+  /* Querformat-Logo nie schmaler als 160px, so schreibt es der
+     Markenleitfaden. Deshalb ueber die Breite gesteuert. */
+  .logo img{width:clamp(190px,17vw,300px);min-width:160px;height:auto;display:block;}
   /* Menuepunkte als schlichte Textlinks, ohne Rahmen und ohne Flaeche.
      Wo es Unterseiten gibt, weist ein kleiner Pfeil darauf hin. */
   .nav-links{display:flex;gap:clamp(12px,1.35vw,30px);white-space:nowrap;align-items:center;background:none;border-radius:0;padding:0;}
@@ -172,7 +175,7 @@
   .hero-content{position:relative;z-index:2;padding:clamp(18px,calc(var(--sh) * 5.6),64px) clamp(20px,5vw,72px);width:100%;}
   .hero-eyebrow{display:flex;align-items:center;gap:10px;font-family:var(--font-heading);font-weight:600;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--yellow);margin-bottom:clamp(7px,calc(var(--sh) * 1.7),16px);}
   .hero-eyebrow .dot{width:8px;height:8px;background:var(--green-light);display:inline-block;animation:ep-pulse 2.4s ease-in-out infinite;}
-  .hero h1{font-family:var(--font-heading);font-weight:800;font-size:clamp(30px,min(5.4vw, calc(var(--sh) * 6.2)),62px);line-height:1.04;letter-spacing:-.025em;color:#fff;max-width:20ch;margin-bottom:clamp(7px,calc(var(--sh) * 1.7),16px);}
+  .hero h1{font-family:var(--font-heading);font-weight:700;font-size:clamp(30px,min(5.4vw, calc(var(--sh) * 6.2)),62px);line-height:1.04;letter-spacing:-.025em;color:#fff;max-width:20ch;margin-bottom:clamp(7px,calc(var(--sh) * 1.7),16px);}
   .hero-lead{font-family:var(--font-body);font-size:clamp(14px,calc(var(--sh) * 1.86),17.5px);line-height:1.65;color:rgba(255,255,255,.82);max-width:56ch;margin-bottom:clamp(9px,calc(var(--sh) * 2.1),20px);}
   .hero-projectline{position:relative;height:clamp(15px,calc(var(--sh) * 2.55),24px);margin-bottom:clamp(11px,calc(var(--sh) * 2.55),24px);max-width:56ch;}
   .hero-projectline span{position:absolute;left:0;top:0;font-family:var(--font-heading);font-weight:600;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--tech-blue-light);opacity:0;transition:opacity .8s ease;}
@@ -180,7 +183,7 @@
   .hero-actions{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:clamp(13px,calc(var(--sh) * 2.95),28px);}
   .hero-actions .btn{padding:clamp(9px,calc(var(--sh) * 1.5),14px) clamp(18px,2vw,26px);font-size:clamp(13px,calc(var(--sh) * 1.6),15px);}
   .hero-stats{display:flex;gap:clamp(28px,4vw,56px);border-top:1px solid rgba(255,255,255,.18);padding-top:clamp(9px,calc(var(--sh) * 2.1),20px);flex-wrap:wrap;}
-  .hero-stats div b{display:block;font-family:var(--font-heading);font-weight:800;font-size:clamp(22px,calc(var(--sh) * 3.6),34px);color:var(--yellow);}
+  .hero-stats div b{display:block;font-family:var(--font-heading);font-weight:700;font-size:clamp(22px,calc(var(--sh) * 3.6),34px);color:var(--yellow);}
   .hero-stats div span{font-family:var(--font-heading);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.6);}
 
   /* VERTRAUENSLEISTE
@@ -207,7 +210,7 @@
   section{padding:84px 0;}
   .section-head{max-width:640px;margin-bottom:48px;}
   .section-head .eyebrow{margin-bottom:16px;display:block;}
-  .section-head h2{font-weight:800;font-size:clamp(28px,3.4vw,40px);letter-spacing:-.02em;max-width:34ch;}
+  .section-head h2{font-weight:700;font-size:clamp(28px,3.4vw,40px);letter-spacing:-.02em;max-width:34ch;}
   .section-head p{color:var(--grey-600);margin-top:14px;font-size:16.5px;max-width:62ch;}
 
   /* LEISTUNGEN */
@@ -226,7 +229,7 @@
   /* Kachel fuer Leistungen, zu denen noch kein eigenes Foto vorliegt.
      Bewusst als Markenflaeche statt als fremdes Stockfoto. */
   .foto-folgt{width:100%;height:100%;background:var(--dark);display:flex;align-items:center;justify-content:center;}
-  .foto-folgt img{width:auto;height:44%;max-height:96px;opacity:.5;object-fit:contain;}
+  .foto-folgt img{width:52%;max-width:300px;height:auto;opacity:.55;object-fit:contain;}
   .service-card:hover .service-img img{transform:scale(1.08);}
   .service-shade{position:absolute;inset:0;background:linear-gradient(180deg, rgba(18,24,30,0) 40%, rgba(18,24,30,.55) 100%);opacity:0;transition:opacity .4s ease;}
   .service-card:hover .service-shade{opacity:1;}
@@ -286,7 +289,7 @@
 
   /* REFERENZEN / BEWERTUNGEN gemeinsames Rastermuster */
   .card-grid-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;padding-bottom:24px;border-bottom:3px solid var(--ink);margin-bottom:2px;}
-  .card-grid-head h2{font-weight:800;font-size:clamp(28px,3.4vw,42px);}
+  .card-grid-head h2{font-weight:700;font-size:clamp(28px,3.4vw,42px);}
   .card-grid-head .note{font-size:14px;color:var(--grey-600);max-width:32ch;}
   .card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:2px;}
   .ref-card{border:2px solid var(--grey-300);background:var(--grey-0);transition:transform .35s cubic-bezier(.22,.61,.36,1), box-shadow .35s ease;}
@@ -308,7 +311,7 @@
   .ap-box{border:2px solid var(--ink);border-left:6px solid var(--yellow);padding:44px clamp(24px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:clamp(24px,4vw,56px);align-items:center;}
   .ap-foto img{width:100%;max-width:250px;aspect-ratio:287/323;object-fit:cover;}
   .ap-tag{display:inline-block;margin-bottom:12px;}
-  .ap-text h2{font-weight:800;font-size:clamp(28px,3.4vw,42px);margin-bottom:4px;letter-spacing:-.02em;}
+  .ap-text h2{font-weight:700;font-size:clamp(28px,3.4vw,42px);margin-bottom:4px;letter-spacing:-.02em;}
   .ap-rolle{color:var(--grey-600);font-size:15px;margin-bottom:18px;}
   .ap-text p{color:var(--ink);font-size:16.5px;line-height:1.7;max-width:620px;}
   .ap-kontakt{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px;}
@@ -323,7 +326,7 @@
   /* KONTAKT */
   #kontakt{background:var(--grey-100);border-top:2px solid var(--ink);}
   .kontakt-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:56px;}
-  .kontakt-info h2{font-weight:800;font-size:clamp(28px,3vw,36px);margin:16px 0 18px;}
+  .kontakt-info h2{font-weight:700;font-size:clamp(28px,3vw,36px);margin:16px 0 18px;}
   .kontakt-info p{color:var(--grey-600);margin-bottom:28px;}
   .kontakt-block{padding:18px 0;border-top:2px solid var(--grey-300);}
   .kontakt-block:last-of-type{border-bottom:2px solid var(--grey-300);}
@@ -352,7 +355,7 @@
   footer.legalbar{background:var(--grey-0);border-top:2px solid var(--ink);padding:0;}
   .footer-row{width:var(--inhalt-breite);max-width:100%;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:clamp(20px,1.8vw,34px);
     min-height:var(--header-hoehe, 140px);padding:30px 0;}
-  .footer-row .logo img{height:clamp(38px,3vw,58px);width:auto;display:block;}
+  .footer-row .logo img{width:clamp(170px,14vw,250px);min-width:160px;height:auto;display:block;}
   .footer-links{display:flex;gap:clamp(11px,1.2vw,26px);align-items:center;flex-wrap:wrap;margin-left:auto;}
   .footer-links a{position:relative;font-family:var(--font-heading);font-weight:500;font-size:clamp(14px,0.88vw,16.5px);
     color:var(--ink);cursor:pointer;padding:10px 0;transition:color .2s ease;}
@@ -462,7 +465,7 @@
 <header>
   <div class="nav-inner">
     <a class="logo" href="#hero" aria-label="Elektrotechnik Paulus – Startseite">
-      <img src="logo.png" alt="Elektrotechnik Paulus">
+      <img src="logo-quer-farbe.svg" alt="Elektrotechnik Paulus">
     </a>
     <nav class="nav-links">
       <a href="#hero">Start</a>
@@ -612,7 +615,7 @@
     <div class="service-card" data-reveal>
       <div class="service-img">
         <div class="foto-folgt" role="img" aria-label="Wärmepumpe anschließen – Foto folgt">
-          <img src="logo-icon.png" alt="" aria-hidden="true">
+          <img src="logo-quer-weiss.svg" alt="" aria-hidden="true">
         </div>
         <div class="service-shade"></div>
         <ul class="service-overlay">
@@ -987,7 +990,7 @@
   <div class="footer-row">
     <div class="footer-marke">
       <a class="logo" href="#hero" aria-label="Elektrotechnik Paulus – Startseite">
-        <img src="logo.png" alt="Elektrotechnik Paulus">
+        <img src="logo-quer-farbe.svg" alt="Elektrotechnik Paulus">
       </a>
       <address>
         <strong>Elektrotechnik Paulus GmbH</strong><br>
