@@ -7,22 +7,23 @@
 <meta name="description" content="Wallbox-Installation in Köln: Anschlussprüfung, Anmeldung beim Netzbetreiber, Montage und Messprotokoll aus einer Hand. Jetzt Beratung anfragen: 0221 2989 4083.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://www.elektrotechnik-paulus.de/leistung-wallbox.html">
-<link rel="icon" href="logo-icon.png" type="image/png">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="bildmarke-farbe.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="png/bildmarke-180.png">
+<meta name="theme-color" content="#232F3B">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Wallbox &amp; Ladetechnik in Köln | Elektrotechnik Paulus">
 <meta property="og:description" content="Zu Hause laden, ohne Kompromisse. Anschlussprüfung, Anmeldung und Montage aus einer Hand.">
 <meta property="og:locale" content="de_DE">
 <meta property="og:url" content="https://www.elektrotechnik-paulus.de/leistung-wallbox.html">
-<meta property="og:image" content="https://www.elektrotechnik-paulus.de/logo.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<meta property="og:image" content="https://www.elektrotechnik-paulus.de/png/logo-quer-farbe-2000.png">
+<link rel="stylesheet" href="marke.css">
 <style>
   :root{
-    --ink:#212B35; --dark:#12181E; --yellow:#FFD500; --yellow-hover:#E6C000; --yellow-tint:#FFF7D1;
-    --yellow-text:#8A6B00; --grey-0:#FFFFFF; --grey-100:#F5F6F7; --grey-300:#DDE0E3; --grey-600:#6B7480;
+    --ink:var(--farbe-anthrazit); --dark:var(--farbe-anthrazit); --yellow:var(--farbe-gelb); --yellow-hover:var(--farbe-gelb-dunkel); --yellow-tint:#FFF7D1;
+    --yellow-text:#8A6B00; --grey-0:var(--farbe-weiss); --grey-100:var(--farbe-grau-hell); --grey-300:#DDE0E3; --grey-600:var(--farbe-grau);
     --link-blue:#1F6FB2; --tech-blue:#00A3D9; --green:#4A7C59; --green-text:#2F5340;
-    --font-heading:'Archivo', system-ui, sans-serif; --font-body:'IBM Plex Sans', system-ui, sans-serif;
+    --font-heading:var(--schrift); --font-body:var(--schrift);
     --inhalt-breite:clamp(1180px, 66vw, 1440px);
   }
   *{margin:0;padding:0;box-sizing:border-box;}
@@ -48,7 +49,7 @@
 
   header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:2px solid var(--ink);}
   .nav-inner{width:var(--inhalt-breite);max-width:100%;margin:0 auto;padding:14px 0;min-height:clamp(76px,8vw,104px);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
-  .logo img{height:clamp(34px,3.4vw,62px);width:auto;display:block;}
+  .logo img{width:clamp(170px,15vw,260px);min-width:160px;height:auto;display:block;}
   /* Menuepunkte als schlichte Textlinks, wie auf der Startseite. */
   .nav-links{display:flex;gap:clamp(14px,1.8vw,32px);white-space:nowrap;background:none;border-radius:0;padding:0;align-items:center;}
   .nav-links a{font-family:var(--font-heading);font-weight:500;font-size:clamp(13px,1.3vw,16px);color:var(--ink);
@@ -72,7 +73,7 @@
   .breadcrumb a{color:rgba(255,255,255,.75);}
   .breadcrumb a:hover{color:#fff;}
   .svc-eyebrow{font-family:var(--font-heading);font-weight:600;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--yellow);margin-bottom:18px;}
-  .svc-hero h1{font-family:var(--font-heading);font-weight:800;font-size:clamp(32px,4.6vw,52px);line-height:1.08;letter-spacing:-.02em;color:#fff;max-width:18ch;margin-bottom:20px;}
+  .svc-hero h1{font-family:var(--font-heading);font-weight:700;font-size:clamp(32px,4.6vw,52px);line-height:1.08;letter-spacing:-.02em;color:#fff;max-width:18ch;margin-bottom:20px;}
   .svc-hero-lead{font-size:17px;line-height:1.65;color:rgba(255,255,255,.82);max-width:56ch;margin-bottom:32px;}
   .svc-hero-actions{display:flex;gap:16px;flex-wrap:wrap;}
 
@@ -80,14 +81,14 @@
   .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);}
   .stat-item{padding:36px clamp(20px,3vw,32px);border-right:1px solid var(--grey-300);}
   .stat-item:last-child{border-right:none;}
-  .stat-item b{display:block;font-family:var(--font-heading);font-weight:800;font-size:30px;color:var(--ink);margin-bottom:8px;}
+  .stat-item b{display:block;font-family:var(--font-heading);font-weight:700;font-size:30px;color:var(--ink);margin-bottom:8px;}
   .stat-item p{color:var(--grey-600);font-size:14.5px;line-height:1.55;}
   @media(max-width:700px){.stats-grid{grid-template-columns:1fr;}.stat-item{border-right:none;border-bottom:1px solid var(--grey-300);}.stat-item:last-child{border-bottom:none;}}
 
   section{padding:72px 0;}
   .section-head{max-width:640px;margin-bottom:44px;}
   .section-head .eyebrow{display:block;margin-bottom:14px;}
-  .section-head h2{font-weight:800;font-size:clamp(26px,3vw,36px);letter-spacing:-.02em;}
+  .section-head h2{font-weight:700;font-size:clamp(26px,3vw,36px);letter-spacing:-.02em;}
   .section-head p{color:var(--grey-600);margin-top:12px;font-size:16px;}
 
   #ablauf{background:var(--grey-100);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);}
@@ -120,7 +121,7 @@
   details p{font-size:16px;line-height:1.7;color:var(--grey-600);margin:0 0 24px;}
 
   .closing{background:var(--yellow);text-align:center;padding:64px 0;}
-  .closing h2{font-weight:800;font-size:clamp(26px,3.4vw,38px);margin-bottom:14px;letter-spacing:-.02em;}
+  .closing h2{font-weight:700;font-size:clamp(26px,3.4vw,38px);margin-bottom:14px;letter-spacing:-.02em;}
   .closing p{color:var(--dark);font-size:16px;margin-bottom:28px;}
   .closing-actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
   .closing .btn-ghost{border-color:var(--dark);}
@@ -129,7 +130,7 @@
      Logo links, Textlinks rechts. */
   footer{background:var(--grey-0);border-top:2px solid var(--ink);padding:0;}
   .footer-row{width:var(--inhalt-breite);max-width:100%;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:clamp(20px,2.6vw,44px);min-height:clamp(76px,8vw,104px);padding:26px 0;}
-  .footer-row .logo img{height:clamp(34px,3.4vw,62px);width:auto;display:block;}
+  .footer-row .logo img{width:clamp(165px,13vw,230px);min-width:160px;height:auto;display:block;}
   .footer-links{display:flex;gap:clamp(12px,1.4vw,26px);align-items:center;flex-wrap:wrap;margin-left:auto;}
   footer a{position:relative;font-family:var(--font-heading);font-weight:500;font-size:clamp(13px,1.3vw,16px);color:var(--ink);padding:9px 0;}
   .footer-links a::after{content:'';position:absolute;left:0;right:0;bottom:2px;height:2px;background:var(--yellow);
@@ -153,7 +154,7 @@
 
 <header>
   <div class="nav-inner">
-    <a class="logo" href="index.html" aria-label="Elektrotechnik Paulus – Startseite"><img src="logo.png" alt="Elektrotechnik Paulus"></a>
+    <a class="logo" href="index.html" aria-label="Elektrotechnik Paulus – Startseite"><img src="logo-quer-farbe.svg" alt="Elektrotechnik Paulus"></a>
     <nav class="nav-links">
       <a href="index.html#hero">Start</a>
       <a href="index.html#leistungen">Leistungen</a>
@@ -265,7 +266,7 @@
   <div class="footer-row">
     <div class="footer-marke">
       <a class="logo" href="index.html" aria-label="Elektrotechnik Paulus – Startseite">
-        <img src="logo.png" alt="Elektrotechnik Paulus">
+        <img src="logo-quer-farbe.svg" alt="Elektrotechnik Paulus">
       </a>
       <address>
         <strong>Elektrotechnik Paulus GmbH</strong><br>

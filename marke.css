@@ -1,0 +1,134 @@
+/* Marke Elektrotechnik Paulus
+   Einmal einbinden, dann ueberall per var(--...) verwenden. */
+
+/* Schrift: IBM Plex Sans, lokal eingebunden.
+   Die Dateien liegen im Ordner schriften/ neben dieser Datei. Die Pfade
+   sind bewusst relativ, weil die Seite unter einem Unterpfad laeuft
+   (github.io/elektrotechnik-paulus-homepage/) -- ein fuehrender
+   Schraegstrich wuerde dort ins Leere zeigen. Nicht ueber den Google-Fonts-Server
+   einbinden -- dabei werden IP-Adressen der Besucher uebertragen. */
+
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("schriften/ibm-plex-sans-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("schriften/ibm-plex-sans-latin-600-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("schriften/ibm-plex-sans-latin-700-normal.woff2") format("woff2");
+}
+
+:root {
+  /* Farben */
+  --farbe-anthrazit:       #232F3B;
+  --farbe-anthrazit-hell:  #3A4956;  /* Hover, Raender */
+  --farbe-gelb:            #FFD700;
+  --farbe-gelb-dunkel:     #E6C200;  /* Gelb auf Weiss, wenn Kontrast fehlt */
+  --farbe-weiss:           #FFFFFF;
+  --farbe-grau:            #6B7480;  /* Fliesstext zweiter Ordnung */
+  --farbe-grau-hell:       #F2F4F6;  /* Flaechen, Karten */
+
+  /* Rollen -- so wird im Rest der Seite darauf zugegriffen */
+  --text:        var(--farbe-anthrazit);
+  --text-leise:  var(--farbe-grau);
+  --hintergrund: var(--farbe-weiss);
+  --akzent:      var(--farbe-gelb);
+  --radius:      8px;
+
+  /* Schrift */
+  --schrift: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+body {
+  font-family: var(--schrift);
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--hintergrund);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Fliesstext nicht breiter als etwa 75 Zeichen laufen lassen */
+p { max-width: 65ch; }
+
+h1, h2, h3 {
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.5em;
+}
+h1 { font-size: 2.4rem; }
+h2 { font-size: 1.7rem; font-weight: 600; }
+h3 { font-size: 1.25rem; font-weight: 600; }
+
+/* Kleine gesperrte Zeile wie im Logo, z. B. ueber einer Ueberschrift */
+.augenbraue {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-leise);
+}
+
+/* Logo-Groessen. Nie unter 160px Breite fuer das Querformat-Logo. */
+.logo        { display: block; width: 240px; height: auto; }
+.logo--klein { width: 180px; }
+.logo--gross { width: 320px; }
+
+/* Bildmarke allein */
+.bildmarke   { display: block; width: 48px; height: 48px; }
+
+/* Kopfzeile */
+.kopfzeile {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 16px 24px;
+  background: var(--hintergrund);
+  border-bottom: 1px solid var(--farbe-grau-hell);
+}
+
+/* Dunkler Bereich, z. B. Fusszeile */
+.dunkel {
+  background: var(--farbe-anthrazit);
+  color: var(--farbe-weiss);
+}
+
+/* Schaltflaeche */
+.knopf {
+  display: inline-block;
+  padding: 12px 22px;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--farbe-anthrazit);
+  color: var(--farbe-weiss);
+  font-family: var(--schrift);
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+.knopf:hover { background: var(--farbe-anthrazit-hell); }
+
+.knopf--gelb { background: var(--farbe-gelb); color: var(--farbe-anthrazit); }
+.knopf--gelb:hover { background: var(--farbe-gelb-dunkel); }
+
+/* Sichtbarer Fokusrahmen fuer Tastaturbedienung */
+a:focus-visible, button:focus-visible {
+  outline: 3px solid var(--farbe-gelb);
+  outline-offset: 2px;
+}
