@@ -342,19 +342,21 @@
   /* FUSSZEILE -- spiegelbildlich zum Header aufgebaut: gleiche Hoehe,
      gleiche seitliche Abstaende, Logo links, Textlinks rechts. */
   footer.legalbar{background:var(--grey-0);border-top:2px solid var(--ink);padding:0 clamp(20px,5vw,72px);}
-  .footer-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;
-    min-height:var(--header-hoehe, 140px);}
+  .footer-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px;
+    min-height:var(--header-hoehe, 140px);padding:18px 0;}
   .footer-row .logo img{height:clamp(43px,4.6vw,66px);width:auto;display:block;}
   .footer-links{display:flex;gap:clamp(16px,2.1vw,42px);align-items:center;flex-wrap:wrap;}
   .footer-links a{font-family:var(--font-heading);font-weight:500;font-size:clamp(16px,1.5vw,19px);
     color:var(--ink);cursor:pointer;padding:10px 0;transition:color .2s ease;}
   .footer-links a:hover{color:var(--yellow-text);text-decoration:none;}
-  .footer-unten{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:20px;
-    border-top:1px solid var(--grey-300);padding:26px 0 30px;}
-  .footer-unten address{font-style:normal;color:var(--grey-600);font-size:14.5px;line-height:1.75;}
-  .footer-unten address strong{color:var(--ink);font-family:var(--font-heading);font-weight:700;}
-  .footer-unten address a{color:var(--grey-600);}
-  .footer-unten address a:hover{color:var(--yellow-text);}
+  /* Anschrift steht rechts neben dem Logo, beides bildet den linken
+     Block der Fusszeile. */
+  .footer-marke{display:flex;align-items:center;gap:clamp(18px,2vw,34px);flex-wrap:wrap;}
+  .footer-marke address{font-style:normal;color:var(--grey-600);font-size:14.5px;line-height:1.7;}
+  .footer-marke address strong{color:var(--ink);font-family:var(--font-heading);font-weight:700;}
+  .footer-marke address a{color:var(--grey-600);font-size:14.5px;font-family:var(--font-body);font-weight:400;padding:0;}
+  .footer-marke address a:hover{color:var(--yellow-text);}
+  .footer-unten{border-top:1px solid var(--grey-300);padding:18px 0 22px;}
   .footer-copy{font-size:13px;color:var(--grey-600);}
 
   /* SCHWEBENDER BUTTON */
@@ -957,9 +959,17 @@
 
 <footer class="legalbar">
   <div class="footer-row">
-    <a class="logo" href="#hero" aria-label="Elektrotechnik Paulus – Startseite">
-      <img src="logo.png" alt="Elektrotechnik Paulus">
-    </a>
+    <div class="footer-marke">
+      <a class="logo" href="#hero" aria-label="Elektrotechnik Paulus – Startseite">
+        <img src="logo.png" alt="Elektrotechnik Paulus">
+      </a>
+      <address>
+        <strong>Elektrotechnik Paulus GmbH</strong><br>
+        Wartburgstr. 12 · 50733 Köln<br>
+        Telefon: <a href="tel:+4922129894083">0221 2989 4083</a><br>
+        E-Mail: <a href="mailto:ayar@elektrotechnik-paulus.de">ayar@elektrotechnik-paulus.de</a>
+      </address>
+    </div>
     <nav class="footer-links">
       <a href="#leistungen">Leistungen</a>
       <a href="#kunden">Unsere Kunden</a>
@@ -970,13 +980,6 @@
     </nav>
   </div>
   <div class="footer-unten">
-    <address>
-      <strong>Elektrotechnik Paulus GmbH</strong><br>
-      Wartburgstr. 12<br>
-      50733 Köln<br>
-      Telefon: <a href="tel:+4922129894083">0221 2989 4083</a><br>
-      E-Mail: <a href="mailto:ayar@elektrotechnik-paulus.de">ayar@elektrotechnik-paulus.de</a>
-    </address>
     <div class="footer-copy">© <span id="year"></span> Elektrotechnik Paulus · Köln Nippes</div>
   </div>
 </footer>
