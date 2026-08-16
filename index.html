@@ -74,6 +74,11 @@
     --green-light:#8FB89B;
     --font-heading:'Archivo', system-ui, sans-serif;
     --font-body:'IBM Plex Sans', system-ui, sans-serif;
+    /* Breite des zentrierten Inhaltsbandes in Kopfzeile, Vertrauensleiste
+       und Fusszeile -- nach der Vorlage rund 66 Prozent der Fensterbreite,
+       nach unten und oben begrenzt, damit die Navigation nicht umbricht
+       und auf sehr breiten Schirmen nicht auseinanderlaeuft. */
+    --inhalt-breite:clamp(1360px, 66vw, 1560px);
     /* 1 % der WIRKLICH sichtbaren Seitenhoehe: Fensterhoehe minus der
        Hoehe des mitlaufenden Headers, der oben immer davor liegt.
        Wird per JS exakt gesetzt; der Wert hier ist nur die Notloesung,
@@ -116,15 +121,18 @@
 
   /* HEADER */
   header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:2px solid var(--ink);}
-  .nav-inner{padding:17px clamp(20px,5vw,72px);min-height:clamp(98px,10vw,138px);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
-  .logo img{height:clamp(43px,4.6vw,66px);width:auto;display:block;}
+  .nav-inner{width:var(--inhalt-breite);max-width:100%;margin:0 auto;padding:17px 0;min-height:clamp(98px,10vw,138px);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+  .logo img{height:clamp(43px,3.6vw,81px);width:auto;display:block;}
   /* Menuepunkte als schlichte Textlinks, ohne Rahmen und ohne Flaeche.
      Wo es Unterseiten gibt, weist ein kleiner Pfeil darauf hin. */
-  .nav-links{display:flex;gap:clamp(16px,2.1vw,42px);white-space:nowrap;align-items:center;background:none;border-radius:0;padding:0;}
-  .nav-links a{font-family:var(--font-heading);font-weight:500;font-size:clamp(16px,1.5vw,19px);color:var(--ink);
+  .nav-links{display:flex;gap:clamp(12px,1.35vw,30px);white-space:nowrap;align-items:center;background:none;border-radius:0;padding:0;}
+  .nav-links a{font-family:var(--font-heading);font-weight:500;font-size:clamp(15px,1vw,18px);color:var(--ink);
     padding:10px 0;border:none;border-radius:0;display:inline-flex;align-items:center;gap:8px;
     transition:color .2s ease;}
   .nav-links a:hover{color:var(--yellow-text);text-decoration:none;}
+  .nav-links a.nav-cta{background:var(--yellow);color:var(--dark);font-weight:700;
+    padding:12px clamp(14px,1.4vw,22px);border:2px solid var(--yellow);}
+  .nav-links a.nav-cta:hover{background:var(--yellow-hover);border-color:var(--yellow-hover);color:var(--dark);}
   .caret{width:0;height:0;border-left:4px solid transparent;border-right:4px solid transparent;
     border-top:5px solid currentColor;opacity:.7;transition:transform .2s ease;}
   .nav-item{position:relative;}
@@ -179,9 +187,9 @@
      Genauso hoch wie der Header und genauso breit wie dessen Inhalt,
      damit sie die erste Seite unten spiegelbildlich abschliesst.
      --header-hoehe kommt aus der gemessenen echten Headerhoehe. */
-  .trustbar{background:var(--grey-0);padding:0 clamp(20px,5vw,72px);border-bottom:2px solid var(--ink);
+  .trustbar{background:var(--grey-0);padding:0;border-bottom:2px solid var(--ink);
     height:var(--header-hoehe, 138px);display:flex;align-items:stretch;}
-  .trustbar-inner{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));width:100%;height:100%;}
+  .trustbar-inner{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));width:var(--inhalt-breite);max-width:100%;margin:0 auto;height:100%;}
   .trust-item{padding:0 clamp(16px,2.2vw,28px);display:flex;gap:14px;align-items:center;border-right:1px solid var(--grey-300);}
   .trust-item:first-child{padding-left:0;}
   .trust-item:last-child{border-right:none;padding-right:0;}
@@ -341,12 +349,12 @@
   /* FOOTER */
   /* FUSSZEILE -- spiegelbildlich zum Header aufgebaut: gleiche Hoehe,
      gleiche seitliche Abstaende, Logo links, Textlinks rechts. */
-  footer.legalbar{background:var(--grey-0);border-top:2px solid var(--ink);padding:0 clamp(20px,5vw,72px);}
-  .footer-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:clamp(24px,3vw,56px);
+  footer.legalbar{background:var(--grey-0);border-top:2px solid var(--ink);padding:0;}
+  .footer-row{width:var(--inhalt-breite);max-width:100%;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:clamp(20px,1.8vw,34px);
     min-height:var(--header-hoehe, 140px);padding:30px 0;}
-  .footer-row .logo img{height:clamp(43px,4.6vw,66px);width:auto;display:block;}
-  .footer-links{display:flex;gap:clamp(16px,2.1vw,42px);align-items:center;flex-wrap:wrap;}
-  .footer-links a{position:relative;font-family:var(--font-heading);font-weight:500;font-size:clamp(16px,1.5vw,19px);
+  .footer-row .logo img{height:clamp(38px,3vw,58px);width:auto;display:block;}
+  .footer-links{display:flex;gap:clamp(11px,1.2vw,26px);align-items:center;flex-wrap:wrap;margin-left:auto;}
+  .footer-links a{position:relative;font-family:var(--font-heading);font-weight:500;font-size:clamp(14px,0.88vw,16.5px);
     color:var(--ink);cursor:pointer;padding:10px 0;transition:color .2s ease;}
   /* Beim Ueberfahren waechst eine gelbe Linie unter dem Wort auf,
      statt dass die Schrift die Farbe wechselt. */
@@ -356,14 +364,14 @@
   .footer-links a:hover::after{transform:scaleX(1);}
   /* Logo und Anschrift bilden den linken Block, getrennt durch eine
      feine Linie -- damit die Anschrift nicht am Logo klebt. */
-  .footer-marke{display:flex;align-items:center;gap:clamp(28px,3.6vw,60px);flex-wrap:wrap;}
-  .footer-marke address{font-style:normal;color:var(--grey-600);font-size:14.5px;line-height:1.75;
-    border-left:1px solid var(--grey-300);padding-left:clamp(28px,3.6vw,60px);}
+  .footer-marke{display:flex;align-items:center;gap:clamp(20px,2.2vw,38px);flex-wrap:wrap;}
+  .footer-marke address{font-style:normal;color:var(--grey-600);font-size:14px;line-height:1.75;
+    border-left:1px solid var(--grey-300);padding-left:clamp(20px,2.2vw,38px);}
   .footer-marke address strong{display:block;color:var(--ink);font-family:var(--font-heading);font-weight:700;
     font-size:16px;margin-bottom:5px;}
   .footer-marke address a{color:var(--grey-600);font-size:14.5px;font-family:var(--font-body);font-weight:400;padding:0;}
   .footer-marke address a:hover{color:var(--yellow-text);}
-  .footer-unten{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
+  .footer-unten{width:var(--inhalt-breite);max-width:100%;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
     border-top:1px solid var(--grey-300);padding:20px 0 26px;}
   .footer-copy{font-size:13px;color:var(--grey-600);}
   .footer-hinweis{font-size:13px;color:var(--grey-600);}
@@ -394,6 +402,12 @@
     .services-grid{grid-template-columns:1fr 1fr;}
     .kontakt-grid{grid-template-columns:1fr;}
   }
+  /* Schmalere Fenster: das zentrierte Band waere dort breiter als das
+     Fenster. Ab hier wieder volle Breite mit seitlichem Rand. */
+  @media(max-width:1420px){
+    :root{--inhalt-breite:calc(100% - clamp(40px,10vw,144px));}
+  }
+
   /* Sehr niedrige Fenster: damit die sechs Leistungskarten samt Bilderband
      noch auf eine Seite passen, entfaellt hier der Einleitungssatz und das
      Band wird flacher. Die Ueberschrift bleibt. */
@@ -476,6 +490,7 @@
       </div>
       <a href="#ablauf">Ablauf</a>
       <a href="#kontakt">Kontakt</a>
+      <a href="#kontakt" class="nav-cta">Angebot anfragen</a>
     </nav>
     <button class="burger" aria-label="Menü"><span></span><span></span><span></span></button>
   </div>
