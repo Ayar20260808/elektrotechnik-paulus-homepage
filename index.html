@@ -165,36 +165,29 @@
      Vertrauensleiste berechnet; der calc-Wert ist nur der Startwert,
      bevor das Skript läuft. */
   .hero{padding:0;position:relative;background:var(--ink);height:max(360px, var(--seite1-rest, calc(100vh - 250px)));display:flex;align-items:center;overflow:hidden;}
-  /* Hero-Hintergrund im Stil des Installationsplans: geschwungene
-     Kabelverlaeufe strahlen aus drei Verteilpunkten, zeichnen sich auf,
-     halten kurz und verblassen wieder -- nie alle gleichzeitig. Sehr
-     zurueckhaltend gehalten, damit der Text die Aufmerksamkeit behaelt. */
-  .hero-lines{position:absolute;inset:0;overflow:hidden;}
-  .hero-lines svg{width:100%;height:100%;}
-  .hero-lines path{fill:none;stroke-width:1.5;vector-effect:non-scaling-stroke;
-    stroke-dasharray:100;stroke-dashoffset:100;opacity:0;
-    animation-name:ep-line-draw;animation-timing-function:ease-in-out;animation-iteration-count:infinite;}
-  /* Kleine Knotenpunkte an den Verteilstellen, wie die Anschlusspunkte
-     im Planfoto -- blenden im selben Rhythmus ein und aus. */
-  .hero-lines .hub{fill:var(--tech-blue-light);opacity:0;
-    animation-name:ep-hub-fade;animation-timing-function:ease-in-out;animation-iteration-count:infinite;}
-  @keyframes ep-hub-fade{
-    0%,100%{opacity:0;}
-    12%,58%{opacity:.55;}
-    76%{opacity:0;}
+  /* Hero-Hintergrund: der Installationsplan wandert langsam durchs Bild,
+     darueber zieht in grossem Abstand ein heller Streifen wie ein
+     Scheinwerfer ueber das Papier. Beide Bewegungen sind bewusst traege,
+     der Text soll lesbar bleiben. */
+  .hero-plan{position:absolute;inset:0;overflow:hidden;}
+  .hero-plan-img{position:absolute;inset:-8%;background:url('hero-plan.jpg') center/cover no-repeat;
+    opacity:.42;will-change:transform;animation:ep-plan 90s ease-in-out infinite alternate;}
+  @keyframes ep-plan{
+    from{transform:scale(1.05) translate3d(1.5%, 1%, 0);}
+    to  {transform:scale(1.18) translate3d(-2.5%, -1.5%, 0);}
   }
-  @keyframes ep-line-draw{
-    0%    {stroke-dashoffset:100;opacity:0;}
-    12%   {stroke-dashoffset:0;opacity:.4;}
-    58%   {stroke-dashoffset:0;opacity:.4;}
-    76%   {stroke-dashoffset:0;opacity:0;}
-    76.1% {stroke-dashoffset:100;}
-    100%  {stroke-dashoffset:100;opacity:0;}
+  .hero-sweep{position:absolute;top:-40%;bottom:-40%;left:0;width:34%;pointer-events:none;
+    background:linear-gradient(100deg, rgba(255,215,0,0) 0%, rgba(255,215,0,.10) 42%,
+      rgba(62,216,245,.10) 58%, rgba(62,216,245,0) 100%);
+    will-change:transform;animation:ep-sweep 18s linear infinite;}
+  @keyframes ep-sweep{
+    from{transform:translateX(-130%) rotate(8deg);}
+    to  {transform:translateX(330%) rotate(8deg);}
   }
-  /* Wer Bewegung im System abgestellt hat, bekommt ein paar ruhige,
-     ganz leicht sichtbare Linien statt der Animation. */
+  /* Wer Bewegung im System abgestellt hat, bekommt ein ruhiges Standbild. */
   @media(prefers-reduced-motion: reduce){
-    .hero-lines path{animation:none;stroke-dashoffset:0;opacity:.18;}
+    .hero-plan-img{animation:none;transform:scale(1.08);}
+    .hero-sweep{display:none;}
   }
   .hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg, rgba(18,24,30,.92) 0%, rgba(18,24,30,.78) 55%, rgba(18,24,30,.45) 100%);}
   .hero-techlines{position:absolute;left:0;right:0;bottom:0;height:64px;opacity:.45;pointer-events:none;}
@@ -537,26 +530,9 @@
 </header>
 
 <section id="hero" class="hero">
-  <div class="hero-lines" aria-hidden="true">
-    <svg viewBox="0 0 1600 700" preserveAspectRatio="xMidYMid slice">
-    <path d="M560 330 Q386 279 300 120" pathLength="100" stroke="var(--tech-blue-light)" style="animation-duration:11.7s;animation-delay:6.7s;"/>
-    <path d="M560 330 Q707 242 760 80" pathLength="100" stroke="var(--tech-blue-light)" style="animation-duration:14.5s;animation-delay:5.6s;"/>
-    <path d="M560 330 Q377 352 300 520" pathLength="100" stroke="var(--yellow)" style="animation-duration:12.0s;animation-delay:7.0s;"/>
-    <path d="M560 330 Q731 355 860 470" pathLength="100" stroke="var(--tech-blue-light)" style="animation-duration:10.1s;animation-delay:6.1s;"/>
-    <path d="M560 330 Q456 424 420 560" pathLength="100" stroke="var(--tech-blue-light)" style="animation-duration:12.8s;animation-delay:9.5s;"/>
-    <path d="M1260 230 Q1335 101 1480 70" pathLength="100" stroke="var(--tech-blue-light)" style="animation-duration:9.6s;animation-delay:3.6s;"/>
-    <path d="M1260 230 Q1390 342 1560 320" pathLength="100" stroke="var(--tech-blue-light)" style="animation-duration:9.5s;animation-delay:9.7s;"/>
-    <path d="M1260 230 Q1201 121 1080 90" pathLength="100" stroke="var(--tech-blue-light)" style="animation-duration:13.2s;animation-delay:0.5s;"/>
-    <path d="M1260 230 Q1407 312 1420 480" pathLength="100" stroke="var(--tech-blue-light)" style="animation-duration:14.9s;animation-delay:11.6s;"/>
-    <path d="M1260 230 Q1194 206 1170 140" pathLength="100" stroke="var(--yellow)" style="animation-duration:12.9s;animation-delay:7.4s;"/>
-    <path d="M1040 540 Q908 550 820 650" pathLength="100" stroke="var(--tech-blue-light)" style="animation-duration:9.9s;animation-delay:0.2s;"/>
-    <path d="M1040 540 Q1192 534 1300 640" pathLength="100" stroke="var(--tech-blue-light)" style="animation-duration:12.2s;animation-delay:0.7s;"/>
-    <path d="M1040 540 Q882 506 760 400" pathLength="100" stroke="var(--tech-blue-light)" style="animation-duration:10.1s;animation-delay:2.9s;"/>
-    <path d="M1040 540 Q1217 610 1400 560" pathLength="100" stroke="var(--yellow)" style="animation-duration:9.2s;animation-delay:5.6s;"/>
-    <circle class="hub" cx="560" cy="330" r="4" style="animation-duration:11.6s;animation-delay:10.1s;"/>
-    <circle class="hub" cx="1260" cy="230" r="4" style="animation-duration:12.1s;animation-delay:7.7s;"/>
-    <circle class="hub" cx="1040" cy="540" r="4" style="animation-duration:12.0s;animation-delay:7.9s;"/>
-    </svg>
+  <div class="hero-plan" aria-hidden="true">
+    <div class="hero-plan-img"></div>
+    <div class="hero-sweep"></div>
   </div>
   <div class="hero-overlay"></div>
   <svg class="hero-techlines" viewBox="0 0 1200 64" preserveAspectRatio="none" aria-hidden="true">
