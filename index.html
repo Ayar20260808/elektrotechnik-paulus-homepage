@@ -118,9 +118,14 @@
   header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:2px solid var(--ink);}
   .nav-inner{padding:17px clamp(20px,5vw,72px);min-height:clamp(98px,10vw,138px);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
   .logo img{height:clamp(43px,4.6vw,66px);width:auto;display:block;}
-  .nav-links{display:flex;gap:clamp(12px,1.8vw,30px);white-space:nowrap;overflow-x:auto;background:var(--ink);border-radius:999px;padding:13px clamp(20px,2.6vw,35px);align-items:center;}
-  .nav-links a{font-family:var(--font-heading);font-weight:500;font-size:clamp(19px,2vw,24px);color:#fff;}
-  .nav-links a:hover{color:var(--yellow);text-decoration:none;}
+  /* Menuepunkte einzeln und zurueckhaltend: keine dunkle Sammelflaeche
+     mehr, sondern je Punkt eine eigene helle Schaltflaeche. */
+  .nav-links{display:flex;gap:clamp(4px,0.7vw,12px);white-space:nowrap;overflow-x:auto;align-items:center;background:none;border-radius:0;padding:0;}
+  .nav-links a{font-family:var(--font-heading);font-weight:500;font-size:clamp(17px,1.65vw,20px);color:var(--ink);
+    padding:clamp(8px,0.9vw,12px) clamp(12px,1.3vw,20px);border:1px solid var(--grey-300);border-radius:999px;
+    transition:background .2s ease, border-color .2s ease, color .2s ease;}
+  .nav-links a:hover{background:var(--grey-100);border-color:var(--ink);color:var(--ink);text-decoration:none;}
+  .nav-links a:focus-visible{border-color:var(--ink);}
   .burger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:6px;position:relative;z-index:2;}
   .burger span{width:24px;height:2px;background:var(--ink);}
 
@@ -402,7 +407,7 @@
     box-shadow:0 12px 24px rgba(18,24,30,.12);
     border-radius:0;
   }
-  .nav-links.mobile-open a{color:var(--ink);padding:14px 0;width:100%;border-bottom:1px solid var(--grey-300);}
+  .nav-links.mobile-open a{color:var(--ink);padding:14px 0;width:100%;border:none;border-bottom:1px solid var(--grey-300);border-radius:0;}
   .nav-links.mobile-open a:hover{color:var(--yellow-text);}
 </style>
 </head>
