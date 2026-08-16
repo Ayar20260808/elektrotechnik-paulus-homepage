@@ -124,18 +124,25 @@
   /* Fusszeile spiegelbildlich zum Header: gleiche seitliche Abstaende,
      Logo links, Textlinks rechts. */
   footer{background:var(--grey-0);border-top:2px solid var(--ink);padding:0 clamp(20px,5vw,72px);}
-  .footer-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px;min-height:clamp(76px,8vw,104px);padding:16px 0;}
+  .footer-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:clamp(20px,2.6vw,44px);min-height:clamp(76px,8vw,104px);padding:26px 0;}
   .footer-row .logo img{height:clamp(34px,3.4vw,52px);width:auto;display:block;}
   .footer-links{display:flex;gap:clamp(14px,1.8vw,32px);align-items:center;flex-wrap:wrap;}
-  footer a{font-family:var(--font-heading);font-weight:500;font-size:clamp(13px,1.3vw,16px);color:var(--ink);padding:9px 0;}
-  footer a:hover{color:var(--yellow-text);text-decoration:none;}
-  /* Anschrift rechts neben dem Logo. */
-  .footer-marke{display:flex;align-items:center;gap:clamp(16px,1.8vw,28px);flex-wrap:wrap;}
-  .footer-marke address{font-style:normal;color:var(--grey-600);font-size:13.5px;line-height:1.7;}
-  .footer-marke address strong{color:var(--ink);font-family:var(--font-heading);font-weight:700;}
+  footer a{position:relative;font-family:var(--font-heading);font-weight:500;font-size:clamp(13px,1.3vw,16px);color:var(--ink);padding:9px 0;}
+  .footer-links a::after{content:'';position:absolute;left:0;right:0;bottom:2px;height:2px;background:var(--yellow);
+    transform:scaleX(0);transform-origin:left;transition:transform .22s ease;}
+  .footer-links a:hover::after{transform:scaleX(1);}
+  footer a:hover{color:var(--ink);text-decoration:none;}
+  /* Logo und Anschrift bilden den linken Block, getrennt durch eine feine Linie. */
+  .footer-marke{display:flex;align-items:center;gap:clamp(24px,3vw,48px);flex-wrap:wrap;}
+  .footer-marke address{font-style:normal;color:var(--grey-600);font-size:13.5px;line-height:1.75;
+    border-left:1px solid var(--grey-300);padding-left:clamp(24px,3vw,48px);}
+  .footer-marke address strong{display:block;color:var(--ink);font-family:var(--font-heading);font-weight:700;font-size:15px;margin-bottom:4px;}
   .footer-marke address a{color:var(--grey-600);font-size:13.5px;font-family:var(--font-body);font-weight:400;padding:0;}
-  .footer-unten{border-top:1px solid var(--grey-300);padding:16px 0 20px;}
+  .footer-unten{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
+    border-top:1px solid var(--grey-300);padding:18px 0 24px;}
   .footer-copy{font-size:13px;color:var(--grey-600);}
+  .footer-hinweis{font-size:13px;color:var(--grey-600);}
+  @media(max-width:768px){.footer-marke address{border-left:none;padding-left:0;}}
 </style>
 </head>
 <body>
@@ -272,6 +279,7 @@
   </div>
   <div class="footer-unten">
     <div class="footer-copy">© <span id="year"></span> Elektrotechnik Paulus · Köln Nippes</div>
+    <div class="footer-hinweis">Mitglied der Elektroinnung Köln</div>
   </div>
 </footer>
 
