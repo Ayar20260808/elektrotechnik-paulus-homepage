@@ -146,6 +146,10 @@
      sonst verdeckt dieser beim Klick die Überschrift der Zielsektion.
      --header-hoehe wird per JS aus der echten Headerhöhe gesetzt. */
   section[id], div[id]{scroll-margin-top:var(--header-hoehe, 140px);}
+  /* Die Kundenzeilen fahren beim Einblenden noch etwas nach oben. Ohne
+     den Zuschlag stuende die angesprungene Zeile danach halb unter dem
+     Header. */
+  .kunden-row[id]{scroll-margin-top:calc(var(--header-hoehe, 140px) + 30px);}
 
   /* --seite1-rest wird per JS aus der echten Höhe von Header und
      Vertrauensleiste berechnet; der calc-Wert ist nur der Startwert,
@@ -446,7 +450,15 @@
           <a href="leistung-vde.html">VDE-Messungen</a>
         </div>
       </div>
-      <a href="#kunden">Unsere Kunden</a>
+      <div class="nav-item">
+        <a href="#kunden" aria-haspopup="true" aria-expanded="false">Unsere Kunden<span class="caret" aria-hidden="true"></span></a>
+        <div class="submenu">
+          <a href="#kunden-privat">Für Privatkunden</a>
+          <a href="#kunden-unternehmen">Für Unternehmen</a>
+          <a href="#kunden-industrie">Für Industriekunden</a>
+          <a href="#kunden-bautraeger">Für Bauträger &amp; Architekten</a>
+        </div>
+      </div>
       <a href="#ablauf">Ablauf</a>
       <a href="#kontakt">Kontakt</a>
     </nav>
@@ -700,22 +712,22 @@
       <h2>Wir sind da für Sie – egal ob privat oder gewerblich.</h2>
     </div>
 
-    <div class="kunden-row" data-reveal>
+    <div class="kunden-row" id="kunden-privat" data-reveal>
       <div class="kunden-media"><img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=900&h=600&fit=crop" alt="Privatkunden" loading="lazy"></div>
       <div><h3>Für Privatkunden</h3><p>Von Reparaturen über Wartungsarbeiten bis zu Neubauprojekten – wir beraten Sie zu Smart Home, Photovoltaik, Ladetechnik und modernen Sicherheitssystemen. Fragen beantworten wir gern, unkompliziert und ohne Umwege.</p></div>
     </div>
 
-    <div class="kunden-row flip" data-reveal>
+    <div class="kunden-row flip" id="kunden-unternehmen" data-reveal>
       <div class="kunden-media"><img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=900&h=600&fit=crop" alt="Unternehmen" loading="lazy"></div>
       <div><h3>Für Unternehmen</h3><p>Wir übernehmen E-Checks nach DGUV Vorschrift 3, Wartung und Reparatur. Von EDV-Netzwerken über Ladesäuleninfrastruktur bis zu Smart-Home-Lösungen – auch für größere Anlagen und Infrastruktur.</p></div>
     </div>
 
-    <div class="kunden-row" data-reveal>
+    <div class="kunden-row" id="kunden-industrie" data-reveal>
       <div class="kunden-media"><img src="hero-3.jpg" alt="Industriekunden" loading="lazy"></div>
       <div><h3>Für Industriekunden</h3><p>Installation und Wartung in Produktion, Anlagentechnik und Facility-Management. Wir betreuen Sie in allen Installations- und Wartungsfragen rund um den elektrischen Strom – zuverlässig und fachkundig.</p></div>
     </div>
 
-    <div class="kunden-row flip last" data-reveal>
+    <div class="kunden-row flip last" id="kunden-bautraeger" data-reveal>
       <div class="kunden-media"><img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=900&h=600&fit=crop" alt="Bauträger und Architekten" loading="lazy"></div>
       <div><h3>Für Bauträger &amp; Architekten</h3><p>Langjähriger Partner in Neubau und Altbausanierung mit fundierter Erfahrung. Wir unterstützen Bauträger, Architekten und Bauherren mit kompetenter Beratung und zuverlässiger Umsetzung aller Elektrofacharbeiten.</p></div>
     </div>
