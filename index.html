@@ -136,24 +136,25 @@
   /* --seite1-rest wird per JS aus der echten Höhe von Header und
      Vertrauensleiste berechnet; der calc-Wert ist nur der Startwert,
      bevor das Skript läuft. */
-  .hero{position:relative;background:var(--ink);min-height:max(480px, var(--seite1-rest, calc(100vh - 250px)));display:flex;align-items:center;overflow:hidden;}
+  .hero{padding:0;position:relative;background:var(--ink);min-height:max(360px, var(--seite1-rest, calc(100vh - 250px)));display:flex;align-items:center;overflow:hidden;}
   .bg-slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1.6s ease-in-out;}
   .bg-slide.active{opacity:1;}
   .bg-slide.active [data-zoom-img]{animation:ep-ken 22s ease-in-out infinite alternate;}
   .zoom-img{position:absolute;inset:0;background-size:cover;background-position:center;transform:scale(1);}
   .hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg, rgba(18,24,30,.92) 0%, rgba(18,24,30,.78) 55%, rgba(18,24,30,.45) 100%);}
   .hero-techlines{position:absolute;left:0;right:0;bottom:0;height:64px;opacity:.45;pointer-events:none;}
-  .hero-content{position:relative;z-index:2;padding:64px clamp(20px,5vw,72px);width:100%;}
-  .hero-eyebrow{display:flex;align-items:center;gap:10px;font-family:var(--font-heading);font-weight:600;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--yellow);margin-bottom:16px;}
+  .hero-content{position:relative;z-index:2;padding:clamp(24px,calc(var(--sh) * 6),64px) clamp(20px,5vw,72px);width:100%;}
+  .hero-eyebrow{display:flex;align-items:center;gap:10px;font-family:var(--font-heading);font-weight:600;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--yellow);margin-bottom:clamp(7px,calc(var(--sh) * 1.7),16px);}
   .hero-eyebrow .dot{width:8px;height:8px;background:var(--green-light);display:inline-block;animation:ep-pulse 2.4s ease-in-out infinite;}
-  .hero h1{font-family:var(--font-heading);font-weight:800;font-size:clamp(38px,5.4vw,62px);line-height:1.04;letter-spacing:-.025em;color:#fff;max-width:20ch;margin-bottom:16px;}
-  .hero-lead{font-family:var(--font-body);font-size:17.5px;line-height:1.65;color:rgba(255,255,255,.82);max-width:56ch;margin-bottom:20px;}
-  .hero-projectline{position:relative;height:24px;margin-bottom:24px;max-width:56ch;}
+  .hero h1{font-family:var(--font-heading);font-weight:800;font-size:clamp(30px,min(5.4vw, calc(var(--sh) * 6.2)),62px);line-height:1.04;letter-spacing:-.025em;color:#fff;max-width:20ch;margin-bottom:clamp(7px,calc(var(--sh) * 1.7),16px);}
+  .hero-lead{font-family:var(--font-body);font-size:clamp(14px,calc(var(--sh) * 1.86),17.5px);line-height:1.65;color:rgba(255,255,255,.82);max-width:56ch;margin-bottom:clamp(9px,calc(var(--sh) * 2.1),20px);}
+  .hero-projectline{position:relative;height:clamp(15px,calc(var(--sh) * 2.55),24px);margin-bottom:clamp(11px,calc(var(--sh) * 2.55),24px);max-width:56ch;}
   .hero-projectline span{position:absolute;left:0;top:0;font-family:var(--font-heading);font-weight:600;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--tech-blue-light);opacity:0;transition:opacity .8s ease;}
   .hero-projectline span.active{opacity:1;}
-  .hero-actions{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:28px;}
-  .hero-stats{display:flex;gap:clamp(28px,4vw,56px);border-top:1px solid rgba(255,255,255,.18);padding-top:20px;flex-wrap:wrap;}
-  .hero-stats div b{display:block;font-family:var(--font-heading);font-weight:800;font-size:34px;color:var(--yellow);}
+  .hero-actions{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:clamp(13px,calc(var(--sh) * 2.95),28px);}
+  .hero-actions .btn{padding:clamp(9px,calc(var(--sh) * 1.5),14px) clamp(18px,2vw,26px);font-size:clamp(13px,calc(var(--sh) * 1.6),15px);}
+  .hero-stats{display:flex;gap:clamp(28px,4vw,56px);border-top:1px solid rgba(255,255,255,.18);padding-top:clamp(9px,calc(var(--sh) * 2.1),20px);flex-wrap:wrap;}
+  .hero-stats div b{display:block;font-family:var(--font-heading);font-weight:800;font-size:clamp(22px,calc(var(--sh) * 3.6),34px);color:var(--yellow);}
   .hero-stats div span{font-family:var(--font-heading);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.6);}
 
   /* VERTRAUENSLEISTE
@@ -350,6 +351,15 @@
     .services-grid{grid-template-columns:1fr 1fr;}
     .kontakt-grid{grid-template-columns:1fr;}
   }
+  /* Sehr niedrige Fenster: damit die sechs Leistungskarten samt Bilderband
+     noch auf eine Seite passen, entfaellt hier der Einleitungssatz und das
+     Band wird flacher. Die Ueberschrift bleibt. */
+  @media(max-height:820px){
+    #leistungen .section-head p{display:none;}
+    .marquee-head{margin-bottom:6px;}
+    .imgband-group img{height:clamp(44px,calc(var(--sh) * 7.8),210px);}
+  }
+
   @media(max-width:768px){
     .footer-contact-grid{grid-template-columns:1fr;text-align:left;}
     .footer-nav{text-align:left;}
@@ -932,6 +942,10 @@
     var lines = document.querySelectorAll('.hero-projectline span');
     if (!slides.length) return;
     var i = 0;
+    // Das erste Bild sofort zeigen. Vorher wurde es erst beim ersten
+    // Intervallwechsel eingeblendet, der Hero war sechs Sekunden lang leer.
+    slides[0].classList.add('active');
+    lines[0] && lines[0].classList.add('active');
     if (!reduceMotion) {
       setInterval(function () {
         slides[i].classList.remove('active');
@@ -940,8 +954,6 @@
         slides[i].classList.add('active');
         lines[i] && lines[i].classList.add('active');
       }, 6000);
-    } else {
-      slides[0].classList.add('active');
     }
   })();
 
@@ -984,15 +996,22 @@
     steps.forEach(function (el) { io3.observe(el); });
   })();
 
-  // Schwebender Button: ausblenden, sobald der Kontakt-Bereich sichtbar ist
+  // Schwebender Button ausblenden, solange der Kontakt-Bereich oder die
+  // Vertrauensleiste am Ende der ersten Seite sichtbar ist. Auf der ersten
+  // Seite gibt es den Beratungs-Button ohnehin schon im Hero.
   (function () {
     var floatCta = document.querySelector('.float-cta');
-    var kontakt = document.getElementById('kontakt');
-    if (!floatCta || !kontakt) return;
+    var ziele = [document.getElementById('kontakt'), document.querySelector('.trustbar')].filter(Boolean);
+    if (!floatCta || !ziele.length) return;
+    var sichtbar = [];
     var io4 = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) { floatCta.classList.toggle('hide', e.isIntersecting); });
+      entries.forEach(function (e) {
+        var pos = ziele.indexOf(e.target);
+        sichtbar[pos] = e.isIntersecting;
+      });
+      floatCta.classList.toggle('hide', sichtbar.some(Boolean));
     }, { threshold: 0.1 });
-    io4.observe(kontakt);
+    ziele.forEach(function (el) { io4.observe(el); });
   })();
 
   // Kontaktformular (Platzhalter — kein Versand)
