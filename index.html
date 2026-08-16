@@ -243,19 +243,19 @@
   #leistungen > .wrap, #leistungen > .services-grid{position:relative;z-index:1;}
   /* Hintergrund: das Planfoto in Graustufen mit langsamem Zoom, darueber
      blitzen technische Symbole verteilt auf und wieder aus -- eines nach
-     dem anderen. Bleibt hinter den deckenden Leistungskarten fast ganz
-     verborgen und zeigt sich nur in den Fugen und am Kopf der Sektion. */
+     dem anderen. Deutlich sichtbar in den Fugen zwischen den Karten und
+     am Kopf der Sektion, wo keine Karte davorliegt. */
   .leistungen-bg{position:absolute;inset:0;overflow:hidden;z-index:0;pointer-events:none;}
   .leistungen-bg-photo{position:absolute;inset:-6%;background:url('hero-plan.jpg') center/cover no-repeat;
-    filter:grayscale(1);opacity:.5;mix-blend-mode:multiply;
+    filter:grayscale(1) contrast(1.15);opacity:.92;mix-blend-mode:multiply;
     animation:ep-plan-zoom 44s ease-in-out infinite alternate;}
   @keyframes ep-plan-zoom{from{transform:scale(1);} to{transform:scale(1.06);}}
-  .leistungen-bg img.symbol{position:absolute;width:56px;height:auto;opacity:0;
+  .leistungen-bg img.symbol{position:absolute;width:64px;height:auto;opacity:0;
     image-rendering:crisp-edges;filter:drop-shadow(0 0 2px var(--grey-100)) drop-shadow(0 0 4px var(--grey-100));
     animation-name:ep-symbol-blip;animation-timing-function:ease-in-out;animation-iteration-count:infinite;}
   @keyframes ep-symbol-blip{
     0%        {opacity:0;}
-    12%,64%   {opacity:.8;}
+    12%,64%   {opacity:1;}
     80%,100%  {opacity:0;}
   }
   @media(prefers-reduced-motion: reduce){
