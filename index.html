@@ -236,10 +236,10 @@
   /* Leistungen und das Bilderband darunter bilden eine zusammenhängende
      Fläche: gleicher Hintergrund, keine Trennlinie dazwischen, der
      Abschluss nach unten sitzt am Band. */
-  #leistungen .section-head{max-width:820px;margin-bottom:clamp(16px,calc(var(--sh) * 4.4),64px);}
+  #leistungen .section-head{max-width:820px;margin-bottom:clamp(10px,calc(var(--sh) * 2.2),40px);}
   #leistungen .section-head h2{max-width:none;}
   #leistungen .section-head h2{font-size:clamp(21px,calc(var(--sh) * 3.1),40px);}
-  #leistungen{position:relative;overflow:hidden;background:var(--grey-100);padding-top:clamp(24px,calc(var(--sh) * 6.9),100px);padding-bottom:clamp(5px,calc(var(--sh) * 1),24px);}
+  #leistungen{position:relative;overflow:hidden;background:var(--grey-100);padding-top:clamp(18px,calc(var(--sh) * 3.6),64px);padding-bottom:clamp(5px,calc(var(--sh) * 1),24px);}
   #leistungen > .wrap, #leistungen > .services-grid{position:relative;z-index:1;}
   /* Hintergrund: das Planfoto in Graustufen mit langsamem Zoom, darueber
      blitzen technische Symbole verteilt auf und wieder aus -- eines nach
@@ -247,7 +247,7 @@
      am Kopf der Sektion, wo keine Karte davorliegt. */
   .leistungen-bg{position:absolute;inset:0;overflow:hidden;z-index:0;pointer-events:none;}
   .leistungen-bg-photo{position:absolute;inset:-6%;background:url('hero-plan.jpg') center/cover no-repeat;
-    filter:grayscale(1) contrast(1.15);opacity:.92;mix-blend-mode:multiply;
+    filter:grayscale(1);opacity:.55;mix-blend-mode:multiply;
     animation:ep-plan-zoom 44s ease-in-out infinite alternate;}
   @keyframes ep-plan-zoom{from{transform:scale(1);} to{transform:scale(1.06);}}
   .leistungen-bg img.symbol{position:absolute;width:64px;height:auto;opacity:0;
@@ -255,17 +255,17 @@
     animation-name:ep-symbol-blip;animation-timing-function:ease-in-out;animation-iteration-count:infinite;}
   @keyframes ep-symbol-blip{
     0%        {opacity:0;}
-    12%,64%   {opacity:1;}
+    12%,64%   {opacity:.55;}
     80%,100%  {opacity:0;}
   }
   @media(prefers-reduced-motion: reduce){
     .leistungen-bg-photo{animation:none;}
     .leistungen-bg img.symbol{animation:none;opacity:0;}
   }
-  .services-grid{padding:0 clamp(20px,5vw,72px);display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,calc(var(--sh) * 2.6),44px);}
+  .services-grid{padding:0 clamp(20px,5vw,72px);display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,calc(var(--sh) * 3.0),48px);}
   .service-card{background:var(--grey-0);border:1px solid var(--grey-300);display:flex;flex-direction:column;transition:transform .3s ease, box-shadow .3s ease, background .25s ease;}
   .service-card:hover{background:var(--grey-100);transform:translateY(-3px);box-shadow:0 10px 24px rgba(18,24,30,.09);}
-  .service-img{position:relative;height:clamp(96px,calc(var(--sh) * 19),400px);overflow:hidden;}
+  .service-img{position:relative;height:clamp(104px,calc(var(--sh) * 20.5),400px);overflow:hidden;}
   .service-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.25,.8,.25,1);}
   .service-card:hover .service-img img{transform:scale(1.08);}
   .service-shade{position:absolute;inset:0;background:linear-gradient(180deg, rgba(18,24,30,0) 40%, rgba(18,24,30,.55) 100%);opacity:0;transition:opacity .4s ease;}
@@ -274,13 +274,19 @@
   .service-card:hover .service-overlay{opacity:1;transform:none;}
   .service-overlay li{font-size:14px;color:#fff;line-height:1.6;}
   .service-body{padding:clamp(9px,calc(var(--sh) * 1.4),34px) clamp(18px,2vw,34px) clamp(10px,calc(var(--sh) * 1.5),38px);display:flex;flex-direction:column;gap:clamp(5px,calc(var(--sh) * 0.9),12px);flex:1;}
-  .service-body h3{font-weight:700;font-size:clamp(15.5px,calc(var(--sh) * 2.35),25px);}
-  .service-body p{color:var(--grey-600);font-size:clamp(12px,calc(var(--sh) * 1.62),16.5px);line-height:1.7;}
+  .service-body h3{font-weight:700;font-size:clamp(17px,calc(var(--sh) * 2.75),29px);}
+  .service-body p{color:var(--grey-600);font-size:clamp(13.5px,calc(var(--sh) * 1.85),17.5px);line-height:1.7;}
   .service-more{font-family:var(--font-heading);font-weight:600;font-size:clamp(11px,calc(var(--sh) * 1.45),15px);color:var(--ink);border-bottom:2px solid var(--yellow);margin-top:auto;align-self:flex-start;padding-bottom:1px;}
   .service-more:hover{color:var(--yellow-text);text-decoration:none;}
 
   /* MARQUEE (Marken + Bilderband) */
   .marquee-section{padding:56px 0;border-bottom:2px solid var(--grey-300);overflow:hidden;}
+  /* Einzelne Leistung, die nicht mehr ins Sechser-Raster gehoert, aber
+     weiterhin angeboten wird. Bewusst NICHT an --sh gekoppelt -- dieser
+     Block darf auf die naechste Seite hineinlaufen, anders als die
+     sechs Karten oben, die exakt Seite 2 ausfuellen muessen. */
+  #leistungen-weitere .section-head{max-width:640px;}
+  #leistungen-weitere .service-card{max-width:420px;}
   /* Band bündig zum Header: gleicher seitlicher Innenabstand.
      Eigener Clip-Container nötig, da overflow:hidden an der Padding-Box
      schneidet und der Inhalt sonst rechts ins Padding hineinläuft. */
@@ -865,6 +871,31 @@
     </div>
   </div>
 </div>
+
+<section id="leistungen-weitere">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">Außerdem im Angebot</span>
+      <h2>VDE-Messungen</h2>
+    </div>
+    <div class="service-card service-card--einzeln" data-reveal>
+      <div class="service-img">
+        <img src="leistung-vde.jpg" alt="VDE-Messung mit Zangenmessgerät und Isolationsprüfer" loading="lazy">
+        <div class="service-shade"></div>
+        <ul class="service-overlay">
+          <li>Ortsfeste Anlagen</li>
+          <li>Geräteprüfung nach DGUV Vorschrift 3</li>
+          <li>Messprotokoll für Ihre Unterlagen</li>
+        </ul>
+      </div>
+      <div class="service-body">
+        <h3>VDE-Messungen</h3>
+        <p>Prüfung ortsfester Anlagen und Geräte nach VDE, mit vollständigem Messprotokoll.</p>
+        <a class="service-more" href="leistung-vde.html">Mehr erfahren →</a>
+      </div>
+    </div>
+  </div>
+</section>
 
 <section id="kunden">
   <div class="wrap">
