@@ -339,19 +339,24 @@
   .form-success button{align-self:flex-start;margin-top:6px;}
 
   /* FOOTER */
-  .footer-contact{background:var(--yellow);padding:64px 0;}
-  .footer-contact-grid{display:grid;grid-template-columns:auto 1fr;gap:60px;align-items:center;}
+  .footer-contact{background:var(--yellow);padding:48px 0;}
+  .footer-contact-grid{display:grid;grid-template-columns:1fr;gap:60px;align-items:center;}
   .footer-contact img{height:56px;width:auto;margin-bottom:20px;}
   .footer-contact address{font-style:normal;color:var(--dark);font-size:15px;line-height:1.8;}
   .footer-contact address a{color:var(--dark);text-decoration:underline;}
   .footer-nav{display:flex;flex-direction:column;gap:12px;text-align:right;}
   .footer-nav a{color:var(--dark);font-size:16px;font-weight:500;text-decoration:underline;}
-  footer.legalbar{padding:24px 0;}
-  .footer-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;border-top:2px solid var(--grey-300);padding-top:24px;}
-  .footer-copy{font-size:13px;color:var(--grey-600);}
-  .footer-links{display:flex;gap:26px;font-size:13.5px;color:var(--grey-600);}
-  .footer-links a{color:var(--grey-600);cursor:pointer;}
-  .footer-links a:hover{color:var(--yellow-text);}
+  /* FUSSZEILE -- spiegelbildlich zum Header aufgebaut: gleiche Hoehe,
+     gleiche seitliche Abstaende, Logo links, Textlinks rechts. */
+  footer.legalbar{background:var(--grey-0);border-top:2px solid var(--ink);padding:0 clamp(20px,5vw,72px);}
+  .footer-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;
+    min-height:var(--header-hoehe, 140px);}
+  .footer-row .logo img{height:clamp(43px,4.6vw,66px);width:auto;display:block;}
+  .footer-links{display:flex;gap:clamp(16px,2.1vw,42px);align-items:center;flex-wrap:wrap;}
+  .footer-links a{font-family:var(--font-heading);font-weight:500;font-size:clamp(16px,1.5vw,19px);
+    color:var(--ink);cursor:pointer;padding:10px 0;transition:color .2s ease;}
+  .footer-links a:hover{color:var(--yellow-text);text-decoration:none;}
+  .footer-copy{font-size:13px;color:var(--grey-600);border-top:1px solid var(--grey-300);padding:18px 0 22px;}
 
   /* SCHWEBENDER BUTTON */
   .float-cta{position:fixed;right:clamp(16px,3vw,28px);bottom:clamp(16px,3vw,28px);z-index:200;background:var(--yellow);color:var(--dark);font-family:var(--font-heading);font-weight:700;font-size:15.5px;padding:16px 22px;border:2px solid var(--dark);box-shadow:0 12px 32px rgba(18,24,30,.28);display:inline-flex;align-items:center;gap:10px;}
@@ -956,7 +961,6 @@
 <div class="footer-contact">
   <div class="wrap footer-contact-grid">
     <div>
-      <img src="logo.png" alt="Elektrotechnik Paulus">
       <address>
         <strong>Elektrotechnik Paulus GmbH</strong><br>
         Wartburgstr. 12<br>
@@ -965,23 +969,25 @@
         E-Mail: <a href="mailto:ayar@elektrotechnik-paulus.de">ayar@elektrotechnik-paulus.de</a>
       </address>
     </div>
-    <nav class="footer-nav">
-      <a href="#leistungen">Leistungen</a>
-      <a href="#kunden">Unsere Kunden</a>
-      <a href="#ablauf">Ablauf</a>
-      <a href="#kontakt">Kontakt</a>
-    </nav>
+
   </div>
 </div>
 
 <footer class="legalbar">
-  <div class="wrap footer-row">
-    <div class="footer-copy">© <span id="year"></span> Elektrotechnik Paulus · Köln Nippes</div>
-    <div class="footer-links">
+  <div class="footer-row">
+    <a class="logo" href="#hero" aria-label="Elektrotechnik Paulus – Startseite">
+      <img src="logo.png" alt="Elektrotechnik Paulus">
+    </a>
+    <nav class="footer-links">
+      <a href="#leistungen">Leistungen</a>
+      <a href="#kunden">Unsere Kunden</a>
+      <a href="#ablauf">Ablauf</a>
+      <a href="#kontakt">Kontakt</a>
       <a onclick="showLegalPage('impressum')">Impressum</a>
       <a onclick="showLegalPage('datenschutz')">Datenschutz</a>
-    </div>
+    </nav>
   </div>
+  <div class="footer-copy">© <span id="year"></span> Elektrotechnik Paulus · Köln Nippes</div>
 </footer>
 
 <a href="#kontakt" class="float-cta"><span class="dot"></span>Anfrage senden</a>
