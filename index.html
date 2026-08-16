@@ -249,7 +249,10 @@
      schneidet und der Inhalt sonst rechts ins Padding hineinläuft. */
   .marquee-section.inset{padding-left:clamp(20px,5vw,72px);padding-right:clamp(20px,5vw,72px);overflow:visible;}
   /* Band als unterer Teil der Leistungen-Fläche */
-  .marquee-section.attached{background:var(--grey-100);padding-top:clamp(3px,calc(var(--sh) * 0.8),16px);padding-bottom:clamp(11px,calc(var(--sh) * 2.4),56px);border-bottom:2px solid var(--ink);}
+  /* Das Band laeuft ueber die volle Fensterbreite, damit die Bilder von
+     Kante zu Kante durchziehen. Deshalb kein seitlicher Innenabstand. */
+  .marquee-section.attached{background:var(--grey-100);padding-left:0;padding-right:0;overflow:hidden;
+    padding-top:clamp(3px,calc(var(--sh) * 0.8),16px);padding-bottom:clamp(11px,calc(var(--sh) * 2.4),56px);border-bottom:2px solid var(--ink);}
   .marquee-clip{overflow:hidden;}
   .marquee-head{text-align:center;font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--grey-600);margin-bottom:clamp(9px,calc(var(--sh) * 1.8),32px);}
   .marquee-track{display:flex;width:max-content;animation:ep-marquee 26s linear infinite;}
@@ -531,11 +534,43 @@
   </div>
 </section>
 
-<div class="marquee-section inset attached">
+<div class="marquee-section attached">
   <div class="marquee-head">Aus dem Arbeitsalltag</div>
   <div class="marquee-clip">
     <div class="marquee-track slow">
       <div class="imgband-group">
+        <img src="leistung-elektroinstallation.jpg" alt="" loading="lazy">
+        <img src="leistung-wallbox.jpg" alt="" loading="lazy">
+        <img src="leistung-solar.jpg" alt="" loading="lazy">
+        <img src="leistung-smarthome.jpg" alt="" loading="lazy">
+        <img src="leistung-tuersprechanlage.jpg" alt="" loading="lazy">
+        <img src="leistung-netzwerk.jpg" alt="" loading="lazy">
+      </div>
+      <div class="imgband-group" aria-hidden="true">
+        <img src="leistung-elektroinstallation.jpg" alt="" loading="lazy">
+        <img src="leistung-wallbox.jpg" alt="" loading="lazy">
+        <img src="leistung-solar.jpg" alt="" loading="lazy">
+        <img src="leistung-smarthome.jpg" alt="" loading="lazy">
+        <img src="leistung-tuersprechanlage.jpg" alt="" loading="lazy">
+        <img src="leistung-netzwerk.jpg" alt="" loading="lazy">
+      </div>
+      <div class="imgband-group" aria-hidden="true">
+        <img src="leistung-elektroinstallation.jpg" alt="" loading="lazy">
+        <img src="leistung-wallbox.jpg" alt="" loading="lazy">
+        <img src="leistung-solar.jpg" alt="" loading="lazy">
+        <img src="leistung-smarthome.jpg" alt="" loading="lazy">
+        <img src="leistung-tuersprechanlage.jpg" alt="" loading="lazy">
+        <img src="leistung-netzwerk.jpg" alt="" loading="lazy">
+      </div>
+      <div class="imgband-group" aria-hidden="true">
+        <img src="leistung-elektroinstallation.jpg" alt="" loading="lazy">
+        <img src="leistung-wallbox.jpg" alt="" loading="lazy">
+        <img src="leistung-solar.jpg" alt="" loading="lazy">
+        <img src="leistung-smarthome.jpg" alt="" loading="lazy">
+        <img src="leistung-tuersprechanlage.jpg" alt="" loading="lazy">
+        <img src="leistung-netzwerk.jpg" alt="" loading="lazy">
+      </div>
+      <div class="imgband-group" aria-hidden="true">
         <img src="leistung-elektroinstallation.jpg" alt="" loading="lazy">
         <img src="leistung-wallbox.jpg" alt="" loading="lazy">
         <img src="leistung-solar.jpg" alt="" loading="lazy">
