@@ -357,12 +357,14 @@
   /* Sehr niedrige Fenster: damit die sechs Leistungskarten samt Bilderband
      noch auf eine Seite passen, entfaellt hier der Einleitungssatz und das
      Band wird flacher. Die Ueberschrift bleibt. */
-  /* Auf schmalen oder sehr flachen Fenstern ist die exakte Seitenhoehe
-     nicht zu halten, ohne den Hero-Text abzuschneiden. Dort waechst der
-     Hero wieder mit seinem Inhalt. */
-  @media(max-width:820px), (max-height:720px){
+  /* Auf dem Handy waechst der Hero immer mit seinem Inhalt. Zusaetzlich
+     setzt das Skript .hero-auto, sobald der Text sonst abgeschnitten
+     wuerde -- damit gilt die exakte Seitenhoehe ueberall dort, wo sie
+     ohne Verlust moeglich ist. */
+  @media(max-width:820px){
     .hero{height:auto;min-height:360px;}
   }
+  .hero.hero-auto{height:auto;min-height:360px;}
 
   @media(max-height:820px){
     .service-img{height:clamp(80px,calc(var(--sh) * 12.8),330px);}
@@ -957,11 +959,38 @@
       // gerechnet werden, ohne dass der Header sie unten abschneidet.
       document.documentElement.style.setProperty('--sh', (window.innerHeight - kopfHoehe) / 100 + 'px');
     }
-    setzeHeroHoehe();
-    window.addEventListener('resize', setzeHeroHoehe);
-    window.addEventListener('orientationchange', setzeHeroHoehe);
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(setzeHeroHoehe);
-    window.addEventListener('load', setzeHeroHoehe);
+    // Zweiter Durchlauf: die Leiste kann durch die feste Hoehe selbst
+    // umbrechen, dann stimmt der im ersten Durchlauf gemessene Wert nicht
+    // mehr. Erst wenn sich nichts mehr aendert, ist die Rechnung stabil.
+    function messenUndPruefen() {
+      setzeHeroHoehe();
+      requestAnimationFrame(function () {
+        setzeHeroHoehe();
+        pruefeUeberlauf();
+      });
+    }
+    // Sicherheitsnetz: passt der Hero-Text nicht in die feste Hoehe,
+    // waechst der Hero wieder mit seinem Inhalt. Lieber eine etwas zu
+    // lange erste Seite als abgeschnittener Text.
+    function pruefeUeberlauf() {
+      var hero = document.querySelector('.hero');
+      var inhalt = document.querySelector('.hero-content');
+      if (!hero || !inhalt) return;
+      hero.classList.remove('hero-auto');
+      if (inhalt.scrollHeight > hero.clientHeight + 1) hero.classList.add('hero-auto');
+    }
+    messenUndPruefen();
+    window.addEventListener('resize', messenUndPruefen);
+    window.addEventListener('orientationchange', messenUndPruefen);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(messenUndPruefen);
+    window.addEventListener('load', messenUndPruefen);
+    // Wenn Header oder Leiste ihre Hoehe aendern, etwa weil eine
+    // Schriftart nachlaedt oder ein Punkt umbricht, sofort nachrechnen.
+    if (window.ResizeObserver) {
+      var beobachter = new ResizeObserver(function () { messenUndPruefen(); });
+      beobachter.observe(headerEl);
+      beobachter.observe(trustEl);
+    }
   })();
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
