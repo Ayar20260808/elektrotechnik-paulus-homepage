@@ -239,7 +239,29 @@
   #leistungen .section-head{max-width:820px;margin-bottom:clamp(8px,calc(var(--sh) * 1.5),40px);}
   #leistungen .section-head h2{max-width:none;}
   #leistungen .section-head h2{font-size:clamp(21px,calc(var(--sh) * 3.1),40px);}
-  #leistungen{background:var(--grey-100);padding-top:clamp(16px,calc(var(--sh) * 3.6),72px);padding-bottom:clamp(5px,calc(var(--sh) * 1),24px);}
+  #leistungen{position:relative;overflow:hidden;background:var(--grey-100);padding-top:clamp(16px,calc(var(--sh) * 3.6),72px);padding-bottom:clamp(5px,calc(var(--sh) * 1),24px);}
+  #leistungen > .wrap, #leistungen > .services-grid{position:relative;z-index:1;}
+  /* Hintergrund: das Planfoto in Graustufen mit langsamem Zoom, darueber
+     blitzen technische Symbole verteilt auf und wieder aus -- eines nach
+     dem anderen. Bleibt hinter den deckenden Leistungskarten fast ganz
+     verborgen und zeigt sich nur in den Fugen und am Kopf der Sektion. */
+  .leistungen-bg{position:absolute;inset:0;overflow:hidden;z-index:0;pointer-events:none;}
+  .leistungen-bg-photo{position:absolute;inset:-6%;background:url('hero-plan.jpg') center/cover no-repeat;
+    filter:grayscale(1);opacity:.5;mix-blend-mode:multiply;
+    animation:ep-plan-zoom 44s ease-in-out infinite alternate;}
+  @keyframes ep-plan-zoom{from{transform:scale(1);} to{transform:scale(1.06);}}
+  .leistungen-bg img.symbol{position:absolute;width:56px;height:auto;opacity:0;
+    image-rendering:crisp-edges;filter:drop-shadow(0 0 2px var(--grey-100)) drop-shadow(0 0 4px var(--grey-100));
+    animation-name:ep-symbol-blip;animation-timing-function:ease-in-out;animation-iteration-count:infinite;}
+  @keyframes ep-symbol-blip{
+    0%        {opacity:0;}
+    12%,64%   {opacity:.8;}
+    80%,100%  {opacity:0;}
+  }
+  @media(prefers-reduced-motion: reduce){
+    .leistungen-bg-photo{animation:none;}
+    .leistungen-bg img.symbol{animation:none;opacity:0;}
+  }
   .services-grid{padding:0 clamp(20px,5vw,72px);display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(10px,calc(var(--sh) * 1.6),32px);}
   .service-card{background:var(--grey-0);border:1px solid var(--grey-300);display:flex;flex-direction:column;transition:transform .3s ease, box-shadow .3s ease, background .25s ease;}
   .service-card:hover{background:var(--grey-100);transform:translateY(-3px);box-shadow:0 10px 24px rgba(18,24,30,.09);}
@@ -583,6 +605,24 @@
 </div>
 
 <section id="leistungen">
+  <div class="leistungen-bg" aria-hidden="true">
+    <div class="leistungen-bg-photo"></div>
+    <img class="symbol" src="icon-deckenleuchte.png" alt="" aria-hidden="true" style="left:9%;top:14%;animation-duration:6s;animation-delay:0.0s;">
+    <img class="symbol" src="icon-ausschalter.png" alt="" aria-hidden="true" style="left:27%;top:9%;animation-duration:6s;animation-delay:0.4s;">
+    <img class="symbol" src="icon-herdanschlussdose.png" alt="" aria-hidden="true" style="left:46%;top:16%;animation-duration:6s;animation-delay:0.8s;">
+    <img class="symbol" src="icon-taster.png" alt="" aria-hidden="true" style="left:64%;top:10%;animation-duration:6s;animation-delay:1.2s;">
+    <img class="symbol" src="icon-einbauspot.png" alt="" aria-hidden="true" style="left:83%;top:19%;animation-duration:6s;animation-delay:1.6s;">
+    <img class="symbol" src="icon-erdung.png" alt="" aria-hidden="true" style="left:14%;top:36%;animation-duration:6s;animation-delay:2.0s;">
+    <img class="symbol" src="icon-rollladenmotor.png" alt="" aria-hidden="true" style="left:33%;top:30%;animation-duration:6s;animation-delay:2.4s;">
+    <img class="symbol" src="icon-deckenleuchte.png" alt="" aria-hidden="true" style="left:52%;top:38%;animation-duration:6s;animation-delay:2.8s;">
+    <img class="symbol" src="icon-ausschalter.png" alt="" aria-hidden="true" style="left:71%;top:32%;animation-duration:6s;animation-delay:3.2s;">
+    <img class="symbol" src="icon-herdanschlussdose.png" alt="" aria-hidden="true" style="left:89%;top:44%;animation-duration:6s;animation-delay:3.6s;">
+    <img class="symbol" src="icon-taster.png" alt="" aria-hidden="true" style="left:11%;top:62%;animation-duration:6s;animation-delay:4.0s;">
+    <img class="symbol" src="icon-einbauspot.png" alt="" aria-hidden="true" style="left:30%;top:70%;animation-duration:6s;animation-delay:4.4s;">
+    <img class="symbol" src="icon-erdung.png" alt="" aria-hidden="true" style="left:49%;top:58%;animation-duration:6s;animation-delay:4.8s;">
+    <img class="symbol" src="icon-rollladenmotor.png" alt="" aria-hidden="true" style="left:68%;top:66%;animation-duration:6s;animation-delay:5.2s;">
+    <img class="symbol" src="icon-deckenleuchte.png" alt="" aria-hidden="true" style="left:86%;top:74%;animation-duration:6s;animation-delay:5.6s;">
+  </div>
   <div class="wrap">
     <div class="section-head" data-reveal>
       <span class="eyebrow">Unsere Leistungen</span>
