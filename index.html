@@ -226,10 +226,6 @@
   .service-card:hover{background:var(--grey-100);transform:translateY(-3px);box-shadow:0 10px 24px rgba(18,24,30,.09);}
   .service-img{position:relative;height:clamp(72px,calc(var(--sh) * 10.4),260px);overflow:hidden;}
   .service-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.25,.8,.25,1);}
-  /* Kachel fuer Leistungen, zu denen noch kein eigenes Foto vorliegt.
-     Bewusst als Markenflaeche statt als fremdes Stockfoto. */
-  .foto-folgt{width:100%;height:100%;background:var(--dark);display:flex;align-items:center;justify-content:center;}
-  .foto-folgt img{width:52%;max-width:300px;height:auto;opacity:.55;object-fit:contain;}
   .service-card:hover .service-img img{transform:scale(1.08);}
   .service-shade{position:absolute;inset:0;background:linear-gradient(180deg, rgba(18,24,30,0) 40%, rgba(18,24,30,.55) 100%);opacity:0;transition:opacity .4s ease;}
   .service-card:hover .service-shade{opacity:1;}
@@ -539,52 +535,100 @@
   <div class="marquee-clip">
     <div class="marquee-track slow">
       <div class="imgband-group">
-        <img src="leistung-elektroinstallation.jpg" alt="" loading="lazy">
-        <img src="leistung-wallbox.jpg" alt="" loading="lazy">
-        <img src="leistung-solar.jpg" alt="" loading="lazy">
-        <img src="leistung-smarthome.jpg" alt="" loading="lazy">
-        <img src="leistung-tuersprechanlage.jpg" alt="" loading="lazy">
-        <img src="leistung-netzwerk.jpg" alt="" loading="lazy">
+        <img src="band-01-steckdose.jpg" alt="Steckdose wird verdrahtet" loading="lazy">
+        <img src="band-02-verteilung.jpg" alt="Arbeit an einer Unterverteilung" loading="lazy">
+        <img src="band-03-sicherungen.jpg" alt="Reihe von Leitungsschutzschaltern" loading="lazy">
+        <img src="band-04-klemmen.jpg" alt="Verdrahtete Klemmleiste im Schaltschrank" loading="lazy">
+        <img src="band-05-kabeltrommeln.jpg" alt="Kabeltrommeln im Lager" loading="lazy">
+        <img src="band-06-wallbox.jpg" alt="Wallbox an einer Backsteinwand" loading="lazy">
+        <img src="band-07-ladepunkte.jpg" alt="Zwei Ladepunkte fuer Elektrofahrzeuge" loading="lazy">
+        <img src="band-08-photovoltaik.jpg" alt="Photovoltaikanlage auf einem Flachdach" loading="lazy">
+        <img src="band-09-waermepumpe.jpg" alt="Waermepumpe an einer Hauswand" loading="lazy">
+        <img src="band-10-smarthome.jpg" alt="Smart-Home-Steuerung per Tablet" loading="lazy">
+        <img src="band-11-kamera.jpg" alt="Montage einer Deckenkamera" loading="lazy">
+        <img src="band-12-netzwerk.jpg" alt="Patchfeld im Serverschrank" loading="lazy">
+        <img src="band-13-licht.jpg" alt="Indirekte Beleuchtung im Wohnzimmer" loading="lazy">
+        <img src="band-14-notleuchte.jpg" alt="Notausgangsleuchte und Alarmgeber" loading="lazy">
       </div>
       <div class="imgband-group" aria-hidden="true">
-        <img src="leistung-elektroinstallation.jpg" alt="" loading="lazy">
-        <img src="leistung-wallbox.jpg" alt="" loading="lazy">
-        <img src="leistung-solar.jpg" alt="" loading="lazy">
-        <img src="leistung-smarthome.jpg" alt="" loading="lazy">
-        <img src="leistung-tuersprechanlage.jpg" alt="" loading="lazy">
-        <img src="leistung-netzwerk.jpg" alt="" loading="lazy">
+        <img src="band-01-steckdose.jpg" alt="" loading="lazy">
+        <img src="band-02-verteilung.jpg" alt="" loading="lazy">
+        <img src="band-03-sicherungen.jpg" alt="" loading="lazy">
+        <img src="band-04-klemmen.jpg" alt="" loading="lazy">
+        <img src="band-05-kabeltrommeln.jpg" alt="" loading="lazy">
+        <img src="band-06-wallbox.jpg" alt="" loading="lazy">
+        <img src="band-07-ladepunkte.jpg" alt="" loading="lazy">
+        <img src="band-08-photovoltaik.jpg" alt="" loading="lazy">
+        <img src="band-09-waermepumpe.jpg" alt="" loading="lazy">
+        <img src="band-10-smarthome.jpg" alt="" loading="lazy">
+        <img src="band-11-kamera.jpg" alt="" loading="lazy">
+        <img src="band-12-netzwerk.jpg" alt="" loading="lazy">
+        <img src="band-13-licht.jpg" alt="" loading="lazy">
+        <img src="band-14-notleuchte.jpg" alt="" loading="lazy">
       </div>
       <div class="imgband-group" aria-hidden="true">
-        <img src="leistung-elektroinstallation.jpg" alt="" loading="lazy">
-        <img src="leistung-wallbox.jpg" alt="" loading="lazy">
-        <img src="leistung-solar.jpg" alt="" loading="lazy">
-        <img src="leistung-smarthome.jpg" alt="" loading="lazy">
-        <img src="leistung-tuersprechanlage.jpg" alt="" loading="lazy">
-        <img src="leistung-netzwerk.jpg" alt="" loading="lazy">
+        <img src="band-01-steckdose.jpg" alt="" loading="lazy">
+        <img src="band-02-verteilung.jpg" alt="" loading="lazy">
+        <img src="band-03-sicherungen.jpg" alt="" loading="lazy">
+        <img src="band-04-klemmen.jpg" alt="" loading="lazy">
+        <img src="band-05-kabeltrommeln.jpg" alt="" loading="lazy">
+        <img src="band-06-wallbox.jpg" alt="" loading="lazy">
+        <img src="band-07-ladepunkte.jpg" alt="" loading="lazy">
+        <img src="band-08-photovoltaik.jpg" alt="" loading="lazy">
+        <img src="band-09-waermepumpe.jpg" alt="" loading="lazy">
+        <img src="band-10-smarthome.jpg" alt="" loading="lazy">
+        <img src="band-11-kamera.jpg" alt="" loading="lazy">
+        <img src="band-12-netzwerk.jpg" alt="" loading="lazy">
+        <img src="band-13-licht.jpg" alt="" loading="lazy">
+        <img src="band-14-notleuchte.jpg" alt="" loading="lazy">
       </div>
       <div class="imgband-group" aria-hidden="true">
-        <img src="leistung-elektroinstallation.jpg" alt="" loading="lazy">
-        <img src="leistung-wallbox.jpg" alt="" loading="lazy">
-        <img src="leistung-solar.jpg" alt="" loading="lazy">
-        <img src="leistung-smarthome.jpg" alt="" loading="lazy">
-        <img src="leistung-tuersprechanlage.jpg" alt="" loading="lazy">
-        <img src="leistung-netzwerk.jpg" alt="" loading="lazy">
+        <img src="band-01-steckdose.jpg" alt="" loading="lazy">
+        <img src="band-02-verteilung.jpg" alt="" loading="lazy">
+        <img src="band-03-sicherungen.jpg" alt="" loading="lazy">
+        <img src="band-04-klemmen.jpg" alt="" loading="lazy">
+        <img src="band-05-kabeltrommeln.jpg" alt="" loading="lazy">
+        <img src="band-06-wallbox.jpg" alt="" loading="lazy">
+        <img src="band-07-ladepunkte.jpg" alt="" loading="lazy">
+        <img src="band-08-photovoltaik.jpg" alt="" loading="lazy">
+        <img src="band-09-waermepumpe.jpg" alt="" loading="lazy">
+        <img src="band-10-smarthome.jpg" alt="" loading="lazy">
+        <img src="band-11-kamera.jpg" alt="" loading="lazy">
+        <img src="band-12-netzwerk.jpg" alt="" loading="lazy">
+        <img src="band-13-licht.jpg" alt="" loading="lazy">
+        <img src="band-14-notleuchte.jpg" alt="" loading="lazy">
       </div>
       <div class="imgband-group" aria-hidden="true">
-        <img src="leistung-elektroinstallation.jpg" alt="" loading="lazy">
-        <img src="leistung-wallbox.jpg" alt="" loading="lazy">
-        <img src="leistung-solar.jpg" alt="" loading="lazy">
-        <img src="leistung-smarthome.jpg" alt="" loading="lazy">
-        <img src="leistung-tuersprechanlage.jpg" alt="" loading="lazy">
-        <img src="leistung-netzwerk.jpg" alt="" loading="lazy">
+        <img src="band-01-steckdose.jpg" alt="" loading="lazy">
+        <img src="band-02-verteilung.jpg" alt="" loading="lazy">
+        <img src="band-03-sicherungen.jpg" alt="" loading="lazy">
+        <img src="band-04-klemmen.jpg" alt="" loading="lazy">
+        <img src="band-05-kabeltrommeln.jpg" alt="" loading="lazy">
+        <img src="band-06-wallbox.jpg" alt="" loading="lazy">
+        <img src="band-07-ladepunkte.jpg" alt="" loading="lazy">
+        <img src="band-08-photovoltaik.jpg" alt="" loading="lazy">
+        <img src="band-09-waermepumpe.jpg" alt="" loading="lazy">
+        <img src="band-10-smarthome.jpg" alt="" loading="lazy">
+        <img src="band-11-kamera.jpg" alt="" loading="lazy">
+        <img src="band-12-netzwerk.jpg" alt="" loading="lazy">
+        <img src="band-13-licht.jpg" alt="" loading="lazy">
+        <img src="band-14-notleuchte.jpg" alt="" loading="lazy">
       </div>
       <div class="imgband-group" aria-hidden="true">
-        <img src="leistung-elektroinstallation.jpg" alt="" loading="lazy">
-        <img src="leistung-wallbox.jpg" alt="" loading="lazy">
-        <img src="leistung-solar.jpg" alt="" loading="lazy">
-        <img src="leistung-smarthome.jpg" alt="" loading="lazy">
-        <img src="leistung-tuersprechanlage.jpg" alt="" loading="lazy">
-        <img src="leistung-netzwerk.jpg" alt="" loading="lazy">
+        <img src="band-01-steckdose.jpg" alt="" loading="lazy">
+        <img src="band-02-verteilung.jpg" alt="" loading="lazy">
+        <img src="band-03-sicherungen.jpg" alt="" loading="lazy">
+        <img src="band-04-klemmen.jpg" alt="" loading="lazy">
+        <img src="band-05-kabeltrommeln.jpg" alt="" loading="lazy">
+        <img src="band-06-wallbox.jpg" alt="" loading="lazy">
+        <img src="band-07-ladepunkte.jpg" alt="" loading="lazy">
+        <img src="band-08-photovoltaik.jpg" alt="" loading="lazy">
+        <img src="band-09-waermepumpe.jpg" alt="" loading="lazy">
+        <img src="band-10-smarthome.jpg" alt="" loading="lazy">
+        <img src="band-11-kamera.jpg" alt="" loading="lazy">
+        <img src="band-12-netzwerk.jpg" alt="" loading="lazy">
+        <img src="band-13-licht.jpg" alt="" loading="lazy">
+        <img src="band-14-notleuchte.jpg" alt="" loading="lazy">
       </div>
     </div>
   </div>
@@ -652,9 +696,7 @@
 
     <div class="service-card" data-reveal>
       <div class="service-img">
-        <div class="foto-folgt" role="img" aria-label="Wärmepumpe anschließen – Foto folgt">
-          <img src="logo-quer-weiss.svg" alt="" aria-hidden="true">
-        </div>
+        <img src="leistung-waermepumpe.jpg" alt="Wärmepumpe an einer Hauswand" loading="lazy">
         <div class="service-shade"></div>
         <ul class="service-overlay">
           <li>Zuleitung und Absicherung</li>
