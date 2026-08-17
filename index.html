@@ -239,7 +239,10 @@
   #leistungen .section-head{max-width:820px;margin-bottom:clamp(10px,calc(var(--sh) * 2.2),40px);}
   #leistungen .section-head h2{max-width:none;}
   #leistungen .section-head h2{font-size:clamp(21px,calc(var(--sh) * 3.1),40px);}
-  #leistungen{position:relative;overflow:hidden;background:var(--grey-100);padding-top:clamp(18px,calc(var(--sh) * 3.6),64px);padding-bottom:clamp(5px,calc(var(--sh) * 1),24px);}
+  #leistungen{position:relative;overflow:hidden;background:var(--dark);padding-top:clamp(18px,calc(var(--sh) * 3.6),64px);padding-bottom:clamp(5px,calc(var(--sh) * 1),24px);}
+  /* Dunkler Hintergrund, damit die weissen Leistungskarten kraeftig
+     hervortreten -- derselbe dunkle Ton wie im Hero. */
+  #leistungen .section-head .eyebrow{color:var(--yellow);}
   #leistungen > .wrap, #leistungen > .services-grid{position:relative;z-index:1;}
   /* Hintergrund: das Planfoto in Graustufen mit langsamem Zoom, darueber
      blitzen technische Symbole verteilt auf und wieder aus -- eines nach
@@ -247,11 +250,11 @@
      am Kopf der Sektion, wo keine Karte davorliegt. */
   .leistungen-bg{position:absolute;inset:0;overflow:hidden;z-index:0;pointer-events:none;}
   .leistungen-bg-photo{position:absolute;inset:-6%;background:url('hero-plan.jpg') center/cover no-repeat;
-    filter:grayscale(1);opacity:.55;mix-blend-mode:multiply;
+    filter:grayscale(1);opacity:.3;
     animation:ep-plan-zoom 44s ease-in-out infinite alternate;}
   @keyframes ep-plan-zoom{from{transform:scale(1);} to{transform:scale(1.06);}}
   .leistungen-bg img.symbol{position:absolute;width:64px;height:auto;opacity:0;
-    image-rendering:crisp-edges;filter:drop-shadow(0 0 2px var(--grey-100)) drop-shadow(0 0 4px var(--grey-100));
+    image-rendering:crisp-edges;filter:drop-shadow(0 0 3px rgba(0,0,0,.5));
     animation-name:ep-symbol-blip;animation-timing-function:ease-in-out;animation-iteration-count:infinite;}
   @keyframes ep-symbol-blip{
     0%        {opacity:0;}
@@ -289,8 +292,9 @@
   /* Band als unterer Teil der Leistungen-Fläche */
   /* Das Band laeuft ueber die volle Fensterbreite, damit die Bilder von
      Kante zu Kante durchziehen. Deshalb kein seitlicher Innenabstand. */
-  .marquee-section.attached{background:var(--grey-100);padding-left:0;padding-right:0;overflow:hidden;
-    padding-top:clamp(3px,calc(var(--sh) * 0.8),16px);padding-bottom:clamp(11px,calc(var(--sh) * 2.4),56px);border-bottom:2px solid var(--ink);}
+  .marquee-section.attached{background:var(--dark);padding-left:0;padding-right:0;overflow:hidden;
+    padding-top:clamp(3px,calc(var(--sh) * 0.8),16px);padding-bottom:clamp(11px,calc(var(--sh) * 2.4),56px);border-bottom:2px solid var(--dark);}
+  .marquee-section.attached .marquee-head{color:rgba(255,255,255,.6);}
   .marquee-clip{overflow:hidden;}
   .marquee-head{text-align:center;font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--grey-600);margin-bottom:clamp(9px,calc(var(--sh) * 1.8),32px);}
   .marquee-track{display:flex;width:max-content;animation:ep-marquee 26s linear infinite;}
