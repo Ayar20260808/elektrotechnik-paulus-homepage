@@ -18,6 +18,24 @@
     "height": 18
   },
   {
+    "file": "elektrosymbole/analogeingang-1fach.png",
+    "slug": "analogeingang-1fach",
+    "width": 18,
+    "height": 23
+  },
+  {
+    "file": "elektrosymbole/analogeingang-3fach.png",
+    "slug": "analogeingang-3fach",
+    "width": 18,
+    "height": 23
+  },
+  {
+    "file": "elektrosymbole/analogeingang-4fach.png",
+    "slug": "analogeingang-4fach",
+    "width": 18,
+    "height": 23
+  },
+  {
     "file": "elektrosymbole/anschluss-allgemein.png",
     "slug": "anschluss-allgemein",
     "width": 24,
@@ -27,6 +45,18 @@
     "file": "elektrosymbole/anschluss-allgemein-16a.png",
     "slug": "anschluss-allgemein-16a",
     "width": 17,
+    "height": 22
+  },
+  {
+    "file": "elektrosymbole/anschlussplatte.png",
+    "slug": "anschlussplatte",
+    "width": 16,
+    "height": 10
+  },
+  {
+    "file": "elektrosymbole/antenne.png",
+    "slug": "antenne",
+    "width": 23,
     "height": 22
   },
   {
@@ -54,6 +84,12 @@
     "height": 24
   },
   {
+    "file": "elektrosymbole/bewegungsmelder.png",
+    "slug": "bewegungsmelder",
+    "width": 18,
+    "height": 23
+  },
+  {
     "file": "elektrosymbole/bewegungsmelder-decke.png",
     "slug": "bewegungsmelder-decke",
     "width": 18,
@@ -64,6 +100,18 @@
     "slug": "bewegungsmelder-eckig",
     "width": 24,
     "height": 24
+  },
+  {
+    "file": "elektrosymbole/binaereingang-gleichspannung-1fach.png",
+    "slug": "binaereingang-gleichspannung-1fach",
+    "width": 18,
+    "height": 23
+  },
+  {
+    "file": "elektrosymbole/binaereingang-wechselspannung1fach.png",
+    "slug": "binaereingang-wechselspannung1fach",
+    "width": 18,
+    "height": 23
   },
   {
     "file": "elektrosymbole/bodentank-eckig.png",
@@ -78,6 +126,144 @@
     "height": 33
   },
   {
+    "file": "elektrosymbole/bus-aktor.png",
+    "slug": "bus-aktor",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/bus-bewegungsmelder-wand.png",
+    "slug": "bus-bewegungsmelder-wand",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/bus-funkmodul.png",
+    "slug": "bus-funkmodul",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/bus-kontrolltaster-1-fach.png",
+    "slug": "bus-kontrolltaster-1-fach",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/bus-kontrolltaster-2-fach.png",
+    "slug": "bus-kontrolltaster-2-fach",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/bus-kontrolltaster-3-fach.png",
+    "slug": "bus-kontrolltaster-3-fach",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/bus-kontrolltaster-4-fach.png",
+    "slug": "bus-kontrolltaster-4-fach",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/bus-kontrolltaster-6-fach.png",
+    "slug": "bus-kontrolltaster-6-fach",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/bus-kontrolltaster-8-fach.png",
+    "slug": "bus-kontrolltaster-8-fach",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/bus-raumcontroller-2-fach.png",
+    "slug": "bus-raumcontroller-2-fach",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/bus-raumcontroller-6-fach.png",
+    "slug": "bus-raumcontroller-6-fach",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/bus-raumcontroller-8-fach.png",
+    "slug": "bus-raumcontroller-8-fach",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/bus-sensor.png",
+    "slug": "bus-sensor",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/bus-taster-1-fach.png",
+    "slug": "bus-taster-1-fach",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/bus-taster-2-fach.png",
+    "slug": "bus-taster-2-fach",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/bus-taster-3-fach.png",
+    "slug": "bus-taster-3-fach",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/bus-taster-4-fach.png",
+    "slug": "bus-taster-4-fach",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/bus-taster-6-fach.png",
+    "slug": "bus-taster-6-fach",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/bus-taster-8-fach.png",
+    "slug": "bus-taster-8-fach",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/bus-touch-surface.png",
+    "slug": "bus-touch-surface",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/dachdurchfuehrung.png",
+    "slug": "dachdurchfuehrung",
+    "width": 22,
+    "height": 14
+  },
+  {
+    "file": "elektrosymbole/dachstaender-pv.png",
+    "slug": "dachstaender-pv",
+    "width": 22,
+    "height": 14
+  },
+  {
+    "file": "elektrosymbole/dachventilator.png",
+    "slug": "dachventilator",
+    "width": 22,
+    "height": 22
+  },
+  {
     "file": "elektrosymbole/deckenauslass-fuer-leuchte.png",
     "slug": "deckenauslass-fuer-leuchte",
     "width": 19,
@@ -90,6 +276,12 @@
     "height": 19
   },
   {
+    "file": "elektrosymbole/dehnungsstueck.png",
+    "slug": "dehnungsstueck",
+    "width": 22,
+    "height": 12
+  },
+  {
     "file": "elektrosymbole/dimmer-taster.png",
     "slug": "dimmer-taster",
     "width": 24,
@@ -99,6 +291,12 @@
     "file": "elektrosymbole/dimmerschalter.png",
     "slug": "dimmerschalter",
     "width": 52,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/dimmtaster-funk.png",
+    "slug": "dimmtaster-funk",
+    "width": 24,
     "height": 24
   },
   {
@@ -120,6 +318,24 @@
     "height": 17
   },
   {
+    "file": "elektrosymbole/erdung-allgemein.png",
+    "slug": "erdung-allgemein",
+    "width": 50,
+    "height": 25
+  },
+  {
+    "file": "elektrosymbole/fangeinrichtung.png",
+    "slug": "fangeinrichtung",
+    "width": 14,
+    "height": 15
+  },
+  {
+    "file": "elektrosymbole/fangspitze.png",
+    "slug": "fangspitze",
+    "width": 19,
+    "height": 19
+  },
+  {
     "file": "elektrosymbole/fensterkontakt-vds.png",
     "slug": "fensterkontakt-vds",
     "width": 23,
@@ -130,6 +346,24 @@
     "slug": "fingerabdruckssensor",
     "width": 22,
     "height": 22
+  },
+  {
+    "file": "elektrosymbole/funktionserdung.png",
+    "slug": "funktionserdung",
+    "width": 18,
+    "height": 20
+  },
+  {
+    "file": "elektrosymbole/gateway-opus.png",
+    "slug": "gateway-opus",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/gateway-tado.png",
+    "slug": "gateway-tado",
+    "width": 24,
+    "height": 24
   },
   {
     "file": "elektrosymbole/gegensprechanlage.png",
@@ -150,10 +384,28 @@
     "height": 26
   },
   {
+    "file": "elektrosymbole/helligkeitssensor.png",
+    "slug": "helligkeitssensor",
+    "width": 18,
+    "height": 23
+  },
+  {
     "file": "elektrosymbole/herd-anschlussdose.png",
     "slug": "herd-anschlussdose",
     "width": 24,
     "height": 24
+  },
+  {
+    "file": "elektrosymbole/jalousietaster-funk.png",
+    "slug": "jalousietaster-funk",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/jalousietastsensor.png",
+    "slug": "jalousietastsensor",
+    "width": 18,
+    "height": 23
   },
   {
     "file": "elektrosymbole/kamera.png",
@@ -252,10 +504,34 @@
     "height": 24
   },
   {
+    "file": "elektrosymbole/leitung-nach-oben.png",
+    "slug": "leitung-nach-oben",
+    "width": 22,
+    "height": 15
+  },
+  {
+    "file": "elektrosymbole/leitung-nach-unten.png",
+    "slug": "leitung-nach-unten",
+    "width": 22,
+    "height": 15
+  },
+  {
+    "file": "elektrosymbole/leitung-nach-unten-und-oben.png",
+    "slug": "leitung-nach-unten-und-oben",
+    "width": 22,
+    "height": 23
+  },
+  {
     "file": "elektrosymbole/leuchtstofflampe-zweifach.png",
     "slug": "leuchtstofflampe-zweifach",
     "width": 18,
     "height": 14
+  },
+  {
+    "file": "elektrosymbole/lichtkuppel.png",
+    "slug": "lichtkuppel",
+    "width": 22,
+    "height": 22
   },
   {
     "file": "elektrosymbole/luefter.png",
@@ -286,6 +562,12 @@
     "slug": "multimedia-rohr-unten",
     "width": 13,
     "height": 19
+  },
+  {
+    "file": "elektrosymbole/potentialausgleichsschiene.png",
+    "slug": "potentialausgleichsschiene",
+    "width": 22,
+    "height": 12
   },
   {
     "file": "elektrosymbole/rauchmelder.png",
@@ -330,6 +612,18 @@
     "height": 18
   },
   {
+    "file": "elektrosymbole/rohr-masten-metallen.png",
+    "slug": "rohr-masten-metallen",
+    "width": 18,
+    "height": 18
+  },
+  {
+    "file": "elektrosymbole/rohr-masten-nicht-metallen.png",
+    "slug": "rohr-masten-nicht-metallen",
+    "width": 18,
+    "height": 18
+  },
+  {
     "file": "elektrosymbole/rollladen-taster.png",
     "slug": "rollladen-taster",
     "width": 52,
@@ -348,10 +642,22 @@
     "height": 24
   },
   {
+    "file": "elektrosymbole/schaltschloss.png",
+    "slug": "schaltschloss",
+    "width": 18,
+    "height": 23
+  },
+  {
     "file": "elektrosymbole/schluesselschalter.png",
     "slug": "schluesselschalter",
     "width": 52,
     "height": 24
+  },
+  {
+    "file": "elektrosymbole/schornstein.png",
+    "slug": "schornstein",
+    "width": 22,
+    "height": 18
   },
   {
     "file": "elektrosymbole/schuko-steckdose.png",
@@ -426,6 +732,18 @@
     "height": 24
   },
   {
+    "file": "elektrosymbole/schutzerdung.png",
+    "slug": "schutzerdung",
+    "width": 20,
+    "height": 22
+  },
+  {
+    "file": "elektrosymbole/sensor-helligkeit-pir.png",
+    "slug": "sensor-helligkeit-pir",
+    "width": 18,
+    "height": 23
+  },
+  {
     "file": "elektrosymbole/serienschalter.png",
     "slug": "serienschalter",
     "width": 52,
@@ -440,6 +758,18 @@
   {
     "file": "elektrosymbole/serientaster.png",
     "slug": "serientaster",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/serientaster-funk.png",
+    "slug": "serientaster-funk",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/serientaster-funk-frei-positionierbar.png",
+    "slug": "serientaster-funk-frei-positionierbar",
     "width": 24,
     "height": 24
   },
@@ -468,6 +798,12 @@
     "height": 18
   },
   {
+    "file": "elektrosymbole/staberder.png",
+    "slug": "staberder",
+    "width": 16,
+    "height": 18
+  },
+  {
     "file": "elektrosymbole/steckdose-cee.png",
     "slug": "steckdose-cee",
     "width": 22,
@@ -486,6 +822,12 @@
     "height": 22
   },
   {
+    "file": "elektrosymbole/tablet-halterung.png",
+    "slug": "tablet-halterung",
+    "width": 19,
+    "height": 24
+  },
+  {
     "file": "elektrosymbole/taster.png",
     "slug": "taster",
     "width": 24,
@@ -498,6 +840,78 @@
     "height": 24
   },
   {
+    "file": "elektrosymbole/taster-funk.png",
+    "slug": "taster-funk",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/taster-funk-16a.png",
+    "slug": "taster-funk-16a",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/taster-funk-frei-positionierbar.png",
+    "slug": "taster-funk-frei-positionierbar",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/tastsensor-1fach.png",
+    "slug": "tastsensor-1fach",
+    "width": 18,
+    "height": 23
+  },
+  {
+    "file": "elektrosymbole/tastsensor-2fach.png",
+    "slug": "tastsensor-2fach",
+    "width": 18,
+    "height": 23
+  },
+  {
+    "file": "elektrosymbole/tastsensor-3fach.png",
+    "slug": "tastsensor-3fach",
+    "width": 18,
+    "height": 23
+  },
+  {
+    "file": "elektrosymbole/tastsensor-4fach.png",
+    "slug": "tastsensor-4fach",
+    "width": 18,
+    "height": 23
+  },
+  {
+    "file": "elektrosymbole/tastsensor-5fach.png",
+    "slug": "tastsensor-5fach",
+    "width": 18,
+    "height": 23
+  },
+  {
+    "file": "elektrosymbole/tastsensor-6fach.png",
+    "slug": "tastsensor-6fach",
+    "width": 18,
+    "height": 23
+  },
+  {
+    "file": "elektrosymbole/tastsensor-8fach.png",
+    "slug": "tastsensor-8fach",
+    "width": 18,
+    "height": 23
+  },
+  {
+    "file": "elektrosymbole/temperatursensor.png",
+    "slug": "temperatursensor",
+    "width": 18,
+    "height": 23
+  },
+  {
+    "file": "elektrosymbole/thermostat.png",
+    "slug": "thermostat",
+    "width": 42,
+    "height": 26
+  },
+  {
     "file": "elektrosymbole/torantrieb.png",
     "slug": "torantrieb",
     "width": 18,
@@ -508,6 +922,12 @@
     "slug": "trafo",
     "width": 18,
     "height": 15
+  },
+  {
+    "file": "elektrosymbole/trennstelle.png",
+    "slug": "trennstelle",
+    "width": 10,
+    "height": 22
   },
   {
     "file": "elektrosymbole/tueroeffner.png",
@@ -568,5 +988,23 @@
     "slug": "wechselschalter-taster-kombination",
     "width": 52,
     "height": 24
+  },
+  {
+    "file": "elektrosymbole/windgeschwindigkeitssensor.png",
+    "slug": "windgeschwindigkeitssensor",
+    "width": 18,
+    "height": 23
+  },
+  {
+    "file": "elektrosymbole/zeitgeber.png",
+    "slug": "zeitgeber",
+    "width": 18,
+    "height": 23
+  },
+  {
+    "file": "elektrosymbole/zeitschaltuhr-1fach.png",
+    "slug": "zeitschaltuhr-1fach",
+    "width": 18,
+    "height": 23
   }
 ]
