@@ -199,6 +199,11 @@
   .hero-projectline{position:relative;height:clamp(15px,calc(var(--sh) * 2.55),24px);margin-bottom:clamp(11px,calc(var(--sh) * 2.55),24px);max-width:56ch;}
   .hero-projectline span{position:absolute;left:0;top:0;font-family:var(--font-heading);font-weight:600;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--tech-blue-light);opacity:0;transition:opacity .8s ease;}
   .hero-projectline span.active{opacity:1;}
+  .hero-brands{display:flex;align-items:baseline;gap:10px;margin-top:clamp(9px,calc(var(--sh) * 1.6),16px);}
+  .hero-brands-label{font-family:var(--font-heading);font-weight:600;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.5);white-space:nowrap;}
+  .hero-brands-names{position:relative;height:1.3em;flex:1;min-width:120px;}
+  .hero-brands-names span{position:absolute;left:0;top:0;font-family:var(--font-heading);font-weight:700;font-size:14px;letter-spacing:.02em;color:var(--yellow);opacity:0;transition:opacity .8s ease;white-space:nowrap;}
+  .hero-brands-names span.active{opacity:1;}
   .hero-actions{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:clamp(13px,calc(var(--sh) * 2.95),28px);}
   .hero-actions .btn{padding:clamp(9px,calc(var(--sh) * 1.5),14px) clamp(18px,2vw,26px);font-size:clamp(13px,calc(var(--sh) * 1.6),15px);}
   .hero-stats{display:flex;gap:clamp(28px,4vw,56px);border-top:1px solid rgba(255,255,255,.18);padding-top:clamp(9px,calc(var(--sh) * 2.1),20px);flex-wrap:wrap;}
@@ -307,6 +312,8 @@
   .marquee-section.attached .marquee-head{color:rgba(255,255,255,.6);}
   .marquee-clip{overflow:hidden;}
   .marquee-head{text-align:center;font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--grey-600);margin-bottom:clamp(9px,calc(var(--sh) * 1.8),32px);}
+  /* Markenzeile beginnt rechtsbuendig statt zentriert. */
+  .marquee-section:not(.attached) .marquee-head{text-align:right;padding-right:clamp(20px,5vw,72px);}
   .marquee-track{display:flex;width:max-content;animation:ep-marquee 26s linear infinite;}
   /* Laufzeit fuer die ganze Bildreihe. Bei 84 Bildern sind das rund
      30 Pixel pro Sekunde -- ruhig genug, um nicht abzulenken. */
@@ -594,6 +601,22 @@
       <div><b data-count="6">0</b><span>Gewerke aus einer Hand</span></div>
       <div><b data-count="4">0</b><span>Kundengruppen betreut</span></div>
       <div><b data-count="1">0</b><span>Ansprechpartner, direkt</span></div>
+    </div>
+    <div class="hero-brands">
+      <span class="hero-brands-label">Marken, mit denen wir arbeiten</span>
+      <div class="hero-brands-names">
+        <span class="active">Hager</span>
+        <span>Gira</span>
+        <span>Busch-Jäger</span>
+        <span>Jung</span>
+        <span>ABB</span>
+        <span>Siemens</span>
+        <span>Schneider Electric</span>
+        <span>MENNEKES</span>
+        <span>Viessmann</span>
+        <span>Fronius</span>
+        <span>SMA Solar</span>
+      </div>
     </div>
   </div>
 </section>
@@ -1258,22 +1281,22 @@
     if (!document.hidden) revealEls.forEach(function (el) { el.classList.add('in'); });
   });
 
-  // Hero: Bildwechsel + Projektzeile synchron
-  (function () {
-    // Der Hero-Hintergrund ist jetzt der laufende Plan, es gibt keine
-    // Bildebenen mehr. Die Projektzeile wechselt deshalb fuer sich allein.
-    var lines = document.querySelectorAll('.hero-projectline span');
-    if (!lines.length) return;
+  // Generischer Textwechsler: ueberlagerte <span>-Elemente, per .active
+  // Klasse eingeblendet, im Intervall weitergeschaltet.
+  function cycleSpans(selector, intervalMs) {
+    var spans = document.querySelectorAll(selector);
+    if (!spans.length) return;
     var i = 0;
-    lines[0].classList.add('active');
-    if (!reduceMotion) {
-      setInterval(function () {
-        lines[i].classList.remove('active');
-        i = (i + 1) % lines.length;
-        lines[i].classList.add('active');
-      }, 6000);
-    }
-  })();
+    spans[0].classList.add('active');
+    if (reduceMotion) return;
+    setInterval(function () {
+      spans[i].classList.remove('active');
+      i = (i + 1) % spans.length;
+      spans[i].classList.add('active');
+    }, intervalMs);
+  }
+  cycleSpans('.hero-projectline span', 6000);
+  cycleSpans('.hero-brands-names span', 2600);
 
   // Hero-Zähler
   (function () {
