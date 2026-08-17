@@ -1,0 +1,434 @@
+[
+  {
+    "file": "elektrosymbole/alarm.png",
+    "slug": "alarm",
+    "width": 24,
+    "height": 18
+  },
+  {
+    "file": "elektrosymbole/anschluss-allgemein-16a.png",
+    "slug": "anschluss-allgemein-16a",
+    "width": 17,
+    "height": 22
+  },
+  {
+    "file": "elektrosymbole/anschluss-allgemein.png",
+    "slug": "anschluss-allgemein",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/aufbauleuchte-wand.png",
+    "slug": "aufbauleuchte-wand",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/ausschalter-aufputz.png",
+    "slug": "ausschalter-aufputz",
+    "width": 52,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/ausschalter-zweifach.png",
+    "slug": "ausschalter-zweifach",
+    "width": 52,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/ausschalter.png",
+    "slug": "ausschalter",
+    "width": 52,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/bewegungsmelder-decke.png",
+    "slug": "bewegungsmelder-decke",
+    "width": 18,
+    "height": 17
+  },
+  {
+    "file": "elektrosymbole/bewegungsmelder-eckig.png",
+    "slug": "bewegungsmelder-eckig",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/bodentank-eckig.png",
+    "slug": "bodentank-eckig",
+    "width": 22,
+    "height": 22
+  },
+  {
+    "file": "elektrosymbole/bodentank-rund.png",
+    "slug": "bodentank-rund",
+    "width": 40,
+    "height": 33
+  },
+  {
+    "file": "elektrosymbole/deckenauslass-fuer-leuchte.png",
+    "slug": "deckenauslass-fuer-leuchte",
+    "width": 19,
+    "height": 21
+  },
+  {
+    "file": "elektrosymbole/deckenleuchte.png",
+    "slug": "deckenleuchte",
+    "width": 19,
+    "height": 19
+  },
+  {
+    "file": "elektrosymbole/dimmer-taster.png",
+    "slug": "dimmer-taster",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/dimmerschalter.png",
+    "slug": "dimmerschalter",
+    "width": 52,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/einbau-spot.png",
+    "slug": "einbau-spot",
+    "width": 18,
+    "height": 16
+  },
+  {
+    "file": "elektrosymbole/erdkabel.png",
+    "slug": "erdkabel",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/fensterkontakt-vds.png",
+    "slug": "fensterkontakt-vds",
+    "width": 23,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/herd-anschlussdose.png",
+    "slug": "herd-anschlussdose",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/klingelanlage.png",
+    "slug": "klingelanlage",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/klingeltaster.png",
+    "slug": "klingeltaster",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/kontroll-ausschalter.png",
+    "slug": "kontroll-ausschalter",
+    "width": 52,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/kontroll-serienschalter.png",
+    "slug": "kontroll-serienschalter",
+    "width": 52,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/kontroll-taster.png",
+    "slug": "kontroll-taster",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/kontroll-wechselschalter.png",
+    "slug": "kontroll-wechselschalter",
+    "width": 52,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/kontrollausschalter-zweipolig.png",
+    "slug": "kontrollausschalter-zweipolig",
+    "width": 52,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/kontrollserienschalter-aufputz.png",
+    "slug": "kontrollserienschalter-aufputz",
+    "width": 52,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/kontrolltaster-aufputz.png",
+    "slug": "kontrolltaster-aufputz",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/kreuzschalter-aufputz.png",
+    "slug": "kreuzschalter-aufputz",
+    "width": 52,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/laeutwerk.png",
+    "slug": "laeutwerk",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/led-panel-eckig.png",
+    "slug": "led-panel-eckig",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/led-stripe-id47.png",
+    "slug": "led-stripe-id47",
+    "width": 18,
+    "height": 14
+  },
+  {
+    "file": "elektrosymbole/led-stripe.png",
+    "slug": "led-stripe",
+    "width": 24,
+    "height": 10
+  },
+  {
+    "file": "elektrosymbole/leerdose.png",
+    "slug": "leerdose",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/leuchtstofflampe-zweifach.png",
+    "slug": "leuchtstofflampe-zweifach",
+    "width": 18,
+    "height": 14
+  },
+  {
+    "file": "elektrosymbole/luefter.png",
+    "slug": "luefter",
+    "width": 20,
+    "height": 20
+  },
+  {
+    "file": "elektrosymbole/markisenanschluss.png",
+    "slug": "markisenanschluss",
+    "width": 22,
+    "height": 10
+  },
+  {
+    "file": "elektrosymbole/multimedia-rohr-oben.png",
+    "slug": "multimedia-rohr-oben",
+    "width": 14,
+    "height": 19
+  },
+  {
+    "file": "elektrosymbole/multimedia-rohr-unten.png",
+    "slug": "multimedia-rohr-unten",
+    "width": 13,
+    "height": 19
+  },
+  {
+    "file": "elektrosymbole/rauchmelder.png",
+    "slug": "rauchmelder",
+    "width": 18,
+    "height": 19
+  },
+  {
+    "file": "elektrosymbole/raumthermostat-analog.png",
+    "slug": "raumthermostat-analog",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/raumthermostat-digital.png",
+    "slug": "raumthermostat-digital",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/rollladen-taster.png",
+    "slug": "rollladen-taster",
+    "width": 52,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/rollladenmotor.png",
+    "slug": "rollladenmotor",
+    "width": 20,
+    "height": 19
+  },
+  {
+    "file": "elektrosymbole/rollladenschalter.png",
+    "slug": "rollladenschalter",
+    "width": 52,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/schluesselschalter.png",
+    "slug": "schluesselschalter",
+    "width": 52,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/schuko-steckdose-abschliessbar-aufputz.png",
+    "slug": "schuko-steckdose-abschliessbar-aufputz",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/schuko-steckdose-abschliessbar.png",
+    "slug": "schuko-steckdose-abschliessbar",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/schuko-steckdose-aufputz.png",
+    "slug": "schuko-steckdose-aufputz",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/schuko-steckdose-mit-deckel-aufputz.png",
+    "slug": "schuko-steckdose-mit-deckel-aufputz",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/schuko-steckdose-mit-deckel.png",
+    "slug": "schuko-steckdose-mit-deckel",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/schuko-steckdose-mit-extra-beruehrungsschutz-aufputz.png",
+    "slug": "schuko-steckdose-mit-extra-beruehrungsschutz-aufputz",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/schuko-steckdose-mit-extra-beruehrungsschutz.png",
+    "slug": "schuko-steckdose-mit-extra-beruehrungsschutz",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/schuko-steckdose-mit-orientierungslicht.png",
+    "slug": "schuko-steckdose-mit-orientierungslicht",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/schuko-steckdose-mit-usb.png",
+    "slug": "schuko-steckdose-mit-usb",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/schuko-steckdose-schaltbar-aufputz.png",
+    "slug": "schuko-steckdose-schaltbar-aufputz",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/schuko-steckdose-schaltbar.png",
+    "slug": "schuko-steckdose-schaltbar",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/schuko-steckdose.png",
+    "slug": "schuko-steckdose",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/serienschalter-aufputz.png",
+    "slug": "serienschalter-aufputz",
+    "width": 52,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/serienschalter.png",
+    "slug": "serienschalter",
+    "width": 52,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/serientaster.png",
+    "slug": "serientaster",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/steckdose-cee.png",
+    "slug": "steckdose-cee",
+    "width": 22,
+    "height": 26
+  },
+  {
+    "file": "elektrosymbole/stellantrieb.png",
+    "slug": "stellantrieb",
+    "width": 22,
+    "height": 22
+  },
+  {
+    "file": "elektrosymbole/taster-aufputz.png",
+    "slug": "taster-aufputz",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/taster.png",
+    "slug": "taster",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/torantrieb.png",
+    "slug": "torantrieb",
+    "width": 18,
+    "height": 16
+  },
+  {
+    "file": "elektrosymbole/trafo.png",
+    "slug": "trafo",
+    "width": 18,
+    "height": 15
+  },
+  {
+    "file": "elektrosymbole/wandauslass-fuer-leuchte.png",
+    "slug": "wandauslass-fuer-leuchte",
+    "width": 20,
+    "height": 19
+  },
+  {
+    "file": "elektrosymbole/wandleuchte.png",
+    "slug": "wandleuchte",
+    "width": 20,
+    "height": 16
+  },
+  {
+    "file": "elektrosymbole/wechselschalter-aufputz.png",
+    "slug": "wechselschalter-aufputz",
+    "width": 52,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/wechselschalter-taster-kombination.png",
+    "slug": "wechselschalter-taster-kombination",
+    "width": 52,
+    "height": 24
+  },
+  {
+    "file": "elektrosymbole/wechselschalter.png",
+    "slug": "wechselschalter",
+    "width": 52,
+    "height": 24
+  }
+]
