@@ -1365,16 +1365,19 @@
 
     var SYMBOL_W = 64;
     var MIN_DIST = SYMBOL_W * 3;
-    var CARD_PAD = SYMBOL_W * 0.15;
+    var CARD_PAD = 8;
     var MAX_SYMBOLS = 60;
-    var MAX_ATTEMPTS = 6000;
+    var MAX_ATTEMPTS = 8000;
 
-    function randomIcon(exclude) {
-      var icon;
-      do {
-        icon = ICONS[Math.floor(Math.random() * ICONS.length)];
-      } while (ICONS.length > 1 && exclude && icon.src === exclude.src);
-      return icon;
+    function iconH(icon) { return SYMBOL_W * (icon.h / icon.w); }
+
+    function randomIcon(exclude, maxH) {
+      var candidates = ICONS.filter(function (ic) {
+        return (!maxH || iconH(ic) <= maxH) && (!exclude || ic.src !== exclude.src);
+      });
+      if (!candidates.length) candidates = maxH ? ICONS.filter(function (ic) { return iconH(ic) <= maxH; }) : ICONS;
+      if (!candidates.length) candidates = ICONS;
+      return candidates[Math.floor(Math.random() * candidates.length)];
     }
 
     function applyIcon(span, icon) {
@@ -1398,44 +1401,60 @@
         };
       });
 
-      function insideAnyCard(x, y) {
+      // Voller Symbol-Umriss (nicht nur der Mittelpunkt) darf keine Karte
+      // beruehren, mit CARD_PAD Sicherheitsabstand -- Symbole sollen komplett
+      // in freien Flaechen erscheinen, nie hinter/ueberlappend mit Karten.
+      function overlapsAnyCard(left, top, right, bottom) {
         for (var i = 0; i < cardRects.length; i++) {
           var r = cardRects[i];
-          if (x > r.left - CARD_PAD && x < r.right + CARD_PAD &&
-              y > r.top - CARD_PAD && y < r.bottom + CARD_PAD) return true;
+          var separate = right < r.left - CARD_PAD || left > r.right + CARD_PAD ||
+                         bottom < r.top - CARD_PAD || top > r.bottom + CARD_PAD;
+          if (!separate) return true;
         }
         return false;
       }
 
-      var margin = SYMBOL_W / 2 + 4;
+      // Jeder Versuch probiert ein zufaelliges Icon mit seiner tatsaechlichen
+      // Hoehe -- so passen die vielen kleinen Symbole auch in schmale
+      // Freiflaechen (Kopfbereich, Zeilenabstand), waehrend die wenigen
+      // hohen Icons meist nur im geraeumigeren Kopfbereich landen.
+      var marginX = SYMBOL_W / 2 + 4;
       var accepted = [];
       var attempts = 0;
       while (attempts < MAX_ATTEMPTS && accepted.length < MAX_SYMBOLS) {
         attempts++;
-        var x = margin + Math.random() * Math.max(1, bgRect.width - margin * 2);
-        var y = margin + Math.random() * Math.max(1, bgRect.height - margin * 2);
-        if (insideAnyCard(x, y)) continue;
+        var candidate = randomIcon(null, null);
+        var candH = iconH(candidate);
+        var marginY = candH / 2 + 4;
+        if (bgRect.width - marginX * 2 < 1 || bgRect.height - marginY * 2 < 1) continue;
+        var x = marginX + Math.random() * (bgRect.width - marginX * 2);
+        var y = marginY + Math.random() * (bgRect.height - marginY * 2);
+        var boxLeft = x - SYMBOL_W / 2, boxRight = x + SYMBOL_W / 2;
+        var boxTop = y - candH / 2, boxBottom = y + candH / 2;
+        if (overlapsAnyCard(boxLeft, boxTop, boxRight, boxBottom)) continue;
         var ok = true;
         for (var j = 0; j < accepted.length; j++) {
           var dx = accepted[j].x - x, dy = accepted[j].y - y;
           if (Math.sqrt(dx * dx + dy * dy) < MIN_DIST) { ok = false; break; }
         }
         if (!ok) continue;
-        accepted.push({ x: x, y: y });
+        // maxH: die an dieser Stelle geprueft-freie Hoehe. Spaetere Rotation
+        // darf nur auf Icons wechseln, die hier ebenfalls passen wuerden --
+        // sonst koennte ein Wechsel auf ein hoeheres Icon eine Karte beruehren.
+        accepted.push({ x: x, y: y, icon: candidate, maxH: candH });
       }
 
       accepted.forEach(function (pos) {
         var span = document.createElement('span');
         span.className = 'symbol';
         span.setAttribute('aria-hidden', 'true');
-        var icon = randomIcon(null);
+        var icon = pos.icon;
         applyIcon(span, icon);
         // pos ist der beabsichtigte Mittelpunkt (fuer den Mindestabstand);
         // left/top adressieren aber die linke obere Ecke, daher hier um die
         // halbe gerenderte Breite/Hoehe zurueckrechnen.
-        var renderedH = SYMBOL_W * (icon.h / icon.w);
         var left = pos.x - SYMBOL_W / 2;
-        var top = pos.y - renderedH / 2;
+        var top = pos.y - pos.maxH / 2;
         span.style.left = ((left / bgRect.width) * 100).toFixed(2) + '%';
         span.style.top = ((top / bgRect.height) * 100).toFixed(2) + '%';
         var duration = 5 + Math.random() * 3;
@@ -1444,7 +1463,7 @@
         bg.appendChild(span);
 
         span.addEventListener('animationiteration', function () {
-          icon = randomIcon(icon);
+          icon = randomIcon(icon, pos.maxH + 0.5);
           applyIcon(span, icon);
         });
       });
@@ -1456,8 +1475,21 @@
       resizeTimer = setTimeout(rebuild, 300);
     });
 
-    if (document.readyState === 'complete') {
-      rebuild();
+    // Die Leistungskarten fahren beim ersten Sichtbarwerden per CSS-Transition
+    // ein (transform/opacity, [data-reveal] .55s + Stagger). Erst NACH dieser
+    // Transition messen, sonst werden Symbole anhand der noch nicht fertig
+    // eingefahrenen Kartenposition platziert und ueberlappen danach die Karte.
+    var grid = document.querySelector('.services-grid');
+    if (grid && 'IntersectionObserver' in window) {
+      var revealIo = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            revealIo.unobserve(entry.target);
+            setTimeout(rebuild, 850);
+          }
+        });
+      }, { threshold: 0.01 });
+      revealIo.observe(grid);
     } else {
       window.addEventListener('load', rebuild);
     }
