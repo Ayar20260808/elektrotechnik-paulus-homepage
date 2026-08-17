@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: "IBM Plex Sans", Arial, Helvetica, sans-serif; font-size: 10pt; color: #232F3B; }
+
+  .sender-line { font-size: 8pt; color: #6B7480; margin-bottom: 5mm; }
+  .top-block { display: flex; justify-content: space-between; }
+  .recipient { font-size: 10.5pt; line-height: 1.5; }
+  .meta-table { border-collapse: collapse; }
+  .meta-table td {
+    padding: 0.6px 0; font-size: 9.5pt; line-height: 1.25;
+  }
+  .meta-table td.label {
+    color: #6B7480; text-align: left; padding-right: 8mm;
+    white-space: nowrap;
+  }
+  .meta-table td.value { text-align: left; color: #232F3B; white-space: nowrap; }
+
+  .bv-title { font-weight: bold; margin-top: 16mm; margin-bottom: 1mm; }
+  .angebot-nr { font-weight: bold; margin-bottom: 12mm; }
+
+  p { margin: 3mm 0; line-height: 1.4; }
+
+  table.positions { width: 100%; border-collapse: collapse; margin-top: 5mm; }
+  table.positions th {
+    background: #232F3B; color: #fff; text-align: left; font-size: 9.5pt;
+    padding: 5px 6px; border: 0.5px solid #232F3B;
+  }
+  table.positions th.num, table.positions td.num { text-align: right; }
+  table.positions td { border-bottom: 0.5px solid #ddd; padding: 5px 6px; font-size: 9.5pt; vertical-align: top; }
+  /* letzte Position eines Abschnitts kraeftiger abschliessen */
+  table.positions tr.abschnittsende td { border-bottom: 1.2px solid #232F3B; }
+  table.positions .pos-name { font-weight: bold; }
+  table.positions .pos-detail { color: #3A4956; margin: 2px 0 0 0; white-space: pre-line; }
+
+
+  .empfang { margin-top: 12mm; font-size: 9.5pt; }
+  .empfang-titel { font-weight: bold; margin-bottom: 1mm; }
+  .empfang-felder { display: flex; gap: 8mm; margin-top: 14mm; }
+  .empfang-felder .feld { flex: 1; font-size: 8pt; color: #6B7480; }
+  .empfang-felder .linie { border-top: 0.5px solid #232F3B; margin-bottom: 1.5mm; }
+
+  .terms { margin-top: 8mm; font-size: 9.5pt; line-height: 1.5; }
+  .closing { margin-top: 8mm; }
+
+
+</style>
+</head>
+<body>
+
+<div class="sender-line">Elektrotechnik Paulus GmbH &nbsp; Wartburgstr. 12 &nbsp; 50733 Köln</div>
+
+<div class="top-block">
+  <div class="recipient">
+    ANREDE<br>
+    VORNAME NACHNAME<br>
+    STRASSE HAUSNUMMER<br>
+    PLZ ORT
+  </div>
+  <table class="meta-table">
+    <tr><td class="label">Lieferschein-Nr.</td><td class="value">XXX-XXXXX</td></tr>
+    <tr><td class="label">Projektnummer</td><td class="value">XXX</td></tr>
+    <tr><td class="label">Datum</td><td class="value">TT.MM.JJJJ</td></tr>
+    <tr><td class="label">Ansprechpartner</td><td class="value">Irfan Ayar</td></tr>
+    <tr><td class="label">Telefon</td><td class="value">0221 298 940 83</td></tr>
+    <tr><td class="label">E-Mail</td><td class="value">ayar@elektrotechnik-paulus.de</td></tr>
+  </table>
+</div>
+
+<div class="bv-title">BV: BAUVORHABEN – kurze Beschreibung des Projekts.</div>
+<div class="angebot-nr">Lieferschein-Nr. XXX-XXXXX</div>
+
+<p>Sehr geehrter Herr NACHNAME,</p>
+<p>wir liefern Ihnen die nachfolgend aufgeführten Waren. Bitte prüfen Sie die Lieferung auf Vollständigkeit und Unversehrtheit und bestätigen Sie den Empfang unten.</p>
+
+<table class="positions">
+  <tr>
+    <th style="width:8%">Pos</th>
+    <th style="width:12%">Menge</th>
+    <th>Bezeichnung</th>
+  </tr>
+
+  <tr>
+    <td colspan="3" style="font-weight:bold; padding-top:8px;">
+      ABSCHNITTSUEBERSCHRIFT (z. B. Lieferort oder Bauabschnitt).
+    </td>
+  </tr>
+  <tr class="abschnittsende">
+    <td>001</td>
+    <td>1 Stk</td>
+    <td>
+      <div class="pos-name">ARTIKELBEZEICHNUNG</div>
+      <div class="pos-detail">Hersteller, Typ, Artikelnummer</div>
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="3" style="font-weight:bold; padding-top:8px;">
+      ABSCHNITTSUEBERSCHRIFT der naechsten Gruppe.
+    </td>
+  </tr>
+  <tr class="abschnittsende">
+    <td>002</td>
+    <td>25 m</td>
+    <td>
+      <div class="pos-name">ARTIKELBEZEICHNUNG</div>
+      <div class="pos-detail">Hersteller, Typ, Artikelnummer</div>
+    </td>
+  </tr>
+</table>
+
+<!-- Ein Lieferschein enthaelt KEINE Preise und KEINEN Summenblock. -->
+
+<div class="empfang">
+  <div class="empfang-titel">Empfang bestätigt</div>
+  Ware vollständig und unbeschädigt erhalten.
+  <div class="empfang-felder">
+    <div class="feld"><div class="linie"></div>Ort, Datum</div>
+    <div class="feld"><div class="linie"></div>Name in Druckbuchstaben</div>
+    <div class="feld"><div class="linie"></div>Unterschrift</div>
+  </div>
+</div>
+
+<div class="terms">
+  Die Ware bleibt bis zur vollständigen Bezahlung unser Eigentum.<br><br>
+  Die Abrechnung erfolgt gesondert mit der Rechnung.
+</div>
+
+<div class="closing">
+  Mit freundlichen Grüßen<br><br>
+  Irfan Ayar
+</div>
+
+</body>
+</html>
