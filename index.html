@@ -292,12 +292,12 @@
   .services-grid{padding:0 clamp(20px,5vw,72px);display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,calc(var(--sh) * 3.0),48px);}
   .service-card{background:var(--grey-0);border:1px solid var(--grey-300);display:flex;flex-direction:column;transition:transform .3s ease, box-shadow .3s ease, background .25s ease;}
   .service-card:hover{background:var(--grey-100);transform:translateY(-3px);box-shadow:0 10px 24px rgba(18,24,30,.09);}
-  /* Beim Ueberfahren waechst eine Karte auf die Flaeche von sechs Karten
-     (Faktor Wurzel 6 in beide Richtungen). Der Ankerpunkt kommt per Skript
-     aus der Position im Raster, damit die vergroesserte Karte innerhalb des
-     Abschnitts bleibt und nicht am Rand abgeschnitten wird. */
+  /* Beim Ueberfahren waechst eine Karte um rund 80 Prozent. Der Ankerpunkt
+     kommt per Skript aus der Position im Raster, damit die vergroesserte
+     Karte innerhalb des Abschnitts bleibt und nicht am Rand abgeschnitten
+     wird. */
   .service-card.ep-gross{
-    transform:scale(var(--ep-scale, 2.449));
+    transform:scale(var(--ep-scale, 1.8));
     transform-origin:var(--ep-origin, 50% 50%);
     transition:transform .45s cubic-bezier(.22,.61,.36,1), box-shadow .45s ease, background .25s ease;
     box-shadow:0 30px 80px rgba(18,24,30,.42);
@@ -307,6 +307,30 @@
      vergroessert und wirkt unscharf. */
   .service-card.ep-gross .service-img img{transform:none;}
   .services-grid:has(.ep-gross) .service-card:not(.ep-gross){opacity:.45;}
+  /* Die Punkte stehen im weissen Feld unter der Beschreibung und werden
+     erst mit der Vergroesserung sichtbar. Ihre Hoehe bleibt dabei auf 0:
+     so waechst die Karte im Raster nicht und nichts darunter verrutscht --
+     der Text erscheint in der Flaeche, die durch das Vergroessern frei
+     wird, und blendet sich weich ein. */
+  .service-detail{
+    height:0;overflow:hidden;visibility:hidden;opacity:0;
+    display:flex;flex-direction:column;
+    transition:opacity .32s ease .14s, transform .32s cubic-bezier(.22,.61,.36,1) .14s;
+    transform:translateY(6px);
+    /* Der Flex-Abstand des Feldes wuerde die Karte sonst um eine Luecke
+       hoeher machen, obwohl die Liste selbst keine Hoehe hat. */
+    margin-top:calc(-1 * clamp(5px,calc(var(--sh) * 0.9),12px));
+  }
+  .service-detail li{color:var(--grey-600);}
+  .service-detail li::before{content:"– ";color:var(--yellow-text);}
+  .service-card.ep-gross .service-detail{
+    height:auto;overflow:visible;visibility:visible;opacity:1;transform:none;
+    font-size:calc(clamp(13.5px,calc(var(--sh) * 1.85),17.5px) / var(--ep-scale));
+    line-height:1.75;
+    gap:calc(2px / var(--ep-scale));
+    margin-top:0;
+    padding-top:calc(6px / var(--ep-scale));
+  }
   /* Die Vergroesserung zieht die Schrift mit auf -- der Text wuerde riesig
      wirken. Deshalb werden Schriftgroessen, Abstaende und Linien in der
      grossen Karte durch denselben Faktor geteilt: sie erscheinen so gross
@@ -324,25 +348,12 @@
     border-bottom-width:calc(2px / var(--ep-scale));
     padding-bottom:calc(1px / var(--ep-scale));
   }
-  .service-card.ep-gross .service-overlay{
-    padding:calc(20px / var(--ep-scale)) calc(24px / var(--ep-scale));
-    transform:none;
-  }
-  .service-card.ep-gross .service-overlay li{
-    font-size:calc(14px / var(--ep-scale));
-    line-height:1.65;
-  }
-  /* Die ausfuehrlichen Punkte stehen nur in der vergroesserten Karte. */
-  .service-overlay .mehr{display:none;}
-  .service-card.ep-gross .service-overlay .mehr{display:list-item;}
+
   .service-img{position:relative;height:clamp(104px,calc(var(--sh) * 20.5),400px);overflow:hidden;}
   .service-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.25,.8,.25,1);}
   .service-card:hover .service-img img{transform:scale(1.08);}
   .service-shade{position:absolute;inset:0;background:linear-gradient(180deg, rgba(18,24,30,0) 40%, rgba(18,24,30,.55) 100%);opacity:0;transition:opacity .4s ease;}
   .service-card:hover .service-shade{opacity:1;}
-  .service-overlay{position:absolute;left:0;right:0;bottom:0;padding:20px 24px;opacity:0;transform:translateY(10px);transition:opacity .35s ease, transform .35s cubic-bezier(.22,.61,.36,1);background:linear-gradient(180deg, rgba(18,24,30,0) 0%, rgba(18,24,30,.86) 45%);}
-  .service-card:hover .service-overlay{opacity:1;transform:none;}
-  .service-overlay li{font-size:14px;color:#fff;line-height:1.6;}
   .service-body{padding:clamp(9px,calc(var(--sh) * 1.4),34px) clamp(18px,2vw,34px) clamp(10px,calc(var(--sh) * 1.5),38px);display:flex;flex-direction:column;gap:clamp(5px,calc(var(--sh) * 0.9),12px);flex:1;}
   .service-body h3{font-weight:700;font-size:clamp(17px,calc(var(--sh) * 2.75),29px);}
   .service-body p{color:var(--grey-600);font-size:clamp(13.5px,calc(var(--sh) * 1.85),17.5px);line-height:1.7;}
@@ -711,18 +722,18 @@
       <div class="service-img">
         <img src="leistung-elektroinstallation.jpg" alt="Elektroinstallation – Schaltschrank mit Verdrahtung" loading="lazy">
         <div class="service-shade"></div>
-        <ul class="service-overlay">
-          <li>Neubau &amp; Sanierung</li>
-          <li>Zählerschrank erneuern</li>
-          <li>Messprotokoll inklusive</li>
-          <li class="mehr">Fehlerstrom- und Überspannungsschutz</li>
-          <li class="mehr">Steckdosen, Schalter und Beleuchtungsanschlüsse</li>
-          <li class="mehr">Vorbereitung für Wallbox, PV und Smart Home</li>
-        </ul>
       </div>
       <div class="service-body">
         <h3>Elektroinstallation</h3>
         <p>Von der Basisinstallation bis zur kompletten Elektrifizierung, nach aktuellen Normen.</p>
+        <ul class="service-detail">
+            <li>Neubau &amp; Sanierung</li>
+            <li>Zählerschrank erneuern</li>
+            <li>Messprotokoll inklusive</li>
+            <li>Fehlerstrom- und Überspannungsschutz</li>
+            <li>Steckdosen, Schalter und Beleuchtungsanschlüsse</li>
+            <li>Vorbereitung für Wallbox, PV und Smart Home</li>
+        </ul>
         <a class="service-more" href="leistung-elektroinstallation.html">Mehr erfahren →</a>
       </div>
     </div>
@@ -731,18 +742,18 @@
       <div class="service-img">
         <img src="leistung-wallbox.jpg" alt="Wallbox und Ladetechnik für Elektroautos" loading="lazy">
         <div class="service-shade"></div>
-        <ul class="service-overlay">
-          <li>11 und 22 kW</li>
-          <li>Anmeldung beim Netzbetreiber</li>
-          <li>Lastmanagement für mehrere Plätze</li>
-          <li class="mehr">Eigener Stromkreis mit passendem Fehlerstromschutz</li>
-          <li class="mehr">Messprotokoll nach DIN VDE 0100-600</li>
-          <li class="mehr">Kopplung mit bestehender PV-Anlage auf Wunsch</li>
-        </ul>
       </div>
       <div class="service-body">
         <h3>Wallbox &amp; Ladetechnik</h3>
         <p>Sichere Ladelösungen für E-Fahrzeuge, inklusive Anmeldung beim Netzbetreiber.</p>
+        <ul class="service-detail">
+            <li>11 und 22 kW</li>
+            <li>Anmeldung beim Netzbetreiber</li>
+            <li>Lastmanagement für mehrere Plätze</li>
+            <li>Eigener Stromkreis mit passendem Fehlerstromschutz</li>
+            <li>Messprotokoll nach DIN VDE 0100-600</li>
+            <li>Kopplung mit bestehender PV-Anlage auf Wunsch</li>
+        </ul>
         <a class="service-more" href="leistung-wallbox.html">Mehr erfahren →</a>
       </div>
     </div>
@@ -751,18 +762,18 @@
       <div class="service-img">
         <img src="leistung-solar.jpg" alt="Photovoltaik-Anlage auf Flachdach" loading="lazy">
         <div class="service-shade"></div>
-        <ul class="service-overlay">
-          <li>Auslegung nach Verbrauch</li>
-          <li>Speicher, wenn er sich rechnet</li>
-          <li>Anmeldung übernehmen wir</li>
-          <li class="mehr">Module, Unterkonstruktion und Wechselrichter</li>
-          <li class="mehr">Zählerschrank auf aktuellen Stand, mit Überspannungsschutz</li>
-          <li class="mehr">Eintrag im Marktstammdatenregister</li>
-        </ul>
       </div>
       <div class="service-body">
         <h3>Solaranlagen</h3>
         <p>Photovoltaik zur Stromerzeugung – Planung, Installation und Inbetriebnahme.</p>
+        <ul class="service-detail">
+            <li>Auslegung nach Verbrauch</li>
+            <li>Speicher, wenn er sich rechnet</li>
+            <li>Anmeldung übernehmen wir</li>
+            <li>Module, Unterkonstruktion und Wechselrichter</li>
+            <li>Zählerschrank auf aktuellen Stand, mit Überspannungsschutz</li>
+            <li>Eintrag im Marktstammdatenregister</li>
+        </ul>
         <a class="service-more" href="leistung-photovoltaik.html">Mehr erfahren →</a>
       </div>
     </div>
@@ -771,18 +782,18 @@
       <div class="service-img">
         <img src="leistung-waermepumpe.jpg" alt="Wärmepumpe an einer Hauswand" loading="lazy">
         <div class="service-shade"></div>
-        <ul class="service-overlay">
-          <li>Zuleitung und Absicherung</li>
-          <li>Anmeldung beim Netzbetreiber</li>
-          <li>Steuerung und Zählerplatz</li>
-          <li class="mehr">Passender Fehlerstrom- und Leitungsschutz</li>
-          <li class="mehr">Steuerleitung für die Vorgaben nach § 14a EnWG</li>
-          <li class="mehr">Messprotokoll nach DIN VDE 0100-600</li>
-        </ul>
       </div>
       <div class="service-body">
         <h3>Wärmepumpe anschließen</h3>
         <p>Der elektrische Teil: Zuleitung, Absicherung, Zählerplatz und Anmeldung.</p>
+        <ul class="service-detail">
+            <li>Zuleitung und Absicherung</li>
+            <li>Anmeldung beim Netzbetreiber</li>
+            <li>Steuerung und Zählerplatz</li>
+            <li>Passender Fehlerstrom- und Leitungsschutz</li>
+            <li>Steuerleitung für die Vorgaben nach § 14a EnWG</li>
+            <li>Messprotokoll nach DIN VDE 0100-600</li>
+        </ul>
         <a class="service-more" href="leistung-waermepumpe.html">Mehr erfahren →</a>
       </div>
     </div>
@@ -791,18 +802,18 @@
       <div class="service-img">
         <img src="leistung-smarthome.jpg" alt="Smart Home Steuerung im Wohnzimmer" loading="lazy">
         <div class="service-shade"></div>
-        <ul class="service-overlay">
-          <li>KNX und funkbasierte Systeme</li>
-          <li>Licht, Rollläden, Heizung</li>
-          <li>Nachrüstbar im Bestand</li>
-          <li class="mehr">Heizungssteuerung raumweise</li>
-          <li class="mehr">Einbindung vorhandener Geräte, wo technisch möglich</li>
-          <li class="mehr">Einweisung in App und Bedienung</li>
-        </ul>
       </div>
       <div class="service-body">
         <h3>Smart Home</h3>
         <p>Licht, Rollläden und Heizung zentral steuern – mit KNX oder funkbasiert.</p>
+        <ul class="service-detail">
+            <li>KNX und funkbasierte Systeme</li>
+            <li>Licht, Rollläden, Heizung</li>
+            <li>Nachrüstbar im Bestand</li>
+            <li>Heizungssteuerung raumweise</li>
+            <li>Einbindung vorhandener Geräte, wo technisch möglich</li>
+            <li>Einweisung in App und Bedienung</li>
+        </ul>
         <a class="service-more" href="leistung-smarthome.html">Mehr erfahren →</a>
       </div>
     </div>
@@ -811,18 +822,18 @@
       <div class="service-img">
         <img src="leistung-tuersprechanlage.jpg" alt="Video-Türsprechanlage an Hauseingang" loading="lazy">
         <div class="service-shade"></div>
-        <ul class="service-overlay">
-          <li>Video-Türklingel mit App</li>
-          <li>Mehrfamilienhaus-Anlagen</li>
-          <li>Austausch bestehender Systeme</li>
-          <li class="mehr">Innenstation oder App-Anbindung</li>
-          <li class="mehr">Elektrischer Türöffner auf Wunsch</li>
-          <li class="mehr">Integration in ein Smart-Home-System</li>
-        </ul>
       </div>
       <div class="service-body">
         <h3>Video &amp; Türsprechanlage</h3>
         <p>Video-Türklingeln für Ein- und Mehrfamilienhäuser, auf Wunsch mit App.</p>
+        <ul class="service-detail">
+            <li>Video-Türklingel mit App</li>
+            <li>Mehrfamilienhaus-Anlagen</li>
+            <li>Austausch bestehender Systeme</li>
+            <li>Innenstation oder App-Anbindung</li>
+            <li>Elektrischer Türöffner auf Wunsch</li>
+            <li>Integration in ein Smart-Home-System</li>
+        </ul>
         <a class="service-more" href="leistung-tuersprechanlage.html">Mehr erfahren →</a>
       </div>
     </div>
@@ -831,18 +842,18 @@
       <div class="service-img">
         <img src="leistung-netzwerk.jpg" alt="Netzwerktechnik – Ethernet-Verkabelung im Schaltschrank" loading="lazy">
         <div class="service-shade"></div>
-        <ul class="service-overlay">
-          <li>Strukturierte Verkabelung</li>
-          <li>Serverschrank und Patchfeld</li>
-          <li>WLAN-Ausleuchtung</li>
-          <li class="mehr">Serverschrank und Patchfeld fachgerecht montiert</li>
-          <li class="mehr">Beschriftung und Dokumentation der Verkabelung</li>
-          <li class="mehr">Messprotokoll je Leitung</li>
-        </ul>
       </div>
       <div class="service-body">
         <h3>Netzwerktechnik</h3>
         <p>Strukturierte Verkabelung, Serverschrank und WLAN – für Büro und Zuhause.</p>
+        <ul class="service-detail">
+            <li>Strukturierte Verkabelung</li>
+            <li>Serverschrank und Patchfeld</li>
+            <li>WLAN-Ausleuchtung</li>
+            <li>Serverschrank und Patchfeld fachgerecht montiert</li>
+            <li>Beschriftung und Dokumentation der Verkabelung</li>
+            <li>Messprotokoll je Leitung</li>
+        </ul>
         <a class="service-more" href="leistung-netzwerk.html">Mehr erfahren →</a>
       </div>
     </div>
@@ -851,18 +862,18 @@
       <div class="service-img">
         <img src="leistung-vde.jpg" alt="VDE-Messung mit Zangenmessgerät und Isolationsprüfer" loading="lazy">
         <div class="service-shade"></div>
-        <ul class="service-overlay">
-          <li>Ortsfeste Anlagen</li>
-          <li>Geräteprüfung nach DGUV Vorschrift 3</li>
-          <li>Messprotokoll für Ihre Unterlagen</li>
-          <li class="mehr">Isolationswiderstand und Schleifenimpedanz</li>
-          <li class="mehr">Auslösestrom und Auslösezeit der RCDs</li>
-          <li class="mehr">Geräteprüfung mit Prüfplakette auf Wunsch</li>
-        </ul>
       </div>
       <div class="service-body">
         <h3>E-Check</h3>
         <p>Prüfung ortsfester Anlagen und Geräte nach VDE, mit vollständigem Messprotokoll.</p>
+        <ul class="service-detail">
+            <li>Ortsfeste Anlagen</li>
+            <li>Geräteprüfung nach DGUV Vorschrift 3</li>
+            <li>Messprotokoll für Ihre Unterlagen</li>
+            <li>Isolationswiderstand und Schleifenimpedanz</li>
+            <li>Auslösestrom und Auslösezeit der RCDs</li>
+            <li>Geräteprüfung mit Prüfplakette auf Wunsch</li>
+        </ul>
         <a class="service-more" href="leistung-vde.html">Mehr erfahren →</a>
       </div>
     </div>
@@ -871,18 +882,18 @@
       <div class="service-img">
         <img src="hero-plan.jpg" alt="Elektroplanung – technische Zeichnung" loading="lazy">
         <div class="service-shade"></div>
-        <ul class="service-overlay">
-          <li>Beratung vor Ort</li>
-          <li>Konzept &amp; Kostenrahmen</li>
-          <li>Hinweis auf Förderungen</li>
-          <li class="mehr">Bestandsaufnahme vor Ort</li>
-          <li class="mehr">Abstimmung mit den anderen Gewerken</li>
-          <li class="mehr">Schriftliches Angebot mit klaren Positionen</li>
-        </ul>
       </div>
       <div class="service-body">
         <h3>Planung &amp; Beratung</h3>
         <p>Von der ersten Idee bis zum umsetzbaren Konzept – wir beraten Sie zu Machbarkeit, Aufwand und sinnvollen Kombinationen.</p>
+        <ul class="service-detail">
+            <li>Beratung vor Ort</li>
+            <li>Konzept &amp; Kostenrahmen</li>
+            <li>Hinweis auf Förderungen</li>
+            <li>Bestandsaufnahme vor Ort</li>
+            <li>Abstimmung mit den anderen Gewerken</li>
+            <li>Schriftliches Angebot mit klaren Positionen</li>
+        </ul>
         <a class="service-more" href="#kontakt">Mehr erfahren →</a>
       </div>
     </div>
@@ -1510,8 +1521,8 @@
     var cards = Array.prototype.slice.call(grid.querySelectorAll('.service-card'));
     if (!cards.length) return;
 
-    // Flaeche von sechs Karten -> Faktor in jede Richtung ist Wurzel aus 6.
-    var SCALE = Math.sqrt(6);
+    // Die Karte waechst auf rund 80 Prozent ueber ihre Originalgroesse.
+    var SCALE = 1.8;
 
     function feinAus() {
       // Kein Vergroessern ohne echten Mauszeiger, bei einspaltigem Raster
