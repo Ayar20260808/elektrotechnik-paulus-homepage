@@ -304,8 +304,13 @@
     z-index:6;
   }
   /* Der eigene Bildzoom entfaellt hier, sonst wird das Foto doppelt
-     vergroessert und wirkt unscharf. */
-  .service-card.ep-gross .service-img img{transform:none;}
+     vergroessert und wirkt unscharf. In der vergroesserten Karte richtet
+     sich die Bildhoehe nach dem Seitenverhaeltnis des Fotos -- es wird
+     also vollstaendig gezeigt statt oben und unten beschnitten. Die
+     Gesamthoehe der Karte aendert sich dabei nicht: was das Bild an Hoehe
+     abgibt, bekommt das weisse Feld darunter. */
+  .service-card.ep-gross .service-img{height:auto;}
+  .service-card.ep-gross .service-img img{transform:none;height:auto;object-fit:contain;}
   .services-grid:has(.ep-gross) .service-card:not(.ep-gross){opacity:.45;}
   /* Die Punkte stehen im weissen Feld unter der Beschreibung und werden
      erst mit der Vergroesserung sichtbar. Ihre Hoehe bleibt dabei auf 0:
