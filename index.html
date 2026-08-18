@@ -1390,49 +1390,75 @@
 </script>
 
 <script>
-  /* Leistungen-Hintergrundsymbol: EIN einzelnes Symbol wandert nacheinander
-     durch bis zu 6 Positionen in der freien Flaeche (aus der echten
-     Kartengeometrie berechnet, reagiert korrekt auf 4- und 3-spaltiges
-     Grid). Es blitzt an einer Stelle auf, verblasst wieder, dann erst
-     erscheint das naechste -- nie zwei Symbole gleichzeitig sichtbar. */
+  /* Leistungen-Hintergrundsymbole: immer 15 gleichzeitig sichtbare,
+     gleichmaessig verteilte Symbole in den freien Flaechen (nie hinter den
+     Leistungskarten). Alle 15 sind verschieden, und beim Durchwechseln wird
+     kein Symbol wiederholt, bis der komplette Pool einmal gezeigt wurde
+     (Ziehen ohne Zuruecklegen). Positionen per Best-Candidate-Sampling:
+     jeder neue Punkt maximiert den Abstand zu den schon gesetzten -- das
+     ergibt die gleichmaessige Verteilung. */
   (function () {
     var bg = document.querySelector('.leistungen-bg');
     if (!bg) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var reduceMotionHere = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    var ICONS = [{"src":"icon-deckenleuchte.png","w":160,"h":128},{"src":"icon-ausschalter.png","w":120,"h":128},{"src":"icon-herdanschlussdose.png","w":164,"h":128},{"src":"icon-taster.png","w":120,"h":128},{"src":"icon-einbauspot.png","w":160,"h":128},{"src":"icon-erdung.png","w":160,"h":128},{"src":"icon-rollladenmotor.png","w":164,"h":128},{"src":"elektrosymbole/abzweigdose.png","w":18,"h":15},{"src":"elektrosymbole/akustischer-signalgeber.png","w":22,"h":18},{"src":"elektrosymbole/alarm.png","w":24,"h":18},{"src":"elektrosymbole/analogeingang-1fach.png","w":18,"h":23},{"src":"elektrosymbole/analogeingang-2fach.png","w":18,"h":23},{"src":"elektrosymbole/analogeingang-3fach.png","w":18,"h":23},{"src":"elektrosymbole/analogeingang-4fach.png","w":18,"h":23},{"src":"elektrosymbole/anschluss-allgemein.png","w":24,"h":24},{"src":"elektrosymbole/anschluss-allgemein-16a.png","w":17,"h":22},{"src":"elektrosymbole/anschlussplatte.png","w":16,"h":10},{"src":"elektrosymbole/antenne.png","w":23,"h":22},{"src":"elektrosymbole/aufbauleuchte-wand.png","w":24,"h":14},{"src":"elektrosymbole/ausschalter.png","w":13,"h":17},{"src":"elektrosymbole/ausschalter-aufputz.png","w":13,"h":17},{"src":"elektrosymbole/ausschalter-zweifach.png","w":13,"h":17},{"src":"elektrosymbole/bewegungsmelder.png","w":18,"h":23},{"src":"elektrosymbole/bewegungsmelder-decke.png","w":24,"h":24},{"src":"elektrosymbole/bewegungsmelder-eckig.png","w":24,"h":24},{"src":"elektrosymbole/binaereingang-gleichspannung-1fach.png","w":18,"h":23},{"src":"elektrosymbole/binaereingang-wechselspannung1fach.png","w":18,"h":23},{"src":"elektrosymbole/bodentank-eckig.png","w":22,"h":22},{"src":"elektrosymbole/bodentank-rund.png","w":45,"h":33},{"src":"elektrosymbole/bus-aktor.png","w":24,"h":20},{"src":"elektrosymbole/bus-bewegungsmelder-wand.png","w":22,"h":20},{"src":"elektrosymbole/bus-funkmodul.png","w":22,"h":20},{"src":"elektrosymbole/bus-kontrolltaster-1-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-kontrolltaster-2-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-kontrolltaster-3-fach.png","w":24,"h":24},{"src":"elektrosymbole/bus-kontrolltaster-4-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-kontrolltaster-6-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-kontrolltaster-8-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-raumcontroller-2-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-raumcontroller-6-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-raumcontroller-8-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-sensor.png","w":24,"h":20},{"src":"elektrosymbole/bus-taster-1-fach.png","w":23,"h":20},{"src":"elektrosymbole/bus-taster-2-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-taster-3-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-taster-4-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-taster-6-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-taster-8-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-touch-surface.png","w":24,"h":24},{"src":"elektrosymbole/dachdurchfuehrung.png","w":22,"h":14},{"src":"elektrosymbole/dachstaender-pv.png","w":22,"h":14},{"src":"elektrosymbole/dachventilator.png","w":22,"h":22},{"src":"elektrosymbole/deckenauslass-fuer-leuchte.png","w":25,"h":26},{"src":"elektrosymbole/deckenleuchte.png","w":24,"h":24},{"src":"elektrosymbole/dehnungsstueck.png","w":22,"h":12},{"src":"elektrosymbole/dimmer-taster.png","w":14,"h":19},{"src":"elektrosymbole/dimmerschalter.png","w":15,"h":17},{"src":"elektrosymbole/dimmtaster-funk.png","w":14,"h":20},{"src":"elektrosymbole/einbau-spot.png","w":22,"h":24},{"src":"elektrosymbole/erdkabel.png","w":24,"h":24},{"src":"elektrosymbole/erdung.png","w":16,"h":17},{"src":"elektrosymbole/erdung-allgemein.png","w":40,"h":25},{"src":"elektrosymbole/fangeinrichtung.png","w":14,"h":15},{"src":"elektrosymbole/fangspitze.png","w":19,"h":19},{"src":"elektrosymbole/fensterkontakt-vds.png","w":14,"h":14},{"src":"elektrosymbole/fingerabdruckssensor.png","w":22,"h":22},{"src":"elektrosymbole/funktionserdung.png","w":18,"h":20},{"src":"elektrosymbole/gateway-opus.png","w":24,"h":24},{"src":"elektrosymbole/gateway-tado.png","w":24,"h":18},{"src":"elektrosymbole/gegensprechanlage.png","w":24,"h":18},{"src":"elektrosymbole/hausanschluss.png","w":25,"h":26},{"src":"elektrosymbole/heizkreisverteiler.png","w":25,"h":14},{"src":"elektrosymbole/helligkeitssensor.png","w":18,"h":23},{"src":"elektrosymbole/herd-anschlussdose.png","w":24,"h":24},{"src":"elektrosymbole/jalousietaster-funk.png","w":17,"h":20},{"src":"elektrosymbole/jalousietastsensor.png","w":18,"h":23},{"src":"elektrosymbole/kamera.png","w":24,"h":18},{"src":"elektrosymbole/klingelanlage.png","w":24,"h":20},{"src":"elektrosymbole/klingeltaster.png","w":14,"h":14},{"src":"elektrosymbole/kontroll-ausschalter.png","w":13,"h":17},{"src":"elektrosymbole/kontroll-serienschalter.png","w":20,"h":17},{"src":"elektrosymbole/kontroll-taster.png","w":14,"h":14},{"src":"elektrosymbole/kontroll-wechselschalter.png","w":20,"h":24},{"src":"elektrosymbole/kontrollausschalter-zweipolig.png","w":13,"h":16},{"src":"elektrosymbole/kontrollserienschalter-aufputz.png","w":20,"h":17},{"src":"elektrosymbole/kontrolltaster-aufputz.png","w":14,"h":14},{"src":"elektrosymbole/kreuzschalter-aufputz.png","w":20,"h":24},{"src":"elektrosymbole/laeutwerk.png","w":24,"h":23},{"src":"elektrosymbole/led-panel-eckig.png","w":24,"h":24},{"src":"elektrosymbole/led-stripe.png","w":24,"h":10},{"src":"elektrosymbole/led-stripe-id47.png","w":24,"h":14},{"src":"elektrosymbole/leerdose.png","w":22,"h":24},{"src":"elektrosymbole/leitung-nach-oben.png","w":22,"h":15},{"src":"elektrosymbole/leitung-nach-unten.png","w":22,"h":15},{"src":"elektrosymbole/leitung-nach-unten-und-oben.png","w":22,"h":23},{"src":"elektrosymbole/leuchtstofflampe-zweifach.png","w":24,"h":14},{"src":"elektrosymbole/lichtkuppel.png","w":22,"h":22},{"src":"elektrosymbole/luefter.png","w":24,"h":24},{"src":"elektrosymbole/markisenanschluss.png","w":23,"h":24},{"src":"elektrosymbole/medienverteiler.png","w":25,"h":14},{"src":"elektrosymbole/multimedia-rohr-oben.png","w":20,"h":20},{"src":"elektrosymbole/multimedia-rohr-unten.png","w":20,"h":20},{"src":"elektrosymbole/potentialausgleichsschiene.png","w":22,"h":12},{"src":"elektrosymbole/rauchmelder.png","w":24,"h":24},{"src":"elektrosymbole/raumthermostat-analog.png","w":24,"h":18},{"src":"elektrosymbole/raumthermostat-digital.png","w":24,"h":18},{"src":"elektrosymbole/rettungszeichenleuchte-links.png","w":22,"h":14},{"src":"elektrosymbole/rettungszeichenleuchte-oben.png","w":22,"h":18},{"src":"elektrosymbole/rettungszeichenleuchte-rechts.png","w":22,"h":14},{"src":"elektrosymbole/rettungszeichenleuchte-unten.png","w":22,"h":18},{"src":"elektrosymbole/rohr-masten-metallen.png","w":18,"h":18},{"src":"elektrosymbole/rohr-masten-nicht-metallen.png","w":18,"h":18},{"src":"elektrosymbole/rollladen-taster.png","w":15,"h":20},{"src":"elektrosymbole/rollladenmotor.png","w":24,"h":24},{"src":"elektrosymbole/rollladenschalter.png","w":20,"h":18},{"src":"elektrosymbole/schaltschloss.png","w":18,"h":23},{"src":"elektrosymbole/schluesselschalter.png","w":16,"h":17},{"src":"elektrosymbole/schornstein.png","w":22,"h":18},{"src":"elektrosymbole/schuko-steckdose.png","w":24,"h":24},{"src":"elektrosymbole/schuko-steckdose-abschliessbar.png","w":24,"h":24},{"src":"elektrosymbole/schuko-steckdose-abschliessbar-aufputz.png","w":24,"h":24},{"src":"elektrosymbole/schuko-steckdose-aufputz.png","w":24,"h":24},{"src":"elektrosymbole/schuko-steckdose-mit-deckel.png","w":24,"h":22},{"src":"elektrosymbole/schuko-steckdose-mit-deckel-aufputz.png","w":24,"h":22},{"src":"elektrosymbole/schuko-steckdose-mit-extra-beruehrungsschutz.png","w":24,"h":22},{"src":"elektrosymbole/schuko-steckdose-mit-extra-beruehrungsschutz-aufputz.png","w":24,"h":22},{"src":"elektrosymbole/schuko-steckdose-mit-orientierungslicht.png","w":26,"h":24},{"src":"elektrosymbole/schuko-steckdose-mit-usb.png","w":24,"h":24},{"src":"elektrosymbole/schuko-steckdose-schaltbar.png","w":24,"h":24},{"src":"elektrosymbole/schuko-steckdose-schaltbar-aufputz.png","w":24,"h":24},{"src":"elektrosymbole/schutzerdung.png","w":20,"h":22},{"src":"elektrosymbole/sensor-helligkeit-pir.png","w":18,"h":23},{"src":"elektrosymbole/serienschalter.png","w":20,"h":17},{"src":"elektrosymbole/serienschalter-aufputz.png","w":20,"h":17},{"src":"elektrosymbole/serientaster.png","w":14,"h":14},{"src":"elektrosymbole/serientaster-funk.png","w":14,"h":20},{"src":"elektrosymbole/serientaster-funk-frei-positionierbar.png","w":14,"h":20},{"src":"elektrosymbole/sicherheitsleuchte.png","w":22,"h":18},{"src":"elektrosymbole/sicherheitsleuchte-bereitschaftsschaltung.png","w":22,"h":18},{"src":"elektrosymbole/sicherheitsleuchte-dauerschaltung.png","w":22,"h":18},{"src":"elektrosymbole/sicherheitsleuchte-geschaltetes-dauerlicht.png","w":22,"h":18},{"src":"elektrosymbole/staberder.png","w":16,"h":18},{"src":"elektrosymbole/steckdose-cee.png","w":24,"h":24},{"src":"elektrosymbole/stellantrieb.png","w":20,"h":22},{"src":"elektrosymbole/stromspeicher.png","w":14,"h":22},{"src":"elektrosymbole/tablet-halterung.png","w":24,"h":24},{"src":"elektrosymbole/taster.png","w":14,"h":14},{"src":"elektrosymbole/taster-aufputz.png","w":14,"h":14},{"src":"elektrosymbole/taster-funk.png","w":14,"h":20},{"src":"elektrosymbole/taster-funk-16a.png","w":14,"h":20},{"src":"elektrosymbole/taster-funk-frei-positionierbar.png","w":14,"h":20},{"src":"elektrosymbole/tastsensor-1fach.png","w":18,"h":23},{"src":"elektrosymbole/tastsensor-2fach.png","w":18,"h":23},{"src":"elektrosymbole/tastsensor-3fach.png","w":18,"h":23},{"src":"elektrosymbole/tastsensor-4fach.png","w":18,"h":23},{"src":"elektrosymbole/tastsensor-5fach.png","w":18,"h":23},{"src":"elektrosymbole/tastsensor-6fach.png","w":18,"h":23},{"src":"elektrosymbole/tastsensor-8fach.png","w":18,"h":23},{"src":"elektrosymbole/temperatursensor.png","w":18,"h":23},{"src":"elektrosymbole/thermostat.png","w":48,"h":26},{"src":"elektrosymbole/torantrieb.png","w":24,"h":24},{"src":"elektrosymbole/trafo.png","w":24,"h":24},{"src":"elektrosymbole/trennstelle.png","w":10,"h":22},{"src":"elektrosymbole/tueroeffner.png","w":24,"h":20},{"src":"elektrosymbole/unterverteiler.png","w":25,"h":14},{"src":"elektrosymbole/verteilerkasten.png","w":25,"h":26},{"src":"elektrosymbole/videogegensprechanlage.png","w":24,"h":18},{"src":"elektrosymbole/wallbox.png","w":22,"h":23},{"src":"elektrosymbole/wandauslass-fuer-leuchte.png","w":20,"h":26},{"src":"elektrosymbole/wandleuchte.png","w":24,"h":14},{"src":"elektrosymbole/wechselschalter.png","w":30,"h":28},{"src":"elektrosymbole/wechselschalter-aufputz.png","w":20,"h":24},{"src":"elektrosymbole/wechselschalter-taster-kombination.png","w":19,"h":22},{"src":"elektrosymbole/windgeschwindigkeitssensor.png","w":18,"h":23},{"src":"elektrosymbole/zeitgeber.png","w":18,"h":23},{"src":"elektrosymbole/zeitschaltuhr-1fach.png","w":18,"h":23}];
+    var ICONS = [{"src":"elektrosymbole/abzweigdose.png","w":18,"h":15},{"src":"elektrosymbole/akustischer-signalgeber.png","w":22,"h":18},{"src":"elektrosymbole/alarm.png","w":24,"h":18},{"src":"elektrosymbole/analogeingang-1fach.png","w":18,"h":23},{"src":"elektrosymbole/analogeingang-2fach.png","w":18,"h":23},{"src":"elektrosymbole/analogeingang-3fach.png","w":18,"h":23},{"src":"elektrosymbole/analogeingang-4fach.png","w":18,"h":23},{"src":"elektrosymbole/anschluss-allgemein.png","w":24,"h":24},{"src":"elektrosymbole/anschluss-allgemein-16a.png","w":17,"h":22},{"src":"elektrosymbole/anschlussplatte.png","w":16,"h":10},{"src":"elektrosymbole/antenne.png","w":23,"h":22},{"src":"elektrosymbole/aufbauleuchte-wand.png","w":24,"h":14},{"src":"elektrosymbole/ausschalter.png","w":13,"h":17},{"src":"elektrosymbole/ausschalter-aufputz.png","w":13,"h":17},{"src":"elektrosymbole/ausschalter-zweifach.png","w":13,"h":17},{"src":"elektrosymbole/bewegungsmelder.png","w":18,"h":23},{"src":"elektrosymbole/bewegungsmelder-decke.png","w":24,"h":24},{"src":"elektrosymbole/bewegungsmelder-eckig.png","w":24,"h":24},{"src":"elektrosymbole/binaereingang-gleichspannung-1fach.png","w":18,"h":23},{"src":"elektrosymbole/binaereingang-wechselspannung1fach.png","w":18,"h":23},{"src":"elektrosymbole/bodentank-eckig.png","w":22,"h":22},{"src":"elektrosymbole/bodentank-rund.png","w":45,"h":33},{"src":"elektrosymbole/bus-aktor.png","w":24,"h":20},{"src":"elektrosymbole/bus-bewegungsmelder-wand.png","w":22,"h":20},{"src":"elektrosymbole/bus-funkmodul.png","w":22,"h":20},{"src":"elektrosymbole/bus-kontrolltaster-1-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-kontrolltaster-2-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-kontrolltaster-3-fach.png","w":24,"h":24},{"src":"elektrosymbole/bus-kontrolltaster-4-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-kontrolltaster-6-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-kontrolltaster-8-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-raumcontroller-2-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-raumcontroller-6-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-raumcontroller-8-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-sensor.png","w":24,"h":20},{"src":"elektrosymbole/bus-taster-1-fach.png","w":23,"h":20},{"src":"elektrosymbole/bus-taster-2-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-taster-3-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-taster-4-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-taster-6-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-taster-8-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-touch-surface.png","w":24,"h":24},{"src":"elektrosymbole/dachdurchfuehrung.png","w":22,"h":14},{"src":"elektrosymbole/dachstaender-pv.png","w":22,"h":14},{"src":"elektrosymbole/dachventilator.png","w":22,"h":22},{"src":"elektrosymbole/deckenauslass-fuer-leuchte.png","w":25,"h":26},{"src":"elektrosymbole/deckenleuchte.png","w":24,"h":24},{"src":"elektrosymbole/dehnungsstueck.png","w":22,"h":12},{"src":"elektrosymbole/dimmer-taster.png","w":14,"h":19},{"src":"elektrosymbole/dimmerschalter.png","w":15,"h":17},{"src":"elektrosymbole/dimmtaster-funk.png","w":14,"h":20},{"src":"elektrosymbole/einbau-spot.png","w":22,"h":24},{"src":"elektrosymbole/erdkabel.png","w":24,"h":24},{"src":"elektrosymbole/erdung.png","w":16,"h":17},{"src":"elektrosymbole/erdung-allgemein.png","w":40,"h":25},{"src":"elektrosymbole/fangeinrichtung.png","w":14,"h":15},{"src":"elektrosymbole/fangspitze.png","w":19,"h":19},{"src":"elektrosymbole/fensterkontakt-vds.png","w":14,"h":14},{"src":"elektrosymbole/fingerabdruckssensor.png","w":22,"h":22},{"src":"elektrosymbole/funktionserdung.png","w":18,"h":20},{"src":"elektrosymbole/gateway-opus.png","w":24,"h":24},{"src":"elektrosymbole/gateway-tado.png","w":24,"h":18},{"src":"elektrosymbole/gegensprechanlage.png","w":24,"h":18},{"src":"elektrosymbole/hausanschluss.png","w":25,"h":26},{"src":"elektrosymbole/heizkreisverteiler.png","w":25,"h":14},{"src":"elektrosymbole/helligkeitssensor.png","w":18,"h":23},{"src":"elektrosymbole/herd-anschlussdose.png","w":24,"h":24},{"src":"elektrosymbole/jalousietaster-funk.png","w":17,"h":20},{"src":"elektrosymbole/jalousietastsensor.png","w":18,"h":23},{"src":"elektrosymbole/kamera.png","w":24,"h":18},{"src":"elektrosymbole/klingelanlage.png","w":24,"h":20},{"src":"elektrosymbole/klingeltaster.png","w":14,"h":14},{"src":"elektrosymbole/kontroll-ausschalter.png","w":13,"h":17},{"src":"elektrosymbole/kontroll-serienschalter.png","w":20,"h":17},{"src":"elektrosymbole/kontroll-taster.png","w":14,"h":14},{"src":"elektrosymbole/kontroll-wechselschalter.png","w":20,"h":24},{"src":"elektrosymbole/kontrollausschalter-zweipolig.png","w":13,"h":16},{"src":"elektrosymbole/kontrollserienschalter-aufputz.png","w":20,"h":17},{"src":"elektrosymbole/kontrolltaster-aufputz.png","w":14,"h":14},{"src":"elektrosymbole/kreuzschalter-aufputz.png","w":20,"h":24},{"src":"elektrosymbole/laeutwerk.png","w":24,"h":23},{"src":"elektrosymbole/led-panel-eckig.png","w":24,"h":24},{"src":"elektrosymbole/led-stripe.png","w":24,"h":10},{"src":"elektrosymbole/led-stripe-id47.png","w":24,"h":14},{"src":"elektrosymbole/leerdose.png","w":22,"h":24},{"src":"elektrosymbole/leitung-nach-oben.png","w":22,"h":15},{"src":"elektrosymbole/leitung-nach-unten.png","w":22,"h":15},{"src":"elektrosymbole/leitung-nach-unten-und-oben.png","w":22,"h":23},{"src":"elektrosymbole/leuchtstofflampe-zweifach.png","w":24,"h":14},{"src":"elektrosymbole/lichtkuppel.png","w":22,"h":22},{"src":"elektrosymbole/luefter.png","w":24,"h":24},{"src":"elektrosymbole/markisenanschluss.png","w":23,"h":24},{"src":"elektrosymbole/medienverteiler.png","w":25,"h":14},{"src":"elektrosymbole/multimedia-rohr-oben.png","w":20,"h":20},{"src":"elektrosymbole/multimedia-rohr-unten.png","w":20,"h":20},{"src":"elektrosymbole/potentialausgleichsschiene.png","w":22,"h":12},{"src":"elektrosymbole/rauchmelder.png","w":24,"h":24},{"src":"elektrosymbole/raumthermostat-analog.png","w":24,"h":18},{"src":"elektrosymbole/raumthermostat-digital.png","w":24,"h":18},{"src":"elektrosymbole/rettungszeichenleuchte-links.png","w":22,"h":14},{"src":"elektrosymbole/rettungszeichenleuchte-oben.png","w":22,"h":18},{"src":"elektrosymbole/rettungszeichenleuchte-rechts.png","w":22,"h":14},{"src":"elektrosymbole/rettungszeichenleuchte-unten.png","w":22,"h":18},{"src":"elektrosymbole/rohr-masten-metallen.png","w":18,"h":18},{"src":"elektrosymbole/rohr-masten-nicht-metallen.png","w":18,"h":18},{"src":"elektrosymbole/rollladen-taster.png","w":15,"h":20},{"src":"elektrosymbole/rollladenmotor.png","w":24,"h":24},{"src":"elektrosymbole/rollladenschalter.png","w":20,"h":18},{"src":"elektrosymbole/schaltschloss.png","w":18,"h":23},{"src":"elektrosymbole/schluesselschalter.png","w":16,"h":17},{"src":"elektrosymbole/schornstein.png","w":22,"h":18},{"src":"elektrosymbole/schuko-steckdose.png","w":24,"h":24},{"src":"elektrosymbole/schuko-steckdose-abschliessbar.png","w":24,"h":24},{"src":"elektrosymbole/schuko-steckdose-abschliessbar-aufputz.png","w":24,"h":24},{"src":"elektrosymbole/schuko-steckdose-aufputz.png","w":24,"h":24},{"src":"elektrosymbole/schuko-steckdose-mit-deckel.png","w":24,"h":22},{"src":"elektrosymbole/schuko-steckdose-mit-deckel-aufputz.png","w":24,"h":22},{"src":"elektrosymbole/schuko-steckdose-mit-extra-beruehrungsschutz.png","w":24,"h":22},{"src":"elektrosymbole/schuko-steckdose-mit-extra-beruehrungsschutz-aufputz.png","w":24,"h":22},{"src":"elektrosymbole/schuko-steckdose-mit-orientierungslicht.png","w":26,"h":24},{"src":"elektrosymbole/schuko-steckdose-mit-usb.png","w":24,"h":24},{"src":"elektrosymbole/schuko-steckdose-schaltbar.png","w":24,"h":24},{"src":"elektrosymbole/schuko-steckdose-schaltbar-aufputz.png","w":24,"h":24},{"src":"elektrosymbole/schutzerdung.png","w":20,"h":22},{"src":"elektrosymbole/sensor-helligkeit-pir.png","w":18,"h":23},{"src":"elektrosymbole/serienschalter.png","w":20,"h":17},{"src":"elektrosymbole/serienschalter-aufputz.png","w":20,"h":17},{"src":"elektrosymbole/serientaster.png","w":14,"h":14},{"src":"elektrosymbole/serientaster-funk.png","w":14,"h":20},{"src":"elektrosymbole/serientaster-funk-frei-positionierbar.png","w":14,"h":20},{"src":"elektrosymbole/sicherheitsleuchte.png","w":22,"h":18},{"src":"elektrosymbole/sicherheitsleuchte-bereitschaftsschaltung.png","w":22,"h":18},{"src":"elektrosymbole/sicherheitsleuchte-dauerschaltung.png","w":22,"h":18},{"src":"elektrosymbole/sicherheitsleuchte-geschaltetes-dauerlicht.png","w":22,"h":18},{"src":"elektrosymbole/staberder.png","w":16,"h":18},{"src":"elektrosymbole/steckdose-cee.png","w":24,"h":24},{"src":"elektrosymbole/stellantrieb.png","w":20,"h":22},{"src":"elektrosymbole/stromspeicher.png","w":14,"h":22},{"src":"elektrosymbole/tablet-halterung.png","w":24,"h":24},{"src":"elektrosymbole/taster.png","w":14,"h":14},{"src":"elektrosymbole/taster-aufputz.png","w":14,"h":14},{"src":"elektrosymbole/taster-funk.png","w":14,"h":20},{"src":"elektrosymbole/taster-funk-16a.png","w":14,"h":20},{"src":"elektrosymbole/taster-funk-frei-positionierbar.png","w":14,"h":20},{"src":"elektrosymbole/tastsensor-1fach.png","w":18,"h":23},{"src":"elektrosymbole/tastsensor-2fach.png","w":18,"h":23},{"src":"elektrosymbole/tastsensor-3fach.png","w":18,"h":23},{"src":"elektrosymbole/tastsensor-4fach.png","w":18,"h":23},{"src":"elektrosymbole/tastsensor-5fach.png","w":18,"h":23},{"src":"elektrosymbole/tastsensor-6fach.png","w":18,"h":23},{"src":"elektrosymbole/tastsensor-8fach.png","w":18,"h":23},{"src":"elektrosymbole/temperatursensor.png","w":18,"h":23},{"src":"elektrosymbole/thermostat.png","w":48,"h":26},{"src":"elektrosymbole/torantrieb.png","w":24,"h":24},{"src":"elektrosymbole/trafo.png","w":24,"h":24},{"src":"elektrosymbole/trennstelle.png","w":10,"h":22},{"src":"elektrosymbole/tueroeffner.png","w":24,"h":20},{"src":"elektrosymbole/unterverteiler.png","w":25,"h":14},{"src":"elektrosymbole/verteilerkasten.png","w":25,"h":26},{"src":"elektrosymbole/videogegensprechanlage.png","w":24,"h":18},{"src":"elektrosymbole/wallbox.png","w":22,"h":23},{"src":"elektrosymbole/wandauslass-fuer-leuchte.png","w":20,"h":26},{"src":"elektrosymbole/wandleuchte.png","w":24,"h":14},{"src":"elektrosymbole/wechselschalter.png","w":30,"h":28},{"src":"elektrosymbole/wechselschalter-aufputz.png","w":20,"h":24},{"src":"elektrosymbole/wechselschalter-taster-kombination.png","w":19,"h":22},{"src":"elektrosymbole/windgeschwindigkeitssensor.png","w":18,"h":23},{"src":"elektrosymbole/zeitgeber.png","w":18,"h":23},{"src":"elektrosymbole/zeitschaltuhr-1fach.png","w":18,"h":23}];
 
-    var SYMBOL_W = 64;
-    var MIN_DIST = SYMBOL_W * 2;
+    // Jedes Symbol wird in eine einheitliche BOX x BOX Flaeche eingepasst
+    // (laengste Seite = BOX). Dadurch ist der Platzbedarf jeder Position
+    // identisch und jedes Icon passt an jede Position -- wichtig fuer den
+    // Durchlauf ohne Wiederholung. MIN_GAP haelt die Symbole auseinander.
+    var BOX = 48;
+    var TARGET_COUNT = 15;
     var CARD_PAD = 8;
-    var TARGET_POSITIONS = 6;
-    var MAX_ATTEMPTS = 8000;
-    var FADE_MS = 700;
-    var HOLD_MS = 1800;
-    var GAP_MS = 400;
+    var CANDIDATES_PER_POINT = 300;
+    var MIN_GAP = 80;
+    var FADE_MS = 600;
+    var SWAP_EVERY_MS = 2400;
 
-    function iconH(icon) { return SYMBOL_W * (icon.h / icon.w); }
-
-    function randomIcon(exclude, maxH) {
-      var candidates = ICONS.filter(function (ic) {
-        return (!maxH || iconH(ic) <= maxH) && (!exclude || ic.src !== exclude.src);
-      });
-      if (!candidates.length) candidates = maxH ? ICONS.filter(function (ic) { return iconH(ic) <= maxH; }) : ICONS;
-      if (!candidates.length) candidates = ICONS;
-      return candidates[Math.floor(Math.random() * candidates.length)];
+    function renderedDims(icon) {
+      var s = BOX / Math.max(icon.w, icon.h);
+      return { w: icon.w * s, h: icon.h * s };
     }
 
-    var span = document.createElement('span');
-    span.className = 'symbol';
-    span.setAttribute('aria-hidden', 'true');
-    span.style.animation = 'none';
-    span.style.opacity = '0';
-    span.style.transition = 'opacity ' + FADE_MS + 'ms ease-in-out';
-    bg.appendChild(span);
+    // Ziehen ohne Zuruecklegen: deck enthaelt alle Icon-Indizes in
+    // Zufallsreihenfolge; erst wenn es leer ist, wird neu gemischt.
+    var deck = [];
+    function shuffle(a) {
+      for (var i = a.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = a[i]; a[i] = a[j]; a[j] = t;
+      }
+      return a;
+    }
+    function refillDeck() {
+      deck = shuffle(ICONS.map(function (_, i) { return i; }));
+    }
+    function drawIcon(visibleSrcs) {
+      if (!deck.length) refillDeck();
+      // nimm den ersten Eintrag, der nicht gerade sichtbar ist
+      for (var i = 0; i < deck.length; i++) {
+        var idx = deck[i];
+        if (!visibleSrcs[ICONS[idx].src]) {
+          deck.splice(i, 1);
+          return ICONS[idx];
+        }
+      }
+      var fallback = deck.shift();
+      return ICONS[fallback];
+    }
 
-    var positions = [];
-    var cycleTimer = null;
+    var spans = [];
+    var swapTimer = null;
     var cycleToken = 0;
+    var visibleSrcs = {};
+
+    function clearAll() {
+      spans.forEach(function (s) { s.remove(); });
+      spans = [];
+      visibleSrcs = {};
+      if (swapTimer) { clearInterval(swapTimer); swapTimer = null; }
+    }
 
     function computePositions() {
       var bgRect = bg.getBoundingClientRect();
@@ -1446,89 +1472,112 @@
         };
       });
 
-      // Voller Symbol-Umriss (nicht nur der Mittelpunkt) darf keine Karte
-      // beruehren, mit CARD_PAD Sicherheitsabstand -- Symbole sollen komplett
-      // in freien Flaechen erscheinen, nie hinter/ueberlappend mit Karten.
-      function overlapsAnyCard(left, top, right, bottom) {
+      function freeAt(x, y) {
+        var l = x - BOX / 2, r = x + BOX / 2;
+        var t = y - BOX / 2, b = y + BOX / 2;
+        if (l < 2 || t < 2 || r > bgRect.width - 2 || b > bgRect.height - 2) return false;
         for (var i = 0; i < cardRects.length; i++) {
-          var r = cardRects[i];
-          var separate = right < r.left - CARD_PAD || left > r.right + CARD_PAD ||
-                         bottom < r.top - CARD_PAD || top > r.bottom + CARD_PAD;
-          if (!separate) return true;
+          var c = cardRects[i];
+          var separate = r < c.left - CARD_PAD || l > c.right + CARD_PAD ||
+                         b < c.top - CARD_PAD || t > c.bottom + CARD_PAD;
+          if (!separate) return false;
         }
-        return false;
+        return true;
       }
 
-      var marginX = SYMBOL_W / 2 + 4;
-      var accepted = [];
-      var attempts = 0;
-      while (attempts < MAX_ATTEMPTS && accepted.length < TARGET_POSITIONS) {
-        attempts++;
-        var candidate = randomIcon(null, null);
-        var candH = iconH(candidate);
-        var marginY = candH / 2 + 4;
-        if (bgRect.width - marginX * 2 < 1 || bgRect.height - marginY * 2 < 1) continue;
-        var x = marginX + Math.random() * (bgRect.width - marginX * 2);
-        var y = marginY + Math.random() * (bgRect.height - marginY * 2);
-        var boxLeft = x - SYMBOL_W / 2, boxRight = x + SYMBOL_W / 2;
-        var boxTop = y - candH / 2, boxBottom = y + candH / 2;
-        if (overlapsAnyCard(boxLeft, boxTop, boxRight, boxBottom)) continue;
-        var ok = true;
-        for (var j = 0; j < accepted.length; j++) {
-          var dx = accepted[j].x - x, dy = accepted[j].y - y;
-          if (Math.sqrt(dx * dx + dy * dy) < MIN_DIST) { ok = false; break; }
+      // Best-Candidate-Sampling: pro Punkt viele Kandidaten in der freien
+      // Flaeche wuerfeln und den nehmen, der am weitesten von allen schon
+      // gesetzten Punkten entfernt ist -> gleichmaessige Abdeckung.
+      // Wird das Ziel nicht erreicht, folgen Nachrueck-Durchlaeufe mit
+      // schrittweise kleinerem Mindestabstand, bis 15 stehen (oder die
+      // freie Flaeche schlicht nicht mehr hergibt, z.B. auf dem Handy).
+      var points = [];
+      var gaps = [MIN_GAP, Math.round(MIN_GAP * 0.8), Math.round(MIN_GAP * 0.62), BOX + 6];
+      for (var g = 0; g < gaps.length && points.length < TARGET_COUNT; g++) {
+        var gap = gaps[g];
+        for (var n = points.length; n < TARGET_COUNT; n++) {
+          var best = null, bestDist = -1;
+          for (var k = 0; k < CANDIDATES_PER_POINT; k++) {
+            var x = Math.random() * bgRect.width;
+            var y = Math.random() * bgRect.height;
+            if (!freeAt(x, y)) continue;
+            var d = Infinity;
+            for (var p = 0; p < points.length; p++) {
+              var dx = points[p].x - x, dy = points[p].y - y;
+              var dist = dx * dx + dy * dy;
+              if (dist < d) d = dist;
+            }
+            if (d < gap * gap) continue;
+            if (points.length === 0) d = Math.random();
+            if (d > bestDist) { bestDist = d; best = { x: x, y: y }; }
+          }
+          if (!best) break;
+          best.bgW = bgRect.width;
+          best.bgH = bgRect.height;
+          points.push(best);
         }
-        if (!ok) continue;
-        accepted.push({ x: x, y: y, icon: candidate, maxH: candH, bgW: bgRect.width, bgH: bgRect.height });
       }
-      return accepted;
+      return points;
     }
 
-    function showAt(pos, token) {
-      var icon = randomIcon(null, pos.maxH + 0.5);
+    function applyIcon(span, icon, pos) {
       span.style.setProperty('--icon', "url('" + icon.src + "')");
-      span.style.aspectRatio = icon.w + '/' + icon.h;
-      var renderedH = SYMBOL_W * (icon.h / icon.w);
-      var left = pos.x - SYMBOL_W / 2;
-      var top = pos.y - renderedH / 2;
-      span.style.left = ((left / pos.bgW) * 100).toFixed(2) + '%';
-      span.style.top = ((top / pos.bgH) * 100).toFixed(2) + '%';
-      // naechster Frame, damit der Browser die neue Position vor dem
-      // Einblenden uebernimmt (kein Sprung waehrend sichtbarer Opacity).
-      requestAnimationFrame(function () {
-        if (token !== cycleToken) return;
-        span.style.opacity = '.75';
-      });
-    }
-
-    function runCycle(token) {
-      if (!positions.length) return;
-      var i = 0;
-      function step() {
-        if (token !== cycleToken) return;
-        showAt(positions[i], token);
-        cycleTimer = setTimeout(function () {
-          if (token !== cycleToken) return;
-          span.style.opacity = '0';
-          cycleTimer = setTimeout(function () {
-            if (token !== cycleToken) return;
-            i = (i + 1) % positions.length;
-            step();
-          }, FADE_MS + GAP_MS);
-        }, FADE_MS + HOLD_MS);
-      }
-      step();
+      var dims = renderedDims(icon);
+      span.style.width = dims.w.toFixed(1) + 'px';
+      span.style.height = dims.h.toFixed(1) + 'px';
+      span.style.left = (((pos.x - dims.w / 2) / pos.bgW) * 100).toFixed(2) + '%';
+      span.style.top = (((pos.y - dims.h / 2) / pos.bgH) * 100).toFixed(2) + '%';
     }
 
     function rebuild() {
       cycleToken++;
-      if (cycleTimer) clearTimeout(cycleTimer);
-      span.style.transition = 'none';
-      span.style.opacity = '0';
-      void span.offsetWidth;
-      span.style.transition = 'opacity ' + FADE_MS + 'ms ease-in-out';
-      positions = computePositions();
-      runCycle(cycleToken);
+      var token = cycleToken;
+      clearAll();
+      var positions = computePositions();
+      if (!positions.length) return;
+
+      positions.forEach(function (pos, idx) {
+        var span = document.createElement('span');
+        span.className = 'symbol';
+        span.setAttribute('aria-hidden', 'true');
+        span.style.animation = 'none';
+        span.style.opacity = '0';
+        span.style.transition = 'opacity ' + FADE_MS + 'ms ease-in-out';
+        var icon = drawIcon(visibleSrcs);
+        visibleSrcs[icon.src] = true;
+        span._icon = icon;
+        span._pos = pos;
+        applyIcon(span, icon, pos);
+        bg.appendChild(span);
+        spans.push(span);
+        // gestaffelt einblenden
+        setTimeout(function () {
+          if (token !== cycleToken) return;
+          span.style.opacity = '.75';
+        }, reduceMotionHere ? 0 : 80 * idx);
+      });
+
+      if (reduceMotionHere) return;
+
+      // Reihum je ein Symbol gegen ein noch nicht gezeigtes tauschen --
+      // so bleiben immer 15 sichtbar und ueber die Zeit kommt der ganze
+      // Pool ohne Wiederholung durch.
+      var swapIdx = 0;
+      swapTimer = setInterval(function () {
+        if (token !== cycleToken || !spans.length) return;
+        var span = spans[swapIdx % spans.length];
+        swapIdx++;
+        span.style.opacity = '0';
+        setTimeout(function () {
+          if (token !== cycleToken) return;
+          delete visibleSrcs[span._icon.src];
+          var icon = drawIcon(visibleSrcs);
+          visibleSrcs[icon.src] = true;
+          span._icon = icon;
+          applyIcon(span, icon, span._pos);
+          span.style.opacity = '.75';
+        }, FADE_MS + 60);
+      }, SWAP_EVERY_MS);
     }
 
     var resizeTimer;
