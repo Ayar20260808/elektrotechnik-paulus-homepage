@@ -170,8 +170,12 @@
      Scheinwerfer ueber das Papier. Beide Bewegungen sind bewusst traege,
      der Text soll lesbar bleiben. */
   .hero-plan{position:absolute;inset:0;overflow:hidden;}
-  .hero-plan-img{position:absolute;inset:-8%;background:url('hero-plan.jpg') center/cover no-repeat;
-    opacity:.42;will-change:transform;animation:ep-plan 90s ease-in-out infinite alternate;}
+  /* Mehrere Bildebenen uebereinander; sichtbar ist immer genau eine,
+     der Wechsel laeuft als weiche Ueberblendung. */
+  .hero-plan-img{position:absolute;inset:-8%;background-position:center;background-size:cover;
+    background-repeat:no-repeat;opacity:0;transition:opacity 1.8s ease-in-out;
+    will-change:transform,opacity;animation:ep-plan 90s ease-in-out infinite alternate;}
+  .hero-plan-img.an{opacity:.42;}
   @keyframes ep-plan{
     from{transform:scale(1.05) translate3d(1.5%, 1%, 0);}
     to  {transform:scale(1.18) translate3d(-2.5%, -1.5%, 0);}
@@ -589,7 +593,11 @@
 
 <section id="hero" class="hero">
   <div class="hero-plan" aria-hidden="true">
-    <div class="hero-plan-img"></div>
+    <div class="hero-plan-img an" data-bild="hero-1.jpg" style="background-image:url('hero-1.jpg');"></div>
+    <div class="hero-plan-img" data-bild="hero-2.jpg"></div>
+    <div class="hero-plan-img" data-bild="hero-3.jpg"></div>
+    <div class="hero-plan-img" data-bild="hero-4.jpg"></div>
+    <div class="hero-plan-img" data-bild="hero-5.jpg"></div>
     <div class="hero-sweep"></div>
   </div>
   <div class="hero-overlay"></div>
@@ -1328,6 +1336,32 @@
   }
   cycleSpans('.hero-projectline span', 6000);
   cycleSpans('.hero-brands-names span', 2600);
+
+  // Hero-Hintergrund: die Bildebenen wechseln reihum durch, immer eine
+  // sichtbar. Die Bilder ausser dem ersten werden erst nach dem Laden
+  // gesetzt, damit der erste Seitenaufbau nur auf ein Bild wartet.
+  (function () {
+    var ebenen = Array.prototype.slice.call(document.querySelectorAll('.hero-plan-img'));
+    if (ebenen.length < 2) return;
+
+    function bilderNachreichen() {
+      ebenen.forEach(function (e) {
+        if (!e.style.backgroundImage && e.dataset.bild) {
+          e.style.backgroundImage = "url('" + e.dataset.bild + "')";
+        }
+      });
+    }
+    if (document.readyState === 'complete') bilderNachreichen();
+    else window.addEventListener('load', bilderNachreichen);
+
+    if (reduceMotion) return;
+    var i = 0;
+    setInterval(function () {
+      ebenen[i].classList.remove('an');
+      i = (i + 1) % ebenen.length;
+      ebenen[i].classList.add('an');
+    }, 7000);
+  })();
 
   // Hero-Zähler
   (function () {
