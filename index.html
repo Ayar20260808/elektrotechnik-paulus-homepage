@@ -1413,8 +1413,13 @@
     var CARD_PAD = 8;
     var CANDIDATES_PER_POINT = 300;
     var MIN_GAP = 80;
-    var FADE_MS = 600;
-    var SWAP_EVERY_MS = 2400;
+    // Lebenszyklus je Symbol: langsam einblenden, rund 1,5 s stehen
+    // bleiben, dann schnell verschwinden, kurze Pause, naechstes Symbol.
+    var FADE_IN_MS = 1400;
+    var HOLD_MS = 1500;
+    var FADE_OUT_MS = 220;
+    var GAP_MS = 600;
+    var CYCLE_MS = FADE_IN_MS + HOLD_MS + FADE_OUT_MS + GAP_MS;
 
     function renderedDims(icon) {
       var s = BOX / Math.max(icon.w, icon.h);
@@ -1449,15 +1454,22 @@
     }
 
     var spans = [];
-    var swapTimer = null;
+    var timers = [];
     var cycleToken = 0;
     var visibleSrcs = {};
 
+    function later(fn, ms) {
+      var id = setTimeout(fn, ms);
+      timers.push(id);
+      return id;
+    }
+
     function clearAll() {
+      timers.forEach(clearTimeout);
+      timers = [];
       spans.forEach(function (s) { s.remove(); });
       spans = [];
       visibleSrcs = {};
-      if (swapTimer) { clearInterval(swapTimer); swapTimer = null; }
     }
 
     function computePositions() {
@@ -1542,42 +1554,47 @@
         span.setAttribute('aria-hidden', 'true');
         span.style.animation = 'none';
         span.style.opacity = '0';
-        span.style.transition = 'opacity ' + FADE_MS + 'ms ease-in-out';
-        var icon = drawIcon(visibleSrcs);
-        visibleSrcs[icon.src] = true;
-        span._icon = icon;
         span._pos = pos;
-        applyIcon(span, icon, pos);
         bg.appendChild(span);
         spans.push(span);
-        // gestaffelt einblenden
-        setTimeout(function () {
-          if (token !== cycleToken) return;
+
+        if (reduceMotionHere) {
+          var still = drawIcon(visibleSrcs);
+          visibleSrcs[still.src] = true;
+          span._icon = still;
+          applyIcon(span, still, pos);
           span.style.opacity = '.75';
-        }, reduceMotionHere ? 0 : 80 * idx);
-      });
+          return;
+        }
 
-      if (reduceMotionHere) return;
-
-      // Reihum je ein Symbol gegen ein noch nicht gezeigtes tauschen --
-      // so bleiben immer 15 sichtbar und ueber die Zeit kommt der ganze
-      // Pool ohne Wiederholung durch.
-      var swapIdx = 0;
-      swapTimer = setInterval(function () {
-        if (token !== cycleToken || !spans.length) return;
-        var span = spans[swapIdx % spans.length];
-        swapIdx++;
-        span.style.opacity = '0';
-        setTimeout(function () {
+        // Jede Position laeuft ihren eigenen Zyklus: langsam auftauchen,
+        // kurz stehen, schnell verschwinden, dann das naechste Symbol.
+        // Der Startversatz ist ueber den ganzen Zyklus gestreut, damit die
+        // 15 Positionen nicht im Gleichtakt blinken.
+        function runCycle() {
           if (token !== cycleToken) return;
-          delete visibleSrcs[span._icon.src];
           var icon = drawIcon(visibleSrcs);
           visibleSrcs[icon.src] = true;
           span._icon = icon;
           applyIcon(span, icon, span._pos);
-          span.style.opacity = '.75';
-        }, FADE_MS + 60);
-      }, SWAP_EVERY_MS);
+          span.style.transition = 'opacity ' + FADE_IN_MS + 'ms ease-in';
+          requestAnimationFrame(function () {
+            if (token !== cycleToken) return;
+            span.style.opacity = '.75';
+          });
+          later(function () {
+            if (token !== cycleToken) return;
+            span.style.transition = 'opacity ' + FADE_OUT_MS + 'ms ease-out';
+            span.style.opacity = '0';
+            later(function () {
+              if (token !== cycleToken) return;
+              delete visibleSrcs[span._icon.src];
+              later(runCycle, GAP_MS);
+            }, FADE_OUT_MS);
+          }, FADE_IN_MS + HOLD_MS);
+        }
+        later(runCycle, Math.random() * CYCLE_MS);
+      });
     }
 
     var resizeTimer;
