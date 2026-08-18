@@ -269,11 +269,11 @@
     -webkit-mask-size:contain;mask-size:contain;
     -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
     -webkit-mask-position:center;mask-position:center;
-    filter:drop-shadow(0 0 3px rgba(0,0,0,.5));
+    filter:drop-shadow(0 1px 5px rgba(0,0,0,.75));
     animation-name:ep-symbol-blip;animation-timing-function:ease-in-out;animation-iteration-count:infinite;}
   @keyframes ep-symbol-blip{
     0%        {opacity:0;}
-    12%,64%   {opacity:.75;}
+    12%,64%   {opacity:1;}
     80%,100%  {opacity:0;}
   }
   @media(prefers-reduced-motion: reduce){
@@ -283,6 +283,21 @@
   .services-grid{padding:0 clamp(20px,5vw,72px);display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,calc(var(--sh) * 3.0),48px);}
   .service-card{background:var(--grey-0);border:1px solid var(--grey-300);display:flex;flex-direction:column;transition:transform .3s ease, box-shadow .3s ease, background .25s ease;}
   .service-card:hover{background:var(--grey-100);transform:translateY(-3px);box-shadow:0 10px 24px rgba(18,24,30,.09);}
+  /* Beim Ueberfahren waechst eine Karte auf die Flaeche von sechs Karten
+     (Faktor Wurzel 6 in beide Richtungen). Der Ankerpunkt kommt per Skript
+     aus der Position im Raster, damit die vergroesserte Karte innerhalb des
+     Abschnitts bleibt und nicht am Rand abgeschnitten wird. */
+  .service-card.ep-gross{
+    transform:scale(var(--ep-scale, 2.449));
+    transform-origin:var(--ep-origin, 50% 50%);
+    transition:transform .45s cubic-bezier(.22,.61,.36,1), box-shadow .45s ease, background .25s ease;
+    box-shadow:0 30px 80px rgba(18,24,30,.42);
+    z-index:6;
+  }
+  /* Der eigene Bildzoom entfaellt hier, sonst wird das Foto doppelt
+     vergroessert und wirkt unscharf. */
+  .service-card.ep-gross .service-img img{transform:none;}
+  .services-grid:has(.ep-gross) .service-card:not(.ep-gross){opacity:.45;}
   .service-img{position:relative;height:clamp(104px,calc(var(--sh) * 20.5),400px);overflow:hidden;}
   .service-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.25,.8,.25,1);}
   .service-card:hover .service-img img{transform:scale(1.08);}
@@ -1390,6 +1405,81 @@
 </script>
 
 <script>
+  /* Leistungskarte beim Ueberfahren auf die Flaeche von sechs Karten
+     vergroessern. Der Ankerpunkt (transform-origin) wird aus der Lage im
+     Raster berechnet: eine Karte am linken Rand waechst nach rechts, eine
+     am oberen Rand nach unten usw. -- so bleibt die vergroesserte Karte
+     immer im sichtbaren Bereich des Abschnitts, der aussen beschnitten ist. */
+  (function () {
+    var section = document.getElementById('leistungen');
+    var grid = document.querySelector('.services-grid');
+    if (!section || !grid) return;
+    var cards = Array.prototype.slice.call(grid.querySelectorAll('.service-card'));
+    if (!cards.length) return;
+
+    // Flaeche von sechs Karten -> Faktor in jede Richtung ist Wurzel aus 6.
+    var SCALE = Math.sqrt(6);
+
+    function feinAus() {
+      // Kein Vergroessern ohne echten Mauszeiger, bei einspaltigem Raster
+      // (dort waere die Karte breiter als das Fenster) oder wenn der Nutzer
+      // reduzierte Bewegung eingestellt hat.
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return true;
+      if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return true;
+      if (window.innerWidth <= 600) return true;
+      return false;
+    }
+
+    // Anteil, um den die Karte in eine Richtung waechst, so dass sie
+    // innerhalb von [platzDavor, platzDanach] bleibt.
+    function anteil(platzDavor, platzDanach, zuwachs) {
+      if (zuwachs <= 0) return 0.5;
+      var wunsch = (platzDavor + platzDanach) > 0
+        ? platzDavor / (platzDavor + platzDanach)
+        : 0.5;
+      var min = Math.max(0, 1 - platzDanach / zuwachs);
+      var max = Math.min(1, platzDavor / zuwachs);
+      // Ist der Faktor exakt ausgereizt, fallen min und max zusammen; dann
+      // liegt die Mitte der beiden immer noch richtig (Rundungsreserve).
+      if (min > max) return Math.min(1, Math.max(0, (min + max) / 2));
+      return Math.min(max, Math.max(min, wunsch));
+    }
+
+    function gross(card) {
+      if (feinAus()) return;
+      var r = card.getBoundingClientRect();
+      var s = section.getBoundingClientRect();
+      // Bei zweispaltigem Raster ist eine Karte so breit, dass der volle
+      // Faktor nicht mehr in den Abschnitt passt -- dann so weit
+      // vergroessern, wie der Platz hergibt, statt ueber den Rand zu laufen.
+      var LUFT = 10;
+      var faktor = Math.min(SCALE,
+        (s.width - LUFT) / r.width,
+        (s.height - LUFT) / r.height);
+      var ax = anteil(r.left - s.left, s.right - r.right, r.width * (faktor - 1));
+      var ay = anteil(r.top - s.top, s.bottom - r.bottom, r.height * (faktor - 1));
+      card.style.setProperty('--ep-scale', faktor.toFixed(3));
+      card.style.setProperty('--ep-origin', (ax * 100).toFixed(1) + '% ' + (ay * 100).toFixed(1) + '%');
+      card.classList.add('ep-gross');
+    }
+
+    function klein(card) {
+      card.classList.remove('ep-gross');
+    }
+
+    cards.forEach(function (card) {
+      card.addEventListener('mouseenter', function () { gross(card); });
+      card.addEventListener('mouseleave', function () { klein(card); });
+      // Tastaturbedienung: beim Hineinfokussieren ebenso vergroessern.
+      card.addEventListener('focusin', function () { gross(card); });
+      card.addEventListener('focusout', function () { klein(card); });
+    });
+
+    window.addEventListener('resize', function () {
+      cards.forEach(klein);
+    });
+  })();
+
   /* Leistungen-Hintergrundsymbole: immer 15 gleichzeitig sichtbare,
      gleichmaessig verteilte Symbole in den freien Flaechen (nie hinter den
      Leistungskarten). Alle 15 sind verschieden, und beim Durchwechseln wird
@@ -1408,9 +1498,9 @@
     // (laengste Seite = BOX). Dadurch ist der Platzbedarf jeder Position
     // identisch und jedes Icon passt an jede Position -- wichtig fuer den
     // Durchlauf ohne Wiederholung. MIN_GAP haelt die Symbole auseinander.
-    var BOX = 48;
+    var BOX = 54;
     var TARGET_COUNT = 15;
-    var CARD_PAD = 8;
+    var CARD_PAD = 6;
     var CANDIDATES_PER_POINT = 300;
     var MIN_GAP = 80;
     // Lebenszyklus je Symbol: langsam einblenden, rund 1,5 s stehen
@@ -1563,7 +1653,7 @@
           visibleSrcs[still.src] = true;
           span._icon = still;
           applyIcon(span, still, pos);
-          span.style.opacity = '.75';
+          span.style.opacity = '1';
           return;
         }
 
@@ -1580,7 +1670,7 @@
           span.style.transition = 'opacity ' + FADE_IN_MS + 'ms ease-in';
           requestAnimationFrame(function () {
             if (token !== cycleToken) return;
-            span.style.opacity = '.75';
+            span.style.opacity = '1';
           });
           later(function () {
             if (token !== cycleToken) return;
