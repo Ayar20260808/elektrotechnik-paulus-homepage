@@ -1445,18 +1445,31 @@
       return Math.min(max, Math.max(min, wunsch));
     }
 
+    // Waagerecht ist die Inhaltsspalte die Grenze -- also der Bereich
+    // zwischen linker und rechter Kartenkante, nicht die volle
+    // Fensterbreite. Damit bleibt die vergroesserte Karte in der Spalte
+    // stehen, statt bis an den Bildschirmrand zu laufen.
+    function inhaltsSpalte() {
+      var g = grid.getBoundingClientRect();
+      var st = window.getComputedStyle(grid);
+      var links = g.left + (parseFloat(st.paddingLeft) || 0);
+      var rechts = g.right - (parseFloat(st.paddingRight) || 0);
+      return { left: links, right: rechts, width: Math.max(1, rechts - links) };
+    }
+
     function gross(card) {
       if (feinAus()) return;
       var r = card.getBoundingClientRect();
       var s = section.getBoundingClientRect();
-      // Bei zweispaltigem Raster ist eine Karte so breit, dass der volle
-      // Faktor nicht mehr in den Abschnitt passt -- dann so weit
-      // vergroessern, wie der Platz hergibt, statt ueber den Rand zu laufen.
+      var sp = inhaltsSpalte();
+      // Passt der volle Faktor nicht in Spalte oder Abschnitt (etwa beim
+      // zweispaltigen Raster), so weit vergroessern wie der Platz hergibt,
+      // statt ueber den Rand zu laufen.
       var LUFT = 10;
       var faktor = Math.min(SCALE,
-        (s.width - LUFT) / r.width,
+        sp.width / r.width,
         (s.height - LUFT) / r.height);
-      var ax = anteil(r.left - s.left, s.right - r.right, r.width * (faktor - 1));
+      var ax = anteil(r.left - sp.left, sp.right - r.right, r.width * (faktor - 1));
       var ay = anteil(r.top - s.top, s.bottom - r.bottom, r.height * (faktor - 1));
       card.style.setProperty('--ep-scale', faktor.toFixed(3));
       card.style.setProperty('--ep-origin', (ax * 100).toFixed(1) + '% ' + (ay * 100).toFixed(1) + '%');
