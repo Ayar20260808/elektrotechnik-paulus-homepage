@@ -173,9 +173,9 @@
   /* Mehrere Bildebenen uebereinander; sichtbar ist immer genau eine,
      der Wechsel laeuft als weiche Ueberblendung. */
   .hero-plan-img{position:absolute;inset:-8%;background-position:center;background-size:cover;
-    background-repeat:no-repeat;opacity:0;transition:opacity 1.8s ease-in-out;
+    background-repeat:no-repeat;opacity:0;transition:opacity 1.1s ease-in-out;
     will-change:transform,opacity;animation:ep-plan 90s ease-in-out infinite alternate;}
-  .hero-plan-img.an{opacity:.42;}
+  .hero-plan-img.an{opacity:.62;}
   @keyframes ep-plan{
     from{transform:scale(1.05) translate3d(1.5%, 1%, 0);}
     to  {transform:scale(1.18) translate3d(-2.5%, -1.5%, 0);}
@@ -193,7 +193,7 @@
     .hero-plan-img{animation:none;transform:scale(1.08);}
     .hero-sweep{display:none;}
   }
-  .hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg, rgba(18,24,30,.92) 0%, rgba(18,24,30,.78) 55%, rgba(18,24,30,.45) 100%);}
+  .hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg, rgba(18,24,30,.92) 0%, rgba(18,24,30,.74) 55%, rgba(18,24,30,.30) 100%);}
   .hero-techlines{position:absolute;left:0;right:0;bottom:0;height:64px;opacity:.45;pointer-events:none;}
   .hero-content{position:relative;z-index:2;padding:clamp(18px,calc(var(--sh) * 5.6),64px) clamp(20px,5vw,72px);width:100%;}
   .hero-eyebrow{display:flex;align-items:center;gap:10px;font-family:var(--font-heading);font-weight:600;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--yellow);margin-bottom:clamp(7px,calc(var(--sh) * 1.7),16px);}
@@ -1360,7 +1360,7 @@
       ebenen[i].classList.remove('an');
       i = (i + 1) % ebenen.length;
       ebenen[i].classList.add('an');
-    }, 7000);
+    }, 4000);
   })();
 
   // Hero-Zähler
