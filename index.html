@@ -272,7 +272,7 @@
      Farbe kommt von background-color). Icon-Bild und Seitenverhaeltnis
      kommen je Symbol ueber Inline-Style (--icon / aspect-ratio), damit
      der grosse Symbol-Pool ohne eine CSS-Regel pro Icon auskommt. */
-  .leistungen-bg .symbol{position:absolute;width:64px;height:auto;opacity:0;display:block;
+  .leistungen-bg .symbol, .kunden-bg .symbol{position:absolute;width:64px;height:auto;opacity:0;display:block;
     background-color:var(--yellow);
     -webkit-mask-image:var(--icon);mask-image:var(--icon);
     -webkit-mask-size:contain;mask-size:contain;
@@ -374,9 +374,10 @@
   /* Band als unterer Teil der Leistungen-Fläche */
   /* Das Band laeuft ueber die volle Fensterbreite, damit die Bilder von
      Kante zu Kante durchziehen. Deshalb kein seitlicher Innenabstand. */
-  .marquee-section.attached{background:var(--dark);padding-left:0;padding-right:0;overflow:hidden;
-    padding-top:clamp(3px,calc(var(--sh) * 0.8),16px);padding-bottom:clamp(11px,calc(var(--sh) * 2.4),56px);border-bottom:2px solid var(--dark);}
-  .marquee-section.attached .marquee-head{color:rgba(255,255,255,.6);}
+  .marquee-section.attached{background:var(--grey-0);padding-left:0;padding-right:0;overflow:hidden;
+    padding-top:clamp(11px,calc(var(--sh) * 2.2),48px);padding-bottom:clamp(11px,calc(var(--sh) * 2.4),56px);
+    border-bottom:2px solid var(--grey-300);}
+  .marquee-section.attached .marquee-head{color:var(--grey-600);}
   .marquee-clip{overflow:hidden;}
   .marquee-head{text-align:center;font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--grey-600);margin-bottom:clamp(9px,calc(var(--sh) * 1.8),32px);}
   /* Markenzeile beginnt rechtsbuendig statt zentriert. */
@@ -392,15 +393,32 @@
      ziehen: gedaempft und leicht entsaettigt. Beim Ueberfahren zeigen
      sich die Bilder in voller Kraft. */
   .imgband-group img{height:clamp(52px,calc(var(--sh) * 7.8),210px);width:auto;object-fit:cover;display:block;
-    opacity:.68;filter:saturate(.85);transition:opacity .4s ease, filter .4s ease;}
+    opacity:.88;filter:saturate(.9);transition:opacity .4s ease, filter .4s ease;}
   .marquee-section.attached:hover .imgband-group img{opacity:1;filter:saturate(1);}
 
   /* KUNDEN -- gleiche Bauweise wie die Leistungskarten: Bild oben,
      Text darunter, heller Rahmen. Groessen haengen an der Fensterhoehe,
      damit der Abschnitt genau eine Bildschirmseite fuellt. */
-  #kunden{padding-top:clamp(18px,calc(var(--sh) * 5.2),110px);padding-bottom:clamp(18px,calc(var(--sh) * 4.2),110px);}
-  #kunden .section-head{max-width:820px;margin-bottom:clamp(10px,calc(var(--sh) * 2.6),60px);}
-  #kunden .section-head h2{max-width:none;font-size:clamp(21px,calc(var(--sh) * 3.4),56px);line-height:1.14;}
+  /* Wie bei den Leistungen: dunkle Flaeche mit dem Planfoto in Graustufen,
+     darueber die aufblitzenden Symbole. Die weissen Kundenkarten treten
+     davor genauso hervor wie die Leistungskarten. */
+  #kunden{position:relative;overflow:hidden;background:var(--dark);
+    padding-top:clamp(18px,calc(var(--sh) * 5.2),110px);padding-bottom:clamp(18px,calc(var(--sh) * 4.2),110px);}
+  #kunden > .wrap, #kunden > .kunden-grid{position:relative;z-index:1;}
+  .kunden-bg{position:absolute;inset:0;overflow:hidden;z-index:0;pointer-events:none;}
+  .kunden-bg-photo{position:absolute;inset:-6%;background:url('hero-plan.jpg') center/cover no-repeat;
+    filter:grayscale(1);opacity:.3;
+    animation:ep-plan-zoom 44s ease-in-out infinite alternate;}
+  @media(prefers-reduced-motion: reduce){
+    .kunden-bg-photo{animation:none;}
+    .kunden-bg .symbol{animation:none;opacity:0;}
+  }
+  #kunden .section-head{max-width:820px;margin-bottom:clamp(10px,calc(var(--sh) * 2.6),60px);
+    margin-left:auto;margin-right:auto;text-align:center;}
+  #kunden .section-head .eyebrow{color:#fff;font-size:clamp(20px,calc(var(--sh) * 3.2),34px);
+    letter-spacing:.09em;text-shadow:0 2px 14px rgba(18,24,30,.55);}
+  #kunden .section-head h2{max-width:none;font-size:clamp(21px,calc(var(--sh) * 3.4),56px);line-height:1.14;
+    color:#fff;text-shadow:0 2px 16px rgba(18,24,30,.5);}
   .kunden-grid{padding:0 clamp(20px,5vw,72px);display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(11px,calc(var(--sh) * 1.7),40px);}
   @media(max-width:1100px){.kunden-grid{grid-template-columns:1fr 1fr;}}
   @media(max-width:600px){.kunden-grid{grid-template-columns:1fr;}}
@@ -919,6 +937,9 @@
 </div>
 
 <section id="kunden">
+  <div class="kunden-bg" aria-hidden="true">
+    <div class="kunden-bg-photo"></div>
+  </div>
   <div class="wrap">
     <div class="section-head" data-reveal>
       <span class="eyebrow">Unsere Kunden</span>
@@ -1602,16 +1623,15 @@
     });
   })();
 
-  /* Leistungen-Hintergrundsymbole: immer 15 gleichzeitig sichtbare,
-     gleichmaessig verteilte Symbole in den freien Flaechen (nie hinter den
-     Leistungskarten). Alle 15 sind verschieden, und beim Durchwechseln wird
-     kein Symbol wiederholt, bis der komplette Pool einmal gezeigt wurde
-     (Ziehen ohne Zuruecklegen). Positionen per Best-Candidate-Sampling:
-     jeder neue Punkt maximiert den Abstand zu den schon gesetzten -- das
-     ergibt die gleichmaessige Verteilung. */
+  /* Hintergrundsymbole fuer Leistungen und Unsere Kunden: immer 15
+     gleichzeitig sichtbare, gleichmaessig verteilte Symbole in den freien
+     Flaechen (nie hinter den Karten oder der Ueberschrift). Alle 15 sind
+     verschieden, und beim Durchwechseln wird kein Symbol wiederholt, bis
+     der komplette Pool einmal gezeigt wurde (Ziehen ohne Zuruecklegen).
+     Positionen per Best-Candidate-Sampling: jeder neue Punkt maximiert den
+     Abstand zu den schon gesetzten -- das ergibt die gleichmaessige
+     Verteilung. Beide Abschnitte laufen unabhaengig voneinander. */
   (function () {
-    var bg = document.querySelector('.leistungen-bg');
-    if (!bg) return;
     var reduceMotionHere = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     var ICONS = [{"src":"elektrosymbole/abzweigdose.png","w":18,"h":15},{"src":"elektrosymbole/akustischer-signalgeber.png","w":22,"h":18},{"src":"elektrosymbole/alarm.png","w":24,"h":18},{"src":"elektrosymbole/analogeingang-1fach.png","w":18,"h":23},{"src":"elektrosymbole/analogeingang-2fach.png","w":18,"h":23},{"src":"elektrosymbole/analogeingang-3fach.png","w":18,"h":23},{"src":"elektrosymbole/analogeingang-4fach.png","w":18,"h":23},{"src":"elektrosymbole/anschluss-allgemein.png","w":24,"h":24},{"src":"elektrosymbole/anschluss-allgemein-16a.png","w":17,"h":22},{"src":"elektrosymbole/anschlussplatte.png","w":16,"h":10},{"src":"elektrosymbole/antenne.png","w":23,"h":22},{"src":"elektrosymbole/aufbauleuchte-wand.png","w":24,"h":14},{"src":"elektrosymbole/ausschalter.png","w":13,"h":17},{"src":"elektrosymbole/ausschalter-aufputz.png","w":13,"h":17},{"src":"elektrosymbole/ausschalter-zweifach.png","w":13,"h":17},{"src":"elektrosymbole/bewegungsmelder.png","w":18,"h":23},{"src":"elektrosymbole/bewegungsmelder-decke.png","w":24,"h":24},{"src":"elektrosymbole/bewegungsmelder-eckig.png","w":24,"h":24},{"src":"elektrosymbole/binaereingang-gleichspannung-1fach.png","w":18,"h":23},{"src":"elektrosymbole/binaereingang-wechselspannung1fach.png","w":18,"h":23},{"src":"elektrosymbole/bodentank-eckig.png","w":22,"h":22},{"src":"elektrosymbole/bodentank-rund.png","w":45,"h":33},{"src":"elektrosymbole/bus-aktor.png","w":24,"h":20},{"src":"elektrosymbole/bus-bewegungsmelder-wand.png","w":22,"h":20},{"src":"elektrosymbole/bus-funkmodul.png","w":22,"h":20},{"src":"elektrosymbole/bus-kontrolltaster-1-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-kontrolltaster-2-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-kontrolltaster-3-fach.png","w":24,"h":24},{"src":"elektrosymbole/bus-kontrolltaster-4-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-kontrolltaster-6-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-kontrolltaster-8-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-raumcontroller-2-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-raumcontroller-6-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-raumcontroller-8-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-sensor.png","w":24,"h":20},{"src":"elektrosymbole/bus-taster-1-fach.png","w":23,"h":20},{"src":"elektrosymbole/bus-taster-2-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-taster-3-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-taster-4-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-taster-6-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-taster-8-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-touch-surface.png","w":24,"h":24},{"src":"elektrosymbole/dachdurchfuehrung.png","w":22,"h":14},{"src":"elektrosymbole/dachstaender-pv.png","w":22,"h":14},{"src":"elektrosymbole/dachventilator.png","w":22,"h":22},{"src":"elektrosymbole/deckenauslass-fuer-leuchte.png","w":25,"h":26},{"src":"elektrosymbole/deckenleuchte.png","w":24,"h":24},{"src":"elektrosymbole/dehnungsstueck.png","w":22,"h":12},{"src":"elektrosymbole/dimmer-taster.png","w":14,"h":19},{"src":"elektrosymbole/dimmerschalter.png","w":15,"h":17},{"src":"elektrosymbole/dimmtaster-funk.png","w":14,"h":20},{"src":"elektrosymbole/einbau-spot.png","w":22,"h":24},{"src":"elektrosymbole/erdkabel.png","w":24,"h":24},{"src":"elektrosymbole/erdung.png","w":16,"h":17},{"src":"elektrosymbole/erdung-allgemein.png","w":40,"h":25},{"src":"elektrosymbole/fangeinrichtung.png","w":14,"h":15},{"src":"elektrosymbole/fangspitze.png","w":19,"h":19},{"src":"elektrosymbole/fensterkontakt-vds.png","w":14,"h":14},{"src":"elektrosymbole/fingerabdruckssensor.png","w":22,"h":22},{"src":"elektrosymbole/funktionserdung.png","w":18,"h":20},{"src":"elektrosymbole/gateway-opus.png","w":24,"h":24},{"src":"elektrosymbole/gateway-tado.png","w":24,"h":18},{"src":"elektrosymbole/gegensprechanlage.png","w":24,"h":18},{"src":"elektrosymbole/hausanschluss.png","w":25,"h":26},{"src":"elektrosymbole/heizkreisverteiler.png","w":25,"h":14},{"src":"elektrosymbole/helligkeitssensor.png","w":18,"h":23},{"src":"elektrosymbole/herd-anschlussdose.png","w":24,"h":24},{"src":"elektrosymbole/jalousietaster-funk.png","w":17,"h":20},{"src":"elektrosymbole/jalousietastsensor.png","w":18,"h":23},{"src":"elektrosymbole/kamera.png","w":24,"h":18},{"src":"elektrosymbole/klingelanlage.png","w":24,"h":20},{"src":"elektrosymbole/klingeltaster.png","w":14,"h":14},{"src":"elektrosymbole/kontroll-ausschalter.png","w":13,"h":17},{"src":"elektrosymbole/kontroll-serienschalter.png","w":20,"h":17},{"src":"elektrosymbole/kontroll-taster.png","w":14,"h":14},{"src":"elektrosymbole/kontroll-wechselschalter.png","w":20,"h":24},{"src":"elektrosymbole/kontrollausschalter-zweipolig.png","w":13,"h":16},{"src":"elektrosymbole/kontrollserienschalter-aufputz.png","w":20,"h":17},{"src":"elektrosymbole/kontrolltaster-aufputz.png","w":14,"h":14},{"src":"elektrosymbole/kreuzschalter-aufputz.png","w":20,"h":24},{"src":"elektrosymbole/laeutwerk.png","w":24,"h":23},{"src":"elektrosymbole/led-panel-eckig.png","w":24,"h":24},{"src":"elektrosymbole/led-stripe.png","w":24,"h":10},{"src":"elektrosymbole/led-stripe-id47.png","w":24,"h":14},{"src":"elektrosymbole/leerdose.png","w":22,"h":24},{"src":"elektrosymbole/leitung-nach-oben.png","w":22,"h":15},{"src":"elektrosymbole/leitung-nach-unten.png","w":22,"h":15},{"src":"elektrosymbole/leitung-nach-unten-und-oben.png","w":22,"h":23},{"src":"elektrosymbole/leuchtstofflampe-zweifach.png","w":24,"h":14},{"src":"elektrosymbole/lichtkuppel.png","w":22,"h":22},{"src":"elektrosymbole/luefter.png","w":24,"h":24},{"src":"elektrosymbole/markisenanschluss.png","w":23,"h":24},{"src":"elektrosymbole/medienverteiler.png","w":25,"h":14},{"src":"elektrosymbole/multimedia-rohr-oben.png","w":20,"h":20},{"src":"elektrosymbole/multimedia-rohr-unten.png","w":20,"h":20},{"src":"elektrosymbole/potentialausgleichsschiene.png","w":22,"h":12},{"src":"elektrosymbole/rauchmelder.png","w":24,"h":24},{"src":"elektrosymbole/raumthermostat-analog.png","w":24,"h":18},{"src":"elektrosymbole/raumthermostat-digital.png","w":24,"h":18},{"src":"elektrosymbole/rettungszeichenleuchte-links.png","w":22,"h":14},{"src":"elektrosymbole/rettungszeichenleuchte-oben.png","w":22,"h":18},{"src":"elektrosymbole/rettungszeichenleuchte-rechts.png","w":22,"h":14},{"src":"elektrosymbole/rettungszeichenleuchte-unten.png","w":22,"h":18},{"src":"elektrosymbole/rohr-masten-metallen.png","w":18,"h":18},{"src":"elektrosymbole/rohr-masten-nicht-metallen.png","w":18,"h":18},{"src":"elektrosymbole/rollladen-taster.png","w":15,"h":20},{"src":"elektrosymbole/rollladenmotor.png","w":24,"h":24},{"src":"elektrosymbole/rollladenschalter.png","w":20,"h":18},{"src":"elektrosymbole/schaltschloss.png","w":18,"h":23},{"src":"elektrosymbole/schluesselschalter.png","w":16,"h":17},{"src":"elektrosymbole/schornstein.png","w":22,"h":18},{"src":"elektrosymbole/schuko-steckdose.png","w":24,"h":24},{"src":"elektrosymbole/schuko-steckdose-abschliessbar.png","w":24,"h":24},{"src":"elektrosymbole/schuko-steckdose-abschliessbar-aufputz.png","w":24,"h":24},{"src":"elektrosymbole/schuko-steckdose-aufputz.png","w":24,"h":24},{"src":"elektrosymbole/schuko-steckdose-mit-deckel.png","w":24,"h":22},{"src":"elektrosymbole/schuko-steckdose-mit-deckel-aufputz.png","w":24,"h":22},{"src":"elektrosymbole/schuko-steckdose-mit-extra-beruehrungsschutz.png","w":24,"h":22},{"src":"elektrosymbole/schuko-steckdose-mit-extra-beruehrungsschutz-aufputz.png","w":24,"h":22},{"src":"elektrosymbole/schuko-steckdose-mit-orientierungslicht.png","w":26,"h":24},{"src":"elektrosymbole/schuko-steckdose-mit-usb.png","w":24,"h":24},{"src":"elektrosymbole/schuko-steckdose-schaltbar.png","w":24,"h":24},{"src":"elektrosymbole/schuko-steckdose-schaltbar-aufputz.png","w":24,"h":24},{"src":"elektrosymbole/schutzerdung.png","w":20,"h":22},{"src":"elektrosymbole/sensor-helligkeit-pir.png","w":18,"h":23},{"src":"elektrosymbole/serienschalter.png","w":20,"h":17},{"src":"elektrosymbole/serienschalter-aufputz.png","w":20,"h":17},{"src":"elektrosymbole/serientaster.png","w":14,"h":14},{"src":"elektrosymbole/serientaster-funk.png","w":14,"h":20},{"src":"elektrosymbole/serientaster-funk-frei-positionierbar.png","w":14,"h":20},{"src":"elektrosymbole/sicherheitsleuchte.png","w":22,"h":18},{"src":"elektrosymbole/sicherheitsleuchte-bereitschaftsschaltung.png","w":22,"h":18},{"src":"elektrosymbole/sicherheitsleuchte-dauerschaltung.png","w":22,"h":18},{"src":"elektrosymbole/sicherheitsleuchte-geschaltetes-dauerlicht.png","w":22,"h":18},{"src":"elektrosymbole/staberder.png","w":16,"h":18},{"src":"elektrosymbole/steckdose-cee.png","w":24,"h":24},{"src":"elektrosymbole/stellantrieb.png","w":20,"h":22},{"src":"elektrosymbole/stromspeicher.png","w":14,"h":22},{"src":"elektrosymbole/tablet-halterung.png","w":24,"h":24},{"src":"elektrosymbole/taster.png","w":14,"h":14},{"src":"elektrosymbole/taster-aufputz.png","w":14,"h":14},{"src":"elektrosymbole/taster-funk.png","w":14,"h":20},{"src":"elektrosymbole/taster-funk-16a.png","w":14,"h":20},{"src":"elektrosymbole/taster-funk-frei-positionierbar.png","w":14,"h":20},{"src":"elektrosymbole/tastsensor-1fach.png","w":18,"h":23},{"src":"elektrosymbole/tastsensor-2fach.png","w":18,"h":23},{"src":"elektrosymbole/tastsensor-3fach.png","w":18,"h":23},{"src":"elektrosymbole/tastsensor-4fach.png","w":18,"h":23},{"src":"elektrosymbole/tastsensor-5fach.png","w":18,"h":23},{"src":"elektrosymbole/tastsensor-6fach.png","w":18,"h":23},{"src":"elektrosymbole/tastsensor-8fach.png","w":18,"h":23},{"src":"elektrosymbole/temperatursensor.png","w":18,"h":23},{"src":"elektrosymbole/thermostat.png","w":48,"h":26},{"src":"elektrosymbole/torantrieb.png","w":24,"h":24},{"src":"elektrosymbole/trafo.png","w":24,"h":24},{"src":"elektrosymbole/trennstelle.png","w":10,"h":22},{"src":"elektrosymbole/tueroeffner.png","w":24,"h":20},{"src":"elektrosymbole/unterverteiler.png","w":25,"h":14},{"src":"elektrosymbole/verteilerkasten.png","w":25,"h":26},{"src":"elektrosymbole/videogegensprechanlage.png","w":24,"h":18},{"src":"elektrosymbole/wallbox.png","w":22,"h":23},{"src":"elektrosymbole/wandauslass-fuer-leuchte.png","w":20,"h":26},{"src":"elektrosymbole/wandleuchte.png","w":24,"h":14},{"src":"elektrosymbole/wechselschalter.png","w":30,"h":28},{"src":"elektrosymbole/wechselschalter-aufputz.png","w":20,"h":24},{"src":"elektrosymbole/wechselschalter-taster-kombination.png","w":19,"h":22},{"src":"elektrosymbole/windgeschwindigkeitssensor.png","w":18,"h":23},{"src":"elektrosymbole/zeitgeber.png","w":18,"h":23},{"src":"elektrosymbole/zeitschaltuhr-1fach.png","w":18,"h":23}];
@@ -1638,9 +1658,6 @@
       return { w: icon.w * s, h: icon.h * s };
     }
 
-    // Ziehen ohne Zuruecklegen: deck enthaelt alle Icon-Indizes in
-    // Zufallsreihenfolge; erst wenn es leer ist, wird neu gemischt.
-    var deck = [];
     function shuffle(a) {
       for (var i = a.length - 1; i > 0; i--) {
         var j = Math.floor(Math.random() * (i + 1));
@@ -1648,6 +1665,18 @@
       }
       return a;
     }
+
+    // Eine Instanz je Abschnitt. opt.bg ist die Flaeche, opt.karten sind
+    // die Elemente, die frei bleiben muessen, opt.kopf die Textzeilen der
+    // Ueberschrift, opt.raster das Element, dessen Einblenden abgewartet
+    // wird, bevor gemessen wird.
+    function symbolFlaeche(opt) {
+    var bg = document.querySelector(opt.bg);
+    if (!bg) return;
+
+    // Ziehen ohne Zuruecklegen: deck enthaelt alle Icon-Indizes in
+    // Zufallsreihenfolge; erst wenn es leer ist, wird neu gemischt.
+    var deck = [];
     function refillDeck() {
       deck = shuffle(ICONS.map(function (_, i) { return i; }));
     }
@@ -1695,21 +1724,21 @@
         };
       }
 
-      var cardRects = Array.prototype.map.call(document.querySelectorAll('.service-card'), function (c) {
+      var cardRects = Array.prototype.map.call(document.querySelectorAll(opt.karten), function (c) {
         return inBg(c.getBoundingClientRect());
       });
 
-      // Die Abschnittsueberschrift steht mittig und gross im Bild -- sie
-      // zaehlt deshalb wie eine Karte zu den belegten Flaechen. Gemessen
-      // wird die tatsaechliche Textbreite, nicht der volle Block.
-      var kopf = document.querySelector('#leistungen .section-head .eyebrow');
-      if (kopf && kopf.firstChild) {
+      // Die Abschnittsueberschrift steht gross im Bild -- sie zaehlt
+      // deshalb wie eine Karte zu den belegten Flaechen. Gemessen wird die
+      // tatsaechliche Textbreite je Zeile, nicht der volle Block.
+      Array.prototype.forEach.call(document.querySelectorAll(opt.kopf), function (kopf) {
+        if (!kopf.firstChild) return;
         var bereich = document.createRange();
         bereich.selectNodeContents(kopf);
         Array.prototype.forEach.call(bereich.getClientRects(), function (r) {
           if (r.width > 1 && r.height > 1) cardRects.push(inBg(r));
         });
-      }
+      });
 
       function freeAt(x, y, box) {
         var l = x - box / 2, r = x + box / 2;
@@ -1846,11 +1875,11 @@
       resizeTimer = setTimeout(rebuild, 300);
     });
 
-    // Die Leistungskarten fahren beim ersten Sichtbarwerden per CSS-Transition
-    // ein (transform/opacity, [data-reveal] .55s + Stagger). Erst NACH dieser
+    // Die Karten fahren beim ersten Sichtbarwerden per CSS-Transition ein
+    // (transform/opacity, [data-reveal] .55s + Stagger). Erst NACH dieser
     // Transition messen, sonst werden Symbole anhand der noch nicht fertig
     // eingefahrenen Kartenposition platziert und ueberlappen danach die Karte.
-    var grid = document.querySelector('.services-grid');
+    var grid = document.querySelector(opt.raster);
     if (grid && 'IntersectionObserver' in window) {
       var revealIo = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
@@ -1864,6 +1893,20 @@
     } else {
       window.addEventListener('load', rebuild);
     }
+    }
+
+    symbolFlaeche({
+      bg: '.leistungen-bg',
+      karten: '#leistungen .service-card',
+      kopf: '#leistungen .section-head .eyebrow',
+      raster: '.services-grid'
+    });
+    symbolFlaeche({
+      bg: '.kunden-bg',
+      karten: '#kunden .kunden-card',
+      kopf: '#kunden .section-head .eyebrow, #kunden .section-head h2',
+      raster: '.kunden-grid'
+    });
   })();
 </script>
 
