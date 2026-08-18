@@ -251,7 +251,12 @@
   #leistungen{position:relative;overflow:hidden;background:var(--dark);padding-top:clamp(18px,calc(var(--sh) * 3.6),64px);padding-bottom:clamp(5px,calc(var(--sh) * 1),24px);}
   /* Dunkler Hintergrund, damit die weissen Leistungskarten kraeftig
      hervortreten -- derselbe dunkle Ton wie im Hero. */
-  #leistungen .section-head .eyebrow{color:var(--yellow);}
+  /* Die Ueberschrift des Abschnitts steht mittig ueber dem Raster,
+     deutlich groesser und in Weiss -- sie liegt ueber dem dunklen
+     Planhintergrund und soll dort als Titel wirken. */
+  #leistungen .section-head{text-align:center;margin-left:auto;margin-right:auto;}
+  #leistungen .section-head .eyebrow{color:#fff;font-size:clamp(20px,calc(var(--sh) * 3.2),34px);
+    letter-spacing:.09em;text-shadow:0 2px 14px rgba(18,24,30,.55);}
   #leistungen > .wrap, #leistungen > .services-grid{position:relative;z-index:1;}
   /* Hintergrund: das Planfoto in Graustufen mit langsamem Zoom, darueber
      blitzen technische Symbole verteilt auf und wieder aus -- eines nach
@@ -302,6 +307,34 @@
      vergroessert und wirkt unscharf. */
   .service-card.ep-gross .service-img img{transform:none;}
   .services-grid:has(.ep-gross) .service-card:not(.ep-gross){opacity:.45;}
+  /* Die Vergroesserung zieht die Schrift mit auf -- der Text wuerde riesig
+     wirken. Deshalb werden Schriftgroessen, Abstaende und Linien in der
+     grossen Karte durch denselben Faktor geteilt: sie erscheinen so gross
+     wie in einer normalen Karte, es steht nur mehr Text darin. */
+  .service-card.ep-gross .service-body{
+    padding:calc(clamp(9px,calc(var(--sh) * 1.4),34px) / var(--ep-scale))
+            calc(clamp(18px,2vw,34px) / var(--ep-scale))
+            calc(clamp(10px,calc(var(--sh) * 1.5),38px) / var(--ep-scale));
+    gap:calc(clamp(5px,calc(var(--sh) * 0.9),12px) / var(--ep-scale));
+  }
+  .service-card.ep-gross .service-body h3{font-size:calc(clamp(17px,calc(var(--sh) * 2.75),29px) / var(--ep-scale));}
+  .service-card.ep-gross .service-body p{font-size:calc(clamp(13.5px,calc(var(--sh) * 1.85),17.5px) / var(--ep-scale));}
+  .service-card.ep-gross .service-more{
+    font-size:calc(clamp(11px,calc(var(--sh) * 1.45),15px) / var(--ep-scale));
+    border-bottom-width:calc(2px / var(--ep-scale));
+    padding-bottom:calc(1px / var(--ep-scale));
+  }
+  .service-card.ep-gross .service-overlay{
+    padding:calc(20px / var(--ep-scale)) calc(24px / var(--ep-scale));
+    transform:none;
+  }
+  .service-card.ep-gross .service-overlay li{
+    font-size:calc(14px / var(--ep-scale));
+    line-height:1.65;
+  }
+  /* Die ausfuehrlichen Punkte stehen nur in der vergroesserten Karte. */
+  .service-overlay .mehr{display:none;}
+  .service-card.ep-gross .service-overlay .mehr{display:list-item;}
   .service-img{position:relative;height:clamp(104px,calc(var(--sh) * 20.5),400px);overflow:hidden;}
   .service-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.25,.8,.25,1);}
   .service-card:hover .service-img img{transform:scale(1.08);}
@@ -597,7 +630,6 @@
     <div class="hero-plan-img" data-bild="hero-2.jpg"></div>
     <div class="hero-plan-img" data-bild="hero-3.jpg"></div>
     <div class="hero-plan-img" data-bild="hero-4.jpg"></div>
-    <div class="hero-plan-img" data-bild="hero-5.jpg"></div>
     <div class="hero-sweep"></div>
   </div>
   <div class="hero-overlay"></div>
@@ -683,6 +715,9 @@
           <li>Neubau &amp; Sanierung</li>
           <li>Zählerschrank erneuern</li>
           <li>Messprotokoll inklusive</li>
+          <li class="mehr">Fehlerstrom- und Überspannungsschutz</li>
+          <li class="mehr">Steckdosen, Schalter und Beleuchtungsanschlüsse</li>
+          <li class="mehr">Vorbereitung für Wallbox, PV und Smart Home</li>
         </ul>
       </div>
       <div class="service-body">
@@ -700,6 +735,9 @@
           <li>11 und 22 kW</li>
           <li>Anmeldung beim Netzbetreiber</li>
           <li>Lastmanagement für mehrere Plätze</li>
+          <li class="mehr">Eigener Stromkreis mit passendem Fehlerstromschutz</li>
+          <li class="mehr">Messprotokoll nach DIN VDE 0100-600</li>
+          <li class="mehr">Kopplung mit bestehender PV-Anlage auf Wunsch</li>
         </ul>
       </div>
       <div class="service-body">
@@ -717,6 +755,9 @@
           <li>Auslegung nach Verbrauch</li>
           <li>Speicher, wenn er sich rechnet</li>
           <li>Anmeldung übernehmen wir</li>
+          <li class="mehr">Module, Unterkonstruktion und Wechselrichter</li>
+          <li class="mehr">Zählerschrank auf aktuellen Stand, mit Überspannungsschutz</li>
+          <li class="mehr">Eintrag im Marktstammdatenregister</li>
         </ul>
       </div>
       <div class="service-body">
@@ -734,6 +775,9 @@
           <li>Zuleitung und Absicherung</li>
           <li>Anmeldung beim Netzbetreiber</li>
           <li>Steuerung und Zählerplatz</li>
+          <li class="mehr">Passender Fehlerstrom- und Leitungsschutz</li>
+          <li class="mehr">Steuerleitung für die Vorgaben nach § 14a EnWG</li>
+          <li class="mehr">Messprotokoll nach DIN VDE 0100-600</li>
         </ul>
       </div>
       <div class="service-body">
@@ -751,6 +795,9 @@
           <li>KNX und funkbasierte Systeme</li>
           <li>Licht, Rollläden, Heizung</li>
           <li>Nachrüstbar im Bestand</li>
+          <li class="mehr">Heizungssteuerung raumweise</li>
+          <li class="mehr">Einbindung vorhandener Geräte, wo technisch möglich</li>
+          <li class="mehr">Einweisung in App und Bedienung</li>
         </ul>
       </div>
       <div class="service-body">
@@ -768,6 +815,9 @@
           <li>Video-Türklingel mit App</li>
           <li>Mehrfamilienhaus-Anlagen</li>
           <li>Austausch bestehender Systeme</li>
+          <li class="mehr">Innenstation oder App-Anbindung</li>
+          <li class="mehr">Elektrischer Türöffner auf Wunsch</li>
+          <li class="mehr">Integration in ein Smart-Home-System</li>
         </ul>
       </div>
       <div class="service-body">
@@ -785,6 +835,9 @@
           <li>Strukturierte Verkabelung</li>
           <li>Serverschrank und Patchfeld</li>
           <li>WLAN-Ausleuchtung</li>
+          <li class="mehr">Serverschrank und Patchfeld fachgerecht montiert</li>
+          <li class="mehr">Beschriftung und Dokumentation der Verkabelung</li>
+          <li class="mehr">Messprotokoll je Leitung</li>
         </ul>
       </div>
       <div class="service-body">
@@ -802,6 +855,9 @@
           <li>Ortsfeste Anlagen</li>
           <li>Geräteprüfung nach DGUV Vorschrift 3</li>
           <li>Messprotokoll für Ihre Unterlagen</li>
+          <li class="mehr">Isolationswiderstand und Schleifenimpedanz</li>
+          <li class="mehr">Auslösestrom und Auslösezeit der RCDs</li>
+          <li class="mehr">Geräteprüfung mit Prüfplakette auf Wunsch</li>
         </ul>
       </div>
       <div class="service-body">
@@ -819,6 +875,9 @@
           <li>Beratung vor Ort</li>
           <li>Konzept &amp; Kostenrahmen</li>
           <li>Hinweis auf Förderungen</li>
+          <li class="mehr">Bestandsaufnahme vor Ort</li>
+          <li class="mehr">Abstimmung mit den anderen Gewerken</li>
+          <li class="mehr">Schriftliches Angebot mit klaren Positionen</li>
         </ul>
       </div>
       <div class="service-body">
@@ -1558,8 +1617,8 @@
     var GAP_MS = 600;
     var CYCLE_MS = FADE_IN_MS + HOLD_MS + FADE_OUT_MS + GAP_MS;
 
-    function renderedDims(icon) {
-      var s = BOX / Math.max(icon.w, icon.h);
+    function renderedDims(icon, box) {
+      var s = (box || BOX) / Math.max(icon.w, icon.h);
       return { w: icon.w * s, h: icon.h * s };
     }
 
@@ -1613,17 +1672,32 @@
       var bgRect = bg.getBoundingClientRect();
       if (bgRect.width < 1 || bgRect.height < 1) return [];
 
-      var cardRects = Array.prototype.map.call(document.querySelectorAll('.service-card'), function (c) {
-        var r = c.getBoundingClientRect();
+      function inBg(r) {
         return {
           left: r.left - bgRect.left, top: r.top - bgRect.top,
           right: r.right - bgRect.left, bottom: r.bottom - bgRect.top
         };
+      }
+
+      var cardRects = Array.prototype.map.call(document.querySelectorAll('.service-card'), function (c) {
+        return inBg(c.getBoundingClientRect());
       });
 
-      function freeAt(x, y) {
-        var l = x - BOX / 2, r = x + BOX / 2;
-        var t = y - BOX / 2, b = y + BOX / 2;
+      // Die Abschnittsueberschrift steht mittig und gross im Bild -- sie
+      // zaehlt deshalb wie eine Karte zu den belegten Flaechen. Gemessen
+      // wird die tatsaechliche Textbreite, nicht der volle Block.
+      var kopf = document.querySelector('#leistungen .section-head .eyebrow');
+      if (kopf && kopf.firstChild) {
+        var bereich = document.createRange();
+        bereich.selectNodeContents(kopf);
+        Array.prototype.forEach.call(bereich.getClientRects(), function (r) {
+          if (r.width > 1 && r.height > 1) cardRects.push(inBg(r));
+        });
+      }
+
+      function freeAt(x, y, box) {
+        var l = x - box / 2, r = x + box / 2;
+        var t = y - box / 2, b = y + box / 2;
         if (l < 2 || t < 2 || r > bgRect.width - 2 || b > bgRect.height - 2) return false;
         for (var i = 0; i < cardRects.length; i++) {
           var c = cardRects[i];
@@ -1640,38 +1714,54 @@
       // Wird das Ziel nicht erreicht, folgen Nachrueck-Durchlaeufe mit
       // schrittweise kleinerem Mindestabstand, bis 15 stehen (oder die
       // freie Flaeche schlicht nicht mehr hergibt, z.B. auf dem Handy).
-      var points = [];
-      var gaps = [MIN_GAP, Math.round(MIN_GAP * 0.8), Math.round(MIN_GAP * 0.62), BOX + 6];
-      for (var g = 0; g < gaps.length && points.length < TARGET_COUNT; g++) {
-        var gap = gaps[g];
-        for (var n = points.length; n < TARGET_COUNT; n++) {
-          var best = null, bestDist = -1;
-          for (var k = 0; k < CANDIDATES_PER_POINT; k++) {
-            var x = Math.random() * bgRect.width;
-            var y = Math.random() * bgRect.height;
-            if (!freeAt(x, y)) continue;
-            var d = Infinity;
-            for (var p = 0; p < points.length; p++) {
-              var dx = points[p].x - x, dy = points[p].y - y;
-              var dist = dx * dx + dy * dy;
-              if (dist < d) d = dist;
+      function setzen(box) {
+        var punkte = [];
+        var gaps = [MIN_GAP, Math.round(MIN_GAP * 0.8), Math.round(MIN_GAP * 0.62), box + 6];
+        for (var g = 0; g < gaps.length && punkte.length < TARGET_COUNT; g++) {
+          var gap = gaps[g];
+          for (var n = punkte.length; n < TARGET_COUNT; n++) {
+            var best = null, bestDist = -1;
+            for (var k = 0; k < CANDIDATES_PER_POINT; k++) {
+              var x = Math.random() * bgRect.width;
+              var y = Math.random() * bgRect.height;
+              if (!freeAt(x, y, box)) continue;
+              var d = Infinity;
+              for (var p = 0; p < punkte.length; p++) {
+                var dx = punkte[p].x - x, dy = punkte[p].y - y;
+                var dist = dx * dx + dy * dy;
+                if (dist < d) d = dist;
+              }
+              if (d < gap * gap) continue;
+              if (punkte.length === 0) d = Math.random();
+              if (d > bestDist) { bestDist = d; best = { x: x, y: y }; }
             }
-            if (d < gap * gap) continue;
-            if (points.length === 0) d = Math.random();
-            if (d > bestDist) { bestDist = d; best = { x: x, y: y }; }
+            if (!best) break;
+            best.bgW = bgRect.width;
+            best.bgH = bgRect.height;
+            best.box = box;
+            punkte.push(best);
           }
-          if (!best) break;
-          best.bgW = bgRect.width;
-          best.bgH = bgRect.height;
-          points.push(best);
         }
+        return punkte;
       }
-      return points;
+
+      // Bei mittleren Fensterbreiten (dreispaltiges Raster, schmale Fugen)
+      // reicht die freie Flaeche fuer die volle Symbolgroesse nicht aus.
+      // Deshalb wird sie schrittweise verkleinert, bis alle 15 Plaetze
+      // stehen -- lieber etwas kleinere Symbole als nur eine Handvoll.
+      var groessen = [BOX, 46, 40, 34];
+      var beste = [];
+      for (var gi = 0; gi < groessen.length; gi++) {
+        var versuch = setzen(groessen[gi]);
+        if (versuch.length > beste.length) beste = versuch;
+        if (beste.length >= TARGET_COUNT) break;
+      }
+      return beste;
     }
 
     function applyIcon(span, icon, pos) {
       span.style.setProperty('--icon', "url('" + icon.src + "')");
-      var dims = renderedDims(icon);
+      var dims = renderedDims(icon, pos.box);
       span.style.width = dims.w.toFixed(1) + 'px';
       span.style.height = dims.h.toFixed(1) + 'px';
       span.style.left = (((pos.x - dims.w / 2) / pos.bgW) * 100).toFixed(2) + '%';
