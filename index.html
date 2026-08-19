@@ -290,7 +290,7 @@
     .leistungen-bg .symbol{animation:none;opacity:0;}
   }
   .services-grid{padding:0 clamp(20px,5vw,72px);display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,calc(var(--sh) * 3.0),48px);}
-  .service-card{background:var(--grey-0);border:1px solid var(--grey-300);display:flex;flex-direction:column;transition:transform .3s ease, box-shadow .3s ease, background .25s ease;}
+  .service-card{position:relative;background:var(--grey-0);border:1px solid var(--grey-300);display:flex;flex-direction:column;transition:transform .3s ease, box-shadow .3s ease, background .25s ease;}
   .service-card:hover{background:var(--grey-100);transform:translateY(-3px);box-shadow:0 10px 24px rgba(18,24,30,.09);}
   /* Beim Ueberfahren waechst eine Karte um rund 80 Prozent. Der Ankerpunkt
      kommt per Skript aus der Position im Raster, damit die vergroesserte
@@ -364,6 +364,12 @@
   .service-body p{color:var(--grey-600);font-size:clamp(13.5px,calc(var(--sh) * 1.85),17.5px);line-height:1.7;}
   .service-more{font-family:var(--font-heading);font-weight:600;font-size:clamp(11px,calc(var(--sh) * 1.45),15px);color:var(--ink);border-bottom:2px solid var(--yellow);margin-top:auto;align-self:flex-start;padding-bottom:1px;}
   .service-more:hover{color:var(--yellow-text);text-decoration:none;}
+  /* Die ganze Karte ist die Klickflaeche: der Link legt sich unsichtbar
+     ueber die komplette Karte. Sonst ist der Schriftzug ein kleines Ziel
+     unten in einer beim Ueberfahren stark vergroesserten Karte -- und
+     liegt je nach Zeile sogar unterhalb des Fensterrands. So genuegt ein
+     Klick an beliebiger Stelle der Karte, auch per Fingertipp. */
+  .service-more::after{content:"";position:absolute;inset:0;z-index:3;}
 
   /* MARQUEE (Marken + Bilderband) */
   .marquee-section{padding:56px 0;border-bottom:2px solid var(--grey-300);overflow:hidden;}
