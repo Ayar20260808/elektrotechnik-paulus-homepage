@@ -295,12 +295,12 @@
   .services-grid{padding:0 clamp(20px,5vw,72px);display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,calc(var(--sh) * 3.0),48px);}
   .service-card{background:var(--grey-0);border:1px solid var(--grey-300);display:flex;flex-direction:column;transition:transform .3s ease, box-shadow .3s ease, background .25s ease;}
   .service-card:hover{background:var(--grey-100);transform:translateY(-3px);box-shadow:0 10px 24px rgba(18,24,30,.09);}
-  /* Beim Ueberfahren waechst eine Karte um rund 30 Prozent. Der Ankerpunkt
+  /* Beim Ueberfahren waechst eine Karte um rund 20 Prozent. Der Ankerpunkt
      kommt per Skript aus der Position im Raster, damit die vergroesserte
      Karte innerhalb des Abschnitts bleibt und nicht am Rand abgeschnitten
      wird. */
   .service-card.ep-gross{
-    transform:scale(var(--ep-scale, 1.3));
+    transform:scale(var(--ep-scale, 1.2));
     transform-origin:var(--ep-origin, 50% 50%);
     transition:transform .45s cubic-bezier(.22,.61,.36,1), box-shadow .45s ease, background .25s ease;
     box-shadow:0 30px 80px rgba(18,24,30,.42);
@@ -315,7 +315,7 @@
   /* In der auf Rasterhoehe festgehaltenen Karte duerfen Bild und Feld
      nicht zusammengedrueckt werden -- sie behalten ihre Groesse und laufen
      stattdessen nach unten hinaus. */
-  .service-card.ep-gross .service-img{height:auto;flex:0 0 auto;}
+  .service-card.ep-gross .service-img{height:auto;max-height:var(--ep-bildmax, none);flex:0 0 auto;}
   .service-card.ep-gross .service-body{flex:0 0 auto;}
   .service-card.ep-gross .service-img img{transform:none;height:auto;object-fit:contain;}
   .services-grid:has(.ep-gross) .service-card:not(.ep-gross){opacity:.45;}
@@ -335,20 +335,31 @@
   }
   .service-detail li{color:var(--grey-600);}
   .service-detail li::before{content:"– ";color:var(--yellow-text);}
+  /* Zwei Spalten: sechs Punkte brauchen so nur drei Zeilen. Damit bleibt
+     die vergroesserte Karte flach genug, dass ihr verlaengertes Feld in die
+     Fuge zwischen den Kartenreihen passt und die Karte darunter frei
+     bleibt -- sie ist weiter anklickbar. */
   .service-card.ep-gross .service-detail{
     height:auto;overflow:visible;visibility:visible;opacity:1;transform:none;
-    font-size:calc(clamp(13.5px,calc(var(--sh) * 1.85),17.5px) / var(--ep-scale));
-    line-height:1.7;
-    gap:calc(2px / var(--ep-scale));
+    display:grid;grid-template-columns:1fr 1fr;align-content:start;align-items:start;
+    column-gap:calc(18px / var(--ep-scale));row-gap:calc(2px / var(--ep-scale));
+    font-size:calc(clamp(12.5px,calc(var(--sh) * 1.68),15.5px) / var(--ep-scale));
+    line-height:1.55;
     margin-top:0;
     padding-top:calc(4px / var(--ep-scale));
+  }
+  @media(max-width:900px){
+    .service-card.ep-gross .service-detail{grid-template-columns:1fr;}
   }
   /* Die Karte behaelt beim Vergroessern ihre Hoehe im Raster (per Skript
      festgehalten), damit die Nachbarkarten nicht verrutschen. Das weisse
      Feld darf dafuer nach unten ueber die Karte hinauslaufen -- es bekommt
      dort Rahmen und Schatten, damit es wie eine Fortsetzung der Karte
      aussieht und nicht wie ein loser Kasten. */
-  .service-card.ep-gross{height:var(--ep-hoehe, auto);}
+  /* contain:size sorgt dafuer, dass der ueberstehende Inhalt nicht in
+     die Groessenberechnung des Rasters einfliesst -- sonst wuerde die
+     Zeile trotz fester Hoehe nachgeben. */
+  .service-card.ep-gross{height:var(--ep-hoehe, auto);contain:size;}
   .service-card.ep-gross .service-body{
     border:1px solid var(--grey-300);border-top:0;
     margin:0 calc(-1px / var(--ep-scale));
@@ -1566,8 +1577,8 @@
     var cards = Array.prototype.slice.call(grid.querySelectorAll('.service-card:not(.ep-mess)'));
     if (!cards.length) return;
 
-    // Die Karte waechst um rund 30 Prozent ueber ihre Originalgroesse.
-    var SCALE = 1.3;
+    // Die Karte waechst um rund 20 Prozent ueber ihre Originalgroesse.
+    var SCALE = 1.2;
 
     function feinAus() {
       // Kein Vergroessern ohne echten Mauszeiger, bei einspaltigem Raster
@@ -1621,10 +1632,26 @@
       // zweispaltigen Raster), so weit vergroessern wie der Platz hergibt,
       // statt ueber den Rand zu laufen. Massgeblich ist dabei die Hoehe
       // samt der Verlaengerung des weissen Feldes.
-      var inhalt = inhaltsHoehe(card, r.height);
+      var mass = messen(card);
+      var inhalt = Math.max(r.height, mass.gesamt);
       var faktor = Math.min(SCALE,
         sp.width / r.width,
         (s.height - LUFT) / inhalt);
+
+      // Das verlaengerte Feld darf hoechstens so weit hinausragen wie die
+      // Fuge zwischen zwei Kartenreihen breit ist -- sonst legt sich die
+      // vergroesserte Karte ueber die Karte darunter und macht sie schwer
+      // erreichbar. Notfalls wird das Foto etwas kleiner gezeigt; es bleibt
+      // dabei vollstaendig sichtbar, nur mit Rand links und rechts.
+      var erlaubt = r.height + fugenHoehe() / faktor;
+      var bild = card.querySelector('.service-img img');
+      var vollHoehe = (bild && bild.naturalWidth)
+        ? r.width * bild.naturalHeight / bild.naturalWidth
+        : mass.gesamt - mass.feld;
+      // Zusammendruecken ja, aber hoechstens auf 88 Prozent der vollen
+      // Bildhoehe -- darunter wuerde das Foto in der Karte verloren wirken.
+      var bildMax = Math.max(vollHoehe * 0.88, erlaubt - mass.feld);
+      card.style.setProperty('--ep-bildmax', bildMax.toFixed(1) + 'px');
       var hoehe = inhalt * faktor;
       var ax = anteil(r.left - sp.left, sp.right - r.right, r.width * (faktor - 1));
       var ay = anteil(r.top - s.top, s.bottom - r.bottom, hoehe - r.height);
@@ -1633,12 +1660,12 @@
       card.classList.add('ep-gross');
     }
 
-    // Wie hoch die Karte im vergroesserten Zustand tatsaechlich wird:
-    // Bild in voller Hoehe (Seitenverhaeltnis) plus weisses Feld samt der
-    // ausgeklappten Punkte. Gemessen an einer unsichtbaren Kopie, damit
-    // die sichtbare Karte dabei nicht flackert.
+    // Wie hoch die Karte im vergroesserten Zustand wird: Bild in voller
+    // Hoehe (Seitenverhaeltnis) plus weisses Feld samt ausgeklappten
+    // Punkten. Gemessen an einer unsichtbaren Kopie, damit die sichtbare
+    // Karte dabei nicht flackert.
     var messKarte = null;
-    function inhaltsHoehe(card, ruhehoehe) {
+    function messen(card) {
       if (!messKarte) {
         messKarte = document.createElement('div');
         messKarte.setAttribute('aria-hidden', 'true');
@@ -1651,9 +1678,18 @@
       probe.style.transform = 'none';
       probe.style.height = 'auto';
       probe.style.setProperty('--ep-scale', '1');
-      var h = probe.getBoundingClientRect().height;
+      var werte = {
+        gesamt: probe.getBoundingClientRect().height,
+        feld: probe.querySelector('.service-body').getBoundingClientRect().height
+      };
       messKarte.innerHTML = '';
-      return Math.max(ruhehoehe, h);
+      return werte;
+    }
+
+    function fugenHoehe() {
+      var g = window.getComputedStyle(grid).rowGap;
+      var v = parseFloat(g);
+      return isNaN(v) ? 0 : v;
     }
 
 
@@ -1661,16 +1697,57 @@
       card.classList.remove('ep-gross');
     }
 
+    // Welche Karte vergroessert wird, entscheidet die Ruheposition unter
+    // dem Zeiger -- nicht das Element, das gerade darunter liegt. Sonst
+    // wuerde das nach unten verlaengerte Feld einer vergroesserten Karte
+    // den Zeiger festhalten und die Karte darunter waere schwer zu
+    // treffen. Die Ruhepositionen kommen aus offsetTop/offsetLeft und
+    // bleiben von der Vergroesserung unberuehrt.
+    var aktiv = null;
+
+    function ruheRect(card) {
+      var bezug = card.offsetParent || grid;
+      var o = bezug.getBoundingClientRect();
+      return {
+        left: o.left + card.offsetLeft,
+        top: o.top + card.offsetTop,
+        right: o.left + card.offsetLeft + card.offsetWidth,
+        bottom: o.top + card.offsetTop + card.offsetHeight
+      };
+    }
+
+    function karteAn(x, y) {
+      for (var i = 0; i < cards.length; i++) {
+        var r = ruheRect(cards[i]);
+        if (x >= r.left && x <= r.right && y >= r.top && y <= r.bottom) return cards[i];
+      }
+      return null;
+    }
+
+    function wechseln(karte) {
+      if (karte === aktiv) return;
+      if (aktiv) klein(aktiv);
+      aktiv = karte;
+      if (aktiv) gross(aktiv);
+    }
+
+    section.addEventListener('mousemove', function (e) {
+      if (feinAus()) return;
+      wechseln(karteAn(e.clientX, e.clientY));
+    });
+    section.addEventListener('mouseleave', function () { wechseln(null); });
+
+    // Tastaturbedienung: beim Hineinfokussieren ebenso vergroessern.
     cards.forEach(function (card) {
-      card.addEventListener('mouseenter', function () { gross(card); });
-      card.addEventListener('mouseleave', function () { klein(card); });
-      // Tastaturbedienung: beim Hineinfokussieren ebenso vergroessern.
-      card.addEventListener('focusin', function () { gross(card); });
-      card.addEventListener('focusout', function () { klein(card); });
+      card.addEventListener('focusin', function () { wechseln(card); });
+      card.addEventListener('focusout', function () {
+        if (aktiv === card) wechseln(null);
+      });
     });
 
     window.addEventListener('resize', function () {
       cards.forEach(klein);
+      aktiv = null;
     });
   })();
 
