@@ -1584,19 +1584,18 @@
     submitBtn.disabled = true;
     submitBtn.textContent = 'Wird gesendet...';
 
-    var daten = {
-      Vorname: document.getElementById('vorname').value,
-      Nachname: document.getElementById('nachname').value,
-      'E-Mail': document.getElementById('email').value,
-      Telefon: document.getElementById('telefon').value,
-      Anliegen: document.getElementById('anliegen').value,
-      Nachricht: document.getElementById('nachricht').value
-    };
+    var daten = new FormData();
+    daten.append('Vorname', document.getElementById('vorname').value);
+    daten.append('Nachname', document.getElementById('nachname').value);
+    daten.append('E-Mail', document.getElementById('email').value);
+    daten.append('Telefon', document.getElementById('telefon').value);
+    daten.append('Anliegen', document.getElementById('anliegen').value);
+    daten.append('Nachricht', document.getElementById('nachricht').value);
 
     fetch('https://formspree.io/f/' + FORMSPREE_ID, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify(daten)
+      headers: { 'Accept': 'application/json' },
+      body: daten
     }).then(function (antwort) {
       if (antwort.ok) {
         form.classList.add('hidden');
