@@ -719,8 +719,9 @@
   </svg>
   <div class="hero-content wrap">
     <div class="hero-eyebrow"><span class="dot"></span>Elektrobetrieb in Köln Nippes · seit 2018 im Kölner Norden</div>
-    <h1>Energie, die zusammenspielt.</h1>
-    <p class="hero-lead">Von der Basisinstallation bis zur intelligenten Haustechnik – wir verbinden Photovoltaik, Wallboxen, Smart Home und Netzwerktechnik zu einem System, das Ihren Strom genau dann nutzt, wenn Sie ihn brauchen.</p>
+    <h1>Elektrotechnik, auf die Sie sich verlassen können.</h1>
+    <p class="hero-lead">Wir sind Ihr Elektrofachbetrieb in Köln-Nippes und arbeiten für Kunden in Köln und Umgebung. Beratung, Planung, Installation und Wartung bekommen Sie bei uns aus einer Hand, fachgerecht und termintreu ausgeführt, vom festen Ansprechpartner statt von wechselnden Kolonnen.</p>
+    <p class="hero-lead">Elektroinstallation, Wallbox, Photovoltaik, der Anschluss Ihrer Wärmepumpe, Smart Home, Netzwerktechnik und VDE-Prüfungen gehören zu unserer täglichen Arbeit. Als Mitglied der Elektroinnung Köln arbeiten wir nach den geltenden VDE-Vorgaben und übergeben jede Anlage gemessen und dokumentiert.</p>
     <div class="hero-projectline">
       <span class="active">Messung &amp; Prüfprotokoll · Nippes</span>
       <span>Netzwerkschrank aufgebaut · Ehrenfeld</span>
@@ -1747,7 +1748,31 @@
       };
     }
 
+    // Die vergroesserte Karte laesst ihr weisses Feld nach unten ueber die
+    // Rasterzeile hinauslaufen. Der Link "Mehr erfahren" sitzt in genau
+    // diesem ueberstehenden Teil. Wuerde nur die Ruheposition zaehlen,
+    // verliesse der Zeiger auf dem Weg dorthin die Karte, sie klappte zu
+    // und der Link spraenge weg -- er waere nicht erreichbar. Deshalb
+    // behaelt die offene Karte den Zeiger, solange er ueber ihrer
+    // tatsaechlich sichtbaren Flaeche steht.
+    function echteFlaeche(card, x, y) {
+      if (!card) return false;
+      var teile = [card, card.querySelector('.service-body')];
+      for (var i = 0; i < teile.length; i++) {
+        if (!teile[i]) continue;
+        var r = teile[i].getBoundingClientRect();
+        if (x >= r.left && x <= r.right && y >= r.top && y <= r.bottom) return true;
+      }
+      return false;
+    }
+
     function karteAn(x, y) {
+      // Die offene Karte hat Vorrang, solange der Zeiger ueber ihrer
+      // sichtbaren Flaeche steht. Nur so bleibt der Link im
+      // herausragenden Feld erreichbar. Die Nachbarkarten bleiben
+      // trotzdem bedienbar: sobald der Zeiger die offene Karte verlaesst,
+      // greift wieder die Ruheposition.
+      if (aktiv && echteFlaeche(aktiv, x, y)) return aktiv;
       for (var i = 0; i < cards.length; i++) {
         var r = ruheRect(cards[i]);
         if (x >= r.left && x <= r.right && y >= r.top && y <= r.bottom) return cards[i];
