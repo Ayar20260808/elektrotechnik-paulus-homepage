@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: "IBM Plex Sans", Arial, Helvetica, sans-serif; font-size: 10pt; color: #232F3B; }
+
+  .sender-line { font-size: 8pt; color: #6B7480; margin-bottom: 5mm; }
+  .top-block { display: flex; justify-content: space-between; }
+  .recipient { font-size: 10.5pt; line-height: 1.5; }
+  .meta-table { border-collapse: collapse; }
+  .meta-table td {
+    padding: 0.6px 0; font-size: 9.5pt; line-height: 1.25;
+  }
+  .meta-table td.label {
+    color: #6B7480; text-align: left; padding-right: 8mm;
+    white-space: nowrap;
+  }
+  .meta-table td.value { text-align: left; color: #232F3B; white-space: nowrap; }
+
+  .bv-title { font-weight: bold; margin-top: 16mm; margin-bottom: 1mm; }
+  .angebot-nr { font-weight: bold; margin-bottom: 12mm; }
+
+  p { margin: 3mm 0; line-height: 1.4; }
+
+  table.positions { width: 100%; border-collapse: collapse; margin-top: 5mm; }
+  table.positions th {
+    background: #232F3B; color: #fff; text-align: left; font-size: 9.5pt;
+    padding: 5px 6px; border: 0.5px solid #232F3B;
+  }
+  table.positions th.num, table.positions td.num { text-align: right; }
+  table.positions td { border-bottom: 0.5px solid #ddd; padding: 5px 6px; font-size: 9.5pt; vertical-align: top; }
+  /* letzte Position eines Abschnitts kraeftiger abschliessen */
+  table.positions tr.abschnittsende td { border-bottom: 1.2px solid #232F3B; }
+  table.positions .pos-name { font-weight: bold; }
+  table.positions .pos-detail { color: #3A4956; margin: 2px 0 0 0; white-space: pre-line; }
+
+  .totals { width: 100%; margin-top: 4mm; border-collapse: collapse; }
+  .totals td { padding: 3px 6px; font-size: 10pt; }
+  .totals td.label { text-align: right; }
+  .totals td.value { text-align: right; width: 34mm; font-weight: bold; white-space: nowrap; }
+  .totals tr.grand td { border-top: 2px solid #232F3B; font-size: 11pt; }
+
+  .terms { margin-top: 6mm; font-size: 9.5pt; line-height: 1.5; }
+  .closing { margin-top: 8mm; }
+
+
+</style>
+</head>
+<body>
+
+<div class="sender-line">Elektrotechnik Paulus GmbH &nbsp; Wartburgstr. 12 &nbsp; 50733 Köln</div>
+
+<div class="top-block">
+  <div class="recipient">
+    ANREDE<br>
+    VORNAME NACHNAME<br>
+    STRASSE HAUSNUMMER<br>
+    PLZ ORT
+  </div>
+  <table class="meta-table">
+    <tr><td class="label">BELEGART-Nr.</td><td class="value">XXX-XXXXX</td></tr>
+    <tr><td class="label">Projektnummer</td><td class="value">XXX</td></tr>
+    <tr><td class="label">Datum</td><td class="value">TT.MM.JJJJ</td></tr>
+    <!-- Bei RECHNUNGEN Pflicht (§14 UStG): Zeitpunkt bzw. Zeitraum der Leistung.
+         Bei anderen Belegarten diese Zeile loeschen. -->
+    <tr><td class="label">Leistungszeitraum</td><td class="value">TT.MM.JJJJ – TT.MM.JJJJ</td></tr>
+    <tr><td class="label">Ansprechpartner</td><td class="value">Irfan Ayar</td></tr>
+    <tr><td class="label">Telefon</td><td class="value">0221 298 940 83</td></tr>
+    <tr><td class="label">E-Mail</td><td class="value">ayar@elektrotechnik-paulus.de</td></tr>
+  </table>
+</div>
+
+<div class="bv-title">BV: BAUVORHABEN – kurze Beschreibung des Projekts.</div>
+<div class="angebot-nr">BELEGART-Nr. XXX-XXXXX</div>
+
+<p>Sehr geehrter Herr NACHNAME,</p>
+<!-- EINLEITUNG: je Belegart austauschen, Bausteine siehe Fähigkeit
+     "Kundendokumente aus der Basisvorlage ableiten" -->
+<p>EINLEITUNGSSATZ ZUR BELEGART.</p>
+<p>Die Elektroanlage wird gemäß den anerkannten Regeln der Technik sowie den aktuell gültigen
+VDE-Vorschriften errichtet.</p>
+
+<table class="positions">
+  <tr>
+    <th style="width:8%">Pos</th>
+    <th style="width:8%">Menge</th>
+    <th>Bezeichnung</th>
+    <th class="num" style="width:13%">Einheitspreis</th>
+    <th class="num" style="width:13%">Gesamt</th>
+  </tr>
+
+  <!-- Abschnittsueberschrift ueber die volle Breite. Der kursive Zusatz nur bei
+       Alternativpositionen: solche Betraege in Klammern setzen und NICHT mitsummieren. -->
+  <tr>
+    <td colspan="5" style="font-weight:bold; padding-top:8px;">
+      ABSCHNITTSUEBERSCHRIFT.<br>
+      <span style="font-weight:normal; font-style: italic;"><b>Alternativposition:</b> BEGRUENDUNG,
+      warum diese Leistung moeglicherweise entfaellt.</span>
+    </td>
+  </tr>
+  <tr class="abschnittsende">   <!-- letzte Position des Abschnitts -->
+    <td>001</td>
+    <td>1 Stk</td>
+    <td>
+      <div class="pos-name">KURZBEZEICHNUNG <i>(Alternativposition)</i></div>
+      <div class="pos-detail">Detailzeile 1
+Detailzeile 2
+liefern und montieren</div>
+    </td>
+    <td class="num">0,00 €</td>
+    <td class="num">(0,00 €)</td>
+  </tr>
+
+  <tr>
+    <td colspan="5" style="font-weight:bold; padding-top:8px;">
+      ABSCHNITTSUEBERSCHRIFT der naechsten Leistung.
+    </td>
+  </tr>
+  <tr class="abschnittsende">   <!-- letzte Position des Abschnitts -->
+    <td>002</td>
+    <td>1 Stk</td>
+    <td>
+      <div class="pos-name">KURZBEZEICHNUNG</div>
+      <div class="pos-detail">Detailzeile 1
+Detailzeile 2
+liefern und montieren</div>
+    </td>
+    <td class="num">0,00 €</td>
+    <td class="num">0,00 €</td>
+  </tr>
+</table>
+
+<!-- Seitenumbruch nur so zuverlaessig: Tabelle beenden, umbrechen, neue Tabelle MIT
+     eigener Kopfzeile beginnen. Nur einsetzen, wenn sonst eine Abschnittsueberschrift
+     allein am Seitenende stehen wuerde. -->
+<div style="page-break-after: always;"></div>
+
+<table class="positions" style="margin-top:0;">
+  <tr>
+    <th style="width:8%">Pos</th>
+    <th style="width:8%">Menge</th>
+    <th>Bezeichnung</th>
+    <th class="num" style="width:13%">Einheitspreis</th>
+    <th class="num" style="width:13%">Gesamt</th>
+  </tr>
+
+  <tr>
+    <td colspan="5" style="font-weight:bold; padding-top:8px;">
+      ABSCHNITTSUEBERSCHRIFT auf der Folgeseite.
+    </td>
+  </tr>
+  <tr class="abschnittsende">   <!-- letzte Position des Abschnitts -->
+    <td>003</td>
+    <td>2 Stk</td>
+    <td>
+      <div class="pos-name">KURZBEZEICHNUNG</div>
+      <div class="pos-detail">Detailzeilen</div>
+    </td>
+    <td class="num">0,00 €</td>
+    <td class="num">0,00 €</td>
+  </tr>
+</table>
+
+<table class="totals">
+  <!-- Die folgenden zwei Zeilen nur zeigen, wenn zutreffend -->
+  <tr><td class="label">Alternative Positionen</td><td class="value">(0,00 €)</td></tr>
+  <tr><td class="label">Rabatt einmalig</td><td class="value">-0,00 €</td></tr>
+  <tr><td class="label">Nettobetrag</td><td class="value">0,00 €</td></tr>
+  <tr><td class="label">zzgl. 19% MwSt.</td><td class="value">0,00 €</td></tr>
+  <tr class="grand"><td class="label">Gesamtsumme</td><td class="value">0,00 €</td></tr>
+</table>
+
+<div class="terms">
+  <!-- SCHLUSSTEXT: je Belegart austauschen.
+       Angebot   -> Eigentumsvorbehalt, Zahlungsbedingungen, Bindefrist
+       Rechnung  -> Leistungszeitraum, Zahlungsziel, ggf. Hinweis nach §13b UStG
+       Beide     -> Bankverbindung steht bereits in der Fußzeile -->
+  Die Ware bleibt bis zur vollständigen Bezahlung unser Eigentum. Eine Abrechnung erfolgt nach
+  tatsächlichem Aufwand. Die genannten Preise verstehen sich für einen verzögerungsfreien
+  Montageablauf.<br><br>
+  ZAHLUNGSBEDINGUNGEN.<br><br>
+  SCHLUSSSATZ.
+</div>
+
+<div class="closing">
+  Mit freundlichen Grüßen<br><br>
+  Irfan Ayar
+</div>
+
+</body>
+</html>
