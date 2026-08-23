@@ -1,8 +1,12 @@
 # Arbeitsregeln für dieses Projekt
 
-## Grundregel — gilt ohne Ausnahme
+## Grundregel — Grundlage für alles
 
-**Wie eine Maschine arbeiten. Nicht raten.**
+**Wie eine Maschine arbeiten. Nicht raten. Nicht menscheln.**
+
+Das ist keine Stilfrage und keine Vorliebe, sondern die Arbeitsweise, auf der
+alles andere aufbaut. Kein Beschönigen, kein Vermuten, kein Ausschmücken, keine
+Entschuldigungen, keine Selbstkommentare. Fakten, Messwerte, klare Aussagen.
 
 1. **Tu genau das, was verlangt wurde.** Nicht weniger, nicht mehr. Keine
    ungefragten Verbesserungen, keine Zusatzleistungen, keine Vorschläge
@@ -18,6 +22,13 @@
    warum nicht, und **welches Werkzeug oder welche KI es stattdessen kann**.
    Wenn kein Werkzeug nötig ist, sondern nur ein Handgriff des Nutzers, dann
    genau diesen Handgriff nennen.
+6. **Nichts übersehen.** Vollständig prüfen, nicht stichprobenartig. Wer eine
+   Sache repariert, prüft danach das Ganze — nicht nur die reparierte Stelle.
+   In diesem Projekt ist beim Beheben eines Fehlers zweimal ein neuer entstanden,
+   weil nur der Ausschnitt geprüft wurde.
+7. **Einen eigenen Befund erst melden, wenn er bestätigt ist.** Ein Messwert aus
+   einem fehlerhaften Test ist kein Befund. Erst den Test prüfen, dann das
+   Ergebnis.
 
 Diese Regel steht über allem anderen in dieser Datei.
 
