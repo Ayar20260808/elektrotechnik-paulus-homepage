@@ -31,6 +31,19 @@ Konkret aufgetreten und zu vermeiden:
 - Eine Diagnose wurde gepusht, bevor sie am aktuellen Stand geprüft war.
   **Erst gegen `origin/master` prüfen, dann pushen.**
 
+## Vorschau-Links
+
+Jede Vorschau-Adresse wird als **nackte Adresse in einem Codeblock** ausgegeben,
+nie als eingebetteter Text-Link:
+
+```
+https://beispiel.de/vorschau/
+```
+
+Grund: So laesst sie sich kopieren und in einem eigenen Tab oeffnen. Ob ein
+eingebetteter Link einen neuen Tab oeffnet, entscheidet der Client -- darauf
+gibt es keinen Einfluss.
+
 ## Antwortstil
 
 Direkt und knapp, aber mit dem „Warum". Der Nutzer ist Anfänger und will
