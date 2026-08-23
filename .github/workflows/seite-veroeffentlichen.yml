@@ -1,0 +1,168 @@
+# Baut den Branch gh-pages zusammen, aus dem GitHub Pages die Seite ausliefert.
+#
+#   master              -> Wurzel          .../elektrotechnik-paulus-homepage/
+#   jeder andere Branch -> Unterordner     .../elektrotechnik-paulus-homepage/vorschau/<branch>/
+#
+# So hat jeder Arbeitsstand eine feste Adresse, die von jedem Geraet erreichbar
+# ist. Die Seite ist reines HTML, es wird nichts gebaut -- die Dateien werden
+# nur kopiert. Das funktioniert unter einem Unterordner, weil alle Pfade im
+# Projekt relativ sind (siehe Kommentar in marke.css).
+#
+# Einmalig noetig: Settings -> Pages -> Source auf Branch "gh-pages", Ordner "/".
+
+name: Seite und Vorschauen veroeffentlichen
+
+on:
+  push:
+    branches: ['**']
+  delete:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Immer nur ein Lauf gleichzeitig, sonst schreiben zwei Laeufe gleichzeitig auf
+# gh-pages und einer verliert.
+concurrency:
+  group: gh-pages
+  cancel-in-progress: false
+
+jobs:
+  veroeffentlichen:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Arbeitsstand holen
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Branchnamen und Ordner bestimmen
+        id: ziel
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" = "delete" ]; then
+            if [ "${{ github.event.ref_type }}" != "branch" ]; then
+              echo "aktion=nichts" >> "$GITHUB_OUTPUT"; exit 0
+            fi
+            BRANCH="${{ github.event.ref }}"
+            echo "aktion=entfernen" >> "$GITHUB_OUTPUT"
+          else
+            BRANCH="${GITHUB_REF#refs/heads/}"
+            if [ "$BRANCH" = "master" ]; then
+              echo "aktion=live" >> "$GITHUB_OUTPUT"
+            else
+              echo "aktion=vorschau" >> "$GITHUB_OUTPUT"
+            fi
+          fi
+          # Schraegstriche vertragen sich nicht mit einem Ordnernamen
+          SLUG="$(printf '%s' "$BRANCH" | tr '/' '-' | tr -cd '[:alnum:]._-')"
+          echo "branch=$BRANCH" >> "$GITHUB_OUTPUT"
+          echo "slug=$SLUG"     >> "$GITHUB_OUTPUT"
+          echo "Branch: $BRANCH  ->  Ordner: $SLUG"
+
+      - name: gh-pages bereitstellen
+        if: steps.ziel.outputs.aktion != 'nichts'
+        run: |
+          set -euo pipefail
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git ls-remote --exit-code --heads origin gh-pages >/dev/null 2>&1; then
+            git fetch origin gh-pages:gh-pages
+            git worktree add ../seite gh-pages
+          else
+            git worktree add --detach ../seite
+            git -C ../seite checkout --orphan gh-pages
+            git -C ../seite rm -rf --cached . >/dev/null 2>&1 || true
+            find ../seite -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +
+          fi
+
+      - name: Dateien einsortieren
+        if: steps.ziel.outputs.aktion != 'nichts'
+        env:
+          AKTION: ${{ steps.ziel.outputs.aktion }}
+          SLUG: ${{ steps.ziel.outputs.slug }}
+        run: |
+          set -euo pipefail
+          # Kopiert wird mit tar statt rsync: tar ist ueberall vorhanden, damit
+          # haengt der Ablauf an einem Werkzeug weniger.
+          kopieren() {   # $1 = Zielordner
+            tar -c --exclude='./.git' --exclude='./.github' . | tar -x -C "$1"
+          }
+          case "$AKTION" in
+            live)
+              # Wurzel leeren, den Vorschau-Ordner dabei stehen lassen
+              find ../seite -mindepth 1 -maxdepth 1 \
+                ! -name '.git' ! -name 'vorschau' -exec rm -rf {} +
+              kopieren ../seite
+              ;;
+            vorschau)
+              rm -rf "../seite/vorschau/$SLUG"
+              mkdir -p "../seite/vorschau/$SLUG"
+              kopieren "../seite/vorschau/$SLUG"
+              ;;
+            entfernen)
+              rm -rf "../seite/vorschau/$SLUG"
+              ;;
+          esac
+
+      - name: Uebersicht der Vorschauen schreiben
+        if: steps.ziel.outputs.aktion != 'nichts'
+        run: |
+          set -euo pipefail
+          # Jekyll ueberspringen, sonst verschluckt Pages manche Ordner
+          touch ../seite/.nojekyll
+          mkdir -p ../seite/vorschau
+          {
+            echo '<!DOCTYPE html><html lang="de"><head><meta charset="utf-8">'
+            echo '<meta name="viewport" content="width=device-width,initial-scale=1">'
+            echo '<meta name="robots" content="noindex">'
+            echo '<title>Vorschauen</title><style>'
+            echo 'body{font:16px/1.6 system-ui,sans-serif;max-width:44rem;margin:6vh auto;padding:0 1.2rem;color:#232F3B}'
+            echo 'h1{font-size:1.5rem;margin:0 0 .3rem}p{color:#5a6270;margin:0 0 1.6rem}'
+            echo 'ul{list-style:none;padding:0}li{border-top:1px solid #dfe3e8;padding:.9rem 0}'
+            echo 'a{color:#232F3B;font-weight:600;text-decoration:none;border-bottom:2px solid #FFD700}'
+            echo '</style></head><body><h1>Vorschauen</h1>'
+            echo '<p>Arbeitsstaende der Website. Die fertige Seite liegt eine Ebene hoeher.</p><ul>'
+            gefunden=0
+            for d in ../seite/vorschau/*/; do
+              [ -d "$d" ] || continue
+              name="$(basename "$d")"
+              printf '<li><a href="./%s/">%s</a></li>\n' "$name" "$name"
+              gefunden=1
+            done
+            if [ "$gefunden" = "0" ]; then echo '<li>Zurzeit keine.</li>'; fi
+            echo '</ul><p><a href="../">Zur fertigen Seite</a></p></body></html>'
+          } > ../seite/vorschau/index.html
+
+      - name: Veroeffentlichen
+        if: steps.ziel.outputs.aktion != 'nichts'
+        env:
+          BRANCH: ${{ steps.ziel.outputs.branch }}
+          AKTION: ${{ steps.ziel.outputs.aktion }}
+        run: |
+          set -euo pipefail
+          cd ../seite
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Nichts geaendert, kein neuer Commit."
+            exit 0
+          fi
+          git commit -m "$AKTION: $BRANCH"
+          git push origin gh-pages
+
+      - name: Adresse ausgeben
+        if: steps.ziel.outputs.aktion != 'nichts'
+        env:
+          AKTION: ${{ steps.ziel.outputs.aktion }}
+          SLUG: ${{ steps.ziel.outputs.slug }}
+        run: |
+          BASIS="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}"
+          if [ "$AKTION" = "live" ]; then
+            echo "### Fertige Seite aktualisiert"        >> "$GITHUB_STEP_SUMMARY"
+            echo "$BASIS/"                                >> "$GITHUB_STEP_SUMMARY"
+          elif [ "$AKTION" = "vorschau" ]; then
+            echo "### Vorschau aktualisiert"              >> "$GITHUB_STEP_SUMMARY"
+            echo "$BASIS/vorschau/$SLUG/"                 >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "### Vorschau entfernt: $SLUG"           >> "$GITHUB_STEP_SUMMARY"
+          fi
