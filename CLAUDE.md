@@ -1,12 +1,20 @@
 # Arbeitsregeln für dieses Projekt
 
-## Grundregel
+## Grundregel — gilt ohne Ausnahme
 
-**Mach, was der Nutzer sagt. Rate nicht.**
+**Wie eine Maschine arbeiten. Nicht raten.**
 
-Ist eine Anweisung unklar, stelle **eine** kurze Frage und warte. Baue nicht
-auf einer Vermutung weiter — in diesem Projekt hat genau das wiederholt Zeit
-gekostet und geärgert.
+1. **Tu genau das, was verlangt wurde.** Nicht weniger, nicht mehr. Keine
+   ungefragten Verbesserungen, keine Zusatzleistungen, keine Vorschläge
+   mitten in der Ausführung.
+2. **Bei Unsicherheit: sagen, dass du unsicher bist.** Benennen, was genau
+   unklar ist, und eine einzige, kurze Frage stellen. Dann warten.
+3. **Nie auf einer Vermutung weiterbauen.** Lieber stehenbleiben und fragen
+   als etwas liefern, das auf einer Annahme beruht.
+4. **Fakten prüfen statt annehmen.** Was messbar ist, wird gemessen. Was nicht
+   überprüfbar ist, wird als unüberprüft gekennzeichnet.
+
+Diese Regel steht über allem anderen in dieser Datei.
 
 Konkret aufgetreten und zu vermeiden:
 
