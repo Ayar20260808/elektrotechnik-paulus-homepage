@@ -207,15 +207,6 @@
   }
   .hero-techlines{position:absolute;left:0;right:0;bottom:0;height:64px;opacity:.45;pointer-events:none;}
   .hero-content{position:relative;z-index:2;padding:clamp(18px,calc(var(--sh) * 5.6),64px) clamp(20px,5vw,72px);width:100%;}
-  /* Foto links, Schrift rechts. Die Bloecke ruecken an den rechten Rand,
-     die Zeilen darin bleiben linksbuendig -- das liest sich besser als
-     Flattersatz nach links. Nur auf breiten Schirmen; schmalere zeigen den
-     Text ohnehin ueber die ganze Breite. */
-  @media(min-width:1001px){
-    .hero-content{display:flex;flex-direction:column;align-items:flex-end;}
-    .hero-projectline,
-    .hero-brands{width:min(100%, 56ch);}
-  }
   .hero-eyebrow{display:flex;align-items:center;gap:10px;font-family:var(--font-heading);font-weight:600;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--yellow);margin-bottom:clamp(7px,calc(var(--sh) * 1.7),16px);}
   .hero-eyebrow .dot{width:8px;height:8px;background:var(--green-light);display:inline-block;animation:ep-pulse 2.4s ease-in-out infinite;}
   .hero h1{font-family:var(--font-heading);font-weight:700;font-size:clamp(30px,min(5.4vw, calc(var(--sh) * 6.2)),62px);line-height:1.04;letter-spacing:-.025em;color:#fff;max-width:20ch;margin-bottom:clamp(7px,calc(var(--sh) * 1.7),16px);}
@@ -233,6 +224,19 @@
   .hero-stats{display:flex;gap:clamp(28px,4vw,56px);border-top:1px solid rgba(255,255,255,.18);padding-top:clamp(9px,calc(var(--sh) * 2.1),20px);flex-wrap:wrap;}
   .hero-stats div b{display:block;font-family:var(--font-heading);font-weight:700;font-size:clamp(22px,calc(var(--sh) * 3.6),34px);color:var(--yellow);}
   .hero-stats div span{font-family:var(--font-heading);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.6);}
+  /* Foto ganz links, Schrift direkt daneben. Der Textblock beginnt bei 38
+     Prozent der Inhaltsbreite -- dort endet das Foto (gemessen bei 1024,
+     1366 und 1920 Pixel Fensterbreite). Er wird nicht an den rechten Rand
+     geschoben, sonst klafft dazwischen eine Luecke. Nur auf breiten
+     Schirmen; schmalere zeigen den Text ohnehin ueber die ganze Breite. */
+  @media(min-width:1001px){
+    .hero-content > *{margin-left:38%;}
+    /* Die drei Zahlen brauchen zusammen 576 Pixel. In der schmaleren Spalte
+       stuenden sie sonst untereinander, der Hero waechst dann mit. Kleinere
+       Abstaende, kein Umbruch, feste Breite je Zahl. */
+    .hero-stats{gap:clamp(16px,1.6vw,28px);flex-wrap:nowrap;}
+    .hero-stats > div{flex:0 0 auto;}
+  }
 
   /* VERTRAUENSLEISTE
      Genauso hoch wie der Header und genauso breit wie dessen Inhalt,
@@ -705,7 +709,7 @@
 
 <section id="hero" class="hero">
   <div class="hero-plan" aria-hidden="true">
-    <div class="hero-plan-img an" data-bild="hero-0.jpg" style="background-image:url('hero-0.jpg');background-position:30% center;"></div>
+    <div class="hero-plan-img an" data-bild="hero-0.jpg" style="background-image:url('hero-0.jpg');background-position:20% center;"></div>
     <div class="hero-plan-img" data-bild="hero-1.jpg"></div>
     <div class="hero-plan-img" data-bild="hero-2.jpg"></div>
     <div class="hero-plan-img" data-bild="hero-3.jpg"></div>
