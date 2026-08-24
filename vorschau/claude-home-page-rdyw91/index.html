@@ -196,10 +196,9 @@
     .hero-plan-img{animation:none;transform:scale(1.08);}
     .hero-sweep{display:none;}
   }
-  /* Der Verlauf haelt den Text links lesbar, laesst das Foto aber nach
-     rechts hin deutlich durch. Etwas heller und einen Tick waermer als
-     zuvor, damit der Bereich freundlicher wirkt. */
-  .hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg, rgba(26,34,42,.88) 0%, rgba(26,34,42,.66) 55%, rgba(26,34,42,.22) 100%);}
+  /* Der Verlauf haelt den Text rechts lesbar, laesst das Foto aber nach
+     links hin deutlich durch -- dort steht das Gesicht. */
+  .hero-overlay{position:absolute;inset:0;background:linear-gradient(270deg, rgba(26,34,42,.88) 0%, rgba(26,34,42,.66) 55%, rgba(26,34,42,.22) 100%);}
   /* Auf schmalen Schirmen laeuft der Text ueber die ganze Breite, also auch
      ueber die helle rechte Seite. Dort deckt der Verlauf gleichmaessiger ab,
      sonst wird die Schrift auf hellen Motiven unlesbar. */
@@ -208,6 +207,15 @@
   }
   .hero-techlines{position:absolute;left:0;right:0;bottom:0;height:64px;opacity:.45;pointer-events:none;}
   .hero-content{position:relative;z-index:2;padding:clamp(18px,calc(var(--sh) * 5.6),64px) clamp(20px,5vw,72px);width:100%;}
+  /* Foto links, Schrift rechts. Die Bloecke ruecken an den rechten Rand,
+     die Zeilen darin bleiben linksbuendig -- das liest sich besser als
+     Flattersatz nach links. Nur auf breiten Schirmen; schmalere zeigen den
+     Text ohnehin ueber die ganze Breite. */
+  @media(min-width:1001px){
+    .hero-content{display:flex;flex-direction:column;align-items:flex-end;}
+    .hero-projectline,
+    .hero-brands{width:min(100%, 56ch);}
+  }
   .hero-eyebrow{display:flex;align-items:center;gap:10px;font-family:var(--font-heading);font-weight:600;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--yellow);margin-bottom:clamp(7px,calc(var(--sh) * 1.7),16px);}
   .hero-eyebrow .dot{width:8px;height:8px;background:var(--green-light);display:inline-block;animation:ep-pulse 2.4s ease-in-out infinite;}
   .hero h1{font-family:var(--font-heading);font-weight:700;font-size:clamp(30px,min(5.4vw, calc(var(--sh) * 6.2)),62px);line-height:1.04;letter-spacing:-.025em;color:#fff;max-width:20ch;margin-bottom:clamp(7px,calc(var(--sh) * 1.7),16px);}
@@ -697,7 +705,7 @@
 
 <section id="hero" class="hero">
   <div class="hero-plan" aria-hidden="true">
-    <div class="hero-plan-img an" data-bild="hero-0.jpg" style="background-image:url('hero-0.jpg');"></div>
+    <div class="hero-plan-img an" data-bild="hero-0.jpg" style="background-image:url('hero-0.jpg');background-position:30% center;"></div>
     <div class="hero-plan-img" data-bild="hero-1.jpg"></div>
     <div class="hero-plan-img" data-bild="hero-2.jpg"></div>
     <div class="hero-plan-img" data-bild="hero-3.jpg"></div>
