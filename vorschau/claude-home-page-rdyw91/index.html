@@ -687,15 +687,6 @@
           <a href="leistung-vde.html">E-Check</a>
         </div>
       </div>
-      <div class="nav-item">
-        <a href="#kunden" aria-haspopup="true" aria-expanded="false">Unsere Kunden<span class="caret" aria-hidden="true"></span></a>
-        <div class="submenu">
-          <a href="#kunden-privat">Für Privatkunden</a>
-          <a href="#kunden-unternehmen">Für Unternehmen</a>
-          <a href="#kunden-industrie">Für Industriekunden</a>
-          <a href="#kunden-bautraeger">Für Bauträger &amp; Architekten</a>
-        </div>
-      </div>
       <a href="#ablauf">Ablauf</a>
       <a href="#kontakt">Kontakt</a>
       <a href="#kontakt" class="nav-cta">Angebot anfragen</a>
@@ -983,52 +974,6 @@
   </div>
 </div>
 
-<section id="kunden">
-  <div class="kunden-bg" aria-hidden="true">
-    <div class="kunden-bg-photo"></div>
-  </div>
-  <div class="wrap">
-    <div class="section-head" data-reveal>
-      <span class="eyebrow">Unsere Kunden</span>
-      <h2>Wir sind da für Sie – egal ob privat oder gewerblich.</h2>
-    </div>
-  </div>
-  <div class="kunden-grid reveal-group">
-
-    <div class="kunden-card" id="kunden-privat" data-reveal>
-      <div class="kunden-img"><img src="kunden-privat.jpg" alt="Beleuchtung im Wohnzimmer" loading="lazy"></div>
-      <div class="kunden-body">
-        <h3>Für Privatkunden</h3>
-        <p>Von der Reparatur bis zum Neubau: Smart Home, Photovoltaik, Ladetechnik und Sicherheitstechnik – unkompliziert beraten.</p>
-      </div>
-    </div>
-
-    <div class="kunden-card" id="kunden-unternehmen" data-reveal>
-      <div class="kunden-img"><img src="kunden-unternehmen.jpg" alt="Bürogebäude" loading="lazy"></div>
-      <div class="kunden-body">
-        <h3>Für Unternehmen</h3>
-        <p>E-Check nach DGUV Vorschrift 3, Wartung und Reparatur. Dazu EDV-Netzwerke, Ladeinfrastruktur und Gebäudetechnik.</p>
-      </div>
-    </div>
-
-    <div class="kunden-card" id="kunden-industrie" data-reveal>
-      <div class="kunden-img"><img src="kunden-industrie.jpg" alt="Technik in einer Industriehalle" loading="lazy"></div>
-      <div class="kunden-body">
-        <h3>Für Industriekunden</h3>
-        <p>Installation und Wartung in Produktion, Anlagentechnik und Facility-Management – zuverlässig und fachkundig.</p>
-      </div>
-    </div>
-
-    <div class="kunden-card" id="kunden-bautraeger" data-reveal>
-      <div class="kunden-img"><img src="kunden-bautraeger.jpg" alt="Rohbau einer Baustelle" loading="lazy"></div>
-      <div class="kunden-body">
-        <h3>Für Bauträger &amp; Architekten</h3>
-        <p>Langjähriger Partner in Neubau und Altbausanierung – von der Planung bis zur Abnahme aller Elektrofacharbeiten.</p>
-      </div>
-    </div>
-
-  </div>
-</section>
 
 <div class="marquee-section attached">
   <div class="marquee-head">Aus dem Arbeitsalltag</div>
@@ -1373,7 +1318,6 @@
     </div>
     <nav class="footer-links">
       <a href="#leistungen">Leistungen</a>
-      <a href="#kunden">Unsere Kunden</a>
       <a href="#ablauf">Ablauf</a>
       <a href="#kontakt">Kontakt</a>
       <a onclick="showLegalPage('impressum')">Impressum</a>
@@ -2084,12 +2028,6 @@
       karten: '#leistungen .service-card:not(.ep-mess)',
       kopf: '#leistungen .section-head .eyebrow',
       raster: '.services-grid'
-    });
-    symbolFlaeche({
-      bg: '.kunden-bg',
-      karten: '#kunden .kunden-card',
-      kopf: '#kunden .section-head .eyebrow, #kunden .section-head h2',
-      raster: '.kunden-grid'
     });
   })();
 </script>
