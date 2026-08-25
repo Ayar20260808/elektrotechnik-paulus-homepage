@@ -214,11 +214,6 @@
   .hero-projectline{position:relative;height:clamp(15px,calc(var(--sh) * 2.55),24px);margin-bottom:clamp(11px,calc(var(--sh) * 2.55),24px);max-width:56ch;}
   .hero-projectline span{position:absolute;left:0;top:0;font-family:var(--font-heading);font-weight:600;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--tech-blue-light);opacity:0;transition:opacity .8s ease;}
   .hero-projectline span.active{opacity:1;}
-  .hero-brands{display:flex;align-items:baseline;gap:10px;margin-top:clamp(9px,calc(var(--sh) * 1.6),16px);}
-  .hero-brands-label{font-family:var(--font-heading);font-weight:600;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.5);white-space:nowrap;}
-  .hero-brands-names{position:relative;height:1.3em;flex:1;min-width:120px;}
-  .hero-brands-names span{position:absolute;left:0;top:0;font-family:var(--font-heading);font-weight:700;font-size:14px;letter-spacing:.02em;color:var(--yellow);opacity:0;transition:opacity .8s ease;white-space:nowrap;}
-  .hero-brands-names span.active{opacity:1;}
   .hero-actions{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:clamp(13px,calc(var(--sh) * 2.95),28px);}
   .hero-actions .btn{padding:clamp(9px,calc(var(--sh) * 1.5),14px) clamp(18px,2vw,26px);font-size:clamp(13px,calc(var(--sh) * 1.6),15px);}
   .hero-stats{display:flex;gap:clamp(28px,4vw,56px);border-top:1px solid rgba(255,255,255,.18);padding-top:clamp(9px,calc(var(--sh) * 2.1),20px);flex-wrap:wrap;}
@@ -425,9 +420,9 @@
      Eigener Clip-Container nötig, da overflow:hidden an der Padding-Box
      schneidet und der Inhalt sonst rechts ins Padding hineinläuft. */
   .marquee-section.inset{padding-left:clamp(20px,5vw,72px);padding-right:clamp(20px,5vw,72px);overflow:visible;}
-  /* Band als unterer Teil der Leistungen-Fläche */
-  /* Das Band laeuft ueber die volle Fensterbreite, damit die Bilder von
-     Kante zu Kante durchziehen. Deshalb kein seitlicher Innenabstand. */
+  /* Baender ueber die volle Fensterbreite: das Bilderband unter den
+     Leistungen und das Markenband unter "So arbeiten wir". Kein
+     seitlicher Innenabstand, damit der Inhalt von Kante zu Kante zieht. */
   .marquee-section.attached{background:var(--grey-0);padding-left:0;padding-right:0;overflow:hidden;
     padding-top:clamp(11px,calc(var(--sh) * 2.2),48px);padding-bottom:clamp(11px,calc(var(--sh) * 2.4),56px);
     border-bottom:2px solid var(--grey-300);}
@@ -440,6 +435,10 @@
   /* Laufzeit fuer die ganze Bildreihe. Bei 84 Bildern sind das rund
      30 Pixel pro Sekunde -- ruhig genug, um nicht abzulenken. */
   .marquee-track.slow{animation-duration:210s;}
+  /* Elf Markennamen sind rund 1690 Pixel breit. Mit der Grundzeit von 26
+     Sekunden liefe das Band mit 65 Pixeln je Sekunde, doppelt so schnell
+     wie vorher mit fuenf Namen. 54 Sekunden ergeben wieder rund 31. */
+  .marquee-track.marken{animation-duration:54s;}
   .marquee-group{display:flex;align-items:center;gap:64px;padding-right:64px;}
   .brand-name{font-family:var(--font-heading);font-weight:700;font-size:21px;color:var(--grey-600);white-space:nowrap;}
   .imgband-group{display:flex;gap:2px;padding-right:2px;}
@@ -506,15 +505,6 @@
   .card-grid-head h2{font-weight:700;font-size:clamp(28px,3.4vw,42px);}
   .card-grid-head .note{font-size:14px;color:var(--grey-600);max-width:32ch;}
   .card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:2px;}
-  .ref-card{border:2px solid var(--grey-300);background:var(--grey-0);transition:transform .35s cubic-bezier(.22,.61,.36,1), box-shadow .35s ease;}
-  .ref-card:hover{transform:translateY(-4px);box-shadow:0 14px 32px rgba(18,24,30,.12);}
-  .ref-img{height:220px;overflow:hidden;}
-  .ref-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.25,.8,.25,1);}
-  .ref-card:hover .ref-img img{transform:scale(1.08);}
-  .ref-body{padding:22px 24px;}
-  .ref-cat{font-family:var(--font-heading);font-weight:600;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--tech-blue);}
-  .ref-body h3{font-weight:700;font-size:17px;margin:8px 0 6px;}
-  .ref-body p{font-size:14.5px;color:var(--grey-600);}
 
   .review-card{border:2px solid var(--grey-300);background:var(--grey-0);padding:24px 24px 26px;display:flex;flex-direction:column;gap:14px;}
   .review-stars{color:var(--yellow);font-size:17px;letter-spacing:2px;}
@@ -750,22 +740,6 @@
       <div><b data-count="4">0</b><span>Kundengruppen betreut</span></div>
       <div><b data-count="1">0</b><span>Ansprechpartner, direkt</span></div>
     </div>
-    <div class="hero-brands">
-      <span class="hero-brands-label">Marken, mit denen wir arbeiten</span>
-      <div class="hero-brands-names">
-        <span class="active">Hager</span>
-        <span>Gira</span>
-        <span>Busch-Jäger</span>
-        <span>Jung</span>
-        <span>ABB</span>
-        <span>Siemens</span>
-        <span>Schneider Electric</span>
-        <span>MENNEKES</span>
-        <span>Viessmann</span>
-        <span>Fronius</span>
-        <span>SMA Solar</span>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -984,18 +958,6 @@
   </div>
 </section>
 
-<div class="marquee-section">
-  <div class="marquee-head">Marken, mit denen wir arbeiten</div>
-  <div class="marquee-track">
-    <div class="marquee-group">
-      <span class="brand-name">Hager</span><span class="brand-name">Gira</span><span class="brand-name">Busch-Jäger</span><span class="brand-name">Jung</span><span class="brand-name">ABB</span>
-    </div>
-    <div class="marquee-group" aria-hidden="true">
-      <span class="brand-name">Hager</span><span class="brand-name">Gira</span><span class="brand-name">Busch-Jäger</span><span class="brand-name">Jung</span><span class="brand-name">ABB</span>
-    </div>
-  </div>
-</div>
-
 
 <div class="marquee-section attached">
   <div class="marquee-head">Aus dem Arbeitsalltag</div>
@@ -1117,28 +1079,19 @@
   </div>
 </section>
 
-<section id="referenzen">
-  <div class="wrap">
-    <div class="card-grid-head" data-reveal>
-      <h2>Arbeiten aus Köln und Umgebung.</h2>
-      <span class="note">Platzhalterbilder — hier kommen eigene Projektfotos hin.</span>
-    </div>
-    <div class="card-grid reveal-group">
-      <div class="ref-card" data-reveal>
-        <div class="ref-img"><img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=800&h=600&fit=crop" alt="Zählerschrank erneuert" loading="lazy"></div>
-        <div class="ref-body"><span class="ref-cat">Elektroinstallation</span><h3>Zählerschrank erneuert</h3><p>Mehrfamilienhaus in Nippes, Umbau im laufenden Betrieb.</p></div>
+<div class="marquee-section attached">
+  <div class="marquee-head">Marken, mit denen wir arbeiten</div>
+  <div class="marquee-clip">
+    <div class="marquee-track marken">
+      <div class="marquee-group">
+        <span class="brand-name">Hager</span><span class="brand-name">Gira</span><span class="brand-name">Busch-Jäger</span><span class="brand-name">Jung</span><span class="brand-name">ABB</span><span class="brand-name">Siemens</span><span class="brand-name">Schneider Electric</span><span class="brand-name">MENNEKES</span><span class="brand-name">Viessmann</span><span class="brand-name">Fronius</span><span class="brand-name">SMA Solar</span>
       </div>
-      <div class="ref-card" data-reveal>
-        <div class="ref-img"><img src="https://images.unsplash.com/photo-1613665813446-82a78c468a1d?w=800&h=600&fit=crop" alt="PV-Anlage auf dem Gewerbedach" loading="lazy"></div>
-        <div class="ref-body"><span class="ref-cat">Erneuerbare Energien</span><h3>PV-Anlage auf dem Gewerbedach</h3><p>Flachdach-Modulfeld auf einem Betriebsgebäude, Auslegung nach Lastprofil.</p></div>
-      </div>
-      <div class="ref-card" data-reveal>
-        <div class="ref-img"><img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&h=600&fit=crop" alt="Netzwerk für ein Büro" loading="lazy"></div>
-        <div class="ref-body"><span class="ref-cat">Datennetzwerk</span><h3>Netzwerk für ein Büro</h3><p>Ehrenfeld, 24 Arbeitsplätze mit Serverschrank und WLAN.</p></div>
+      <div class="marquee-group" aria-hidden="true">
+        <span class="brand-name">Hager</span><span class="brand-name">Gira</span><span class="brand-name">Busch-Jäger</span><span class="brand-name">Jung</span><span class="brand-name">ABB</span><span class="brand-name">Siemens</span><span class="brand-name">Schneider Electric</span><span class="brand-name">MENNEKES</span><span class="brand-name">Viessmann</span><span class="brand-name">Fronius</span><span class="brand-name">SMA Solar</span>
       </div>
     </div>
   </div>
-</section>
+</div>
 
 <section id="bewertungen" style="background:var(--grey-100);border-top:2px solid var(--ink);">
   <div class="wrap">
@@ -1444,7 +1397,6 @@
     }, intervalMs);
   }
   cycleSpans('.hero-projectline span', 6000);
-  cycleSpans('.hero-brands-names span', 2600);
 
   // Hero-Hintergrund: die Bildebenen wechseln reihum durch, immer eine
   // sichtbar. Die Bilder ausser dem ersten werden erst nach dem Laden
