@@ -555,6 +555,12 @@
   .form-success h3{color:var(--green-text);font-weight:700;font-size:19px;}
   .form-success p{color:var(--green-text);font-size:15px;}
   .form-success button{align-self:flex-start;margin-top:6px;}
+  /* Urlaubshinweis ueber dem Formular, gleiche Bauart wie die Meldungen
+     darin: heller Grund, farbige Kante links. */
+  .form-urlaub{background:var(--grey-0);border:2px solid var(--ink);border-left:6px solid var(--yellow);
+    padding:18px 22px;margin-bottom:16px;}
+  .form-urlaub b{display:block;font-family:var(--font-heading);font-size:16px;color:var(--ink);margin-bottom:5px;}
+  .form-urlaub p{font-size:14.5px;color:var(--grey-600);margin:0;line-height:1.6;}
   .form-error{background:var(--red-tint);border-left:4px solid var(--red);padding:16px 18px;display:none;margin-top:14px;}
   .form-error.show{display:block;}
   .form-error p{color:var(--red-text);font-size:14.5px;margin:0;}
@@ -1201,6 +1207,10 @@
     </div>
 
     <div data-reveal>
+      <div class="form-urlaub" id="urlaubshinweis" data-bis="2026-09-03">
+        <b>Wir sind bis zum 3. September 2026 im Urlaub.</b>
+        <p>Ihre Anfrage erreicht uns trotzdem — wir beantworten sie, sobald wir zurück sind.</p>
+      </div>
       <form id="kontaktform" action="https://formspree.io/f/xgawqqkn" method="POST">
         <input type="hidden" name="_next" value="https://ayar20260808.github.io/elektrotechnik-paulus-homepage/index.html?gesendet=1#kontakt">
         <input type="hidden" name="_subject" value="Neue Anfrage über die Homepage">
@@ -1332,6 +1342,15 @@
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Der Urlaubshinweis nimmt sich nach dem letzten Urlaubstag selbst heraus,
+  // damit dort nicht monatelang ein alter Termin steht.
+  (function () {
+    var hinweis = document.getElementById('urlaubshinweis');
+    if (!hinweis) return;
+    var bis = new Date(hinweis.dataset.bis + 'T23:59:59');
+    if (new Date() > bis) hinweis.remove();
+  })();
 
   // Hero exakt so hoch machen, dass Header + Hero + Vertrauensleiste
   // genau eine Bildschirmhöhe ergeben. Die Höhen werden gemessen statt
