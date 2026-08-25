@@ -55,6 +55,16 @@ Grund: So laesst sie sich kopieren und in einem eigenen Tab oeffnen. Ob ein
 eingebetteter Link einen neuen Tab oeffnet, entscheidet der Client -- darauf
 gibt es keinen Einfluss.
 
+**Nach jeder Aenderung sofort die Adresse ausgeben, ungefragt und als erste
+Zeile der Antwort.** Nicht warten, bis danach gefragt wird. Auch dann, wenn die
+Antwort hauptsaechlich eine Rueckfrage oder ein Bericht ist.
+
+Die Adresse des Arbeitsstands:
+
+```
+https://ayar20260808.github.io/elektrotechnik-paulus-homepage/vorschau/claude-home-page-rdyw91/
+```
+
 ## Antwortstil
 
 Direkt und knapp, aber mit dem „Warum". Der Nutzer ist Anfänger und will
