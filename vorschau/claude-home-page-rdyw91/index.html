@@ -443,8 +443,14 @@
      Groesse, die Vertrauensleiste und Fusszeile schon nutzen. Mindesthoehe
      statt fester Hoehe, damit auf schmalen Schirmen nichts abgeschnitten
      wird, wenn der Header dort kleiner ist als der Bandinhalt. */
-  .marquee-section.markenband{min-height:var(--header-hoehe, 139px);
+  .marquee-section.markenband,
+  .marquee-section.bilderband{min-height:var(--header-hoehe, 139px);
     padding-top:0;padding-bottom:0;display:flex;flex-direction:column;justify-content:center;}
+  /* Damit das Bilderband dieselbe Hoehe trifft, richtet sich die Bildhoehe
+     nach dem Header: abzueglich Ueberschrift (19), Abstand darunter (14) und
+     etwas Luft. Der Inhalt bleibt so knapp unter der Mindesthoehe, die dann
+     die Hoehe bestimmt -- sonst waere das Band ein paar Pixel zu hoch. */
+  .marquee-section.bilderband .imgband-group img{height:calc(var(--header-hoehe, 139px) - 38px);}
   .marquee-group{display:flex;align-items:center;gap:64px;padding-right:64px;}
   .brand-name{font-family:var(--font-heading);font-weight:700;font-size:21px;color:var(--grey-600);white-space:nowrap;}
   .imgband-group{display:flex;gap:2px;padding-right:2px;}
@@ -649,7 +655,6 @@
     .services-grid{gap:clamp(11px,calc(var(--sh) * 1.7),40px);}
     #leistungen{padding-top:clamp(18px,calc(var(--sh) * 4.2),84px);}
     .marquee-head{margin-bottom:6px;}
-    .imgband-group img{height:clamp(44px,calc(var(--sh) * 7.8),210px);}
   }
 
   @media(max-width:768px){
@@ -965,7 +970,7 @@
 </section>
 
 
-<div class="marquee-section attached">
+<div class="marquee-section attached bilderband">
   <div class="marquee-head">Aus dem Arbeitsalltag</div>
   <div class="marquee-clip">
     <div class="marquee-track slow">
