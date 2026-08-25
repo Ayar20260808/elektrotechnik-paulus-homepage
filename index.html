@@ -439,6 +439,12 @@
      Sekunden liefe das Band mit 65 Pixeln je Sekunde, doppelt so schnell
      wie vorher mit fuenf Namen. 54 Sekunden ergeben wieder rund 31. */
   .marquee-track.marken{animation-duration:54s;}
+  /* Das Markenband ist genauso hoch wie der Header -- dieselbe gemessene
+     Groesse, die Vertrauensleiste und Fusszeile schon nutzen. Mindesthoehe
+     statt fester Hoehe, damit auf schmalen Schirmen nichts abgeschnitten
+     wird, wenn der Header dort kleiner ist als der Bandinhalt. */
+  .marquee-section.markenband{min-height:var(--header-hoehe, 139px);
+    padding-top:0;padding-bottom:0;display:flex;flex-direction:column;justify-content:center;}
   .marquee-group{display:flex;align-items:center;gap:64px;padding-right:64px;}
   .brand-name{font-family:var(--font-heading);font-weight:700;font-size:21px;color:var(--grey-600);white-space:nowrap;}
   .imgband-group{display:flex;gap:2px;padding-right:2px;}
@@ -1079,7 +1085,7 @@
   </div>
 </section>
 
-<div class="marquee-section attached">
+<div class="marquee-section attached markenband">
   <div class="marquee-head">Marken, mit denen wir arbeiten</div>
   <div class="marquee-clip">
     <div class="marquee-track marken">
