@@ -182,18 +182,9 @@
     from{transform:scale(1.05) translate3d(1.5%, 1%, 0);}
     to  {transform:scale(1.18) translate3d(-2.5%, -1.5%, 0);}
   }
-  .hero-sweep{position:absolute;top:-40%;bottom:-40%;left:0;width:34%;pointer-events:none;
-    background:linear-gradient(100deg, rgba(255,215,0,0) 0%, rgba(255,215,0,.10) 42%,
-      rgba(62,216,245,.10) 58%, rgba(62,216,245,0) 100%);
-    will-change:transform;animation:ep-sweep 18s linear infinite;}
-  @keyframes ep-sweep{
-    from{transform:translateX(-130%) rotate(8deg);}
-    to  {transform:translateX(330%) rotate(8deg);}
-  }
   /* Wer Bewegung im System abgestellt hat, bekommt ein ruhiges Standbild. */
   @media(prefers-reduced-motion: reduce){
     .hero-plan-img{animation:none;transform:scale(1.08);}
-    .hero-sweep{display:none;}
   }
   /* Der Verlauf haelt den Text rechts lesbar, laesst das Foto aber nach
      links hin deutlich durch -- dort steht das Gesicht. */
@@ -722,7 +713,6 @@
     <div class="hero-plan-img" data-bild="hero-3.jpg"></div>
     <div class="hero-plan-img" data-bild="hero-montage.jpg" style="background-position:27% center;"></div>
     <div class="hero-plan-img" data-bild="hero-4.jpg"></div>
-    <div class="hero-sweep"></div>
   </div>
   <div class="hero-overlay"></div>
   <div class="hero-content wrap">
