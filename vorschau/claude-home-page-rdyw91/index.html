@@ -114,7 +114,6 @@
   /* Reveal-Animationen */
   [data-reveal]{opacity:0;transform:translateY(14px);transition:opacity .55s cubic-bezier(.22,.61,.36,1), transform .55s cubic-bezier(.22,.61,.36,1);}
   [data-reveal].in{opacity:1;transform:none;}
-  @keyframes ep-dash{to{stroke-dashoffset:-32;}}
   @keyframes ep-ken{from{transform:scale(1);}to{transform:scale(1.08);}}
   @keyframes ep-marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
   @keyframes ep-pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
@@ -205,7 +204,6 @@
   @media(max-width:1000px){
     .hero-overlay{background:linear-gradient(180deg, rgba(26,34,42,.86) 0%, rgba(26,34,42,.80) 45%, rgba(26,34,42,.88) 100%);}
   }
-  .hero-techlines{position:absolute;left:0;right:0;bottom:0;height:64px;opacity:.45;pointer-events:none;}
   .hero-content{position:relative;z-index:2;padding:clamp(18px,calc(var(--sh) * 5.6),64px) clamp(20px,5vw,72px);width:100%;}
   .hero-eyebrow{display:flex;align-items:center;gap:10px;font-family:var(--font-heading);font-weight:600;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--yellow);margin-bottom:clamp(7px,calc(var(--sh) * 1.7),16px);}
   .hero-eyebrow .dot{width:8px;height:8px;background:var(--green-light);display:inline-block;animation:ep-pulse 2.4s ease-in-out infinite;}
@@ -727,10 +725,6 @@
     <div class="hero-sweep"></div>
   </div>
   <div class="hero-overlay"></div>
-  <svg class="hero-techlines" viewBox="0 0 1200 64" preserveAspectRatio="none" aria-hidden="true">
-    <path d="M0 32 H200 L230 12 H420 L450 52 H700 L730 32 H1000 L1030 12 H1200" fill="none" stroke="#3ED8F5" stroke-width="2"/>
-    <path d="M420 32 H700" fill="none" stroke="#3ED8F5" stroke-width="2" stroke-dasharray="6 10" style="animation:ep-dash 1.6s linear infinite;"/>
-  </svg>
   <div class="hero-content wrap">
     <div class="hero-eyebrow"><span class="dot"></span>Elektrofachbetrieb in Köln · über 30 Jahre Erfahrung</div>
     <h1>Elektrotechnik, auf die Sie sich verlassen können.</h1>
