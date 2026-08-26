@@ -508,21 +508,6 @@
   .card-grid-head .note{font-size:14px;color:var(--grey-600);max-width:32ch;}
   .card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:2px;}
 
-  /* Gesamtnote ueber den Karten. */
-  .bewertung-note{display:flex;align-items:center;gap:16px;padding:26px 0 24px;}
-  .bewertung-note > b{font-family:var(--font-heading);font-size:40px;line-height:1;font-weight:700;}
-  .bewertung-note span{display:block;font-size:14px;color:var(--grey-600);margin-top:2px;}
-  .review-card{border:2px solid var(--grey-300);background:var(--grey-0);padding:24px 24px 26px;display:flex;flex-direction:column;gap:14px;}
-  .review-stars{color:var(--yellow);font-size:17px;letter-spacing:2px;}
-  .review-quote{font-size:16px;line-height:1.7;color:var(--ink);flex:1 1 auto;}
-  .review-foot{font-size:14px;color:var(--ink);}
-  .review-foot span{color:var(--grey-600);}
-  /* Fuenf Karten teilen sich auf breiten Schirmen in drei plus zwei auf,
-     deshalb eine groessere Mindestbreite als beim vierspaltigen Raster. */
-  .bewertung-grid{grid-template-columns:repeat(auto-fill,minmax(330px,1fr));}
-  /* Pflichtangabe nach Paragraf 5b Absatz 3 UWG: wer Bewertungen veroeffentlicht,
-     muss sagen, ob und wie er ihre Echtheit sicherstellt. */
-  .bewertung-hinweis{margin-top:28px;font-size:14px;line-height:1.7;color:var(--grey-600);max-width:62ch;}
 
   /* ANSPRECHPARTNER */
   .ap-box{border:2px solid var(--ink);border-left:6px solid var(--yellow);padding:44px clamp(24px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:clamp(24px,4vw,56px);align-items:center;}
@@ -1033,49 +1018,6 @@
     </div>
   </div>
 </div>
-
-<section id="bewertungen" style="background:var(--grey-100);border-top:2px solid var(--ink);">
-  <div class="wrap">
-    <div class="card-grid-head" data-reveal>
-      <h2>Bewertungen.</h2>
-    </div>
-    <div class="bewertung-note" data-reveal>
-      <b>5,0</b>
-      <div>
-        <div class="review-stars" aria-label="Fünf von fünf Sternen">★★★★★</div>
-        <span>5 Bewertungen bei CHECK24 Profis, alle mit fünf Sternen</span>
-      </div>
-    </div>
-    <div class="card-grid bewertung-grid reveal-group">
-      <div class="review-card" data-reveal>
-        <div class="review-stars" aria-label="Fünf von fünf Sternen">★★★★★</div>
-        <p class="review-quote">Toller Service und Herr Ayar macht eine super Arbeit. Wenn ich in Zukunft wieder einen Elektriker brauchen sollte, werde ich mich an ihn wenden und auch meinen Freunden empfehlen.</p>
-        <div class="review-foot">Aylin Y. <span>· CHECK24 Profis · 18.08.2026</span></div>
-      </div>
-      <div class="review-card" data-reveal>
-        <div class="review-stars" aria-label="Fünf von fünf Sternen">★★★★★</div>
-        <p class="review-quote">Hervorragende, schnelle Kommunikation und spontane Lösung meines Problems.</p>
-        <div class="review-foot">Suzan F. <span>· CHECK24 Profis · 15.01.2026</span></div>
-      </div>
-      <div class="review-card" data-reveal>
-        <div class="review-stars" aria-label="Fünf von fünf Sternen">★★★★★</div>
-        <p class="review-quote">Lief alles einwandfrei, von der ersten Kommunikation bis zum Rechnungserhalt - gerne wieder.</p>
-        <div class="review-foot">Eva K. <span>· CHECK24 Profis · 29.01.2025</span></div>
-      </div>
-      <div class="review-card" data-reveal>
-        <div class="review-stars" aria-label="Fünf von fünf Sternen">★★★★★</div>
-        <p class="review-quote">Waren super schnell da, weil sie einen Auftrag um die Ecke hatten und sonst auch ein super nettes Team :)! Sehr gerne wieder!</p>
-        <div class="review-foot">Kevin <span>· CHECK24 Profis · 23.12.2024</span></div>
-      </div>
-      <div class="review-card" data-reveal>
-        <div class="review-stars" aria-label="Fünf von fünf Sternen">★★★★★</div>
-        <p class="review-quote">Rundum zufrieden. Schnelle Terminfindung, zuverlässig und alle Arbeiten professionell erledigt.</p>
-        <div class="review-foot">Anonym <span>· CHECK24 Profis · 16.09.2024</span></div>
-      </div>
-    </div>
-    <p class="bewertung-hinweis" data-reveal>Alle Bewertungen sind unverändert von unserem Profil bei CHECK24 Profis übernommen. Wir wählen nicht aus und prüfen die Bewertenden nicht selbst.</p>
-  </div>
-</section>
 
 <section id="ansprechpartner">
   <div class="wrap">
