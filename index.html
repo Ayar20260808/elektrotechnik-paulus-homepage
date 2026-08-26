@@ -508,10 +508,11 @@
   .card-grid-head .note{font-size:14px;color:var(--grey-600);max-width:32ch;}
   .card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:2px;}
 
-  .review-card{border:2px solid var(--grey-300);background:var(--grey-0);padding:24px 24px 26px;display:flex;flex-direction:column;gap:14px;}
-  .review-stars{color:var(--yellow);font-size:17px;letter-spacing:2px;}
-  .review-quote{font-size:16px;line-height:1.7;color:var(--ink);}
-  .review-foot{font-size:14px;color:var(--grey-600);}
+  /* Statt einzelner Zitate steht hier ein Verweis auf das Bewertungsportal.
+     Ein Link ist keine Bewertung auf der eigenen Seite -- damit entfaellt die
+     Hinweispflicht nach Paragraf 5b Absatz 3 UWG. */
+  .bewertung-verweis{padding-top:34px;display:flex;flex-direction:column;align-items:flex-start;gap:22px;}
+  .bewertung-verweis p{font-size:17px;line-height:1.7;color:var(--ink);max-width:56ch;}
 
   /* ANSPRECHPARTNER */
   .ap-box{border:2px solid var(--ink);border-left:6px solid var(--yellow);padding:44px clamp(24px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:clamp(24px,4vw,56px);align-items:center;}
@@ -1026,30 +1027,12 @@
 <section id="bewertungen" style="background:var(--grey-100);border-top:2px solid var(--ink);">
   <div class="wrap">
     <div class="card-grid-head" data-reveal>
-      <h2>Bewertungen aus Köln.</h2>
-      <span class="note">Beispieltexte — sobald der Google-Profil-Link da ist, stehen hier echte Bewertungen mit Namen.</span>
+      <h2>Bewertungen.</h2>
+      <span class="note">Geschrieben von Kunden, nicht von uns.</span>
     </div>
-    <div class="card-grid reveal-group">
-      <div class="review-card" data-reveal>
-        <div class="review-stars">★★★★★</div>
-        <p class="review-quote">Zählerschrank war 40 Jahre alt, alles an einem Tag erneuert und danach sauber hinterlassen. Termin wurde eingehalten, Preis wie im Angebot.</p>
-        <div class="review-foot">Familie K. · Nippes</div>
-      </div>
-      <div class="review-card" data-reveal>
-        <div class="review-stars">★★★★★</div>
-        <p class="review-quote">Wallbox inklusive Anmeldung beim Netzbetreiber — ich musste mich um nichts kümmern. Wurde vorher ehrlich gesagt, dass 22 kW bei uns nicht sinnvoll sind.</p>
-        <div class="review-foot">M. Sanchez · Longerich</div>
-      </div>
-      <div class="review-card" data-reveal>
-        <div class="review-stars">★★★★★</div>
-        <p class="review-quote">Wir sind seit Jahren Kunde, und als am Freitagabend eine Störung auftrat, war am Samstagmorgen jemand da. Genau dafür bleibt man bei einem Betrieb.</p>
-        <div class="review-foot">T. Wolters · Riehl</div>
-      </div>
-      <div class="review-card" data-reveal>
-        <div class="review-stars">★★★★★</div>
-        <p class="review-quote">Wir haben unser Büro komplett neu verkabeln lassen. Alles nach Plan, dokumentiert, und bei Rückfragen auch Monate später erreichbar.</p>
-        <div class="review-foot">Agentur aus Ehrenfeld</div>
-      </div>
+    <div class="bewertung-verweis" data-reveal>
+      <p>Wir stellen hier keine ausgewählten Zitate zusammen. Unsere Bewertungen stehen bei MyHammer &mdash; vollständig, unverändert und für jeden nachlesbar.</p>
+      <a class="btn btn-primary" href="https://www.my-hammer.de/auftragnehmer/elektrotechnik-paulus/bewertungen" target="_blank" rel="noopener">Bewertungen bei MyHammer ansehen</a>
     </div>
   </div>
 </section>
