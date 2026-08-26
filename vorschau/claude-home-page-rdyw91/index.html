@@ -421,9 +421,10 @@
   /* Markenzeile beginnt rechtsbuendig statt zentriert. */
   .marquee-section:not(.attached) .marquee-head{text-align:right;padding-right:clamp(20px,5vw,72px);}
   .marquee-track{display:flex;width:max-content;animation:ep-marquee 26s linear infinite;}
-  /* Laufzeit fuer die ganze Bildreihe. Bei 84 Bildern sind das rund
-     30 Pixel pro Sekunde -- ruhig genug, um nicht abzulenken. */
-  .marquee-track.slow{animation-duration:210s;}
+  /* Laufzeit fuer die ganze Bildreihe. Eine Gruppe ist rund 2650 Pixel
+     breit; 140 Sekunden ergeben rund 19 Pixel je Sekunde -- die Haelfte
+     mehr Tempo als die 210 Sekunden vorher. */
+  .marquee-track.slow{animation-duration:140s;}
   /* Elf Markennamen sind rund 1690 Pixel breit. Mit der Grundzeit von 26
      Sekunden liefe das Band mit 65 Pixeln je Sekunde, doppelt so schnell
      wie vorher mit fuenf Namen. 54 Sekunden ergeben wieder rund 31. */
