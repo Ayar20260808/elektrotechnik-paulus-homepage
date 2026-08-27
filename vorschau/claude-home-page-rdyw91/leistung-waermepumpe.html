@@ -64,8 +64,12 @@
   header.geschrumpft .nav-inner{min-height:0;padding:5px 0;}
   header.geschrumpft .logo img{width:160px;}
   header.geschrumpft .nav-links a{padding:5px 0;}
+  /* Am unteren Seitenende faehrt der Header nach oben aus dem Bild.
+     Dort steht die Fusszeile mit denselben Menuepunkten. */
+  header{transition:transform .25s ease;}
+  header.weg{transform:translateY(-100%);}
   @media (prefers-reduced-motion: reduce){
-    .nav-inner,.logo img{transition:none!important;}
+    header,.nav-inner,.logo img{transition:none!important;}
   }
   @media(max-width:1300px){:root{--inhalt-breite:calc(100% - clamp(40px,10vw,144px));}}
   @media(max-width:820px){.nav-links{display:none;}.burger{display:flex;}
@@ -301,7 +305,15 @@
   (function () {
     var kopf = document.querySelector('header');
     if (!kopf) return;
-    function pruefe() { kopf.classList.toggle('geschrumpft', window.scrollY > 40); }
+    function pruefe() {
+      var y = window.scrollY;
+      kopf.classList.toggle('geschrumpft', y > 40);
+      // Ganz unten angekommen: Header ausblenden. Nur wenn die Seite
+      // ueberhaupt scrollbar ist, sonst waere er dauerhaft weg.
+      var gesamt = document.documentElement.scrollHeight;
+      var scrollbar = gesamt > window.innerHeight + 40;
+      kopf.classList.toggle('weg', scrollbar && gesamt - window.innerHeight - y <= 4);
+    }
     window.addEventListener('scroll', pruefe, { passive: true });
     pruefe();
   })();

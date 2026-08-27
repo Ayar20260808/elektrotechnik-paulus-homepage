@@ -118,7 +118,7 @@
   @media (prefers-reduced-motion: reduce){
     [data-reveal]{opacity:1;transform:none;transition:none;}
     [data-zoom],[data-lift],[data-lift] img,.eyebrow-dot,.marquee-track{animation:none!important;transition:none!important;}
-    .nav-inner,.logo img{transition:none!important;}
+    header,.nav-inner,.logo img{transition:none!important;}
   }
 
   /* HEADER */
@@ -157,6 +157,10 @@
   header.geschrumpft .logo img{width:160px;}
   header.geschrumpft .nav-links a{padding:5px 0;}
   header.ohne-uebergang .nav-inner,header.ohne-uebergang .logo img{transition:none!important;}
+  /* Am unteren Seitenende faehrt der Header nach oben aus dem Bild.
+     Dort steht die Fusszeile mit denselben Menuepunkten. */
+  header{transition:transform .25s ease;}
+  header.weg{transform:translateY(-100%);}
 
   /* HERO */
   /* Hero füllt zusammen mit Header (max. 138px) und Vertrauensleiste (ca. 110px)
@@ -561,6 +565,12 @@
     min-height:var(--header-hoehe, 139px);display:flex;align-items:center;}
   .footer-row{width:var(--inhalt-breite);max-width:100%;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:clamp(20px,1.8vw,34px);}
   .footer-rechts{display:flex;flex-direction:column;align-items:flex-end;gap:6px;margin-left:auto;}
+  /* Die Menuepunkte aus dem Header stehen zwischen Marke und Rechtstexten
+     -- der Header ist ganz unten ausgeblendet, deshalb muss die Navigation
+     hier erreichbar bleiben. Kein eigener Aussenabstand: der Platz wird
+     von justify-content der Reihe verteilt, sonst rutscht der rechte
+     Block in eine zweite Zeile und die Fusszeile waechst. */
+  .footer-nav{flex:0 0 auto;}
   .footer-row .logo img{width:clamp(170px,14vw,250px);min-width:160px;height:auto;display:block;}
   .footer-links{display:flex;gap:clamp(11px,1.2vw,26px);align-items:center;flex-wrap:wrap;}
   .footer-links a{position:relative;font-family:var(--font-heading);font-weight:500;font-size:clamp(14px,0.88vw,16.5px);
@@ -575,12 +585,33 @@
      feine Linie -- damit die Anschrift nicht am Logo klebt. */
   .footer-marke{display:flex;align-items:center;gap:clamp(20px,2.2vw,38px);flex-wrap:wrap;}
   .footer-marke address{font-style:normal;color:var(--grey-600);font-size:14px;line-height:1.6;
-    border-left:1px solid var(--grey-300);padding-left:clamp(20px,2.2vw,38px);}
+    border-left:1px solid var(--grey-300);padding-left:clamp(20px,2.2vw,38px);max-width:32ch;}
   .footer-marke address strong{display:block;color:var(--ink);font-family:var(--font-heading);font-weight:700;
     font-size:16px;margin-bottom:5px;}
   .footer-marke address a{color:var(--grey-600);font-size:14.5px;font-family:var(--font-body);font-weight:400;padding:0;}
   .footer-marke address a:hover{color:var(--yellow-text);}
   .footer-copy{font-size:13px;color:var(--grey-600);}
+  /* Zwischen 820 und 1330 Pixeln wird es eng: Marke, Menue und Rechtstexte
+     passen nur in eine Reihe, wenn Logo, Abstaende und Anschrift schmaler
+     werden. Sonst rutscht der rechte Block in eine zweite Zeile und die
+     Fusszeile wird fast doppelt so hoch wie der Header. */
+  @media(max-width:1330px) and (min-width:1051px){
+    .footer-row{gap:clamp(14px,1.4vw,24px);}
+    .footer-row .logo img{width:clamp(150px,13vw,200px);min-width:150px;}
+    .footer-marke{gap:clamp(14px,1.6vw,24px);}
+    .footer-marke address{padding-left:clamp(14px,1.6vw,24px);max-width:30ch;}
+    .footer-links{gap:clamp(10px,1vw,18px);}
+  }
+  /* Zwischen 821 und 1050 Pixeln reicht die Breite nicht mehr fuer Logo und
+     Anschrift nebeneinander. Dann stehen sie uebereinander -- der linke
+     Block wird schmal genug, dass alle drei Gruppen in einer Reihe bleiben. */
+  @media(max-width:1050px) and (min-width:821px){
+    .footer-row{gap:14px;}
+    .footer-marke{flex-direction:column;align-items:flex-start;gap:12px;}
+    .footer-marke address{border-left:none;padding-left:0;max-width:34ch;}
+    .footer-row .logo img{width:150px;min-width:150px;}
+    .footer-links{gap:clamp(10px,1vw,18px);}
+  }
   /* Auf schmalen Schirmen passt das nicht in eine Reihe -- dort waechst die
      Fusszeile wieder mit ihrem Inhalt, wie die Vertrauensleiste auch. */
   @media(max-width:820px){
@@ -983,20 +1014,6 @@
   </div>
 </section>
 
-<div class="marquee-section attached markenband">
-  <div class="marquee-head">Marken, mit denen wir arbeiten</div>
-  <div class="marquee-clip">
-    <div class="marquee-track marken">
-      <div class="marquee-group">
-        <span class="brand-name">Hager</span><span class="brand-name">Gira</span><span class="brand-name">Busch-Jäger</span><span class="brand-name">Jung</span><span class="brand-name">ABB</span><span class="brand-name">Siemens</span><span class="brand-name">Schneider Electric</span><span class="brand-name">MENNEKES</span><span class="brand-name">Viessmann</span><span class="brand-name">Fronius</span><span class="brand-name">SMA Solar</span>
-      </div>
-      <div class="marquee-group" aria-hidden="true">
-        <span class="brand-name">Hager</span><span class="brand-name">Gira</span><span class="brand-name">Busch-Jäger</span><span class="brand-name">Jung</span><span class="brand-name">ABB</span><span class="brand-name">Siemens</span><span class="brand-name">Schneider Electric</span><span class="brand-name">MENNEKES</span><span class="brand-name">Viessmann</span><span class="brand-name">Fronius</span><span class="brand-name">SMA Solar</span>
-      </div>
-    </div>
-  </div>
-</div>
-
 <section id="ansprechpartner">
   <div class="wrap">
     <div class="ap-box" data-reveal>
@@ -1014,6 +1031,20 @@
     </div>
   </div>
 </section>
+
+<div class="marquee-section attached markenband">
+  <div class="marquee-head">Marken, mit denen wir arbeiten</div>
+  <div class="marquee-clip">
+    <div class="marquee-track marken">
+      <div class="marquee-group">
+        <span class="brand-name">Hager</span><span class="brand-name">Gira</span><span class="brand-name">Busch-Jäger</span><span class="brand-name">Jung</span><span class="brand-name">ABB</span><span class="brand-name">Siemens</span><span class="brand-name">Schneider Electric</span><span class="brand-name">MENNEKES</span><span class="brand-name">Viessmann</span><span class="brand-name">Fronius</span><span class="brand-name">SMA Solar</span>
+      </div>
+      <div class="marquee-group" aria-hidden="true">
+        <span class="brand-name">Hager</span><span class="brand-name">Gira</span><span class="brand-name">Busch-Jäger</span><span class="brand-name">Jung</span><span class="brand-name">ABB</span><span class="brand-name">Siemens</span><span class="brand-name">Schneider Electric</span><span class="brand-name">MENNEKES</span><span class="brand-name">Viessmann</span><span class="brand-name">Fronius</span><span class="brand-name">SMA Solar</span>
+      </div>
+    </div>
+  </div>
+</div>
 
 <section id="kontakt">
   <div class="wrap kontakt-grid">
@@ -1154,6 +1185,12 @@
         Wartburgstr. 12 · 50733 Köln · <a href="tel:+4922129894083">0221 2989 4083</a> · <a href="mailto:info@elektrotechnik-paulus.de">info@elektrotechnik-paulus.de</a>
       </address>
     </div>
+    <nav class="footer-links footer-nav">
+      <a href="#hero">Start</a>
+      <a href="#leistungen">Leistungen</a>
+      <a href="#ablauf">Ablauf</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
     <div class="footer-rechts">
       <nav class="footer-links">
         <a onclick="showLegalPage('impressum')">Impressum</a>
@@ -1257,7 +1294,15 @@
   (function () {
     var kopf = document.querySelector('header');
     if (!kopf) return;
-    function pruefe() { kopf.classList.toggle('geschrumpft', window.scrollY > 40); }
+    function pruefe() {
+      var y = window.scrollY;
+      kopf.classList.toggle('geschrumpft', y > 40);
+      // Ganz unten angekommen: Header ausblenden. Nur wenn die Seite
+      // ueberhaupt scrollbar ist, sonst waere er dauerhaft weg.
+      var gesamt = document.documentElement.scrollHeight;
+      var scrollbar = gesamt > window.innerHeight + 40;
+      kopf.classList.toggle('weg', scrollbar && gesamt - window.innerHeight - y <= 4);
+    }
     window.addEventListener('scroll', pruefe, { passive: true });
     pruefe();
   })();
