@@ -1528,7 +1528,15 @@
 
     function gross(card) {
       if (feinAus()) return;
-      var r = card.getBoundingClientRect();
+      // Immer die Ruhemasse nehmen. getBoundingClientRect liefert bei einer
+      // schon vergroesserten Karte die vergroesserten Werte -- beim
+      // Nachrechnen waehrend des Scrollens waere die Karte sonst mit jedem
+      // Durchgang weiter aufgeblaeht. offsetWidth und offsetHeight kennen
+      // die Vergroesserung nicht.
+      var rr = ruheRect(card);
+      var r = { left: rr.left, top: rr.top, right: rr.left + card.offsetWidth,
+                bottom: rr.top + card.offsetHeight,
+                width: card.offsetWidth, height: card.offsetHeight };
       var s = sichtbarerStreifen();
       var sp = inhaltsSpalte();
       var LUFT = 10;
@@ -1548,7 +1556,7 @@
       var platzNach = Math.max(0, s.bottom - r.bottom);
       var maxHoehe = Math.max(0, Math.min(s.height, r.height + platzVor + platzNach) - LUFT);
 
-      var mass = messen(card);
+      var mass = messen(card, r.width);
       var bild = card.querySelector('.service-img img');
       var vollHoehe = (bild && bild.naturalWidth)
         ? r.width * bild.naturalHeight / bild.naturalWidth
@@ -1583,10 +1591,10 @@
         if (sichtHoehe <= maxHoehe + 0.5 && ueberstand <= platzNach + 0.5) break;
         var inhaltHoehe = sichtHoehe / faktor;          // unskalierte Gesamthoehe
         var fPasst = maxHoehe / inhaltHoehe;
+        // Und so weit, dass der Ueberstand in den Platz unter der Karte passt.
         var fUnten = (inhaltHoehe > r.height)
-          ? (r.height + platzNach / faktor) / inhaltHoehe * faktor / faktor * faktor
+          ? platzNach / (inhaltHoehe - r.height)
           : faktor;
-        if (inhaltHoehe > r.height) fUnten = platzNach / (inhaltHoehe - r.height);
         faktor = Math.min(faktor, fPasst, fUnten);
         if (faktor <= 1.01) break;
       }
@@ -1610,14 +1618,14 @@
     // Punkten. Gemessen an einer unsichtbaren Kopie, damit die sichtbare
     // Karte dabei nicht flackert.
     var messKarte = null;
-    function messen(card) {
+    function messen(card, breite) {
       if (!messKarte) {
         messKarte = document.createElement('div');
         messKarte.setAttribute('aria-hidden', 'true');
         messKarte.style.cssText = 'position:absolute;left:-99999px;top:0;visibility:hidden;pointer-events:none;';
         grid.appendChild(messKarte);
       }
-      messKarte.style.width = card.getBoundingClientRect().width + 'px';
+      messKarte.style.width = (breite || card.offsetWidth) + 'px';
       messKarte.innerHTML = '<div class="service-card ep-gross ep-mess">' + card.innerHTML + '</div>';
       var probe = messKarte.firstChild;
       probe.style.transform = 'none';
