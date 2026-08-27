@@ -413,7 +413,7 @@
     padding-bottom:calc(1px / var(--ep-scale));
   }
 
-  .service-img{position:relative;height:clamp(104px,calc(var(--sh) * 20.5),400px);overflow:hidden;}
+  .service-img{position:relative;height:clamp(150px,calc(var(--sh) * 30),560px);overflow:hidden;}
   .service-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.25,.8,.25,1);}
   .service-card:hover .service-img img{transform:scale(1.08);}
   .service-shade{position:absolute;inset:0;background:linear-gradient(180deg, rgba(18,24,30,0) 40%, rgba(18,24,30,.55) 100%);opacity:0;transition:opacity .4s ease;}
@@ -429,11 +429,6 @@
      doppelt so weit nach unten verlaengern wie ein Foto. Deshalb dort eine
      feste Hoehe. */
   .service-img img.karte-zeichen{object-fit:contain;padding:0;}
-  /* Damit die Plakette lesbar ist, bekommt diese eine Karte eine hoehere
-     Bildflaeche: quadratisch statt im Fotoformat. Die Zeile waechst dadurch
-     mit -- die beiden Nachbarkarten behalten ihr Bild und bekommen unten
-     etwas mehr Weissraum. */
-  .service-img:has(.karte-zeichen){height:clamp(150px,calc(var(--sh) * 30),560px);}
   .service-card:hover .service-img img.karte-zeichen{transform:none;}
   .service-card.ep-gross .service-img:has(img.karte-zeichen){
     height:min(var(--ep-bildmax, 240px), 240px);max-height:none;}
@@ -711,7 +706,7 @@
   .hero.hero-auto{height:auto;min-height:360px;}
 
   @media(max-height:820px){
-    .service-img{height:clamp(80px,calc(var(--sh) * 12.8),330px);}
+    .service-img{height:clamp(115px,calc(var(--sh) * 18.7),480px);}
     .services-grid{gap:clamp(11px,calc(var(--sh) * 1.7),40px);}
     #leistungen{padding-top:clamp(18px,calc(var(--sh) * 4.2),84px);}
     .marquee-head{margin-bottom:6px;}
