@@ -646,6 +646,9 @@
   .float-cta{position:fixed;right:clamp(16px,3vw,28px);bottom:clamp(16px,3vw,28px);z-index:200;background:var(--yellow);color:var(--dark);font-family:var(--font-heading);font-weight:700;font-size:15.5px;padding:16px 22px;border:2px solid var(--dark);box-shadow:0 12px 32px rgba(18,24,30,.28);display:inline-flex;align-items:center;gap:10px;}
   .float-cta:hover{background:var(--yellow-hover);text-decoration:none;}
   .float-cta.hide{opacity:0;pointer-events:none;transform:translateY(8px);}
+  /* Ueber der Fusszeile rutscht der Knopf nach oben. Sonst liegt er auf
+     Impressum und Datenschutz -- die waeren dann nicht mehr anklickbar. */
+  .float-cta.ueber-fuss{bottom:calc(var(--fuss-hoehe, 99px) + clamp(16px,3vw,28px));}
   .float-cta{transition:opacity .25s ease, transform .25s ease;}
   .float-cta .dot{width:9px;height:9px;background:var(--dark);display:inline-block;animation:ep-pulse 2.4s ease-in-out infinite;}
 
@@ -1225,7 +1228,7 @@
   </div>
 </footer>
 
-<a href="#kontakt" class="float-cta"><span class="dot"></span>Anfrage senden</a>
+<a href="#kontakt" class="float-cta"><span class="dot"></span>Angebot anfragen</a>
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
@@ -1383,28 +1386,29 @@
     steps.forEach(function (el) { io3.observe(el); });
   })();
 
-  // Schwebender Button ausblenden, solange der Kontakt-Bereich oder die
-  // Vertrauensleiste am Ende der ersten Seite sichtbar ist. Auf der ersten
-  // Seite gibt es den Beratungs-Button ohnehin schon im Hero.
+  // Schwebender Button: dauerhaft sichtbar. Nur waehrend des Scrollens
+  // blendet er sich aus, damit er nichts verdeckt, was gerade vorbeizieht.
+  // 400 Millisekunden nach dem letzten Scrollschritt ist er wieder da.
   (function () {
     var floatCta = document.querySelector('.float-cta');
-    // Der Block direkt unter dem Hero schliesst Seite 1 ab -- dort und im
-    // Kontaktbereich soll der schwebende Knopf nichts verdecken.
-    var heroBlock = document.querySelector('.hero') && document.querySelector('.hero').nextElementSibling;
-    // Die Fusszeile ist jetzt nur noch so hoch wie der Header. Ohne sie in
-    // dieser Liste liegt der Knopf genau ueber Impressum und Datenschutz.
-    var ziele = [document.getElementById('kontakt'), heroBlock,
-                 document.querySelector('footer.legalbar')].filter(Boolean);
-    if (!floatCta || !ziele.length) return;
-    var sichtbar = [];
-    var io4 = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        var pos = ziele.indexOf(e.target);
-        sichtbar[pos] = e.isIntersecting;
-      });
-      floatCta.classList.toggle('hide', sichtbar.some(Boolean));
-    }, { threshold: 0.1 });
-    ziele.forEach(function (el) { io4.observe(el); });
+    if (!floatCta) return;
+    var uhr;
+    window.addEventListener('scroll', function () {
+      floatCta.classList.add('hide');
+      clearTimeout(uhr);
+      uhr = setTimeout(function () { floatCta.classList.remove('hide'); }, 400);
+    }, { passive: true });
+
+    // Sobald die Fusszeile im Bild ist, springt der Knopf ueber sie.
+    var fuss = document.querySelector('footer.legalbar');
+    if (fuss && window.IntersectionObserver) {
+      new IntersectionObserver(function (eintraege) {
+        var drin = eintraege[0].isIntersecting;
+        // Die echte Hoehe messen: am Handy ist die Fusszeile dreimal so hoch.
+        if (drin) floatCta.style.setProperty('--fuss-hoehe', fuss.offsetHeight + 'px');
+        floatCta.classList.toggle('ueber-fuss', drin);
+      }, { threshold: 0.01 }).observe(fuss);
+    }
   })();
 
   // Kontaktformular -- klassisches Senden an Formspree (formspree.io), ohne
