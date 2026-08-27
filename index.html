@@ -421,13 +421,14 @@
      Sie wird deshalb vollstaendig gezeigt statt beschnitten, mittig auf
      hellem Grund und ohne Vergroesserung beim Ueberfahren. */
   .service-img:has(.karte-zeichen){background:var(--grey-100);}
-  /* In der Karte fuellt das Zeichen die Bildflaeche ganz aus: sichtbar ist
-     das breite E-CHECK-Band aus der Mitte der Plakette. In der
-     vergroesserten Karte wird die Plakette vollstaendig gezeigt.
-     Die Bildhoehe richtet sich sonst nach dem Seitenverhaeltnis -- das
-     Zeichen ist quadratisch und wuerde die Karte dadurch doppelt so weit
-     nach unten verlaengern wie ein Foto. Deshalb hier eine feste Hoehe. */
-  .service-img img.karte-zeichen{object-fit:cover;padding:0;}
+  /* Das Zeichen wird ganz gezeigt statt auf das Kartenformat beschnitten:
+     eine runde Plakette vertraegt keinen Anschnitt. Es ist damit so hoch
+     wie die Bildflaeche und steht mittig auf hellem Grund.
+     In der vergroesserten Karte richtet sich die Bildhoehe sonst nach dem
+     Seitenverhaeltnis -- das Zeichen ist quadratisch und wuerde die Karte
+     doppelt so weit nach unten verlaengern wie ein Foto. Deshalb dort eine
+     feste Hoehe. */
+  .service-img img.karte-zeichen{object-fit:contain;padding:10px 0;}
   .service-card:hover .service-img img.karte-zeichen{transform:none;}
   .service-card.ep-gross .service-img:has(img.karte-zeichen){
     height:min(var(--ep-bildmax, 155px), 155px);max-height:none;}
@@ -755,11 +756,11 @@
           <a href="leistung-elektroinstallation.html">Elektroinstallation</a>
           <a href="leistung-wallbox.html">E-Auto Ladetechnik &amp; Wallbox</a>
           <a href="leistung-photovoltaik.html">Solaranlagen</a>
-          <a href="leistung-smarthome.html">Smart Home</a>
           <a href="leistung-waermepumpe.html">Wärmepumpe anschließen</a>
           <a href="leistung-vde.html">Messungen nach VDE und DGUV V3</a>
           <a href="leistung-netzwerk.html">Netzwerktechnik</a>
           <a href="leistung-tuersprechanlage.html">Video &amp; Türsprechanlage</a>
+          <a href="leistung-smarthome.html">Smart Home</a>
         </div>
       </div>
       <a href="#ablauf">Ablauf</a>
@@ -880,23 +881,24 @@
 
     <div class="service-card" data-reveal>
       <div class="service-img">
-        <img src="leistung-smarthome.jpg" alt="Smart Home Steuerung im Wohnzimmer" loading="lazy">
+        <img src="hero-plan.jpg" alt="Elektroplanung – technische Zeichnung" loading="lazy">
         <div class="service-shade"></div>
       </div>
       <div class="service-body">
-        <h3>Smart Home</h3>
-        <p>Licht, Rollläden und Heizung zentral steuern – mit KNX oder funkbasiert.</p>
+        <h3>Planung &amp; Beratung</h3>
+        <p>Von der ersten Idee bis zum umsetzbaren Konzept – wir beraten Sie zu Machbarkeit, Aufwand und sinnvollen Kombinationen.</p>
         <ul class="service-detail">
-            <li>KNX und funkbasierte Systeme</li>
-            <li>Licht, Rollläden, Heizung</li>
-            <li>Nachrüstbar im Bestand</li>
-            <li>Heizungssteuerung raumweise</li>
-            <li>Einbindung vorhandener Geräte, wo technisch möglich</li>
-            <li>Einweisung in App und Bedienung</li>
+            <li>Beratung vor Ort</li>
+            <li>Konzept &amp; Kostenrahmen</li>
+            <li>Hinweis auf Förderungen</li>
+            <li>Bestandsaufnahme vor Ort</li>
+            <li>Abstimmung mit den anderen Gewerken</li>
+            <li>Schriftliches Angebot mit klaren Positionen</li>
         </ul>
-        <a class="service-more" href="leistung-smarthome.html">Mehr erfahren →</a>
+        <a class="service-more" href="#kontakt">Mehr erfahren →</a>
       </div>
     </div>
+
 
     <div class="service-card" data-reveal>
       <div class="service-img">
@@ -980,24 +982,23 @@
 
     <div class="service-card" data-reveal>
       <div class="service-img">
-        <img src="hero-plan.jpg" alt="Elektroplanung – technische Zeichnung" loading="lazy">
+        <img src="leistung-smarthome.jpg" alt="Smart Home Steuerung im Wohnzimmer" loading="lazy">
         <div class="service-shade"></div>
       </div>
       <div class="service-body">
-        <h3>Planung &amp; Beratung</h3>
-        <p>Von der ersten Idee bis zum umsetzbaren Konzept – wir beraten Sie zu Machbarkeit, Aufwand und sinnvollen Kombinationen.</p>
+        <h3>Smart Home</h3>
+        <p>Licht, Rollläden und Heizung zentral steuern – mit KNX oder funkbasiert.</p>
         <ul class="service-detail">
-            <li>Beratung vor Ort</li>
-            <li>Konzept &amp; Kostenrahmen</li>
-            <li>Hinweis auf Förderungen</li>
-            <li>Bestandsaufnahme vor Ort</li>
-            <li>Abstimmung mit den anderen Gewerken</li>
-            <li>Schriftliches Angebot mit klaren Positionen</li>
+            <li>KNX und funkbasierte Systeme</li>
+            <li>Licht, Rollläden, Heizung</li>
+            <li>Nachrüstbar im Bestand</li>
+            <li>Heizungssteuerung raumweise</li>
+            <li>Einbindung vorhandener Geräte, wo technisch möglich</li>
+            <li>Einweisung in App und Bedienung</li>
         </ul>
-        <a class="service-more" href="#kontakt">Mehr erfahren →</a>
+        <a class="service-more" href="leistung-smarthome.html">Mehr erfahren →</a>
       </div>
     </div>
-
   </div>
 </section>
 
