@@ -425,13 +425,12 @@
      wie es geht, ohne beschnitten zu werden. In der vergroesserten Karte
      richtet sich die Bildhoehe nach dem Seitenverhaeltnis -- das Zeichen
      ist quadratisch und wird dort vollstaendig gezeigt. */
-  .service-img img.karte-zeichen{object-fit:contain;padding:0;}
+  /* In der Karte fuellt das Zeichen die Bildflaeche ganz aus: sichtbar ist
+     das breite E-CHECK-Band aus der Mitte der Plakette. In der
+     vergroesserten Karte wird sie vollstaendig gezeigt. */
+  .service-img img.karte-zeichen{object-fit:cover;padding:0;}
   .service-card:hover .service-img img.karte-zeichen{transform:none;}
-  /* In der vergroesserten Karte richtet sich die Bildhoehe sonst nach dem
-     Seitenverhaeltnis. Beim quadratischen Zeichen wuerde das Bild dadurch
-     hoeher als die Bildflaeche und oben und unten abgeschnitten. Mit voller
-     Flaechenhoehe und contain ist es vollstaendig zu sehen. */
-  .service-card.ep-gross .service-img img.karte-zeichen{height:100%;}
+  .service-card.ep-gross .service-img img.karte-zeichen{height:100%;object-fit:contain;}
   .service-card:hover .service-shade{opacity:1;}
   .service-body{position:relative;padding:clamp(9px,calc(var(--sh) * 1.4),34px) clamp(18px,2vw,34px) clamp(10px,calc(var(--sh) * 1.5),38px);display:flex;flex-direction:column;gap:clamp(5px,calc(var(--sh) * 0.9),12px);flex:1;}
   .service-body h3{font-weight:700;font-size:clamp(17px,calc(var(--sh) * 2.75),29px);}
@@ -1561,6 +1560,12 @@
       var vollHoehe = (bild && bild.naturalWidth)
         ? r.width * bild.naturalHeight / bild.naturalWidth
         : mass.gesamt - mass.feld;
+      // Sehr hohe Bilder -- etwa das quadratische Pruefzeichen -- wuerden die
+      // Karte so weit nach unten verlaengern, dass sie im Fenster keinen Platz
+      // mehr findet und gar nicht mehr aufgeht. Deshalb eine Obergrenze:
+      // hoechstens 62 Prozent der Kartenbreite. Die Fotos im Format 2:1
+      // liegen mit 50 Prozent darunter und bleiben unberuehrt.
+      vollHoehe = Math.min(vollHoehe, r.width * 0.62);
 
       // Bildhoehe und Faktor haengen voneinander ab: der Faktor begrenzt,
       // wie weit das Feld nach unten laufen darf, und die daraus folgende
@@ -1580,9 +1585,9 @@
         // Nach unten darf das Feld hoechstens so weit laufen, wie die Fuge
         // zwischen den Kartenreihen breit ist -- und nie weiter, als im
         // Fenster noch Platz ist. Reicht das nicht, wird das Foto kleiner
-        // gezeigt, hoechstens aber bis auf 70 Prozent seiner vollen Hoehe.
+        // gezeigt, hoechstens aber bis auf 55 Prozent seiner vollen Hoehe.
         var erlaubt = r.height + Math.min(fugenHoehe(), platzNach) / faktor;
-        bildMax = Math.max(vollHoehe * 0.7, Math.min(vollHoehe, erlaubt - mass.feld / faktor));
+        bildMax = Math.max(vollHoehe * 0.55, Math.min(vollHoehe, erlaubt - mass.feld / faktor));
         sichtHoehe = bildMax * faktor + mass.feld;
         // Der Ueberstand des weissen Feldes laeuft immer nach unten, egal
         // wo der Ankerpunkt sitzt. Er muss deshalb in den Platz unter der
