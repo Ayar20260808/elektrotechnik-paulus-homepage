@@ -651,7 +651,7 @@
   /* SCHWEBENDER BUTTON */
   .float-cta{position:fixed;right:clamp(16px,3vw,28px);bottom:clamp(16px,3vw,28px);z-index:200;background:var(--yellow);color:var(--dark);font-family:var(--font-heading);font-weight:700;font-size:15.5px;padding:16px 22px;border:2px solid var(--dark);box-shadow:0 12px 32px rgba(18,24,30,.28);display:inline-flex;align-items:center;gap:10px;}
   .float-cta:hover{background:var(--yellow-hover);text-decoration:none;}
-  .float-cta.hide{opacity:0;pointer-events:none;transform:translateY(8px);}
+  .float-cta.hide,.float-cta.aus{opacity:0;pointer-events:none;transform:translateY(8px);}
   /* Ueber der Fusszeile rutscht der Knopf nach oben. Sonst liegt er auf
      Impressum und Datenschutz -- die waeren dann nicht mehr anklickbar. */
   .float-cta.ueber-fuss{bottom:calc(var(--fuss-hoehe, 99px) + clamp(16px,3vw,28px));}
@@ -1404,6 +1404,15 @@
       clearTimeout(uhr);
       uhr = setTimeout(function () { floatCta.classList.remove('hide'); }, 400);
     }, { passive: true });
+
+    // Im Kontaktbereich verschwindet er ganz -- dort steht das Formular,
+    // der Knopf wuerde nur auf sein eigenes Ziel zeigen.
+    var kontakt = document.getElementById('kontakt');
+    if (kontakt && window.IntersectionObserver) {
+      new IntersectionObserver(function (eintraege) {
+        floatCta.classList.toggle('aus', eintraege[0].isIntersecting);
+      }, { threshold: 0.01 }).observe(kontakt);
+    }
 
     // Sobald die Fusszeile im Bild ist, springt der Knopf ueber sie.
     var fuss = document.querySelector('footer.legalbar');
