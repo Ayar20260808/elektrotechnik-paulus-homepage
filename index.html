@@ -428,10 +428,15 @@
      Seitenverhaeltnis -- das Zeichen ist quadratisch und wuerde die Karte
      doppelt so weit nach unten verlaengern wie ein Foto. Deshalb dort eine
      feste Hoehe. */
-  .service-img img.karte-zeichen{object-fit:contain;padding:10px 0;}
+  .service-img img.karte-zeichen{object-fit:contain;padding:0;}
+  /* Damit die Plakette lesbar ist, bekommt diese eine Karte eine hoehere
+     Bildflaeche: quadratisch statt im Fotoformat. Die Zeile waechst dadurch
+     mit -- die beiden Nachbarkarten behalten ihr Bild und bekommen unten
+     etwas mehr Weissraum. */
+  .service-img:has(.karte-zeichen){height:clamp(150px,calc(var(--sh) * 30),560px);}
   .service-card:hover .service-img img.karte-zeichen{transform:none;}
   .service-card.ep-gross .service-img:has(img.karte-zeichen){
-    height:min(var(--ep-bildmax, 155px), 155px);max-height:none;}
+    height:min(var(--ep-bildmax, 240px), 240px);max-height:none;}
   .service-card.ep-gross .service-img img.karte-zeichen{height:100%;object-fit:contain;}
   .service-card:hover .service-shade{opacity:1;}
   .service-body{position:relative;padding:clamp(9px,calc(var(--sh) * 1.4),34px) clamp(18px,2vw,34px) clamp(10px,calc(var(--sh) * 1.5),38px);display:flex;flex-direction:column;gap:clamp(5px,calc(var(--sh) * 0.9),12px);flex:1;}
