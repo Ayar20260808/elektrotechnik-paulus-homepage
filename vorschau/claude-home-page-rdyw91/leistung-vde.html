@@ -130,6 +130,15 @@
   .checklist li:last-child{border-bottom:1px solid var(--grey-300);}
   .checklist li .mark{color:var(--green);flex-shrink:0;font-weight:700;}
   .funding-box{background:var(--grey-100);border-left:6px solid var(--tech-blue);padding:28px 28px 26px;}
+  /* Das E-Check-Zeichen steht bei der Antwort, in der es erklaert wird.
+     Es ist eine geschuetzte Pruefplakette und wird unveraendert
+     wiedergegeben -- nur verkleinert. */
+  .echeck-antwort{display:flex;gap:24px;align-items:flex-start;}
+  .echeck-zeichen{flex-shrink:0;width:130px;height:130px;display:block;}
+  @media(max-width:600px){
+    .echeck-antwort{flex-direction:column;gap:16px;}
+    .echeck-zeichen{width:110px;height:110px;}
+  }
   .funding-box .eyebrow{color:var(--tech-blue);display:block;margin-bottom:10px;}
   .funding-box h3{font-weight:700;font-size:19px;margin-bottom:12px;}
   .funding-box p{color:var(--grey-600);font-size:15px;line-height:1.65;margin-bottom:12px;}
@@ -253,7 +262,10 @@
     <div>
       <details open>
         <summary>Ist das dasselbe wie der E-Check?</summary>
-        <p>Der E-Check ist der Markenname der Innung für eine solche Prüfung. Gemessen wird nach denselben Normen. Wenn Sie eine Bescheinigung für Ihre Versicherung brauchen, sagen Sie es vorher, dann stellen wir sie passend aus.</p>
+        <div class="echeck-antwort">
+          <img class="echeck-zeichen" src="echeck-zeichen.png" alt="E-CHECK — Geprüft nach VDE. Nur bei Ihrem Innungsfachbetrieb." width="130" height="130" loading="lazy">
+          <p>Der E-Check ist der Markenname der Innung für eine solche Prüfung. Gemessen wird nach denselben Normen. Wenn Sie eine Bescheinigung für Ihre Versicherung brauchen, sagen Sie es vorher, dann stellen wir sie passend aus.</p>
+        </div>
       </details>
       <details>
         <summary>Muss der Betrieb dafür stillstehen?</summary>
