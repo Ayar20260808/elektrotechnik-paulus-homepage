@@ -1582,11 +1582,12 @@
         // Fuge zwischen zwei Kartenreihen breit ist -- sonst legt sich die
         // vergroesserte Karte ueber die Karte darunter. Notfalls wird das
         // Foto etwas kleiner gezeigt, hoechstens aber auf 88 Prozent.
-        // Nach unten darf das Feld hoechstens so weit laufen, wie die Fuge
-        // zwischen den Kartenreihen breit ist -- und nie weiter, als im
-        // Fenster noch Platz ist. Reicht das nicht, wird das Foto kleiner
-        // gezeigt, hoechstens aber bis auf 55 Prozent seiner vollen Hoehe.
-        var erlaubt = r.height + Math.min(fugenHoehe(), platzNach) / faktor;
+        // Nach unten darf das Feld so weit laufen, wie im Fenster Platz ist.
+        // Die Karte darunter wird dabei zwar teilweise verdeckt, bleibt aber
+        // anklickbar -- die Zuordnung des Zeigers geht nach den Ruhepositionen.
+        // Reicht der Platz nicht, wird das Foto kleiner gezeigt, hoechstens
+        // aber bis auf 55 Prozent seiner vollen Hoehe.
+        var erlaubt = r.height + platzNach / faktor;
         bildMax = Math.max(vollHoehe * 0.55, Math.min(vollHoehe, erlaubt - mass.feld / faktor));
         sichtHoehe = bildMax * faktor + mass.feld;
         // Der Ueberstand des weissen Feldes laeuft immer nach unten, egal
