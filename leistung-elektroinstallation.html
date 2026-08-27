@@ -55,10 +55,18 @@
   .nav-links a{font-family:var(--font-heading);font-weight:500;font-size:clamp(13px,1.3vw,16px);color:var(--ink);
     padding:9px 0;border:none;border-radius:0;transition:color .2s ease;}
   .nav-links a:hover{color:var(--yellow-text);text-decoration:none;}
-  .nav-links a.nav-cta{background:var(--yellow);color:var(--dark);font-weight:700;padding:10px clamp(12px,1.2vw,18px);border:2px solid var(--yellow);}
-  .nav-links a.nav-cta:hover{background:var(--yellow-hover);border-color:var(--yellow-hover);color:var(--dark);}
   .burger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:6px;position:relative;z-index:2;}
   .burger span{width:24px;height:2px;background:var(--ink);}
+  /* Beim Herunterscrollen faellt der Header auf sein Mindestmass zusammen.
+     Das Logo geht auf die 160px, die der Markenleitfaden als Untergrenze nennt. */
+  .nav-inner{transition:min-height .18s ease,padding .18s ease;}
+  .logo img{transition:width .18s ease;}
+  header.geschrumpft .nav-inner{min-height:0;padding:5px 0;}
+  header.geschrumpft .logo img{width:160px;}
+  header.geschrumpft .nav-links a{padding:5px 0;}
+  @media (prefers-reduced-motion: reduce){
+    .nav-inner,.logo img{transition:none!important;}
+  }
   @media(max-width:1300px){:root{--inhalt-breite:calc(100% - clamp(40px,10vw,144px));}}
   @media(max-width:820px){.nav-links{display:none;}.burger{display:flex;}
     .nav-links.mobile-open{display:flex;flex-direction:column;align-items:flex-start;gap:2px;position:fixed;top:0;left:0;right:0;background:var(--grey-0);padding:88px 24px 24px;border-bottom:2px solid var(--ink);border-radius:0;}
@@ -160,7 +168,6 @@
       <a href="index.html#leistungen">Leistungen</a>
       <a href="leistung-netzwerk.html">Netzwerktechnik</a>
       <a href="index.html#kontakt">Kontakt</a>
-      <a href="index.html#kontakt" class="nav-cta">Angebot anfragen</a>
     </nav>
     <button class="burger" aria-label="Menü"><span></span><span></span><span></span></button>
   </div>
@@ -288,6 +295,15 @@
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
+  // Header schrumpft, sobald die Seite ein Stueck gescrollt ist.
+  (function () {
+    var kopf = document.querySelector('header');
+    if (!kopf) return;
+    function pruefe() { kopf.classList.toggle('geschrumpft', window.scrollY > 40); }
+    window.addEventListener('scroll', pruefe, { passive: true });
+    pruefe();
+  })();
+
   var burger = document.querySelector('.burger');
   var navLinks = document.querySelector('.nav-links');
   burger.addEventListener('click', function () { navLinks.classList.toggle('mobile-open'); });
