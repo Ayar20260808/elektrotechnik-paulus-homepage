@@ -120,6 +120,7 @@
   @media (prefers-reduced-motion: reduce){
     [data-reveal]{opacity:1;transform:none;transition:none;}
     [data-zoom],[data-lift],[data-lift] img,.eyebrow-dot,.marquee-track{animation:none!important;transition:none!important;}
+    .nav-inner,.logo img{transition:none!important;}
   }
 
   /* HEADER */
@@ -135,9 +136,6 @@
     padding:10px 0;border:none;border-radius:0;display:inline-flex;align-items:center;gap:8px;
     transition:color .2s ease;}
   .nav-links a:hover{color:var(--yellow-text);text-decoration:none;}
-  .nav-links a.nav-cta{background:var(--yellow);color:var(--dark);font-weight:700;
-    padding:12px clamp(14px,1.4vw,22px);border:2px solid var(--yellow);}
-  .nav-links a.nav-cta:hover{background:var(--yellow-hover);border-color:var(--yellow-hover);color:var(--dark);}
   .caret{width:0;height:0;border-left:4px solid transparent;border-right:4px solid transparent;
     border-top:5px solid currentColor;opacity:.7;transition:transform .2s ease;}
   .nav-item{position:relative;}
@@ -150,6 +148,17 @@
   .submenu a:hover{background:var(--grey-100);color:var(--ink);text-decoration:none;}
   .burger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:6px;position:relative;z-index:2;}
   .burger span{width:24px;height:2px;background:var(--ink);}
+  /* Beim Herunterscrollen faellt der Header auf sein Mindestmass zusammen:
+     keine Mindesthoehe mehr, kaum Innenabstand, und das Logo geht auf die
+     160px, die der Markenleitfaden als Untergrenze nennt. Die gemessene
+     --header-hoehe bleibt davon unberuehrt -- Vertrauensleiste, Baender und
+     Fusszeile behalten deshalb ihre volle Hoehe. */
+  .nav-inner{transition:min-height .18s ease,padding .18s ease;}
+  .logo img{transition:width .18s ease;}
+  header.geschrumpft .nav-inner{min-height:0;padding:5px 0;}
+  header.geschrumpft .logo img{width:160px;}
+  header.geschrumpft .nav-links a{padding:5px 0;}
+  header.ohne-uebergang .nav-inner,header.ohne-uebergang .logo img{transition:none!important;}
 
   /* HERO */
   /* Hero füllt zusammen mit Header (max. 138px) und Vertrauensleiste (ca. 110px)
@@ -697,7 +706,6 @@
       </div>
       <a href="#ablauf">Ablauf</a>
       <a href="#kontakt">Kontakt</a>
-      <a href="#kontakt" class="nav-cta">Angebot anfragen</a>
     </nav>
     <button class="burger" aria-label="Menü"><span></span><span></span><span></span></button>
   </div>
@@ -1207,8 +1215,23 @@
     var headerEl = document.querySelector('header');
     var trustEl = document.querySelector('.trustbar');
     if (!headerEl || !trustEl) return;
+    // Immer die volle Headerhoehe liefern, auch wenn er gerade geschrumpft
+    // ist. Sonst schrumpfen Vertrauensleiste, Baender und Fusszeile mit,
+    // denn die haengen alle an --header-hoehe. Waehrend der Messung wird
+    // der Groessenuebergang abgeschaltet, weil offsetHeight sonst den
+    // Zwischenstand der laufenden Animation zurueckgibt.
+    function volleKopfHoehe() {
+      if (!headerEl.classList.contains('geschrumpft')) return headerEl.offsetHeight;
+      headerEl.classList.add('ohne-uebergang');
+      headerEl.classList.remove('geschrumpft');
+      var hoehe = headerEl.offsetHeight;
+      headerEl.classList.add('geschrumpft');
+      void headerEl.offsetHeight;
+      headerEl.classList.remove('ohne-uebergang');
+      return hoehe;
+    }
     function setzeHeroHoehe() {
-      var kopfHoehe = headerEl.offsetHeight;
+      var kopfHoehe = volleKopfHoehe();
       // Seite 1 endet mit dem Block direkt unter dem Hero. Welcher das
       // ist, wird gemessen statt fest verdrahtet -- so stimmt die
       // Rechnung auch, wenn dort ein anderer Block steht.
@@ -1260,6 +1283,15 @@
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // Mobile-Menü
+  // Header schrumpft, sobald die Seite ein Stueck gescrollt ist.
+  (function () {
+    var kopf = document.querySelector('header');
+    if (!kopf) return;
+    function pruefe() { kopf.classList.toggle('geschrumpft', window.scrollY > 40); }
+    window.addEventListener('scroll', pruefe, { passive: true });
+    pruefe();
+  })();
+
   var burger = document.querySelector('.burger');
   var navLinks = document.querySelector('.nav-links');
   burger.addEventListener('click', function () { navLinks.classList.toggle('mobile-open'); });
