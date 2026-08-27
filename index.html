@@ -123,7 +123,11 @@
 
   /* HEADER */
   header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:2px solid var(--ink);}
-  .nav-inner{width:var(--inhalt-breite);max-width:100%;margin:0 auto;padding:17px 0;min-height:clamp(98px,10vw,138px);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+  /* Ruhezustand: der Header ist rund doppelt so hoch wie das Logo.
+     Das Logo ist 2138.66 zu 448 Einheiten gross, seine Hoehe betraegt
+     also 0.2095 seiner Breite -- doppelt davon sind 0.4190. marke.css
+     deckelt die Logobreite bei 240px, deshalb das min(). */
+  .nav-inner{width:var(--inhalt-breite);max-width:100%;margin:0 auto;padding:14px 0;min-height:calc(min(clamp(190px,17vw,300px),240px) * 0.4190);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
   /* Querformat-Logo nie schmaler als 160px, so schreibt es der
      Markenleitfaden. Deshalb ueber die Breite gesteuert. */
   .logo img{width:clamp(190px,17vw,300px);min-width:160px;height:auto;display:block;}
@@ -230,15 +234,22 @@
   .trust-item{padding:0 clamp(16px,2.2vw,28px);display:flex;gap:14px;align-items:center;border-right:1px solid var(--grey-300);}
   .trust-item:first-child{padding-left:0;}
   .trust-item:last-child{border-right:none;padding-right:0;}
-  /* Auf dem Handy stehen die vier Punkte untereinander, dort waechst die
-     Leiste wieder mit ihrem Inhalt. */
-  @media(max-width:820px){
+  /* Ab hier passen die vier Punkte nicht mehr in eine Reihe. Das Raster
+     bricht dann um, und eine feste Hoehe wuerde den Text abschneiden --
+     deshalb waechst die Leiste unter 1000px wieder mit ihrem Inhalt. */
+  @media(max-width:1000px){
     .trustbar{height:auto;}
-    .trust-item{padding:20px clamp(16px,2.2vw,28px);align-items:flex-start;}
+    .trust-item{padding:18px clamp(16px,2.2vw,28px);align-items:flex-start;}
+  }
+  @media(max-width:820px){
+    .trust-item{padding:20px clamp(16px,2.2vw,28px);}
   }
   .trust-item svg{flex-shrink:0;margin-top:2px;color:var(--green);}
-  .trust-item b{display:block;color:var(--ink);font-family:var(--font-heading);font-size:15.5px;font-weight:700;margin-bottom:4px;}
-  .trust-item span{color:var(--grey-600);font-size:13.5px;line-height:1.5;}
+  /* Die Leiste ist nur noch so hoch wie der Header, also rund doppelte
+     Logohoehe. Damit zwei Textzeilen je Punkt hineinpassen, sind Schrift
+     und Zeilenabstand knapper als im uebrigen Text. */
+  .trust-item b{display:block;color:var(--ink);font-family:var(--font-heading);font-size:14px;font-weight:700;line-height:1.25;margin-bottom:2px;}
+  .trust-item span{color:var(--grey-600);font-size:12.5px;line-height:1.35;display:block;}
 
   /* SECTION generic */
   section{padding:84px 0;}
@@ -585,30 +596,30 @@
      feine Linie -- damit die Anschrift nicht am Logo klebt. */
   .footer-marke{display:flex;align-items:center;gap:clamp(20px,2.2vw,38px);flex-wrap:wrap;}
   .footer-marke address{font-style:normal;color:var(--grey-600);font-size:14px;line-height:1.6;
-    border-left:1px solid var(--grey-300);padding-left:clamp(20px,2.2vw,38px);max-width:32ch;}
+    border-left:1px solid var(--grey-300);padding-left:clamp(20px,2.2vw,38px);max-width:44ch;overflow-wrap:break-word;}
   .footer-marke address strong{display:block;color:var(--ink);font-family:var(--font-heading);font-weight:700;
     font-size:16px;margin-bottom:5px;}
   .footer-marke address a{color:var(--grey-600);font-size:14.5px;font-family:var(--font-body);font-weight:400;padding:0;}
   .footer-marke address a:hover{color:var(--yellow-text);}
   .footer-copy{font-size:13px;color:var(--grey-600);}
-  /* Zwischen 820 und 1330 Pixeln wird es eng: Marke, Menue und Rechtstexte
+  /* Zwischen 1151 und 1330 Pixeln wird es eng: Marke, Menue und Rechtstexte
      passen nur in eine Reihe, wenn Logo, Abstaende und Anschrift schmaler
      werden. Sonst rutscht der rechte Block in eine zweite Zeile und die
      Fusszeile wird fast doppelt so hoch wie der Header. */
-  @media(max-width:1330px) and (min-width:1051px){
+  @media(max-width:1330px) and (min-width:1151px){
     .footer-row{gap:clamp(14px,1.4vw,24px);}
     .footer-row .logo img{width:clamp(150px,13vw,200px);min-width:150px;}
     .footer-marke{gap:clamp(14px,1.6vw,24px);}
-    .footer-marke address{padding-left:clamp(14px,1.6vw,24px);max-width:30ch;}
+    .footer-marke address{padding-left:clamp(14px,1.6vw,24px);max-width:34ch;font-size:13px;line-height:1.45;}
     .footer-links{gap:clamp(10px,1vw,18px);}
   }
-  /* Zwischen 821 und 1050 Pixeln reicht die Breite nicht mehr fuer Logo und
-     Anschrift nebeneinander. Dann stehen sie uebereinander -- der linke
-     Block wird schmal genug, dass alle drei Gruppen in einer Reihe bleiben. */
-  @media(max-width:1050px) and (min-width:821px){
+  /* Unter 1151 Pixeln reicht die Breite nicht mehr fuer Logo und Anschrift
+     nebeneinander. Dann stehen sie uebereinander -- der linke Block wird
+     schmal genug, dass alle drei Gruppen in einer Reihe bleiben. */
+  @media(max-width:1150px) and (min-width:821px){
     .footer-row{gap:14px;}
-    .footer-marke{flex-direction:column;align-items:flex-start;gap:12px;}
-    .footer-marke address{border-left:none;padding-left:0;max-width:34ch;}
+    .footer-marke{flex-direction:column;align-items:flex-start;gap:10px;}
+    .footer-marke address{border-left:none;padding-left:0;max-width:38ch;font-size:13px;line-height:1.45;}
     .footer-row .logo img{width:150px;min-width:150px;}
     .footer-links{gap:clamp(10px,1vw,18px);}
   }

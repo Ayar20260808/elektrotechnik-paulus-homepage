@@ -48,7 +48,11 @@
   .btn-ghost-light:hover{background:rgba(255,255,255,.12);color:#fff;}
 
   header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:2px solid var(--ink);}
-  .nav-inner{width:var(--inhalt-breite);max-width:100%;margin:0 auto;padding:14px 0;min-height:clamp(76px,8vw,104px);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+  /* Ruhezustand: der Header ist rund doppelt so hoch wie das Logo.
+     Das Logo ist 2138.66 zu 448 Einheiten gross, seine Hoehe betraegt
+     also 0.2095 seiner Breite -- doppelt davon sind 0.4190. marke.css
+     deckelt die Logobreite bei 240px, deshalb das min(). */
+  .nav-inner{width:var(--inhalt-breite);max-width:100%;margin:0 auto;padding:12px 0;min-height:calc(min(clamp(170px,15vw,260px),240px) * 0.4190);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
   .logo img{width:clamp(170px,15vw,260px);min-width:160px;height:auto;display:block;}
   /* Menuepunkte als schlichte Textlinks, wie auf der Startseite. */
   .nav-links{display:flex;gap:clamp(14px,1.8vw,32px);white-space:nowrap;background:none;border-radius:0;padding:0;align-items:center;}
