@@ -421,8 +421,17 @@
      Sie wird deshalb vollstaendig gezeigt statt beschnitten, mittig auf
      hellem Grund und ohne Vergroesserung beim Ueberfahren. */
   .service-img:has(.karte-zeichen){background:var(--grey-100);}
-  .service-img img.karte-zeichen{object-fit:contain;padding:12px;}
+  /* Ohne Innenabstand: das Zeichen soll die Bildflaeche so weit ausfuellen,
+     wie es geht, ohne beschnitten zu werden. In der vergroesserten Karte
+     richtet sich die Bildhoehe nach dem Seitenverhaeltnis -- das Zeichen
+     ist quadratisch und wird dort vollstaendig gezeigt. */
+  .service-img img.karte-zeichen{object-fit:contain;padding:0;}
   .service-card:hover .service-img img.karte-zeichen{transform:none;}
+  /* In der vergroesserten Karte richtet sich die Bildhoehe sonst nach dem
+     Seitenverhaeltnis. Beim quadratischen Zeichen wuerde das Bild dadurch
+     hoeher als die Bildflaeche und oben und unten abgeschnitten. Mit voller
+     Flaechenhoehe und contain ist es vollstaendig zu sehen. */
+  .service-card.ep-gross .service-img img.karte-zeichen{height:100%;}
   .service-card:hover .service-shade{opacity:1;}
   .service-body{position:relative;padding:clamp(9px,calc(var(--sh) * 1.4),34px) clamp(18px,2vw,34px) clamp(10px,calc(var(--sh) * 1.5),38px);display:flex;flex-direction:column;gap:clamp(5px,calc(var(--sh) * 0.9),12px);flex:1;}
   .service-body h3{font-weight:700;font-size:clamp(17px,calc(var(--sh) * 2.75),29px);}
@@ -1504,10 +1513,23 @@
       return { left: links, right: rechts, width: Math.max(1, rechts - links) };
     }
 
+    // Der Streifen, in dem die vergroesserte Karte Platz hat: das Fenster,
+    // oben begrenzt durch den Header, der darueber liegt. Frueher war der
+    // ganze Abschnitt massgeblich -- dann wuchs die Karte auch in Teile
+    // hinein, die gerade gar nicht im Bild sind, und war abgeschnitten.
+    // Die Karte darf dabei ueber den Abschnitt hinausragen; sie hat einen
+    // Schatten und liegt vor dem Nachbarn.
+    function sichtbarerStreifen() {
+      var kopf = document.querySelector('header');
+      var oben = kopf ? Math.max(0, kopf.getBoundingClientRect().bottom) : 0;
+      var unten = window.innerHeight;
+      return { top: oben, bottom: unten, height: Math.max(0, unten - oben) };
+    }
+
     function gross(card) {
       if (feinAus()) return;
       var r = card.getBoundingClientRect();
-      var s = section.getBoundingClientRect();
+      var s = sichtbarerStreifen();
       var sp = inhaltsSpalte();
       var LUFT = 10;
 
@@ -1515,33 +1537,69 @@
       // bleiben. Das weisse Feld laeuft dafuer nach unten darueber hinaus.
       card.style.setProperty('--ep-hoehe', r.height.toFixed(1) + 'px');
 
-      // Passt der volle Faktor nicht in Spalte oder Abschnitt (etwa beim
-      // zweispaltigen Raster), so weit vergroessern wie der Platz hergibt,
-      // statt ueber den Rand zu laufen. Massgeblich ist dabei die Hoehe
-      // samt der Verlaengerung des weissen Feldes.
-      var mass = messen(card);
-      var inhalt = Math.max(r.height, mass.gesamt);
-      var faktor = Math.min(SCALE,
-        sp.width / r.width,
-        (s.height - LUFT) / inhalt);
+      // Steht die Karte selbst schon halb ausserhalb des Fensters, wird gar
+      // nicht vergroessert -- vollstaendig sichtbar bekaeme man sie dann
+      // ohnehin nicht.
+      if (r.top < s.top - 0.5 || r.bottom > s.bottom + 0.5) { klein(card); return; }
 
-      // Das verlaengerte Feld darf hoechstens so weit hinausragen wie die
-      // Fuge zwischen zwei Kartenreihen breit ist -- sonst legt sich die
-      // vergroesserte Karte ueber die Karte darunter und macht sie schwer
-      // erreichbar. Notfalls wird das Foto etwas kleiner gezeigt; es bleibt
-      // dabei vollstaendig sichtbar, nur mit Rand links und rechts.
-      var erlaubt = r.height + fugenHoehe() / faktor;
+      // Wachsen darf die Karte nur in den freien Platz ueber und unter ihr,
+      // gemessen im sichtbaren Streifen des Fensters.
+      var platzVor = Math.max(0, r.top - s.top);
+      var platzNach = Math.max(0, s.bottom - r.bottom);
+      var maxHoehe = Math.max(0, Math.min(s.height, r.height + platzVor + platzNach) - LUFT);
+
+      var mass = messen(card);
       var bild = card.querySelector('.service-img img');
       var vollHoehe = (bild && bild.naturalWidth)
         ? r.width * bild.naturalHeight / bild.naturalWidth
         : mass.gesamt - mass.feld;
-      // Zusammendruecken ja, aber hoechstens auf 88 Prozent der vollen
-      // Bildhoehe -- darunter wuerde das Foto in der Karte verloren wirken.
-      var bildMax = Math.max(vollHoehe * 0.88, erlaubt - mass.feld);
+
+      // Bildhoehe und Faktor haengen voneinander ab: der Faktor begrenzt,
+      // wie weit das Feld nach unten laufen darf, und die daraus folgende
+      // Bildhoehe bestimmt wieder die Gesamthoehe. Deshalb ein paar Runden,
+      // bis sich der Wert nicht mehr aendert.
+      //
+      // Sichtbare Hoehe = Bild * Faktor + weisses Feld. Das Feld erscheint
+      // in normaler Groesse, weil seine Schrift und Abstaende in der CSS
+      // durch denselben Faktor geteilt werden -- das Bild nicht.
+      var faktor = Math.min(SCALE, sp.width / r.width);
+      var bildMax = vollHoehe, sichtHoehe = vollHoehe * faktor + mass.feld;
+      for (var runde = 0; runde < 4; runde++) {
+        // Das verlaengerte Feld darf hoechstens so weit hinausragen wie die
+        // Fuge zwischen zwei Kartenreihen breit ist -- sonst legt sich die
+        // vergroesserte Karte ueber die Karte darunter. Notfalls wird das
+        // Foto etwas kleiner gezeigt, hoechstens aber auf 88 Prozent.
+        // Nach unten darf das Feld hoechstens so weit laufen, wie die Fuge
+        // zwischen den Kartenreihen breit ist -- und nie weiter, als im
+        // Fenster noch Platz ist. Reicht das nicht, wird das Foto kleiner
+        // gezeigt, hoechstens aber bis auf 70 Prozent seiner vollen Hoehe.
+        var erlaubt = r.height + Math.min(fugenHoehe(), platzNach) / faktor;
+        bildMax = Math.max(vollHoehe * 0.7, Math.min(vollHoehe, erlaubt - mass.feld / faktor));
+        sichtHoehe = bildMax * faktor + mass.feld;
+        // Der Ueberstand des weissen Feldes laeuft immer nach unten, egal
+        // wo der Ankerpunkt sitzt. Er muss deshalb in den Platz unter der
+        // Karte passen, sonst hilft auch kein Verschieben nach oben.
+        var ueberstand = Math.max(0, sichtHoehe - r.height * faktor);
+        if (sichtHoehe <= maxHoehe + 0.5 && ueberstand <= platzNach + 0.5) break;
+        var inhaltHoehe = sichtHoehe / faktor;          // unskalierte Gesamthoehe
+        var fPasst = maxHoehe / inhaltHoehe;
+        var fUnten = (inhaltHoehe > r.height)
+          ? (r.height + platzNach / faktor) / inhaltHoehe * faktor / faktor * faktor
+          : faktor;
+        if (inhaltHoehe > r.height) fUnten = platzNach / (inhaltHoehe - r.height);
+        faktor = Math.min(faktor, fPasst, fUnten);
+        if (faktor <= 1.01) break;
+      }
+      // Verkleinern waere das Gegenteil dessen, was der Zeiger verspricht.
+      if (faktor <= 1.01) { klein(card); return; }
+
       card.style.setProperty('--ep-bildmax', bildMax.toFixed(1) + 'px');
-      var hoehe = inhalt * faktor;
+      // Nur das Wachsen der Karte selbst laesst sich durch den Ankerpunkt
+      // nach oben oder unten lenken. Der Ueberstand des Feldes kommt
+      // unveraenderlich darunter dazu und schmaelert den Platz nach unten.
+      var ueberstand = Math.max(0, sichtHoehe - r.height * faktor);
       var ax = anteil(r.left - sp.left, sp.right - r.right, r.width * (faktor - 1));
-      var ay = anteil(r.top - s.top, s.bottom - r.bottom, hoehe - r.height);
+      var ay = anteil(platzVor, Math.max(0, platzNach - ueberstand), r.height * (faktor - 1));
       card.style.setProperty('--ep-scale', faktor.toFixed(3));
       card.style.setProperty('--ep-origin', (ax * 100).toFixed(1) + '% ' + (ay * 100).toFixed(1) + '%');
       card.classList.add('ep-gross');
@@ -1583,6 +1641,18 @@
     function klein(card) {
       card.classList.remove('ep-gross');
     }
+
+    // Wird bei offener Karte gescrollt, verschiebt sich der sichtbare
+    // Streifen -- dann muss die Vergroesserung neu gerechnet werden, sonst
+    // steht die Karte wieder halb ausserhalb. Erst nach dem Scrollen, damit
+    // es waehrenddessen nicht zappelt.
+    var neuUhr;
+    window.addEventListener('scroll', function () {
+      clearTimeout(neuUhr);
+      neuUhr = setTimeout(function () {
+        if (aktiv && aktiv.classList.contains('ep-gross')) gross(aktiv);
+      }, 150);
+    }, { passive: true });
 
     // Welche Karte vergroessert wird, entscheidet die Ruheposition unter
     // dem Zeiger -- nicht das Element, das gerade darunter liegt. Sonst
