@@ -108,8 +108,6 @@
   .btn-primary:hover{background:var(--yellow-hover);border-color:var(--yellow-hover);}
   .btn-ghost{border-color:var(--ink);color:var(--ink);}
   .btn-ghost:hover{background:var(--yellow-tint);color:var(--dark);}
-  .btn-ghost-light{border-color:rgba(255,255,255,.55);color:#fff;}
-  .btn-ghost-light:hover{background:rgba(255,255,255,.12);color:#fff;}
 
   /* Reveal-Animationen */
   [data-reveal]{opacity:0;transform:translateY(14px);transition:opacity .55s cubic-bezier(.22,.61,.36,1), transform .55s cubic-bezier(.22,.61,.36,1);}
@@ -209,14 +207,6 @@
   .hero-eyebrow .dot{width:8px;height:8px;background:var(--green-light);display:inline-block;animation:ep-pulse 2.4s ease-in-out infinite;}
   .hero h1{font-family:var(--font-heading);font-weight:700;font-size:clamp(30px,min(5.4vw, calc(var(--sh) * 6.2)),62px);line-height:1.04;letter-spacing:-.025em;color:#fff;max-width:20ch;margin-bottom:clamp(7px,calc(var(--sh) * 1.7),16px);}
   .hero-lead{font-family:var(--font-body);font-size:clamp(14px,calc(var(--sh) * 1.86),17.5px);line-height:1.65;color:rgba(255,255,255,.82);max-width:56ch;margin-bottom:clamp(9px,calc(var(--sh) * 2.1),20px);}
-  .hero-projectline{position:relative;height:clamp(15px,calc(var(--sh) * 2.55),24px);margin-bottom:clamp(11px,calc(var(--sh) * 2.55),24px);max-width:56ch;}
-  .hero-projectline span{position:absolute;left:0;top:0;font-family:var(--font-heading);font-weight:600;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--tech-blue-light);opacity:0;transition:opacity .8s ease;}
-  .hero-projectline span.active{opacity:1;}
-  .hero-actions{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:clamp(13px,calc(var(--sh) * 2.95),28px);}
-  .hero-actions .btn{padding:clamp(9px,calc(var(--sh) * 1.5),14px) clamp(18px,2vw,26px);font-size:clamp(13px,calc(var(--sh) * 1.6),15px);}
-  .hero-stats{display:flex;gap:clamp(28px,4vw,56px);border-top:1px solid rgba(255,255,255,.18);padding-top:clamp(9px,calc(var(--sh) * 2.1),20px);flex-wrap:wrap;}
-  .hero-stats div b{display:block;font-family:var(--font-heading);font-weight:700;font-size:clamp(22px,calc(var(--sh) * 3.6),34px);color:var(--yellow);}
-  .hero-stats div span{font-family:var(--font-heading);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.6);}
   /* Foto ganz links, Schrift direkt daneben. Der Textblock beginnt bei 38
      Prozent der Inhaltsbreite -- dort endet das Foto (gemessen bei 1024,
      1366 und 1920 Pixel Fensterbreite). Er wird nicht an den rechten Rand
@@ -224,11 +214,6 @@
      Schirmen; schmalere zeigen den Text ohnehin ueber die ganze Breite. */
   @media(min-width:1001px){
     .hero-content > *{margin-left:38%;}
-    /* Die drei Zahlen brauchen zusammen 576 Pixel. In der schmaleren Spalte
-       stuenden sie sonst untereinander, der Hero waechst dann mit. Kleinere
-       Abstaende, kein Umbruch, feste Breite je Zahl. */
-    .hero-stats{gap:clamp(16px,1.6vw,28px);flex-wrap:nowrap;}
-    .hero-stats > div{flex:0 0 auto;}
   }
 
   /* VERTRAUENSLEISTE
@@ -725,21 +710,6 @@
     <h1>Elektrotechnik, auf die Sie sich verlassen können.</h1>
     <p class="hero-lead">Wir sind Ihr Elektrofachbetrieb in Köln und arbeiten für Kunden in der ganzen Region. Hinter jedem Auftrag stehen über 30 Jahre Erfahrung: Beratung, Planung, Installation und Wartung bekommen Sie aus einer Hand, fachgerecht und termintreu ausgeführt, vom festen Ansprechpartner statt von wechselnden Kolonnen.</p>
     <p class="hero-lead">Elektroinstallation, Wallbox, Photovoltaik, der Anschluss Ihrer Wärmepumpe, Smart Home, Netzwerktechnik und VDE-Prüfungen gehören zu unserer täglichen Arbeit. Neueste Technik setzen wir dort ein, wo sie Ihnen etwas bringt, nicht weil sie neu ist. Als Mitglied der Elektroinnung Köln arbeiten wir nach den geltenden VDE-Vorgaben und übergeben jede Anlage gemessen und dokumentiert.</p>
-    <div class="hero-projectline">
-      <span class="active">Messung &amp; Prüfprotokoll · Köln</span>
-      <span>Netzwerkschrank aufgebaut · Ehrenfeld</span>
-      <span>Schaltschrank erneuert · Longerich</span>
-      <span>Beleuchtung geplant · Riehl</span>
-    </div>
-    <div class="hero-actions">
-      <a href="#kontakt" class="btn btn-primary">Kostenlose Beratung</a>
-      <a href="tel:+4922129894083" class="btn btn-ghost-light">0221 2989 4083</a>
-    </div>
-    <div class="hero-stats">
-      <div><b data-count="6">0</b><span>Gewerke aus einer Hand</span></div>
-      <div><b data-count="4">0</b><span>Kundengruppen betreut</span></div>
-      <div><b data-count="1">0</b><span>Ansprechpartner, direkt</span></div>
-    </div>
   </div>
 </section>
 
@@ -1309,22 +1279,6 @@
     if (!document.hidden) revealEls.forEach(function (el) { el.classList.add('in'); });
   });
 
-  // Generischer Textwechsler: ueberlagerte <span>-Elemente, per .active
-  // Klasse eingeblendet, im Intervall weitergeschaltet.
-  function cycleSpans(selector, intervalMs) {
-    var spans = document.querySelectorAll(selector);
-    if (!spans.length) return;
-    var i = 0;
-    spans[0].classList.add('active');
-    if (reduceMotion) return;
-    setInterval(function () {
-      spans[i].classList.remove('active');
-      i = (i + 1) % spans.length;
-      spans[i].classList.add('active');
-    }, intervalMs);
-  }
-  cycleSpans('.hero-projectline span', 6000);
-
   // Hero-Hintergrund: die Bildebenen wechseln reihum durch, immer eine
   // sichtbar. Die Bilder ausser dem ersten werden erst nach dem Laden
   // gesetzt, damit der erste Seitenaufbau nur auf ein Bild wartet.
@@ -1349,36 +1303,6 @@
       i = (i + 1) % ebenen.length;
       ebenen[i].classList.add('an');
     }, 4000);
-  })();
-
-  // Hero-Zähler
-  (function () {
-    var counters = document.querySelectorAll('[data-count]');
-    if (!counters.length) return;
-    var done = false;
-    var io2 = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting && !done) {
-          done = true;
-          counters.forEach(function (el) {
-            var target = parseInt(el.getAttribute('data-count'), 10);
-            if (reduceMotion) { el.textContent = target; return; }
-            var start = null;
-            var duration = 1100;
-            function step(ts) {
-              if (!start) start = ts;
-              var p = Math.min((ts - start) / duration, 1);
-              var eased = 1 - Math.pow(1 - p, 3);
-              el.textContent = Math.round(eased * target);
-              if (p < 1) requestAnimationFrame(step);
-            }
-            requestAnimationFrame(step);
-          });
-          io2.disconnect();
-        }
-      });
-    }, { threshold: 0.4 });
-    io2.observe(counters[0].closest('.hero-stats'));
   })();
 
   // Ablauf: Linie färbt sich beim Sichtbarwerden
