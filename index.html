@@ -245,6 +245,10 @@
     .trust-item{padding:20px clamp(16px,2.2vw,28px);}
   }
   .trust-item svg{flex-shrink:0;margin-top:2px;color:var(--green);}
+  /* Das Innungszeichen steht anstelle des allgemeinen Symbols. Es ist eine
+     geschuetzte Marke und wird unveraendert wiedergegeben -- nur klein, damit
+     es die Leiste nicht dominiert. */
+  .trust-zeichen{flex-shrink:0;width:26px;height:26px;display:block;margin-top:2px;}
   /* Die Leiste ist nur noch so hoch wie der Header, also rund doppelte
      Logohoehe. Damit zwei Textzeilen je Punkt hineinpassen, sind Schrift
      und Zeilenabstand knapper als im uebrigen Text. */
@@ -758,7 +762,7 @@
 <div class="trustbar">
   <div class="trustbar-inner">
     <div class="trust-item">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l7 4v6c0 4.4-3 8.4-7 10-4-1.6-7-5.6-7-10V6l7-4z"/><path d="M9 12l2 2 4-4"/></svg>
+      <img class="trust-zeichen" src="innungszeichen.png" alt="Zeichen der Elektro-Innung" width="26" height="26" loading="lazy">
       <div><b>Mitglied der Elektroinnung Köln</b><span>Fachbetrieb mit geprüfter Qualifikation</span></div>
     </div>
     <div class="trust-item">
