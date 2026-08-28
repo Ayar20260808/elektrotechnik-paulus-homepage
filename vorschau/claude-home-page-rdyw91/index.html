@@ -195,22 +195,30 @@
      Scheinwerfer ueber das Papier. Beide Bewegungen sind bewusst traege,
      der Text soll lesbar bleiben. */
   .hero-plan{position:absolute;inset:0;overflow:hidden;}
-  /* Mehrere Bildebenen uebereinander; sichtbar ist immer genau eine.
-     Der Wechsel laeuft als lange, weiche Ueberblendung: 2,6 Sekunden mit
-     flachem Ein- und Ausgang, damit das neue Bild aufzieht statt zu
-     springen. Dazu passt der Taktgeber von 9 Sekunden weiter unten -- so
-     steht jedes Bild rund 6,4 Sekunden ruhig, bevor das naechste kommt. */
+  /* Mehrere Bildebenen uebereinander; sichtbar ist immer genau eine,
+     der Wechsel laeuft als weiche Ueberblendung.
+
+     Jedes Bild faengt etwas kleiner an und waechst, solange es zu sehen
+     ist. Die Bewegung laeuft genau so lange wie der Taktgeber weiter
+     unten (4 Sekunden): ist die Endgroesse erreicht, kommt das naechste
+     Bild. Die Ebene ragt mit inset:-8% ueber den Hero hinaus, deshalb
+     deckt schon der Startwert 1.0 die Flaeche vollstaendig ab.
+
+     Der Ruhewert der Ebene ist die Endgroesse. Nimmt das Skript die
+     Klasse wieder weg, faellt die Ebene also auf genau den Wert zurueck,
+     bei dem die Bewegung geendet hat -- das ausblendende Bild springt
+     nicht. */
   .hero-plan-img{position:absolute;inset:-8%;background-position:center;background-size:cover;
-    background-repeat:no-repeat;opacity:0;transition:opacity 2.6s cubic-bezier(.33,0,.2,1);
-    will-change:transform,opacity;animation:ep-plan 90s ease-in-out infinite alternate;}
-  .hero-plan-img.an{opacity:.78;}
-  @keyframes ep-plan{
-    from{transform:scale(1.05) translate3d(1.5%, 1%, 0);}
-    to  {transform:scale(1.18) translate3d(-2.5%, -1.5%, 0);}
+    background-repeat:no-repeat;opacity:0;transition:opacity 1.1s ease-in-out;
+    will-change:transform,opacity;transform:scale(1.07);}
+  .hero-plan-img.an{opacity:.78;animation:ep-hero-zoom 4s linear forwards;}
+  @keyframes ep-hero-zoom{
+    from{transform:scale(1);}
+    to  {transform:scale(1.07);}
   }
   /* Wer Bewegung im System abgestellt hat, bekommt ein ruhiges Standbild. */
   @media(prefers-reduced-motion: reduce){
-    .hero-plan-img{animation:none;transform:scale(1.08);}
+    .hero-plan-img,.hero-plan-img.an{animation:none;transform:scale(1.035);}
   }
   /* Der Verlauf haelt den Text rechts lesbar, laesst das Foto aber nach
      links hin deutlich durch -- dort steht das Gesicht. */
@@ -1424,7 +1432,7 @@
       ebenen[i].classList.remove('an');
       i = (i + 1) % ebenen.length;
       ebenen[i].classList.add('an');
-    }, 9000);
+    }, 4000);
   })();
 
   // Ablauf: Linie färbt sich beim Sichtbarwerden
