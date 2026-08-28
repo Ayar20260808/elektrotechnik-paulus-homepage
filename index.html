@@ -1350,6 +1350,37 @@
     pruefe();
   })();
 
+  /* Ankersprunge landen buendig am Anfang des Abschnitts.
+
+     Der Header steckt im Textfluss (position:sticky) und schrumpft beim
+     Scrollen von 103 auf 48 Pixel. Ueberlaesst man den Sprung dem Browser,
+     rechnet der mit dem Stand von vor dem Schrumpfen: kam der Klick von
+     ganz oben, rutschte alles waehrend des Scrollens um 55 Pixel nach
+     oben und traf zufaellig; kam er aus der Fusszeile, blieb eine Luecke
+     von 55 Pixeln unter dem Header stehen (beides gemessen).
+
+     Deshalb: Header zuerst in den Endzustand bringen, dann messen, dann
+     selbst scrollen. */
+  (function () {
+    var kopf = document.querySelector('header');
+    if (!kopf) return;
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+      if (!a) return;
+      var id = a.getAttribute('href');
+      if (!id || id.length < 2) return;
+      var ziel = document.querySelector(id);
+      if (!ziel) return;
+      e.preventDefault();
+      kopf.classList.add('geschrumpft');
+      var oben = ziel.getBoundingClientRect().top + window.scrollY - kopf.offsetHeight;
+      window.scrollTo({ top: Math.max(0, Math.round(oben)), behavior: 'smooth' });
+      if (window.history && window.history.replaceState) {
+        window.history.replaceState(null, '', id);
+      }
+    });
+  })();
+
   var burger = document.querySelector('.burger');
   var navLinks = document.querySelector('.nav-links');
   burger.addEventListener('click', function () { navLinks.classList.toggle('mobile-open'); });
