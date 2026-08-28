@@ -1672,9 +1672,9 @@
     });
   })();
 
-  /* Hintergrundsymbole fuer Leistungen und Unsere Kunden: immer 15
+  /* Hintergrundsymbole fuer Leistungen und Unsere Kunden: immer 5
      gleichzeitig sichtbare, gleichmaessig verteilte Symbole in den freien
-     Flaechen (nie hinter den Karten oder der Ueberschrift). Alle 15 sind
+     Flaechen (nie hinter den Karten oder der Ueberschrift). Alle 5 sind
      verschieden, und beim Durchwechseln wird kein Symbol wiederholt, bis
      der komplette Pool einmal gezeigt wurde (Ziehen ohne Zuruecklegen).
      Positionen per Best-Candidate-Sampling: jeder neue Punkt maximiert den
@@ -1690,7 +1690,7 @@
     // identisch und jedes Icon passt an jede Position -- wichtig fuer den
     // Durchlauf ohne Wiederholung. MIN_GAP haelt die Symbole auseinander.
     var BOX = 54;
-    var TARGET_COUNT = 15;
+    var TARGET_COUNT = 5;
     var CARD_PAD = 6;
     var CANDIDATES_PER_POINT = 300;
     var MIN_GAP = 80;
