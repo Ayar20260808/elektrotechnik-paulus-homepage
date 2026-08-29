@@ -481,7 +481,11 @@
   /* Elf Markennamen sind rund 1690 Pixel breit. Mit der Grundzeit von 26
      Sekunden liefe das Band mit 65 Pixeln je Sekunde, doppelt so schnell
      wie vorher mit fuenf Namen. 54 Sekunden ergeben wieder rund 31. */
-  .marquee-track.marken{animation-duration:54s;}
+  /* 85 statt 54 Sekunden: mit den zusaetzlichen Marken ist die Gruppe von
+     1687 auf 2640 Pixel gewachsen. Bei gleicher Dauer waere das Band um
+     die Haelfte schneller gelaufen -- so bleibt es bei den gemessenen
+     rund 31 Pixeln je Sekunde wie vorher. */
+  .marquee-track.marken{animation-duration:85s;}
   /* Das Markenband ist genauso hoch wie der Header -- dieselbe gemessene
      Groesse, die Vertrauensleiste und Fusszeile schon nutzen. Mindesthoehe
      statt fester Hoehe, damit auf schmalen Schirmen nichts abgeschnitten
@@ -790,11 +794,11 @@
 
 <section id="hero" class="hero">
   <div class="hero-plan" aria-hidden="true">
-    <div class="hero-plan-img an" data-bild="hero-0.jpg" style="background-image:url('hero-0.jpg');background-position:20% center;"></div>
-    <div class="hero-plan-img" data-bild="hero-echeck.jpg"></div>
+    <div class="hero-plan-img an" data-bild="hero-echeck.jpg" style="background-image:url('hero-echeck.jpg');"></div>
     <div class="hero-plan-img" data-bild="hero-eauto.jpg"></div>
     <div class="hero-plan-img" data-bild="hero-solar.jpg"></div>
     <div class="hero-plan-img" data-bild="hero-4.jpg"></div>
+    <div class="hero-plan-img" data-bild="hero-0.jpg" style="background-position:20% center;"></div>
   </div>
   <div class="hero-overlay"></div>
   <div class="hero-content wrap">
@@ -1025,10 +1029,10 @@
   <div class="marquee-clip">
     <div class="marquee-track marken">
       <div class="marquee-group">
-        <span class="brand-name">Hager</span><span class="brand-name">Gira</span><span class="brand-name">Busch-Jäger</span><span class="brand-name">Jung</span><span class="brand-name">ABB</span><span class="brand-name">Siemens</span><span class="brand-name">Schneider Electric</span><span class="brand-name">MENNEKES</span><span class="brand-name">Viessmann</span><span class="brand-name">Fronius</span><span class="brand-name">SMA Solar</span>
+        <span class="brand-name">Hager</span><span class="brand-name">Gira</span><span class="brand-name">Busch-Jäger</span><span class="brand-name">Jung</span><span class="brand-name">ABB</span><span class="brand-name">Siemens</span><span class="brand-name">Schneider Electric</span><span class="brand-name">MENNEKES</span><span class="brand-name">SMA Solar</span><span class="brand-name">Heidelberg</span><span class="brand-name">Ohme</span><span class="brand-name">Jinko Solar</span><span class="brand-name">LONGi Green Energy</span><span class="brand-name">Kostal</span><span class="brand-name">K2 Systems</span><span class="brand-name">Keba</span><span class="brand-name">go-e</span>
       </div>
       <div class="marquee-group" aria-hidden="true">
-        <span class="brand-name">Hager</span><span class="brand-name">Gira</span><span class="brand-name">Busch-Jäger</span><span class="brand-name">Jung</span><span class="brand-name">ABB</span><span class="brand-name">Siemens</span><span class="brand-name">Schneider Electric</span><span class="brand-name">MENNEKES</span><span class="brand-name">Viessmann</span><span class="brand-name">Fronius</span><span class="brand-name">SMA Solar</span>
+        <span class="brand-name">Hager</span><span class="brand-name">Gira</span><span class="brand-name">Busch-Jäger</span><span class="brand-name">Jung</span><span class="brand-name">ABB</span><span class="brand-name">Siemens</span><span class="brand-name">Schneider Electric</span><span class="brand-name">MENNEKES</span><span class="brand-name">SMA Solar</span><span class="brand-name">Heidelberg</span><span class="brand-name">Ohme</span><span class="brand-name">Jinko Solar</span><span class="brand-name">LONGi Green Energy</span><span class="brand-name">Kostal</span><span class="brand-name">K2 Systems</span><span class="brand-name">Keba</span><span class="brand-name">go-e</span>
       </div>
     </div>
   </div>
