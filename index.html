@@ -1213,7 +1213,26 @@
       document.querySelectorAll('section:not(.legal-page):not(#' + page + ')').forEach(el => el.style.display = 'none');
       window.scrollTo({ top: 0, behavior: 'auto' });
     }
+    // Die Adresse mitfuehren, damit ein Neuladen dieselbe Seite zeigt und
+    // "Zurueck zur Startseite" die Kennung wieder loswird.
+    if (window.history && window.history.replaceState) {
+      window.history.replaceState(null, '', page === 'home'
+        ? window.location.pathname + window.location.search
+        : '#' + page);
+    }
   }
+
+  // Aus der Fusszeile der Leistungsseiten fuehren Impressum und Datenschutz
+  // als index.html#impressum bzw. #datenschutz hierher. Die Kennung wird
+  // beim Laden und bei jeder Aenderung ausgewertet.
+  (function () {
+    function zeigeAusAdresse() {
+      var ziel = (window.location.hash || '').replace('#', '');
+      if (ziel === 'impressum' || ziel === 'datenschutz') showLegalPage(ziel);
+    }
+    zeigeAusAdresse();
+    window.addEventListener('hashchange', zeigeAusAdresse);
+  })();
 </script>
 
 <footer class="legalbar">
@@ -1385,6 +1404,15 @@
       var ziel = document.querySelector(id);
       if (!ziel) return;
       e.preventDefault();
+      // Steht gerade Impressum oder Datenschutz auf dem Schirm, ist der
+      // Rest der Seite ausgeblendet. Dann zuerst zurueck zur Startseite,
+      // sonst springt der Klick auf einen unsichtbaren Abschnitt.
+      if (!ziel.classList.contains('legal-page')) {
+        var offen = Array.prototype.some.call(
+          document.querySelectorAll('.legal-page'),
+          function (el) { return getComputedStyle(el).display !== 'none'; });
+        if (offen) showLegalPage('home');
+      }
       kopf.classList.add('geschrumpft');
       var oben = ziel.getBoundingClientRect().top + window.scrollY - kopf.offsetHeight;
       window.scrollTo({ top: Math.max(0, Math.round(oben)), behavior: 'smooth' });
