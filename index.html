@@ -154,6 +154,11 @@
     border:1px solid var(--grey-300);box-shadow:0 14px 30px rgba(18,24,30,.14);padding:8px 0;
     display:none;z-index:120;}
   .nav-item:hover .submenu, .nav-item:focus-within .submenu{display:block;}
+  /* Nach einem Klick auf Leistungen bleibt die Liste offen, bis die Maus
+     den Punkt samt Liste verlaesst. Ohne Klick gilt weiter die Zeile
+     darueber: aufklappen beim Ueberfahren. */
+  .nav-item.offen .submenu{display:block;}
+  .nav-item.offen .caret{transform:rotate(180deg);}
   .submenu a{display:block;padding:10px 20px;font-family:var(--font-body);font-size:15.5px;font-weight:400;color:var(--ink);}
   .submenu a:hover{background:var(--grey-100);color:var(--ink);text-decoration:none;}
   .burger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:6px;position:relative;z-index:2;}
@@ -1403,6 +1408,34 @@
       if (window.history && window.history.replaceState) {
         window.history.replaceState(null, '', id);
       }
+    });
+  })();
+
+  /* Klick auf Leistungen haelt die Liste offen, solange die Maus auf dem
+     Punkt oder der Liste liegt. Der Sprung zum Abschnitt bleibt erhalten,
+     der Klick nimmt ihn nicht weg. Auf dem Handy klappt die Liste ohnehin
+     im Menue mit auf, dort greift die Klasse nicht stoerend ein. */
+  (function () {
+    var punkt = document.querySelector('.nav-item');
+    if (!punkt) return;
+    var knopf = punkt.querySelector('a');
+    function auf() { punkt.classList.add('offen'); knopf.setAttribute('aria-expanded', 'true'); }
+    function zu()  {
+      punkt.classList.remove('offen');
+      knopf.setAttribute('aria-expanded', 'false');
+      // Nach einem Klick behaelt der Link den Fokus. Die Regel
+      // .nav-item:focus-within haelt die Liste dann offen, obwohl die Maus
+      // laengst weg ist. Also den Fokus abgeben -- aber nur, wenn er
+      // wirklich in diesem Punkt sitzt, damit die Tastaturbedienung
+      // unberuehrt bleibt.
+      if (punkt.contains(document.activeElement)) document.activeElement.blur();
+    }
+    knopf.addEventListener('click', auf);
+    punkt.addEventListener('mouseleave', zu);
+    // Sicherheitsnetz fuer Geraete ohne Maus: ein Klick irgendwo sonst
+    // schliesst die Liste, sonst bliebe sie nach einem Fingertipp stehen.
+    document.addEventListener('click', function (e) {
+      if (!punkt.contains(e.target)) zu();
     });
   })();
 
