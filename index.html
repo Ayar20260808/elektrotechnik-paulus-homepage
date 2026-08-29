@@ -500,6 +500,12 @@
   .marquee-section.bilderband .imgband-group img{height:calc(var(--header-hoehe, 139px) - 38px);}
   .marquee-group{display:flex;align-items:center;gap:64px;padding-right:64px;}
   .brand-name{font-family:var(--font-heading);font-weight:700;font-size:21px;color:var(--grey-600);white-space:nowrap;}
+  /* Logos im Markenband. Alle Dateien sind 120 Pixel hoch; das Motiv sitzt
+     darin mittig und ist bei Schriftzuegen 100, bei runden Marken 104 Pixel
+     hoch. Die 34 Pixel entsprechen der Zeilenhoehe der Markennamen daneben;
+     das Motiv wird damit 28 Pixel hoch, die runde Marke 29,5. Bei 78 Pixeln
+     war der Schriftzug im K2-Kreis nicht mehr zu lesen (verglichen). */
+  .brand-logo{height:34px;width:auto;display:block;flex:0 0 auto;}
   .imgband-group{display:flex;gap:2px;padding-right:2px;}
   /* Das Band soll im Hintergrund mitlaufen, nicht die Aufmerksamkeit
      ziehen: gedaempft und leicht entsaettigt. Beim Ueberfahren zeigen
@@ -1029,10 +1035,10 @@
   <div class="marquee-clip">
     <div class="marquee-track marken">
       <div class="marquee-group">
-        <span class="brand-name">Hager</span><span class="brand-name">Gira</span><span class="brand-name">Busch-Jäger</span><span class="brand-name">Jung</span><span class="brand-name">ABB</span><span class="brand-name">Siemens</span><span class="brand-name">Schneider Electric</span><span class="brand-name">MENNEKES</span><span class="brand-name">SMA Solar</span><span class="brand-name">Heidelberg</span><span class="brand-name">Ohme</span><span class="brand-name">Jinko Solar</span><span class="brand-name">LONGi Green Energy</span><span class="brand-name">Kostal</span><span class="brand-name">K2 Systems</span><span class="brand-name">Keba</span><span class="brand-name">go-e</span>
+        <span class="brand-name">Hager</span><span class="brand-name">Gira</span><span class="brand-name">Busch-Jäger</span><span class="brand-name">Jung</span><span class="brand-name">ABB</span><span class="brand-name">Siemens</span><span class="brand-name">Schneider Electric</span><span class="brand-name">MENNEKES</span><img class="brand-logo" src="marke-wago.png" alt="WAGO" loading="lazy"><img class="brand-logo" src="marke-eltako.png" alt="Eltako" loading="lazy"><span class="brand-name">SMA Solar</span><span class="brand-name">Heidelberg</span><span class="brand-name">Ohme</span><span class="brand-name">Jinko Solar</span><img class="brand-logo" src="marke-longi.png" alt="LONGi Green Energy" loading="lazy"><img class="brand-logo" src="marke-kostal.png" alt="KOSTAL" loading="lazy"><img class="brand-logo" src="marke-k2systems.png" alt="K2 Systems" loading="lazy"><span class="brand-name">Keba</span><span class="brand-name">go-e</span>
       </div>
       <div class="marquee-group" aria-hidden="true">
-        <span class="brand-name">Hager</span><span class="brand-name">Gira</span><span class="brand-name">Busch-Jäger</span><span class="brand-name">Jung</span><span class="brand-name">ABB</span><span class="brand-name">Siemens</span><span class="brand-name">Schneider Electric</span><span class="brand-name">MENNEKES</span><span class="brand-name">SMA Solar</span><span class="brand-name">Heidelberg</span><span class="brand-name">Ohme</span><span class="brand-name">Jinko Solar</span><span class="brand-name">LONGi Green Energy</span><span class="brand-name">Kostal</span><span class="brand-name">K2 Systems</span><span class="brand-name">Keba</span><span class="brand-name">go-e</span>
+        <span class="brand-name">Hager</span><span class="brand-name">Gira</span><span class="brand-name">Busch-Jäger</span><span class="brand-name">Jung</span><span class="brand-name">ABB</span><span class="brand-name">Siemens</span><span class="brand-name">Schneider Electric</span><span class="brand-name">MENNEKES</span><img class="brand-logo" src="marke-wago.png" alt="WAGO" loading="lazy"><img class="brand-logo" src="marke-eltako.png" alt="Eltako" loading="lazy"><span class="brand-name">SMA Solar</span><span class="brand-name">Heidelberg</span><span class="brand-name">Ohme</span><span class="brand-name">Jinko Solar</span><img class="brand-logo" src="marke-longi.png" alt="LONGi Green Energy" loading="lazy"><img class="brand-logo" src="marke-kostal.png" alt="KOSTAL" loading="lazy"><img class="brand-logo" src="marke-k2systems.png" alt="K2 Systems" loading="lazy"><span class="brand-name">Keba</span><span class="brand-name">go-e</span>
       </div>
     </div>
   </div>
