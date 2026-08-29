@@ -749,11 +749,24 @@
     border-bottom:2px solid var(--ink);
     box-shadow:0 12px 24px rgba(18,24,30,.12);
     border-radius:0;
+    /* Auf niedrigen Schirmen ist die Liste laenger als das Fenster. Ohne
+       diese beiden Zeilen stehen "Ablauf" und "Kontakt" unterhalb der
+       Bildkante und sind nicht erreichbar, weil das Menue fest am
+       Fenster haengt. */
+    max-height:100vh;
+    max-height:100dvh;
+    overflow-y:auto;
   }
   .nav-links.mobile-open a{color:var(--ink);padding:14px 0;width:100%;border:none;border-bottom:1px solid var(--grey-300);border-radius:0;}
   .nav-links.mobile-open .nav-item{width:100%;}
-  .nav-links.mobile-open .submenu{position:static;display:block;border:none;box-shadow:none;padding:0 0 6px 16px;min-width:0;}
-  .nav-links.mobile-open .submenu a{padding:11px 0;font-size:14.5px;color:var(--grey-600);}
+  /* Im Handy-Menue sieht die Liste genauso aus wie am Rechner: gleicher
+     heller Kasten mit feinem Rahmen, gleiche Schriftgroesse, gleiche
+     Farbe, gleicher Abstand ueber dem ersten Punkt und keine Trennlinien
+     zwischen den Punkten. Sie schwebt nur nicht, sondern steht im Menue. */
+  .nav-links.mobile-open .submenu{position:static;display:block;min-width:0;
+    background:var(--grey-0);border:1px solid var(--grey-300);box-shadow:none;
+    padding:32px 0 10px;margin:0 0 6px;}
+  .nav-links.mobile-open .submenu a{padding:10px 20px;font-size:15.5px;color:var(--ink);border-bottom:none;}
   .nav-links.mobile-open .caret{display:none;}
   .nav-links.mobile-open a:hover{color:var(--yellow-text);}
   .nav-links.mobile-open > a::after,.nav-links.mobile-open .nav-item > a::after{display:none;}
