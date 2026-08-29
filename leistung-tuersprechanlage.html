@@ -144,11 +144,17 @@
   details[open] summary::after{content:'–';}
   details p{font-size:16px;line-height:1.7;color:var(--grey-600);margin:0 0 24px;}
 
-  .closing{background:var(--yellow);text-align:center;padding:64px 0;}
-  .closing h2{font-weight:700;font-size:clamp(26px,3.4vw,38px);margin-bottom:14px;letter-spacing:-.02em;}
-  .closing p{color:var(--dark);font-size:16px;margin-bottom:28px;}
+  .closing{background:var(--yellow);text-align:center;padding:40px 0;}
+  .closing h2{font-weight:700;font-size:clamp(22px,2.7vw,30px);margin-bottom:18px;letter-spacing:-.02em;}
   .closing-actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
-  .closing .btn-ghost{border-color:var(--dark);}
+  /* Beide Knoepfe im gelben Band gleich: dunkler Rahmen, beim Ueberfahren
+     der helle Gelbton. Vorher war "Anfrage senden" ein gelber Knopf auf
+     gelbem Grund -- im Ruhezustand unsichtbar, nur beim Ueberfahren kam ein
+     dunkleres Rechteck. */
+  .closing .btn-ghost,
+  .closing .btn-primary{background:transparent;border-color:var(--dark);color:var(--dark);}
+  .closing .btn-primary:hover,
+  .closing .btn-ghost:hover{background:var(--yellow-tint);border-color:var(--dark);color:var(--dark);}
 
   /* Fusszeile spiegelbildlich zum Header: gleiche seitliche Abstaende,
      Logo links, Textlinks rechts. */
@@ -276,7 +282,6 @@
 <div class="closing">
   <div class="wrap">
     <h2>Neue Türsprechanlage geplant? Wir schauen uns die Situation an.</h2>
-    <p>Kurzes Gespräch, dann wissen Sie, was bei Ihnen möglich ist und was es kostet.</p>
     <div class="closing-actions">
       <a href="index.html#kontakt" class="btn btn-primary">Anfrage senden</a>
       <a href="tel:+4922129894083" class="btn btn-ghost">0221 2989 4083</a>
