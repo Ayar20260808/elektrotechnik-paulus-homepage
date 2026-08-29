@@ -478,14 +478,11 @@
      breit; 140 Sekunden ergeben rund 19 Pixel je Sekunde -- die Haelfte
      mehr Tempo als die 210 Sekunden vorher. */
   .marquee-track.slow{animation-duration:140s;}
-  /* Elf Markennamen sind rund 1690 Pixel breit. Mit der Grundzeit von 26
-     Sekunden liefe das Band mit 65 Pixeln je Sekunde, doppelt so schnell
-     wie vorher mit fuenf Namen. 54 Sekunden ergeben wieder rund 31. */
-  /* 85 statt 54 Sekunden: mit den zusaetzlichen Marken ist die Gruppe von
-     1687 auf 2640 Pixel gewachsen. Bei gleicher Dauer waere das Band um
-     die Haelfte schneller gelaufen -- so bleibt es bei den gemessenen
-     rund 31 Pixeln je Sekunde wie vorher. */
-  .marquee-track.marken{animation-duration:85s;}
+  /* Die Laufzeit haengt an der Breite einer Gruppe, damit das Band immer
+     gleich schnell laeuft, egal wie viele Marken drinstehen. Massstab sind
+     die urspruenglichen elf Namen: 1687 Pixel in 54 Sekunden, also rund 31
+     Pixel je Sekunde. Jetzt sind es 2992 Pixel, dafuer 96 Sekunden. */
+  .marquee-track.marken{animation-duration:96s;}
   /* Das Markenband ist genauso hoch wie der Header -- dieselbe gemessene
      Groesse, die Vertrauensleiste und Fusszeile schon nutzen. Mindesthoehe
      statt fester Hoehe, damit auf schmalen Schirmen nichts abgeschnitten
@@ -501,10 +498,12 @@
   .marquee-group{display:flex;align-items:center;gap:64px;padding-right:64px;}
   .brand-name{font-family:var(--font-heading);font-weight:700;font-size:21px;color:var(--grey-600);white-space:nowrap;}
   /* Logos im Markenband. Alle Dateien sind 120 Pixel hoch; das Motiv sitzt
-     darin mittig und ist bei Schriftzuegen 100, bei runden Marken 104 Pixel
-     hoch. Die 34 Pixel entsprechen der Zeilenhoehe der Markennamen daneben;
-     das Motiv wird damit 28 Pixel hoch, die runde Marke 29,5. Bei 78 Pixeln
-     war der Schriftzug im K2-Kreis nicht mehr zu lesen (verglichen). */
+     darin mittig. Wie hoch, haengt von der Form ab: reine Versalien-
+     Schriftzuege 72 Pixel, Gemischtschrift 88, kompakte und zweizeilige
+     Marken 104. Ohne diese Staffelung wirken Versalien doppelt so gross wie
+     die Markennamen daneben, weil deren Versalhoehe nur bei 15 Pixeln
+     liegt. Die 34 Pixel Anzeigehoehe entsprechen der Zeilenhoehe der
+     Namen. */
   .brand-logo{height:34px;width:auto;display:block;flex:0 0 auto;}
   .imgband-group{display:flex;gap:2px;padding-right:2px;}
   /* Das Band soll im Hintergrund mitlaufen, nicht die Aufmerksamkeit
@@ -1035,10 +1034,10 @@
   <div class="marquee-clip">
     <div class="marquee-track marken">
       <div class="marquee-group">
-        <span class="brand-name">Hager</span><span class="brand-name">Gira</span><span class="brand-name">Busch-Jäger</span><span class="brand-name">Jung</span><span class="brand-name">ABB</span><span class="brand-name">Siemens</span><span class="brand-name">Schneider Electric</span><span class="brand-name">MENNEKES</span><img class="brand-logo" src="marke-wago.png" alt="WAGO" loading="lazy"><img class="brand-logo" src="marke-eltako.png" alt="Eltako" loading="lazy"><span class="brand-name">SMA Solar</span><span class="brand-name">Heidelberg</span><span class="brand-name">Ohme</span><span class="brand-name">Jinko Solar</span><img class="brand-logo" src="marke-longi.png" alt="LONGi Green Energy" loading="lazy"><img class="brand-logo" src="marke-kostal.png" alt="KOSTAL" loading="lazy"><img class="brand-logo" src="marke-k2systems.png" alt="K2 Systems" loading="lazy"><span class="brand-name">Keba</span><span class="brand-name">go-e</span>
+        <img class="brand-logo" src="marke-hager.png" alt="Hager" loading="lazy"><span class="brand-name">Gira</span><span class="brand-name">Busch-Jäger</span><img class="brand-logo" src="marke-jung.png" alt="JUNG" loading="lazy"><img class="brand-logo" src="marke-abb.png" alt="ABB" loading="lazy"><img class="brand-logo" src="marke-siemens.png" alt="Siemens" loading="lazy"><span class="brand-name">Schneider Electric</span><img class="brand-logo" src="marke-mennekes.png" alt="MENNEKES" loading="lazy"><img class="brand-logo" src="marke-wago.png" alt="WAGO" loading="lazy"><img class="brand-logo" src="marke-eltako.png" alt="Eltako" loading="lazy"><img class="brand-logo" src="marke-theben.png" alt="Theben" loading="lazy"><img class="brand-logo" src="marke-sma.png" alt="SMA Solar" loading="lazy"><span class="brand-name">Heidelberg</span><span class="brand-name">Ohme</span><span class="brand-name">Jinko Solar</span><img class="brand-logo" src="marke-longi.png" alt="LONGi Green Energy" loading="lazy"><img class="brand-logo" src="marke-kostal.png" alt="KOSTAL" loading="lazy"><img class="brand-logo" src="marke-k2systems.png" alt="K2 Systems" loading="lazy"><img class="brand-logo" src="marke-keba.png" alt="KEBA" loading="lazy"><span class="brand-name">go-e</span>
       </div>
       <div class="marquee-group" aria-hidden="true">
-        <span class="brand-name">Hager</span><span class="brand-name">Gira</span><span class="brand-name">Busch-Jäger</span><span class="brand-name">Jung</span><span class="brand-name">ABB</span><span class="brand-name">Siemens</span><span class="brand-name">Schneider Electric</span><span class="brand-name">MENNEKES</span><img class="brand-logo" src="marke-wago.png" alt="WAGO" loading="lazy"><img class="brand-logo" src="marke-eltako.png" alt="Eltako" loading="lazy"><span class="brand-name">SMA Solar</span><span class="brand-name">Heidelberg</span><span class="brand-name">Ohme</span><span class="brand-name">Jinko Solar</span><img class="brand-logo" src="marke-longi.png" alt="LONGi Green Energy" loading="lazy"><img class="brand-logo" src="marke-kostal.png" alt="KOSTAL" loading="lazy"><img class="brand-logo" src="marke-k2systems.png" alt="K2 Systems" loading="lazy"><span class="brand-name">Keba</span><span class="brand-name">go-e</span>
+        <img class="brand-logo" src="marke-hager.png" alt="Hager" loading="lazy"><span class="brand-name">Gira</span><span class="brand-name">Busch-Jäger</span><img class="brand-logo" src="marke-jung.png" alt="JUNG" loading="lazy"><img class="brand-logo" src="marke-abb.png" alt="ABB" loading="lazy"><img class="brand-logo" src="marke-siemens.png" alt="Siemens" loading="lazy"><span class="brand-name">Schneider Electric</span><img class="brand-logo" src="marke-mennekes.png" alt="MENNEKES" loading="lazy"><img class="brand-logo" src="marke-wago.png" alt="WAGO" loading="lazy"><img class="brand-logo" src="marke-eltako.png" alt="Eltako" loading="lazy"><img class="brand-logo" src="marke-theben.png" alt="Theben" loading="lazy"><img class="brand-logo" src="marke-sma.png" alt="SMA Solar" loading="lazy"><span class="brand-name">Heidelberg</span><span class="brand-name">Ohme</span><span class="brand-name">Jinko Solar</span><img class="brand-logo" src="marke-longi.png" alt="LONGi Green Energy" loading="lazy"><img class="brand-logo" src="marke-kostal.png" alt="KOSTAL" loading="lazy"><img class="brand-logo" src="marke-k2systems.png" alt="K2 Systems" loading="lazy"><img class="brand-logo" src="marke-keba.png" alt="KEBA" loading="lazy"><span class="brand-name">go-e</span>
       </div>
     </div>
   </div>
