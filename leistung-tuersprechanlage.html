@@ -602,14 +602,24 @@
       uhr = setTimeout(function () { floatCta.classList.remove('hide'); }, 400);
     }, { passive: true });
 
-    // Im gelben Band verschwindet er ganz -- dort steht schon ein Knopf
-    // "Anfrage senden", zwei nebeneinander waeren einer zu viel.
-    var band = document.querySelector('.closing');
-    if (band && window.IntersectionObserver) {
-      new IntersectionObserver(function (eintraege) {
-        floatCta.classList.toggle('aus', eintraege[0].isIntersecting);
-      }, { threshold: 0.01 }).observe(band);
+    // Der Knopf verschwindet, solange auf dem Schirm ohnehin ein Knopf mit
+    // demselben Ziel steht: oben "Beratung anfragen" im Kopfbild, unten
+    // "Anfrage senden" im gelben Band. Beide Beobachter schreiben in
+    // dieselbe Klasse, deshalb merken wir uns beide Zustaende getrennt.
+    var verdeckt = { kopf: false, band: false };
+    function pruefeAus() {
+      floatCta.classList.toggle('aus', verdeckt.kopf || verdeckt.band);
     }
+    function beobachte(auswahl, name) {
+      var el = document.querySelector(auswahl);
+      if (!el || !window.IntersectionObserver) return;
+      new IntersectionObserver(function (eintraege) {
+        verdeckt[name] = eintraege[0].isIntersecting;
+        pruefeAus();
+      }, { threshold: 0.01 }).observe(el);
+    }
+    beobachte('.svc-hero-actions', 'kopf');
+    beobachte('.closing', 'band');
 
     // Sobald die Fusszeile im Bild ist, springt der Knopf ueber sie.
     var fuss = document.querySelector('footer.legalbar');
