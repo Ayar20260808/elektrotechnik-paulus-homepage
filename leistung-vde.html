@@ -106,6 +106,44 @@
     header,.nav-inner,.logo img{transition:none!important;}
   }
 
+  /* "Im Angebot enthalten" bekommt denselben Hintergrund wie der Abschnitt
+     Leistungen auf der Startseite: dunkler Grund, darauf das Planfoto in
+     Graustufen mit langsamem Zoom, darueber blitzen technische Symbole
+     auf und wieder aus. Der Inhalt steht deshalb hier in Weiss. */
+  #angebot{position:relative;background:var(--dark);overflow:hidden;}
+  #angebot > .wrap{position:relative;z-index:1;}
+  #angebot .section-head h2{color:#fff;}
+  #angebot .section-head .eyebrow{color:var(--yellow);}
+  #angebot .checklist li{color:#fff;border-top-color:rgba(255,255,255,.22);}
+  #angebot .checklist li:last-child{border-bottom-color:rgba(255,255,255,.22);}
+  #angebot .checklist li .mark{color:var(--yellow);}
+  /* Derselbe Textschatten wie ueber dem Planhintergrund der Startseite:
+     Das Planfoto hat helle Linien, ohne Schatten verschwindet weisse
+     Schrift stellenweise darin. */
+  #angebot .section-head h2,
+  #angebot .section-head .eyebrow,
+  #angebot .checklist li{text-shadow:0 2px 14px rgba(18,24,30,.55);}
+  .leistungen-bg{position:absolute;inset:0;overflow:hidden;z-index:0;pointer-events:none;}
+  .leistungen-bg-photo{position:absolute;inset:-6%;background:url('hero-plan.jpg') center/cover no-repeat;
+    filter:grayscale(1);opacity:.3;animation:ep-plan-zoom 44s ease-in-out infinite alternate;}
+  @keyframes ep-plan-zoom{from{transform:scale(1);} to{transform:scale(1.06);}}
+  /* Symbole als maskierte Flaechen statt <img>, damit sie im Marken-Gelb
+     eingefaerbt werden koennen. Icon-Bild und Seitenverhaeltnis kommen je
+     Symbol ueber Inline-Style. */
+  .leistungen-bg .symbol{position:absolute;width:64px;height:auto;opacity:0;display:block;
+    background-color:var(--yellow);
+    -webkit-mask-image:var(--icon);mask-image:var(--icon);
+    -webkit-mask-size:contain;mask-size:contain;
+    -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+    -webkit-mask-position:center;mask-position:center;
+    filter:drop-shadow(0 1px 5px rgba(0,0,0,.75));
+    animation-name:ep-symbol-blip;animation-timing-function:ease-in-out;animation-iteration-count:infinite;}
+  @keyframes ep-symbol-blip{0%{opacity:0;}12%,64%{opacity:1;}80%,100%{opacity:0;}}
+  @media(prefers-reduced-motion: reduce){
+    .leistungen-bg-photo{animation:none;}
+    .leistungen-bg .symbol{animation:none;opacity:0;}
+  }
+
   /* SCHWEBENDER BUTTON -- wie auf der Startseite. Der Knopf ist genau so
      hoch wie der Header im geschrumpften Zustand; den Wert misst das
      Skript und legt ihn in --header-klein ab. */
@@ -377,7 +415,10 @@
   </div>
 </section>
 
-<section>
+<section id="angebot">
+  <div class="leistungen-bg" aria-hidden="true">
+    <div class="leistungen-bg-photo"></div>
+  </div>
   <div class="wrap">
     <div class="section-head"><span class="eyebrow">Was dabei ist</span><h2>Im Prüfumfang enthalten</h2></div>
     <div class="included-grid">
@@ -594,6 +635,286 @@
         floatCta.classList.toggle('ueber-fuss', drin);
       }, { threshold: 0.01 }).observe(fuss);
     }
+  })();
+
+  /* Hintergrundsymbole fuer Leistungen und Unsere Kunden: immer 5
+     gleichzeitig sichtbare, gleichmaessig verteilte Symbole in den freien
+     Flaechen (nie hinter den Karten oder der Ueberschrift). Alle 5 sind
+     verschieden, und beim Durchwechseln wird kein Symbol wiederholt, bis
+     der komplette Pool einmal gezeigt wurde (Ziehen ohne Zuruecklegen).
+     Positionen per Best-Candidate-Sampling: jeder neue Punkt maximiert den
+     Abstand zu den schon gesetzten -- das ergibt die gleichmaessige
+     Verteilung. Beide Abschnitte laufen unabhaengig voneinander. */
+  (function () {
+    var reduceMotionHere = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    var ICONS = [{"src":"elektrosymbole/abzweigdose.png","w":18,"h":15},{"src":"elektrosymbole/akustischer-signalgeber.png","w":22,"h":18},{"src":"elektrosymbole/alarm.png","w":24,"h":18},{"src":"elektrosymbole/analogeingang-1fach.png","w":18,"h":23},{"src":"elektrosymbole/analogeingang-2fach.png","w":18,"h":23},{"src":"elektrosymbole/analogeingang-3fach.png","w":18,"h":23},{"src":"elektrosymbole/analogeingang-4fach.png","w":18,"h":23},{"src":"elektrosymbole/anschluss-allgemein.png","w":24,"h":24},{"src":"elektrosymbole/anschluss-allgemein-16a.png","w":17,"h":22},{"src":"elektrosymbole/anschlussplatte.png","w":16,"h":10},{"src":"elektrosymbole/antenne.png","w":23,"h":22},{"src":"elektrosymbole/aufbauleuchte-wand.png","w":24,"h":14},{"src":"elektrosymbole/ausschalter.png","w":13,"h":17},{"src":"elektrosymbole/ausschalter-aufputz.png","w":13,"h":17},{"src":"elektrosymbole/ausschalter-zweifach.png","w":13,"h":17},{"src":"elektrosymbole/bewegungsmelder.png","w":18,"h":23},{"src":"elektrosymbole/bewegungsmelder-decke.png","w":24,"h":24},{"src":"elektrosymbole/bewegungsmelder-eckig.png","w":24,"h":24},{"src":"elektrosymbole/binaereingang-gleichspannung-1fach.png","w":18,"h":23},{"src":"elektrosymbole/binaereingang-wechselspannung1fach.png","w":18,"h":23},{"src":"elektrosymbole/bodentank-eckig.png","w":22,"h":22},{"src":"elektrosymbole/bodentank-rund.png","w":45,"h":33},{"src":"elektrosymbole/bus-aktor.png","w":24,"h":20},{"src":"elektrosymbole/bus-bewegungsmelder-wand.png","w":22,"h":20},{"src":"elektrosymbole/bus-funkmodul.png","w":22,"h":20},{"src":"elektrosymbole/bus-kontrolltaster-1-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-kontrolltaster-2-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-kontrolltaster-3-fach.png","w":24,"h":24},{"src":"elektrosymbole/bus-kontrolltaster-4-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-kontrolltaster-6-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-kontrolltaster-8-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-raumcontroller-2-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-raumcontroller-6-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-raumcontroller-8-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-sensor.png","w":24,"h":20},{"src":"elektrosymbole/bus-taster-1-fach.png","w":23,"h":20},{"src":"elektrosymbole/bus-taster-2-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-taster-3-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-taster-4-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-taster-6-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-taster-8-fach.png","w":24,"h":20},{"src":"elektrosymbole/bus-touch-surface.png","w":24,"h":24},{"src":"elektrosymbole/dachdurchfuehrung.png","w":22,"h":14},{"src":"elektrosymbole/dachstaender-pv.png","w":22,"h":14},{"src":"elektrosymbole/dachventilator.png","w":22,"h":22},{"src":"elektrosymbole/deckenauslass-fuer-leuchte.png","w":25,"h":26},{"src":"elektrosymbole/deckenleuchte.png","w":24,"h":24},{"src":"elektrosymbole/dehnungsstueck.png","w":22,"h":12},{"src":"elektrosymbole/dimmer-taster.png","w":14,"h":19},{"src":"elektrosymbole/dimmerschalter.png","w":15,"h":17},{"src":"elektrosymbole/dimmtaster-funk.png","w":14,"h":20},{"src":"elektrosymbole/einbau-spot.png","w":22,"h":24},{"src":"elektrosymbole/erdkabel.png","w":24,"h":24},{"src":"elektrosymbole/erdung.png","w":16,"h":17},{"src":"elektrosymbole/erdung-allgemein.png","w":40,"h":25},{"src":"elektrosymbole/fangeinrichtung.png","w":14,"h":15},{"src":"elektrosymbole/fangspitze.png","w":19,"h":19},{"src":"elektrosymbole/fensterkontakt-vds.png","w":14,"h":14},{"src":"elektrosymbole/fingerabdruckssensor.png","w":22,"h":22},{"src":"elektrosymbole/funktionserdung.png","w":18,"h":20},{"src":"elektrosymbole/gateway-opus.png","w":24,"h":24},{"src":"elektrosymbole/gateway-tado.png","w":24,"h":18},{"src":"elektrosymbole/gegensprechanlage.png","w":24,"h":18},{"src":"elektrosymbole/hausanschluss.png","w":25,"h":26},{"src":"elektrosymbole/heizkreisverteiler.png","w":25,"h":14},{"src":"elektrosymbole/helligkeitssensor.png","w":18,"h":23},{"src":"elektrosymbole/herd-anschlussdose.png","w":24,"h":24},{"src":"elektrosymbole/jalousietaster-funk.png","w":17,"h":20},{"src":"elektrosymbole/jalousietastsensor.png","w":18,"h":23},{"src":"elektrosymbole/kamera.png","w":24,"h":18},{"src":"elektrosymbole/klingelanlage.png","w":24,"h":20},{"src":"elektrosymbole/klingeltaster.png","w":14,"h":14},{"src":"elektrosymbole/kontroll-ausschalter.png","w":13,"h":17},{"src":"elektrosymbole/kontroll-serienschalter.png","w":20,"h":17},{"src":"elektrosymbole/kontroll-taster.png","w":14,"h":14},{"src":"elektrosymbole/kontroll-wechselschalter.png","w":20,"h":24},{"src":"elektrosymbole/kontrollausschalter-zweipolig.png","w":13,"h":16},{"src":"elektrosymbole/kontrollserienschalter-aufputz.png","w":20,"h":17},{"src":"elektrosymbole/kontrolltaster-aufputz.png","w":14,"h":14},{"src":"elektrosymbole/kreuzschalter-aufputz.png","w":20,"h":24},{"src":"elektrosymbole/laeutwerk.png","w":24,"h":23},{"src":"elektrosymbole/led-panel-eckig.png","w":24,"h":24},{"src":"elektrosymbole/led-stripe.png","w":24,"h":10},{"src":"elektrosymbole/led-stripe-id47.png","w":24,"h":14},{"src":"elektrosymbole/leerdose.png","w":22,"h":24},{"src":"elektrosymbole/leitung-nach-oben.png","w":22,"h":15},{"src":"elektrosymbole/leitung-nach-unten.png","w":22,"h":15},{"src":"elektrosymbole/leitung-nach-unten-und-oben.png","w":22,"h":23},{"src":"elektrosymbole/leuchtstofflampe-zweifach.png","w":24,"h":14},{"src":"elektrosymbole/lichtkuppel.png","w":22,"h":22},{"src":"elektrosymbole/luefter.png","w":24,"h":24},{"src":"elektrosymbole/markisenanschluss.png","w":23,"h":24},{"src":"elektrosymbole/medienverteiler.png","w":25,"h":14},{"src":"elektrosymbole/multimedia-rohr-oben.png","w":20,"h":20},{"src":"elektrosymbole/multimedia-rohr-unten.png","w":20,"h":20},{"src":"elektrosymbole/potentialausgleichsschiene.png","w":22,"h":12},{"src":"elektrosymbole/rauchmelder.png","w":24,"h":24},{"src":"elektrosymbole/raumthermostat-analog.png","w":24,"h":18},{"src":"elektrosymbole/raumthermostat-digital.png","w":24,"h":18},{"src":"elektrosymbole/rettungszeichenleuchte-links.png","w":22,"h":14},{"src":"elektrosymbole/rettungszeichenleuchte-oben.png","w":22,"h":18},{"src":"elektrosymbole/rettungszeichenleuchte-rechts.png","w":22,"h":14},{"src":"elektrosymbole/rettungszeichenleuchte-unten.png","w":22,"h":18},{"src":"elektrosymbole/rohr-masten-metallen.png","w":18,"h":18},{"src":"elektrosymbole/rohr-masten-nicht-metallen.png","w":18,"h":18},{"src":"elektrosymbole/rollladen-taster.png","w":15,"h":20},{"src":"elektrosymbole/rollladenmotor.png","w":24,"h":24},{"src":"elektrosymbole/rollladenschalter.png","w":20,"h":18},{"src":"elektrosymbole/schaltschloss.png","w":18,"h":23},{"src":"elektrosymbole/schluesselschalter.png","w":16,"h":17},{"src":"elektrosymbole/schornstein.png","w":22,"h":18},{"src":"elektrosymbole/schuko-steckdose.png","w":24,"h":24},{"src":"elektrosymbole/schuko-steckdose-abschliessbar.png","w":24,"h":24},{"src":"elektrosymbole/schuko-steckdose-abschliessbar-aufputz.png","w":24,"h":24},{"src":"elektrosymbole/schuko-steckdose-aufputz.png","w":24,"h":24},{"src":"elektrosymbole/schuko-steckdose-mit-deckel.png","w":24,"h":22},{"src":"elektrosymbole/schuko-steckdose-mit-deckel-aufputz.png","w":24,"h":22},{"src":"elektrosymbole/schuko-steckdose-mit-extra-beruehrungsschutz.png","w":24,"h":22},{"src":"elektrosymbole/schuko-steckdose-mit-extra-beruehrungsschutz-aufputz.png","w":24,"h":22},{"src":"elektrosymbole/schuko-steckdose-mit-orientierungslicht.png","w":26,"h":24},{"src":"elektrosymbole/schuko-steckdose-mit-usb.png","w":24,"h":24},{"src":"elektrosymbole/schuko-steckdose-schaltbar.png","w":24,"h":24},{"src":"elektrosymbole/schuko-steckdose-schaltbar-aufputz.png","w":24,"h":24},{"src":"elektrosymbole/schutzerdung.png","w":20,"h":22},{"src":"elektrosymbole/sensor-helligkeit-pir.png","w":18,"h":23},{"src":"elektrosymbole/serienschalter.png","w":20,"h":17},{"src":"elektrosymbole/serienschalter-aufputz.png","w":20,"h":17},{"src":"elektrosymbole/serientaster.png","w":14,"h":14},{"src":"elektrosymbole/serientaster-funk.png","w":14,"h":20},{"src":"elektrosymbole/serientaster-funk-frei-positionierbar.png","w":14,"h":20},{"src":"elektrosymbole/sicherheitsleuchte.png","w":22,"h":18},{"src":"elektrosymbole/sicherheitsleuchte-bereitschaftsschaltung.png","w":22,"h":18},{"src":"elektrosymbole/sicherheitsleuchte-dauerschaltung.png","w":22,"h":18},{"src":"elektrosymbole/sicherheitsleuchte-geschaltetes-dauerlicht.png","w":22,"h":18},{"src":"elektrosymbole/staberder.png","w":16,"h":18},{"src":"elektrosymbole/steckdose-cee.png","w":24,"h":24},{"src":"elektrosymbole/stellantrieb.png","w":20,"h":22},{"src":"elektrosymbole/stromspeicher.png","w":14,"h":22},{"src":"elektrosymbole/tablet-halterung.png","w":24,"h":24},{"src":"elektrosymbole/taster.png","w":14,"h":14},{"src":"elektrosymbole/taster-aufputz.png","w":14,"h":14},{"src":"elektrosymbole/taster-funk.png","w":14,"h":20},{"src":"elektrosymbole/taster-funk-16a.png","w":14,"h":20},{"src":"elektrosymbole/taster-funk-frei-positionierbar.png","w":14,"h":20},{"src":"elektrosymbole/tastsensor-1fach.png","w":18,"h":23},{"src":"elektrosymbole/tastsensor-2fach.png","w":18,"h":23},{"src":"elektrosymbole/tastsensor-3fach.png","w":18,"h":23},{"src":"elektrosymbole/tastsensor-4fach.png","w":18,"h":23},{"src":"elektrosymbole/tastsensor-5fach.png","w":18,"h":23},{"src":"elektrosymbole/tastsensor-6fach.png","w":18,"h":23},{"src":"elektrosymbole/tastsensor-8fach.png","w":18,"h":23},{"src":"elektrosymbole/temperatursensor.png","w":18,"h":23},{"src":"elektrosymbole/thermostat.png","w":48,"h":26},{"src":"elektrosymbole/torantrieb.png","w":24,"h":24},{"src":"elektrosymbole/trafo.png","w":24,"h":24},{"src":"elektrosymbole/trennstelle.png","w":10,"h":22},{"src":"elektrosymbole/tueroeffner.png","w":24,"h":20},{"src":"elektrosymbole/unterverteiler.png","w":25,"h":14},{"src":"elektrosymbole/verteilerkasten.png","w":25,"h":26},{"src":"elektrosymbole/videogegensprechanlage.png","w":24,"h":18},{"src":"elektrosymbole/wallbox.png","w":22,"h":23},{"src":"elektrosymbole/wandauslass-fuer-leuchte.png","w":20,"h":26},{"src":"elektrosymbole/wandleuchte.png","w":24,"h":14},{"src":"elektrosymbole/wechselschalter.png","w":30,"h":28},{"src":"elektrosymbole/wechselschalter-aufputz.png","w":20,"h":24},{"src":"elektrosymbole/wechselschalter-taster-kombination.png","w":19,"h":22},{"src":"elektrosymbole/windgeschwindigkeitssensor.png","w":18,"h":23},{"src":"elektrosymbole/zeitgeber.png","w":18,"h":23},{"src":"elektrosymbole/zeitschaltuhr-1fach.png","w":18,"h":23}];
+
+    // Jedes Symbol wird in eine einheitliche BOX x BOX Flaeche eingepasst
+    // (laengste Seite = BOX). Dadurch ist der Platzbedarf jeder Position
+    // identisch und jedes Icon passt an jede Position -- wichtig fuer den
+    // Durchlauf ohne Wiederholung. MIN_GAP haelt die Symbole auseinander.
+    var BOX = 54;
+    var TARGET_COUNT = 5;
+    var CARD_PAD = 6;
+    var CANDIDATES_PER_POINT = 300;
+    var MIN_GAP = 80;
+    // Lebenszyklus je Symbol: langsam einblenden, rund 1,5 s stehen
+    // bleiben, dann schnell verschwinden, kurze Pause, naechstes Symbol.
+    var FADE_IN_MS = 1400;
+    var HOLD_MS = 1500;
+    var FADE_OUT_MS = 220;
+    var GAP_MS = 600;
+    var CYCLE_MS = FADE_IN_MS + HOLD_MS + FADE_OUT_MS + GAP_MS;
+
+    function renderedDims(icon, box) {
+      var s = (box || BOX) / Math.max(icon.w, icon.h);
+      return { w: icon.w * s, h: icon.h * s };
+    }
+
+    function shuffle(a) {
+      for (var i = a.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = a[i]; a[i] = a[j]; a[j] = t;
+      }
+      return a;
+    }
+
+    // Eine Instanz je Abschnitt. opt.bg ist die Flaeche, opt.karten sind
+    // die Elemente, die frei bleiben muessen, opt.kopf die Textzeilen der
+    // Ueberschrift, opt.raster das Element, dessen Einblenden abgewartet
+    // wird, bevor gemessen wird.
+    function symbolFlaeche(opt) {
+    var bg = document.querySelector(opt.bg);
+    if (!bg) return;
+
+    // Ziehen ohne Zuruecklegen: deck enthaelt alle Icon-Indizes in
+    // Zufallsreihenfolge; erst wenn es leer ist, wird neu gemischt.
+    var deck = [];
+    function refillDeck() {
+      deck = shuffle(ICONS.map(function (_, i) { return i; }));
+    }
+    function drawIcon(visibleSrcs) {
+      if (!deck.length) refillDeck();
+      // nimm den ersten Eintrag, der nicht gerade sichtbar ist
+      for (var i = 0; i < deck.length; i++) {
+        var idx = deck[i];
+        if (!visibleSrcs[ICONS[idx].src]) {
+          deck.splice(i, 1);
+          return ICONS[idx];
+        }
+      }
+      var fallback = deck.shift();
+      return ICONS[fallback];
+    }
+
+    var spans = [];
+    var timers = [];
+    var cycleToken = 0;
+    var visibleSrcs = {};
+
+    function later(fn, ms) {
+      var id = setTimeout(fn, ms);
+      timers.push(id);
+      return id;
+    }
+
+    function clearAll() {
+      timers.forEach(clearTimeout);
+      timers = [];
+      spans.forEach(function (s) { s.remove(); });
+      spans = [];
+      visibleSrcs = {};
+    }
+
+    function computePositions() {
+      var bgRect = bg.getBoundingClientRect();
+      if (bgRect.width < 1 || bgRect.height < 1) return [];
+
+      function inBg(r) {
+        return {
+          left: r.left - bgRect.left, top: r.top - bgRect.top,
+          right: r.right - bgRect.left, bottom: r.bottom - bgRect.top
+        };
+      }
+
+      var cardRects = Array.prototype.map.call(document.querySelectorAll(opt.karten), function (c) {
+        return inBg(c.getBoundingClientRect());
+      });
+
+      // Die Abschnittsueberschrift steht gross im Bild -- sie zaehlt
+      // deshalb wie eine Karte zu den belegten Flaechen. Gemessen wird die
+      // tatsaechliche Textbreite je Zeile, nicht der volle Block.
+      Array.prototype.forEach.call(document.querySelectorAll(opt.kopf), function (kopf) {
+        if (!kopf.firstChild) return;
+        var bereich = document.createRange();
+        bereich.selectNodeContents(kopf);
+        Array.prototype.forEach.call(bereich.getClientRects(), function (r) {
+          if (r.width > 1 && r.height > 1) cardRects.push(inBg(r));
+        });
+      });
+
+      function freeAt(x, y, box) {
+        var l = x - box / 2, r = x + box / 2;
+        var t = y - box / 2, b = y + box / 2;
+        if (l < 2 || t < 2 || r > bgRect.width - 2 || b > bgRect.height - 2) return false;
+        for (var i = 0; i < cardRects.length; i++) {
+          var c = cardRects[i];
+          var separate = r < c.left - CARD_PAD || l > c.right + CARD_PAD ||
+                         b < c.top - CARD_PAD || t > c.bottom + CARD_PAD;
+          if (!separate) return false;
+        }
+        return true;
+      }
+
+      // Best-Candidate-Sampling: pro Punkt viele Kandidaten in der freien
+      // Flaeche wuerfeln und den nehmen, der am weitesten von allen schon
+      // gesetzten Punkten entfernt ist -> gleichmaessige Abdeckung.
+      // Wird das Ziel nicht erreicht, folgen Nachrueck-Durchlaeufe mit
+      // schrittweise kleinerem Mindestabstand, bis 15 stehen (oder die
+      // freie Flaeche schlicht nicht mehr hergibt, z.B. auf dem Handy).
+      function setzen(box) {
+        var punkte = [];
+        var gaps = [MIN_GAP, Math.round(MIN_GAP * 0.8), Math.round(MIN_GAP * 0.62), box + 6];
+        for (var g = 0; g < gaps.length && punkte.length < TARGET_COUNT; g++) {
+          var gap = gaps[g];
+          for (var n = punkte.length; n < TARGET_COUNT; n++) {
+            var best = null, bestDist = -1;
+            for (var k = 0; k < CANDIDATES_PER_POINT; k++) {
+              var x = Math.random() * bgRect.width;
+              var y = Math.random() * bgRect.height;
+              if (!freeAt(x, y, box)) continue;
+              var d = Infinity;
+              for (var p = 0; p < punkte.length; p++) {
+                var dx = punkte[p].x - x, dy = punkte[p].y - y;
+                var dist = dx * dx + dy * dy;
+                if (dist < d) d = dist;
+              }
+              if (d < gap * gap) continue;
+              if (punkte.length === 0) d = Math.random();
+              if (d > bestDist) { bestDist = d; best = { x: x, y: y }; }
+            }
+            if (!best) break;
+            best.bgW = bgRect.width;
+            best.bgH = bgRect.height;
+            best.box = box;
+            punkte.push(best);
+          }
+        }
+        return punkte;
+      }
+
+      // Bei mittleren Fensterbreiten (dreispaltiges Raster, schmale Fugen)
+      // reicht die freie Flaeche fuer die volle Symbolgroesse nicht aus.
+      // Deshalb wird sie schrittweise verkleinert, bis alle 15 Plaetze
+      // stehen -- lieber etwas kleinere Symbole als nur eine Handvoll.
+      var groessen = [BOX, 46, 40, 34];
+      var beste = [];
+      for (var gi = 0; gi < groessen.length; gi++) {
+        var versuch = setzen(groessen[gi]);
+        if (versuch.length > beste.length) beste = versuch;
+        if (beste.length >= TARGET_COUNT) break;
+      }
+      return beste;
+    }
+
+    function applyIcon(span, icon, pos) {
+      span.style.setProperty('--icon', "url('" + icon.src + "')");
+      var dims = renderedDims(icon, pos.box);
+      span.style.width = dims.w.toFixed(1) + 'px';
+      span.style.height = dims.h.toFixed(1) + 'px';
+      span.style.left = (((pos.x - dims.w / 2) / pos.bgW) * 100).toFixed(2) + '%';
+      span.style.top = (((pos.y - dims.h / 2) / pos.bgH) * 100).toFixed(2) + '%';
+    }
+
+    function rebuild() {
+      cycleToken++;
+      var token = cycleToken;
+      clearAll();
+      var positions = computePositions();
+      if (!positions.length) return;
+
+      positions.forEach(function (pos, idx) {
+        var span = document.createElement('span');
+        span.className = 'symbol';
+        span.setAttribute('aria-hidden', 'true');
+        span.style.animation = 'none';
+        span.style.opacity = '0';
+        span._pos = pos;
+        bg.appendChild(span);
+        spans.push(span);
+
+        if (reduceMotionHere) {
+          var still = drawIcon(visibleSrcs);
+          visibleSrcs[still.src] = true;
+          span._icon = still;
+          applyIcon(span, still, pos);
+          span.style.opacity = '1';
+          return;
+        }
+
+        // Jede Position laeuft ihren eigenen Zyklus: langsam auftauchen,
+        // kurz stehen, schnell verschwinden, dann das naechste Symbol.
+        // Der Startversatz ist ueber den ganzen Zyklus gestreut, damit die
+        // 15 Positionen nicht im Gleichtakt blinken.
+        function runCycle() {
+          if (token !== cycleToken) return;
+          var icon = drawIcon(visibleSrcs);
+          visibleSrcs[icon.src] = true;
+          span._icon = icon;
+          applyIcon(span, icon, span._pos);
+          span.style.transition = 'opacity ' + FADE_IN_MS + 'ms ease-in';
+          requestAnimationFrame(function () {
+            if (token !== cycleToken) return;
+            span.style.opacity = '1';
+          });
+          later(function () {
+            if (token !== cycleToken) return;
+            span.style.transition = 'opacity ' + FADE_OUT_MS + 'ms ease-out';
+            span.style.opacity = '0';
+            later(function () {
+              if (token !== cycleToken) return;
+              delete visibleSrcs[span._icon.src];
+              later(runCycle, GAP_MS);
+            }, FADE_OUT_MS);
+          }, FADE_IN_MS + HOLD_MS);
+        }
+        later(runCycle, Math.random() * CYCLE_MS);
+      });
+    }
+
+    var resizeTimer;
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(rebuild, 300);
+    });
+
+    // Die Karten fahren beim ersten Sichtbarwerden per CSS-Transition ein
+    // (transform/opacity, [data-reveal] .55s + Stagger). Erst NACH dieser
+    // Transition messen, sonst werden Symbole anhand der noch nicht fertig
+    // eingefahrenen Kartenposition platziert und ueberlappen danach die Karte.
+    var grid = document.querySelector(opt.raster);
+    if (grid && 'IntersectionObserver' in window) {
+      var revealIo = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            revealIo.unobserve(entry.target);
+            setTimeout(rebuild, 850);
+          }
+        });
+      }, { threshold: 0.01 });
+      revealIo.observe(grid);
+    } else {
+      window.addEventListener('load', rebuild);
+    }
+    }
+
+    symbolFlaeche({
+      bg: '.leistungen-bg',
+      karten: '#angebot .checklist li, #angebot .info-box',
+      kopf: '#angebot .section-head h2',
+      raster: '.included-grid'
+    });
   })();
 </script>
 
