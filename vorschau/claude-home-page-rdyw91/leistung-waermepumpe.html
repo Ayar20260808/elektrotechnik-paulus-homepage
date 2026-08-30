@@ -563,6 +563,15 @@
       uhr = setTimeout(function () { floatCta.classList.remove('hide'); }, 400);
     }, { passive: true });
 
+    // Im gelben Band verschwindet er ganz -- dort steht schon ein Knopf
+    // "Anfrage senden", zwei nebeneinander waeren einer zu viel.
+    var band = document.querySelector('.closing');
+    if (band && window.IntersectionObserver) {
+      new IntersectionObserver(function (eintraege) {
+        floatCta.classList.toggle('aus', eintraege[0].isIntersecting);
+      }, { threshold: 0.01 }).observe(band);
+    }
+
     // Sobald die Fusszeile im Bild ist, springt der Knopf ueber sie.
     var fuss = document.querySelector('footer.legalbar');
     if (fuss && window.IntersectionObserver) {
