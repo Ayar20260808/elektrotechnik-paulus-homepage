@@ -84,7 +84,9 @@
      darueber: aufklappen beim Ueberfahren. */
   .nav-item.offen .submenu{display:block;}
   .nav-item.offen .caret{transform:rotate(180deg);}
-  .submenu a{display:block;padding:10px 20px;font-family:var(--font-body);font-size:15.5px;font-weight:400;color:var(--ink);}
+  /* 36px Einzug: vor den Woertern steht sichtbar Platz, statt dass sie
+     am Rand des Kastens kleben. */
+  .submenu a{display:block;padding:10px 36px;font-family:var(--font-body);font-size:15.5px;font-weight:400;color:var(--ink);}
   .submenu a:hover{background:var(--grey-100);color:var(--ink);text-decoration:none;}
   .burger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:6px;position:relative;z-index:2;}
   .burger span{width:24px;height:2px;background:var(--ink);}
@@ -145,7 +147,7 @@
   .nav-links.mobile-open .submenu{position:static;display:block;min-width:0;
     background:var(--grey-0);border:1px solid var(--grey-300);box-shadow:none;
     padding:24px 0;margin:0 0 6px;}
-  .nav-links.mobile-open .submenu a{padding:10px 20px;font-size:15.5px;color:var(--ink);border-bottom:none;}
+  .nav-links.mobile-open .submenu a{padding:10px 36px;font-size:15.5px;color:var(--ink);border-bottom:none;}
   .nav-links.mobile-open .caret{display:none;}
   .nav-links.mobile-open a:hover{color:var(--yellow-text);}
   .nav-links.mobile-open > a::after,.nav-links.mobile-open .nav-item > a::after{display:none;}
