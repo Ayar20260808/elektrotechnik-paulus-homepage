@@ -554,7 +554,30 @@
 
 
   /* KONTAKT */
-  #kontakt{background:var(--grey-100);border-top:2px solid var(--ink);}
+  /* Derselbe Hintergrund wie der Abschnitt Leistungen: dunkler Grund, darauf
+     das Planfoto in Graustufen mit langsamem Zoom, darueber blitzen die
+     technischen Symbole auf. Das weisse Formular und der Urlaubshinweis
+     treten davor genauso hervor wie die Leistungskarten; die Angaben in der
+     linken Spalte stehen deshalb in Weiss. */
+  #kontakt{position:relative;overflow:hidden;background:var(--dark);border-top:2px solid var(--ink);}
+  #kontakt > .wrap{position:relative;z-index:1;}
+  /* Weiss wie die Zeile ueber den Leistungen -- Gelb kaeme auf dem
+     hellsten Fleck des Planfotos nur auf 3,9:1 und bliebe unter der Norm. */
+  #kontakt .eyebrow{color:#fff;}
+  #kontakt .kontakt-info h2{color:#fff;}
+  #kontakt .kontakt-info p{color:#fff;}
+  #kontakt .kontakt-block{border-top-color:rgba(255,255,255,.22);}
+  #kontakt .kontakt-block:last-of-type{border-bottom-color:rgba(255,255,255,.22);}
+  #kontakt .kontakt-block .label{color:rgba(255,255,255,.8);}
+  #kontakt .kontakt-block a, #kontakt .kontakt-block span{color:#fff;}
+  /* Derselbe Textschatten wie ueber dem Planhintergrund der Leistungen:
+     Das Planfoto hat helle Linien, ohne Schatten verschwindet weisse
+     Schrift stellenweise darin. */
+  #kontakt .eyebrow,
+  #kontakt .kontakt-info h2,
+  #kontakt .kontakt-info p,
+  #kontakt .kontakt-block .label,
+  #kontakt .kontakt-block a, #kontakt .kontakt-block span{text-shadow:0 2px 14px rgba(18,24,30,.55);}
   .kontakt-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:56px;}
   .kontakt-info h2{font-weight:700;font-size:clamp(28px,3vw,36px);margin:16px 0 18px;}
   .kontakt-info p{color:var(--grey-600);margin-bottom:28px;}
@@ -1088,6 +1111,9 @@
 </div>
 
 <section id="kontakt">
+  <div class="leistungen-bg" aria-hidden="true">
+    <div class="leistungen-bg-photo"></div>
+  </div>
   <div class="wrap kontakt-grid">
     <div class="kontakt-info">
       <span class="eyebrow" data-reveal>Kontakt</span>
@@ -2060,10 +2086,20 @@
     }
 
     symbolFlaeche({
-      bg: '.leistungen-bg',
+      bg: '#leistungen .leistungen-bg',
       karten: '#leistungen .service-card:not(.ep-mess)',
       kopf: '#leistungen .section-head .eyebrow',
       raster: '.services-grid'
+    });
+
+    // Zweite Instanz fuer den Kontaktbereich. Frei bleiben muessen das
+    // Formular, der Urlaubshinweis und die Angaben links -- sonst blitzt
+    // ein Symbol hinter einem Eingabefeld auf.
+    symbolFlaeche({
+      bg: '#kontakt .leistungen-bg',
+      karten: '#kontakt form, #kontakt .form-urlaub, #kontakt .form-success, #kontakt .kontakt-block',
+      kopf: '#kontakt .eyebrow, #kontakt .kontakt-info h2, #kontakt .kontakt-info p',
+      raster: '.kontakt-grid'
     });
   })();
 </script>
