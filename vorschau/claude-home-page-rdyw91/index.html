@@ -432,9 +432,9 @@
   .service-card.ep-gross .service-body h3{font-size:calc(clamp(17px,calc(var(--sh) * 2.75),29px) / var(--ep-scale));}
   .service-card.ep-gross .service-body p{font-size:calc(clamp(13.5px,calc(var(--sh) * 1.85),17.5px) / var(--ep-scale));}
   .service-card.ep-gross .service-more{
-    font-size:calc(clamp(11px,calc(var(--sh) * 1.45),15px) / var(--ep-scale));
+    font-size:calc(clamp(12.5px,calc(var(--sh) * 1.65),17px) / var(--ep-scale));
     border-bottom-width:calc(2px / var(--ep-scale));
-    padding-bottom:calc(1px / var(--ep-scale));
+    padding-bottom:calc(3px / var(--ep-scale));
   }
 
   .service-img{position:relative;height:clamp(150px,calc(var(--sh) * 30),560px);overflow:hidden;}
@@ -465,7 +465,9 @@
   .service-body{position:relative;padding:clamp(9px,calc(var(--sh) * 1.4),34px) clamp(18px,2vw,34px) clamp(10px,calc(var(--sh) * 1.5),38px);display:flex;flex-direction:column;gap:clamp(5px,calc(var(--sh) * 0.9),12px);flex:1;}
   .service-body h3{font-weight:700;font-size:clamp(17px,calc(var(--sh) * 2.75),29px);}
   .service-body p{color:var(--grey-600);font-size:clamp(13.5px,calc(var(--sh) * 1.85),17.5px);line-height:1.7;}
-  .service-more{font-family:var(--font-heading);font-weight:600;font-size:clamp(11px,calc(var(--sh) * 1.45),15px);color:var(--ink);border-bottom:2px solid var(--yellow);margin-top:auto;align-self:flex-start;padding-bottom:1px;}
+  /* Etwas groesser und mit ein wenig Luft nach unten -- das vergroessert
+     zugleich die Flaeche, die man am Handy treffen muss. */
+  .service-more{font-family:var(--font-heading);font-weight:600;font-size:clamp(12.5px,calc(var(--sh) * 1.65),17px);color:var(--ink);border-bottom:2px solid var(--yellow);margin-top:auto;align-self:flex-start;padding-bottom:3px;}
   .service-more:hover{color:var(--yellow-text);text-decoration:none;}
 
   /* MARQUEE (Marken + Bilderband) */
