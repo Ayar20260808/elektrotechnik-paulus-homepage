@@ -442,7 +442,18 @@
     if (!kopf) return;
     function pruefe() {
       var y = window.scrollY;
-      kopf.classList.toggle('geschrumpft', y > 40);
+      // Zwei Schwellen statt einer: schrumpfen ab 80 Pixeln, wieder wachsen
+      // erst unter 20. Mit einer einzigen Schwelle zitterte der Header beim
+      // Anscrollen -- beim Schrumpfen faellt oben Platz weg, der Browser
+      // zieht den Scrollstand nach (Scroll Anchoring), damit rutscht y
+      // wieder unter die Schwelle und das Spiel beginnt von vorn. Der
+      // Abstand der beiden Schwellen ist groesser als die 55 Pixel, um die
+      // der Header schrumpft, deshalb kann es nicht mehr hin und her kippen.
+      if (!kopf.classList.contains('geschrumpft')) {
+        if (y > 80) kopf.classList.add('geschrumpft');
+      } else if (y < 20) {
+        kopf.classList.remove('geschrumpft');
+      }
       // Ganz unten angekommen: Header ausblenden. Nur wenn die Seite
       // ueberhaupt scrollbar ist, sonst waere er dauerhaft weg.
       var gesamt = document.documentElement.scrollHeight;
@@ -499,7 +510,10 @@
     window.addEventListener('orientationchange', messen);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(messen);
     window.addEventListener('load', messen);
-    if (window.ResizeObserver) new ResizeObserver(messen).observe(headerEl);
+    // Den Header bewusst NICHT beobachten: er aendert seine Hoehe beim
+    // Scrollen selbst, und die Messung oben schaltet .geschrumpft dafuer
+    // kurz um -- zusammen ergab das eine Rueckkopplung. Schriftwechsel
+    // und Umbrueche fangen fonts.ready, load und resize bereits ab.
   })();
 </script>
 
