@@ -201,14 +201,14 @@
   .closing{background:var(--yellow);text-align:center;padding:40px 0;}
   .closing h2{font-weight:700;font-size:clamp(22px,2.7vw,30px);margin-bottom:18px;letter-spacing:-.02em;}
   .closing-actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
-  /* Beide Knoepfe im gelben Band in den Farben des Logos: Anthrazit
-     gefuellt, gelbe Schrift -- dieselbe Paarung wie im Zeichen selbst.
-     Beim Ueberfahren wird das Anthrazit eine Spur heller, beide Knoepfe
-     verhalten sich gleich. */
+  /* Beide Knoepfe im gelben Band gleich: dunkler Rahmen, beim Ueberfahren
+     der helle Gelbton. Vorher war "Anfrage senden" ein gelber Knopf auf
+     gelbem Grund -- im Ruhezustand unsichtbar, nur beim Ueberfahren kam ein
+     dunkleres Rechteck. */
   .closing .btn-ghost,
-  .closing .btn-primary{background:var(--dark);border-color:var(--dark);color:var(--yellow);}
+  .closing .btn-primary{background:transparent;border-color:var(--dark);color:var(--dark);}
   .closing .btn-primary:hover,
-  .closing .btn-ghost:hover{background:var(--farbe-anthrazit-hell);border-color:var(--farbe-anthrazit-hell);color:var(--yellow);}
+  .closing .btn-ghost:hover{background:var(--yellow-tint);border-color:var(--dark);color:var(--dark);}
 
   /* FUSSZEILE -- Wort fuer Wort dieselbe wie am Ende der Startseite:
      spiegelbildlich zum Header, gleiche Hoehe, gleiche seitliche
