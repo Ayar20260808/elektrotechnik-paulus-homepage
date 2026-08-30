@@ -718,10 +718,15 @@
      setzt das Skript .hero-auto, sobald der Text sonst abgeschnitten
      wuerde -- damit gilt die exakte Seitenhoehe ueberall dort, wo sie
      ohne Verlust moeglich ist. */
+  /* Am Handy waechst der Hero mit seinem Inhalt. Die Mindesthoehe muss
+     deutlich groesser sein als der Text, sonst deckt er das Foto komplett
+     zu: gemessen braucht der Text 342px, bei 360px Mindesthoehe blieben
+     18px Bildflaeche uebrig -- vom Foto war nichts zu sehen. Mit 76% der
+     Fensterhoehe (hoechstens 560px) bleiben rund 220px Bild. */
   @media(max-width:820px){
-    .hero{height:auto;min-height:360px;}
+    .hero{height:auto;min-height:min(76vh, 560px);}
   }
-  .hero.hero-auto{height:auto;min-height:360px;}
+  .hero.hero-auto{height:auto;min-height:min(76vh, 560px);}
 
   @media(max-height:820px){
     .service-img{height:clamp(115px,calc(var(--sh) * 18.7),480px);}
