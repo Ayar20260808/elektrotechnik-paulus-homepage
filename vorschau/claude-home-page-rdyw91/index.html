@@ -177,7 +177,11 @@
   .logo img{transition:width .18s ease;}
   header.geschrumpft .nav-inner{min-height:0;padding:5px 0;}
   header.geschrumpft .logo img{width:160px;}
-  header.geschrumpft .nav-links a{padding:5px 0;}
+  /* Nur die Links der obersten Zeile schrumpfen mit. Ohne den
+     Kindselektor trifft die Regel auch die Links im Untermenue und
+     nimmt ihnen den Einzug vor den Buchstaben. */
+  header.geschrumpft .nav-links > a,
+  header.geschrumpft .nav-links > .nav-item > a{padding:5px 0;}
   header.ohne-uebergang .nav-inner,header.ohne-uebergang .logo img{transition:none!important;}
   /* Am unteren Seitenende faehrt der Header nach oben aus dem Bild.
      Dort steht die Fusszeile mit denselben Menuepunkten. */
@@ -1526,25 +1530,14 @@
       uhr = setTimeout(function () { floatCta.classList.remove('hide'); }, 400);
     }, { passive: true });
 
-    // Er verschwindet an zwei Stellen: im Kontaktbereich, wo das Formular
-    // steht, auf das er ohnehin zeigt -- und ueber der Vertrauensleiste unter
-    // dem Kopfbild, deren vierten Punkt er sonst halb verdeckt. Beide
-    // Beobachter schreiben in dieselbe Klasse, deshalb merken wir uns beide
-    // Zustaende getrennt.
-    var verdeckt = { kontakt: false, leiste: false };
-    function pruefeAus() {
-      floatCta.classList.toggle('aus', verdeckt.kontakt || verdeckt.leiste);
-    }
-    function beobachte(auswahl, name) {
-      var el = document.querySelector(auswahl);
-      if (!el || !window.IntersectionObserver) return;
+    // Im Kontaktbereich verschwindet er ganz -- dort steht das Formular,
+    // der Knopf wuerde nur auf sein eigenes Ziel zeigen.
+    var kontakt = document.getElementById('kontakt');
+    if (kontakt && window.IntersectionObserver) {
       new IntersectionObserver(function (eintraege) {
-        verdeckt[name] = eintraege[0].isIntersecting;
-        pruefeAus();
-      }, { threshold: 0.01 }).observe(el);
+        floatCta.classList.toggle('aus', eintraege[0].isIntersecting);
+      }, { threshold: 0.01 }).observe(kontakt);
     }
-    beobachte('#kontakt', 'kontakt');
-    beobachte('.trustbar', 'leiste');
 
     // Sobald die Fusszeile im Bild ist, springt der Knopf ueber sie.
     var fuss = document.querySelector('footer.legalbar');
