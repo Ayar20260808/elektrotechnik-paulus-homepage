@@ -234,7 +234,13 @@
      ueber die helle rechte Seite. Dort deckt der Verlauf gleichmaessiger ab,
      sonst wird die Schrift auf hellen Motiven unlesbar. */
   @media(max-width:1000px){
-    .hero-overlay{background:linear-gradient(180deg, rgba(26,34,42,.86) 0%, rgba(26,34,42,.80) 45%, rgba(26,34,42,.88) 100%);}
+    .hero-overlay{background:linear-gradient(180deg, rgba(26,34,42,.74) 0%, rgba(26,34,42,.66) 45%, rgba(26,34,42,.76) 100%);}
+    /* Am Handy wurde das Motiv zweimal abgedunkelt: einmal von der
+       Bildebene mit 78 Prozent Deckung ueber dunklem Grund, einmal vom
+       Verlauf darueber. Vom Foto kamen so nur rund 46 von 255 Helligkeit
+       an. Hier liegt der Verlauf ohnehin ueber der ganzen Breite, deshalb
+       ist die Bildebene voll deckend. */
+    .hero-plan-img.an{opacity:1;}
   }
   .hero-content{position:relative;z-index:2;padding:clamp(18px,calc(var(--sh) * 5.6),64px) clamp(20px,5vw,72px);width:100%;}
   .hero-eyebrow{display:flex;align-items:center;gap:10px;font-family:var(--font-heading);font-weight:600;font-size:13.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--yellow);margin-bottom:clamp(7px,calc(var(--sh) * 1.7),16px);}
