@@ -37,7 +37,7 @@
   --farbe-gelb:            #FFD700;
   --farbe-gelb-dunkel:     #E6C200;  /* Gelb auf Weiss, wenn Kontrast fehlt */
   --farbe-weiss:           #FFFFFF;
-  --farbe-grau:            #6B7480;  /* Fliesstext zweiter Ordnung */
+  --farbe-grau:            #67707C;  /* Fliesstext zweiter Ordnung, 4,5:1 auch auf grauer Flaeche */
   --farbe-grau-hell:       #F2F4F6;  /* Flaechen, Karten */
 
   /* Rollen -- so wird im Rest der Seite darauf zugegriffen */
