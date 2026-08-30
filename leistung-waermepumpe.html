@@ -96,7 +96,11 @@
   .logo img{transition:width .18s ease;}
   header.geschrumpft .nav-inner{min-height:0;padding:5px 0;}
   header.geschrumpft .logo img{width:160px;}
-  header.geschrumpft .nav-links a{padding:5px 0;}
+  /* Nur die Links der obersten Zeile schrumpfen mit. Ohne den
+     Kindselektor trifft die Regel auch die Links im Untermenue und
+     nimmt ihnen den Einzug vor den Buchstaben. */
+  header.geschrumpft .nav-links > a,
+  header.geschrumpft .nav-links > .nav-item > a{padding:5px 0;}
   header.ohne-uebergang .nav-inner,header.ohne-uebergang .logo img{transition:none!important;}
   /* Am unteren Seitenende faehrt der Header nach oben aus dem Bild.
      Dort steht die Fusszeile mit denselben Menuepunkten. */

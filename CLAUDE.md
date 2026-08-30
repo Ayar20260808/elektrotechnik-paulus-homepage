@@ -84,6 +84,29 @@ häufigste Fehlerquelle:
 Ein Fehler auf der ersten Adresse bedeutet oft nur, dass die Korrektur noch
 nicht gemergt ist — nicht, dass sie nicht funktioniert.
 
+## In jedem Zustand messen, nicht nur im Ruhezustand
+
+Ein Element kann in einem Zustand richtig aussehen und in einem anderen falsch.
+Wer nur den Ruhezustand misst, meldet „stimmt" und liegt daneben.
+
+Konkret passiert: Der Einzug im Leistungs-Untermenü (`padding:10px 36px`) war
+richtig gesetzt und auf allen zehn Seiten gleich — **aber nur, solange der
+Kopf nicht geschrumpft war.** Sobald man scrollte, griff
+
+    header.geschrumpft .nav-links a{padding:5px 0;}
+
+auch auf die Links im Untermenü, weil der Selektor ohne Kindzeichen alle `a`
+unter `.nav-links` trifft. Der Einzug fiel von 37 px auf 1 px. Behoben mit
+
+    header.geschrumpft .nav-links > a,
+    header.geschrumpft .nav-links > .nav-item > a{padding:5px 0;}
+
+**Regel daraus:** Bei jeder Messung am Kopf, am Menü oder an etwas, das sich
+beim Scrollen ändert, immer beide Zustände prüfen — normal *und* geschrumpft.
+Dasselbe gilt für Hover, offenes Burger-Menü und `prefers-reduced-motion`.
+Und bevor eine CSS-Regel mit einem Nachfahrenselektor (`a` statt `> a`)
+geschrieben wird: nachsehen, was sie sonst noch trifft.
+
 ## Nie aus Screenshots ablesen
 
 IDs, Schlüssel und URLs immer als Text erfragen. Eine falsch gelesene
