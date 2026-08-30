@@ -685,7 +685,12 @@
   .float-cta.hide,.float-cta.aus{opacity:0;pointer-events:none;transform:translateY(8px);}
   /* Ueber der Fusszeile rutscht der Knopf nach oben. Sonst liegt er auf
      Impressum und Datenschutz -- die waeren dann nicht mehr anklickbar. */
-  .float-cta.ueber-fuss{bottom:calc(var(--fuss-hoehe, 99px) + clamp(16px,3vw,28px));}
+  /* Steht eine der beiden Leisten im Weg -- die Vertrauensleiste unter dem
+     Kopfbild oder die Fusszeile --, setzt sich der Knopf darueber. Wie weit,
+     rechnet das Skript aus der tatsaechlichen Lage der Leiste aus und legt
+     es in --hebe ab; ein fester Wert reicht nicht, weil die Leiste je nach
+     Scrollstand unterschiedlich hoch im Bild steht. */
+  .float-cta{--hebe:0px;bottom:calc(clamp(16px,3vw,28px) + var(--hebe));}
   .float-cta{transition:opacity .25s ease, transform .25s ease;}
   .float-cta .dot{width:9px;height:9px;background:var(--dark);display:inline-block;animation:ep-pulse 2.4s ease-in-out infinite;}
 
@@ -1553,7 +1558,10 @@
     window.addEventListener('scroll', function () {
       floatCta.classList.add('hide');
       clearTimeout(uhr);
-      uhr = setTimeout(function () { floatCta.classList.remove('hide'); }, 400);
+      uhr = setTimeout(function () {
+        hebeRechnen();
+        floatCta.classList.remove('hide');
+      }, 400);
     }, { passive: true });
 
     // Im Kontaktbereich verschwindet er ganz -- dort steht das Formular,
@@ -1565,16 +1573,37 @@
       }, { threshold: 0.01 }).observe(kontakt);
     }
 
-    // Sobald die Fusszeile im Bild ist, springt der Knopf ueber sie.
-    var fuss = document.querySelector('footer.legalbar');
-    if (fuss && window.IntersectionObserver) {
-      new IntersectionObserver(function (eintraege) {
-        var drin = eintraege[0].isIntersecting;
-        // Die echte Hoehe messen: am Handy ist die Fusszeile dreimal so hoch.
-        if (drin) floatCta.style.setProperty('--fuss-hoehe', fuss.offsetHeight + 'px');
-        floatCta.classList.toggle('ueber-fuss', drin);
-      }, { threshold: 0.01 }).observe(fuss);
+    // Steht eine Leiste im Weg, setzt sich der Knopf darueber: die
+    // Vertrauensleiste unter dem Kopfbild und die Fusszeile am Seitenende.
+    // Gerechnet wird mit der echten Oberkante der Leiste, nicht mit ihrer
+    // Hoehe -- sie steht je nach Scrollstand unterschiedlich hoch im Bild.
+    // Neu gerechnet wird, wenn das Scrollen zur Ruhe gekommen ist; waehrend
+    // des Scrollens ist der Knopf ohnehin ausgeblendet.
+    var LEISTEN = ['.trustbar', 'footer.legalbar'];
+    function hebeRechnen() {
+      var eigen = floatCta.getBoundingClientRect();
+      var hoehe = eigen.height || 48;
+      var rand = Math.min(28, Math.max(16, window.innerWidth * 0.03));
+      var hebe = 0;
+      LEISTEN.forEach(function (auswahl) {
+        var el = document.querySelector(auswahl);
+        if (!el) return;
+        var r = el.getBoundingClientRect();
+        // Reicht die Leiste in das Band hinein, in dem der Knopf ruht?
+        var bandOben = window.innerHeight - rand - hoehe;
+        var bandUnten = window.innerHeight - rand;
+        if (r.bottom > bandOben && r.top < bandUnten) {
+          hebe = Math.max(hebe, window.innerHeight - r.top);
+        }
+      });
+      // Nie so hoch, dass der Knopf oben aus dem Bild laeuft.
+      var grenze = window.innerHeight - hoehe - rand - 8;
+      if (hebe > grenze) hebe = grenze < 0 ? 0 : grenze;
+      floatCta.style.setProperty('--hebe', Math.round(hebe) + 'px');
     }
+    hebeRechnen();
+    window.addEventListener('resize', hebeRechnen);
+    window.addEventListener('load', hebeRechnen);
   })();
 
   // Kontaktformular -- klassisches Senden an Formspree (formspree.io), ohne
