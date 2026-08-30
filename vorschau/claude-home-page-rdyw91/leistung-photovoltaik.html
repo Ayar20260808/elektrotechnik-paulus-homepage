@@ -103,6 +103,22 @@
   @media (prefers-reduced-motion: reduce){
     header,.nav-inner,.logo img{transition:none!important;}
   }
+
+  /* SCHWEBENDER BUTTON -- wie auf der Startseite. Der Knopf ist genau so
+     hoch wie der Header im geschrumpften Zustand; den Wert misst das
+     Skript und legt ihn in --header-klein ab. */
+  @keyframes ep-pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+  .float-cta{position:fixed;right:clamp(16px,3vw,28px);bottom:clamp(16px,3vw,28px);z-index:200;background:var(--yellow);color:var(--dark);font-family:var(--font-heading);font-weight:700;font-size:15.5px;height:var(--header-klein, 48px);padding:0 22px;border:2px solid var(--dark);box-shadow:0 12px 32px rgba(18,24,30,.28);display:inline-flex;align-items:center;gap:10px;}
+  .float-cta:hover{background:var(--yellow-hover);text-decoration:none;}
+  .float-cta.hide,.float-cta.aus{opacity:0;pointer-events:none;transform:translateY(8px);}
+  /* Ueber der Fusszeile rutscht der Knopf nach oben, sonst liegt er auf
+     Impressum und Datenschutz -- die waeren dann nicht mehr anklickbar. */
+  .float-cta.ueber-fuss{bottom:calc(var(--fuss-hoehe, 99px) + clamp(16px,3vw,28px));}
+  .float-cta{transition:opacity .25s ease, transform .25s ease;}
+  .float-cta .dot{width:9px;height:9px;background:var(--dark);display:inline-block;animation:ep-pulse 2.4s ease-in-out infinite;}
+  @media (prefers-reduced-motion: reduce){
+    .float-cta,.float-cta .dot{animation:none!important;transition:none!important;}
+  }
   @media(max-width:1300px){:root{--inhalt-breite:calc(100% - clamp(40px,10vw,144px));}}
   @media(max-width:900px){.nav-links{display:none;}.burger{display:flex;}}
   .nav-links.mobile-open{
@@ -407,6 +423,8 @@
   </div>
 </div>
 
+<a href="index.html#kontakt" class="float-cta"><span class="dot"></span>Angebot anfragen</a>
+
 <footer class="legalbar">
   <div class="footer-row">
     <div class="footer-marke">
@@ -502,8 +520,21 @@
       headerEl.classList.remove('ohne-uebergang');
       return hoehe;
     }
+    // Die geschrumpfte Hoehe. Der schwebende Knopf haengt daran, damit er
+    // genauso hoch ist wie der Header beim Scrollen.
+    function kleineKopfHoehe() {
+      if (headerEl.classList.contains('geschrumpft')) return headerEl.offsetHeight;
+      headerEl.classList.add('ohne-uebergang');
+      headerEl.classList.add('geschrumpft');
+      var hoehe = headerEl.offsetHeight;
+      headerEl.classList.remove('geschrumpft');
+      void headerEl.offsetHeight;
+      headerEl.classList.remove('ohne-uebergang');
+      return hoehe;
+    }
     function messen() {
       document.documentElement.style.setProperty('--header-hoehe', volleKopfHoehe() + 'px');
+      document.documentElement.style.setProperty('--header-klein', kleineKopfHoehe() + 'px');
     }
     messen();
     window.addEventListener('resize', messen);
@@ -514,6 +545,31 @@
     // Scrollen selbst, und die Messung oben schaltet .geschrumpft dafuer
     // kurz um -- zusammen ergab das eine Rueckkopplung. Schriftwechsel
     // und Umbrueche fangen fonts.ready, load und resize bereits ab.
+  })();
+
+  // Schwebender Button: dauerhaft sichtbar. Nur waehrend des Scrollens
+  // blendet er sich aus, damit er nichts verdeckt, was gerade vorbeizieht.
+  // 400 Millisekunden nach dem letzten Scrollschritt ist er wieder da.
+  (function () {
+    var floatCta = document.querySelector('.float-cta');
+    if (!floatCta) return;
+    var uhr;
+    window.addEventListener('scroll', function () {
+      floatCta.classList.add('hide');
+      clearTimeout(uhr);
+      uhr = setTimeout(function () { floatCta.classList.remove('hide'); }, 400);
+    }, { passive: true });
+
+    // Sobald die Fusszeile im Bild ist, springt der Knopf ueber sie.
+    var fuss = document.querySelector('footer.legalbar');
+    if (fuss && window.IntersectionObserver) {
+      new IntersectionObserver(function (eintraege) {
+        var drin = eintraege[0].isIntersecting;
+        // Die echte Hoehe messen: am Handy ist die Fusszeile dreimal so hoch.
+        if (drin) floatCta.style.setProperty('--fuss-hoehe', fuss.offsetHeight + 'px');
+        floatCta.classList.toggle('ueber-fuss', drin);
+      }, { threshold: 0.01 }).observe(fuss);
+    }
   })();
 </script>
 
