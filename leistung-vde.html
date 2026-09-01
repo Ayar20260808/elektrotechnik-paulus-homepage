@@ -92,6 +92,48 @@
   .burger span{width:24px;height:2px;background:var(--ink);}
   /* Beim Herunterscrollen faellt der Header auf sein Mindestmass zusammen.
      Das Logo geht auf die 160px, die der Markenleitfaden als Untergrenze nennt. */
+  /* --- Koelner Silhouette in Kopf und Fusszeile ---------------------
+     Eine Strichzeichnung von Gross St. Martin, Dom und Hohenzollern-
+     bruecke. Sie liegt als eigene Datei bei (skyline-koeln.svg) und wird
+     hier als Maske benutzt, nicht als Bild: so nimmt sie die Hausfarbe an
+     und laesst sich in der Deckung frei einstellen.
+
+     Die Zeichnung ist 3,95 zu 1 breit. Verzerrt wird sie nie -- die Hoehe
+     gibt den Ton an, die Breite folgt (mask-size:auto 100%).
+
+     Im Kopf steht sie auf der Unterkante, also auf der 2px-Linie des
+     Headers, und beginnt erst rechts vom Logo. Mittig war sie ein Fleck,
+     rechts kollidierte sie mit der Navigation -- beides gemessen an
+     Bildschirmfotos, nicht geschaetzt. Sobald der Kopf schrumpft, ist
+     kein Platz mehr, dann blendet sie aus.
+
+     In der Fusszeile traegt sie eine durchgehende Horizontlinie: die
+     kommt aus dem Hintergrundverlauf der Fusszeile und laeuft ueber die
+     ganze Breite, die Silhouette steht darauf. Der Faktor 0.983 ist die
+     Lage der Wasserlinie in der Zeichnung (235 von 239 Einheiten).
+     Der Fusszeilen-Teil steht weiter unten, direkt hinter der Regel
+     footer.legalbar -- sonst loescht deren background-Kurzschreibweise
+     die Horizontlinie wieder. */
+  header::after{
+    content:"";position:absolute;pointer-events:none;bottom:0;
+    left:calc(max(24px,calc((100% - var(--inhalt-breite))/2)) + clamp(210px,20vw,300px));
+    right:max(24px,calc((100% - var(--inhalt-breite))/2));
+    height:clamp(34px,3.6vw,54px);
+    background-color:var(--ink);opacity:.38;
+    -webkit-mask-image:url('skyline-koeln.svg');mask-image:url('skyline-koeln.svg');
+    -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+    -webkit-mask-size:auto 100%;mask-size:auto 100%;
+    -webkit-mask-position:left bottom;mask-position:left bottom;
+    transition:opacity .18s ease;}
+  header.geschrumpft::after{opacity:0;}
+  /* Auf schmalen Schirmen steht zwischen Logo und Burger-Knopf zu wenig
+     Platz: die Silhouette lief unter den Knopf und wurde am rechten Rand
+     abgeschnitten. Dort bleibt der Kopf schmucklos, die Fusszeile traegt
+     das Motiv. */
+  @media(max-width:900px){ header::after{display:none;} }
+
+
+
   .nav-inner{transition:min-height .18s ease,padding .18s ease;}
   .logo img{transition:width .18s ease;}
   header.geschrumpft .nav-inner{min-height:0;padding:5px 0;}
@@ -293,6 +335,27 @@
      der weiter unten gemessenen echten Headerhoehe. */
   footer.legalbar{background:var(--grey-0);border-top:2px solid var(--ink);padding:0;
     min-height:var(--header-hoehe, 139px);display:flex;align-items:center;}
+  footer.legalbar{
+    --silhouette-hoehe:clamp(58px,7.2vw,104px);
+    position:relative;
+    padding-top:calc(var(--silhouette-hoehe) + clamp(14px,1.6vw,26px))!important;}
+  /* Die Horizontlinie ist ein eigenes Element, kein Hintergrundverlauf
+     der Fusszeile. Als Verlauf sah sie gleich aus, machte aber den
+     Untergrund fuer die Kontrastpruefung unbestimmbar -- 360 Messungen
+     fielen dadurch aus. */
+  footer.legalbar::after{
+    content:"";position:absolute;pointer-events:none;left:0;right:0;height:1px;
+    top:calc(var(--silhouette-hoehe) * 0.983);
+    background:rgba(35,47,59,.20);}
+  footer.legalbar::before{
+    content:"";position:absolute;pointer-events:none;top:0;left:0;right:0;
+    height:var(--silhouette-hoehe);
+    background-color:var(--ink);opacity:.34;
+    -webkit-mask-image:url('skyline-koeln.svg');mask-image:url('skyline-koeln.svg');
+    -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+    -webkit-mask-size:auto 100%;mask-size:auto 100%;
+    -webkit-mask-position:center bottom;mask-position:center bottom;}
+
   .footer-row{width:var(--inhalt-breite);max-width:100%;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:clamp(20px,1.8vw,34px);}
   .footer-rechts{display:flex;flex-direction:column;align-items:flex-end;gap:6px;margin-left:auto;}
   /* Die Menuepunkte aus dem Header stehen zwischen Marke und Rechtstexten
