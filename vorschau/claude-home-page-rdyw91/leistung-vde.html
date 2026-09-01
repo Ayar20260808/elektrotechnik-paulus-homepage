@@ -115,15 +115,15 @@
      footer.legalbar -- sonst loescht deren background-Kurzschreibweise
      die Horizontlinie wieder. */
   header::after{
-    content:"";position:absolute;pointer-events:none;bottom:0;
-    left:calc(max(24px,calc((100% - var(--inhalt-breite))/2)) + clamp(210px,20vw,300px));
-    right:max(24px,calc((100% - var(--inhalt-breite))/2));
-    height:clamp(34px,3.6vw,54px);
-    background-color:var(--ink);opacity:.38;
+    content:"";position:absolute;pointer-events:none;bottom:0;overflow:hidden;
+    left:calc(max(24px,calc((100% - var(--inhalt-breite))/2)) + clamp(215px,20.5vw,305px));
+    right:calc(max(24px,calc((100% - var(--inhalt-breite))/2)) + clamp(230px,22vw,340px));
+    height:min(clamp(52px,8.5vw,96px), calc(var(--kopf-ist, 103px) - 8px));
+    background-color:var(--ink);opacity:.30;
     -webkit-mask-image:url('skyline-koeln.svg');mask-image:url('skyline-koeln.svg');
     -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
     -webkit-mask-size:auto 100%;mask-size:auto 100%;
-    -webkit-mask-position:left bottom;mask-position:left bottom;
+    -webkit-mask-position:center bottom;mask-position:center bottom;
     transition:opacity .18s ease;}
   header.geschrumpft::after{opacity:0;}
   /* Auf schmalen Schirmen steht zwischen Logo und Burger-Knopf zu wenig
@@ -335,26 +335,20 @@
      der weiter unten gemessenen echten Headerhoehe. */
   footer.legalbar{background:var(--grey-0);border-top:2px solid var(--ink);padding:0;
     min-height:var(--header-hoehe, 139px);display:flex;align-items:center;}
-  footer.legalbar{
-    --silhouette-hoehe:clamp(58px,7.2vw,104px);
-    position:relative;
-    padding-top:calc(var(--silhouette-hoehe) + clamp(14px,1.6vw,26px))!important;}
-  /* Die Horizontlinie ist ein eigenes Element, kein Hintergrundverlauf
-     der Fusszeile. Als Verlauf sah sie gleich aus, machte aber den
-     Untergrund fuer die Kontrastpruefung unbestimmbar -- 360 Messungen
-     fielen dadurch aus. */
-  footer.legalbar::after{
-    content:"";position:absolute;pointer-events:none;left:0;right:0;height:1px;
-    top:calc(var(--silhouette-hoehe) * 0.983);
-    background:rgba(35,47,59,.20);}
+  /* Die Fusszeile bleibt so hoch wie der Kopf im Ruhezustand -- kein
+     zusaetzlicher Platz fuer die Silhouette. Sie liegt deshalb HINTER
+     dem Inhalt, steht auf der Unterkante und laeuft ueber die ganze
+     Breite. Deckung entsprechend zurueckhaltend. */
+  footer.legalbar{position:relative;overflow:hidden;}
   footer.legalbar::before{
-    content:"";position:absolute;pointer-events:none;top:0;left:0;right:0;
-    height:var(--silhouette-hoehe);
-    background-color:var(--ink);opacity:.34;
+    content:"";position:absolute;pointer-events:none;bottom:0;left:0;right:0;
+    height:clamp(52px,8.5vw,88px);
+    background-color:var(--ink);opacity:.15;z-index:0;
     -webkit-mask-image:url('skyline-koeln.svg');mask-image:url('skyline-koeln.svg');
     -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
     -webkit-mask-size:auto 100%;mask-size:auto 100%;
     -webkit-mask-position:center bottom;mask-position:center bottom;}
+  footer.legalbar .footer-row{position:relative;z-index:1;}
 
   .footer-row{width:var(--inhalt-breite);max-width:100%;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:clamp(20px,1.8vw,34px);}
   .footer-rechts{display:flex;flex-direction:column;align-items:flex-end;gap:6px;margin-left:auto;}
