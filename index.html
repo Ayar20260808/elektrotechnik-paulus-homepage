@@ -236,7 +236,16 @@
   }
   /* Der Verlauf haelt den Text rechts lesbar, laesst das Foto aber nach
      links hin deutlich durch -- dort steht das Gesicht. */
-  .hero-overlay{position:absolute;inset:0;background:linear-gradient(270deg, rgba(26,34,42,.88) 0%, rgba(26,34,42,.66) 55%, rgba(26,34,42,.22) 100%);}
+  /* Auf breiten Schirmen steht der Text rechts, links bleibt das Motiv
+     frei. Der mittlere Halt entscheidet, wie weit die Deckung nach links
+     reicht -- und damit ueber die Lesbarkeit am linken Ende der Zeilen.
+     Gemessen im Kasten der Textelemente: mit dem frueheren festen 0,66
+     erreichte die gelbe Vorzeile auf hero-echeck nur 3,8:1 statt der
+     geforderten 4,5:1. Das war schon vorher so. Statt den Verlauf fuer
+     alle zu verstaerken, bekommt auch hier jedes Foto seinen Wert. */
+  .hero-overlay{position:absolute;inset:0;
+    transition:--hero-quer 1.1s ease-in-out;
+    background:linear-gradient(270deg, rgba(26,34,42,.88) 0%, rgba(26,34,42, var(--hero-quer)) 55%, rgba(26,34,42,.22) 100%);}
   /* Auf schmalen Schirmen laeuft der Text ueber die ganze Breite, also auch
      ueber die helle rechte Seite. Dort deckt der Verlauf gleichmaessiger ab,
      sonst wird die Schrift auf hellen Motiven unlesbar. */
@@ -244,6 +253,7 @@
      Bildwechsel weich mitbewegt statt zu springen. Ohne @property waere
      die Zahl fuer den Browser nur Text und nicht ueberblendbar. */
   @property --hero-deckung{syntax:'<number>';inherits:true;initial-value:0.75;}
+  @property --hero-quer{syntax:'<number>';inherits:true;initial-value:0.66;}
   @media(max-width:1000px){
     /* Frueher lag ein fester Verlauf von 0,74/0,66/0,76 ueber der ganzen
        Hoehe. Vom Foto kamen dadurch nur rund ein Viertel an.
@@ -854,11 +864,11 @@
 
 <section id="hero" class="hero">
   <div class="hero-plan" aria-hidden="true">
-    <div class="hero-plan-img an" data-bild="hero-0.jpg" data-deckung="0.68" style="background-image:url('hero-0.jpg');background-position:20% center;"></div>
-    <div class="hero-plan-img" data-bild="hero-echeck.jpg" data-deckung="0.74"></div>
-    <div class="hero-plan-img" data-bild="hero-eauto.jpg" data-deckung="0.69"></div>
-    <div class="hero-plan-img" data-bild="hero-solar.jpg" data-deckung="0.68"></div>
-    <div class="hero-plan-img" data-bild="hero-4.jpg" data-deckung="0.73"></div>
+    <div class="hero-plan-img an" data-bild="hero-0.jpg" data-deckung="0.68" data-quer="0.66" style="background-image:url('hero-0.jpg');background-position:20% center;"></div>
+    <div class="hero-plan-img" data-bild="hero-echeck.jpg" data-deckung="0.74" data-quer="0.74"></div>
+    <div class="hero-plan-img" data-bild="hero-eauto.jpg" data-deckung="0.71" data-quer="0.66"></div>
+    <div class="hero-plan-img" data-bild="hero-solar.jpg" data-deckung="0.68" data-quer="0.66"></div>
+    <div class="hero-plan-img" data-bild="hero-4.jpg" data-deckung="0.74" data-quer="0.70"></div>
   </div>
   <div class="hero-overlay"></div>
   <div class="hero-content wrap">
@@ -1566,9 +1576,9 @@
     // bleibt, ohne dunkle Motive zuzudecken. Der Wert steht am Bild.
     var ueberzug = document.querySelector('.hero-overlay');
     function deckungSetzen(ebene) {
-      if (ueberzug && ebene && ebene.dataset.deckung) {
-        ueberzug.style.setProperty('--hero-deckung', ebene.dataset.deckung);
-      }
+      if (!ueberzug || !ebene) return;
+      if (ebene.dataset.deckung) ueberzug.style.setProperty('--hero-deckung', ebene.dataset.deckung);
+      if (ebene.dataset.quer)    ueberzug.style.setProperty('--hero-quer',    ebene.dataset.quer);
     }
     deckungSetzen(ebenen[0]);
 
