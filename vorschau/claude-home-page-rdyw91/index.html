@@ -614,6 +614,10 @@
   .form-error.show{display:block;}
   .form-error p{color:var(--red-text);font-size:14.5px;margin:0;}
   form button[type="submit"]:disabled{opacity:.6;cursor:not-allowed;}
+  /* Der Honigtopf muss im Seitenquelltext stehen, aber fuer Menschen
+     unsichtbar sein. Nicht display:none -- manche Spam-Programme
+     ueberspringen ausgeblendete Felder und wuerden durchkommen. */
+  .honigtopf{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;}
 
   /* FOOTER */
   /* FUSSZEILE -- spiegelbildlich zum Header aufgebaut: gleiche Hoehe,
@@ -1139,9 +1143,14 @@
         <b>Wir sind bis zum 9. September 2026 im Urlaub.</b>
         <p>Ihre Anfrage erreicht uns trotzdem — wir beantworten sie, sobald wir zurück sind.</p>
       </div>
-      <form id="kontaktform" action="https://formspree.io/f/xgawqqkn" method="POST">
-        <input type="hidden" name="_next" value="https://ayar20260808.github.io/elektrotechnik-paulus-homepage/index.html?gesendet=1#kontakt">
-        <input type="hidden" name="_subject" value="Neue Anfrage über die Homepage">
+      <form id="kontaktform" action="kontakt.php" method="POST">
+        <!-- Honigtopf gegen Maschinen: unsichtbar und aus der Tastaturfolge
+             genommen. Ein Mensch fuellt das nie aus, viele Spam-Programme
+             fuellen jedes Feld. Ist es ausgefuellt, weist kontakt.php ab. -->
+        <div class="honigtopf" aria-hidden="true">
+          <label for="website">Website</label>
+          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+        </div>
         <div class="form-row">
           <div class="field"><label for="vorname">Vorname*</label><input id="vorname" name="Vorname" required type="text"></div>
           <div class="field"><label for="nachname">Nachname*</label><input id="nachname" name="Nachname" required type="text"></div>
@@ -1610,21 +1619,31 @@
     window.addEventListener('load', hebeRechnen);
   })();
 
-  // Kontaktformular -- klassisches Senden an Formspree (formspree.io), ohne
-  // JavaScript-Versand. Der Browser schickt das Formular selbst ab; Formspree
-  // leitet danach zur in "_next" hinterlegten Adresse zurueck. Anhand des
-  // URL-Parameters ?gesendet=1 zeigen wir dann die Erfolgsmeldung an.
+  // Kontaktformular -- klassisches Senden an das eigene kontakt.php, ohne
+  // JavaScript-Versand. Der Browser schickt das Formular selbst ab; das
+  // Skript verschickt die Mail und leitet zurueck auf diese Seite, mit
+  // ?gesendet=1 im Erfolgsfall und ?fehler=1 sonst. Daran erkennen wir,
+  // welche Meldung zu zeigen ist.
   var form = document.getElementById('kontaktform');
   var success = document.getElementById('formSuccess');
   var errorBox = document.getElementById('formError');
 
-  if (new URLSearchParams(window.location.search).get('gesendet') === '1') {
+  var parameter = new URLSearchParams(window.location.search);
+  // Saubere Adresse ohne den Parameter, damit ein Neuladen der Seite die
+  // Meldung nicht erneut zeigt.
+  function adresseSaeubern() {
+    window.history.replaceState({}, '', window.location.pathname + window.location.hash);
+  }
+
+  if (parameter.get('gesendet') === '1') {
     form.classList.add('hidden');
     success.classList.add('show');
-    // Saubere Adresse ohne den Parameter, damit ein Neuladen der Seite
-    // die Erfolgsmeldung nicht erneut zeigt.
-    var sauber = window.location.pathname + window.location.hash;
-    window.history.replaceState({}, '', sauber);
+    adresseSaeubern();
+  } else if (parameter.get('fehler') === '1') {
+    // kontakt.php konnte nicht verschicken oder hat die Eingabe abgewiesen.
+    // Das Formular bleibt stehen, damit nichts noch einmal getippt werden muss.
+    errorBox.classList.add('show');
+    adresseSaeubern();
   }
 
   document.getElementById('formReset').addEventListener('click', function () {
