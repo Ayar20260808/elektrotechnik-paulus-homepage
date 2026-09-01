@@ -115,10 +115,16 @@
      footer.legalbar -- sonst loescht deren background-Kurzschreibweise
      die Horizontlinie wieder. */
   header::after{
-    content:"";position:absolute;pointer-events:none;bottom:0;overflow:hidden;
+    content:"";position:absolute;pointer-events:none;bottom:0;
     left:calc(max(24px,calc((100% - var(--inhalt-breite))/2)) + clamp(215px,20.5vw,305px));
     right:calc(max(24px,calc((100% - var(--inhalt-breite))/2)) + clamp(230px,22vw,340px));
-    height:min(clamp(52px,8.5vw,96px), calc(var(--kopf-ist, 103px) - 8px));
+    /* Die Silhouette darf nie hoeher werden als der Kopf, sonst schneidet
+       er die Domtuerme ab. Zuerst stand hier --kopf-ist -- die Variable
+       gibt es nicht, also griff immer der Ersatzwert 103 px. Zwischen
+       1024 und 1200 px Fensterbreite ist der Kopf aber nur 82 bis 87 px
+       hoch; dort ragte die Zeichnung 5 bis 12 px darueber hinaus.
+       --header-hoehe misst das Skript aus dem echten Kopf. */
+    height:min(clamp(52px,8.5vw,96px), calc(var(--header-hoehe, 103px) - 12px));
     background-color:var(--ink);opacity:.30;
     -webkit-mask-image:url('skyline-koeln.svg');mask-image:url('skyline-koeln.svg');
     -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
@@ -330,7 +336,13 @@
      zusaetzlicher Platz fuer die Silhouette. Sie liegt deshalb HINTER
      dem Inhalt, steht auf der Unterkante und laeuft ueber die ganze
      Breite. Deckung entsprechend zurueckhaltend. */
-  footer.legalbar{position:relative;overflow:hidden;}
+  /* Kein overflow:hidden. Es war fuer die Silhouette gedacht, wurde dort
+     aber nie gebraucht -- die Maske kann den Kasten ohnehin nicht
+     verlassen. Dafuer schnitt es bei 900 bis 1024 px den Schriftzug des
+     Logos oben ab: dort bricht die Fusszeile um, der Inhalt wird hoeher
+     als die Zeile, und align-items:center laesst ihn nach oben und unten
+     gleichzeitig ueberstehen. */
+  footer.legalbar{position:relative;}
   footer.legalbar::before{
     content:"";position:absolute;pointer-events:none;bottom:0;left:0;right:0;
     height:clamp(52px,8.5vw,88px);
@@ -384,6 +396,13 @@
      nebeneinander. Dann stehen sie uebereinander -- der linke Block wird
      schmal genug, dass alle drei Gruppen in einer Reihe bleiben. */
   @media(max-width:1150px) and (min-width:821px){
+    /* In diesem Bereich stehen Logo und Anschrift uebereinander, der
+       Inhalt wird dadurch fast so hoch wie die ganze Fusszeile. Ohne
+       Polsterung stand der Logo-Schriftzug 2 px unter der Trennlinie.
+       Auf breiteren Schirmen aendert sich nichts: dort ist der Inhalt
+       niedriger als min-height, die Polsterung faellt also nicht ins
+       Gewicht. */
+    footer.legalbar{padding:20px 0;}
     .footer-row{gap:14px;}
     .footer-marke{flex-direction:column;align-items:flex-start;gap:10px;}
     .footer-marke address{border-left:none;padding-left:0;max-width:38ch;font-size:13px;line-height:1.45;}
