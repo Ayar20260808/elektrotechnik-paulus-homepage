@@ -112,6 +112,40 @@ geschrieben wird: nachsehen, was sie sonst noch trifft.
 IDs, Schlüssel und URLs immer als Text erfragen. Eine falsch gelesene
 Formspree-ID (`xgawqkn` statt `xgawqqkn`) hat mehrere Debug-Runden gekostet.
 
+## Nie eine Oberfläche beschreiben, die du nicht siehst
+
+Bei fremden Oberflächen (hPanel, Dateimanager, Wix, Formspree) gibt es keine
+Messung — es gibt nur den Screenshot des Nutzers. Alles, was darüber hinaus
+gesagt wird, ist geraten und verstößt gegen Grundregel 3.
+
+**Regel:** Erst den Screenshot anfordern, dann handeln. Es werden ausschließlich
+Beschriftungen genannt, die auf einem Screenshot dieser Sitzung zu sehen sind.
+Kein Menüpunkt, kein Knopf und kein Tastenkürzel wird aus allgemeinem Wissen
+über ein Programm erfunden.
+
+Konkret passiert, alles im selben Arbeitsschritt (Upload zu Hostinger):
+
+| Behauptet | Tatsächlich |
+|---|---|
+| „Haken oben links: Alle auswählen" | gibt es nicht |
+| „Rechtsklick → Verschieben" | Beschriftung ungeprüft |
+| „auf *Verwalten* klicken" | heißt *Armaturenbrett* / *Werkzeuge* |
+| Onboarding: „Ich habe jemanden beauftragt" | führte in eine Sackgasse |
+
+Vier falsche Wegbeschreibungen, eine Ursache.
+
+## Keine Zahl als Beweis nehmen, deren Zuverlässigkeit ungeprüft ist
+
+Die Speicheranzeige von Hostinger wurde als Kontrolle benutzt („rund 249
+Inodes"), obwohl sie sich vorher schon als unzuverlässig gezeigt hatte: sie
+meldete 760 KiB, während über 4 MB auf dem Server lagen, und sprang später ohne
+Zutun von 8,5 auf 9,54 MiB. Das kostete vier Runden und führte zu einer
+Suche im leeren Mülleimer.
+
+**Regel:** Bevor eine fremde Anzeige als Beweis dient, muss sie sich an einem
+bekannten Wert bewährt haben. Sonst wird gegen etwas Nachrechenbares geprüft —
+hier: die Dateigrößen gegen das Paket (fünf von fünf auf die Nachkommastelle).
+
 ## Projektkonventionen
 
 - Statisches HTML/CSS/JS, kein Framework, kein Build-Schritt. CSS und JS stehen
