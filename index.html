@@ -240,8 +240,37 @@
   /* Auf schmalen Schirmen laeuft der Text ueber die ganze Breite, also auch
      ueber die helle rechte Seite. Dort deckt der Verlauf gleichmaessiger ab,
      sonst wird die Schrift auf hellen Motiven unlesbar. */
+  /* Die Deckung des Verlaufs wird als Zahl gefuehrt, damit sie sich beim
+     Bildwechsel weich mitbewegt statt zu springen. Ohne @property waere
+     die Zahl fuer den Browser nur Text und nicht ueberblendbar. */
+  @property --hero-deckung{syntax:'<number>';inherits:true;initial-value:0.75;}
   @media(max-width:1000px){
-    .hero-overlay{background:linear-gradient(180deg, rgba(26,34,42,.74) 0%, rgba(26,34,42,.66) 45%, rgba(26,34,42,.76) 100%);}
+    /* Frueher lag ein fester Verlauf von 0,74/0,66/0,76 ueber der ganzen
+       Hoehe. Vom Foto kamen dadurch nur rund ein Viertel an.
+
+       Zwei Messungen fuehrten zur jetzigen Loesung:
+
+       1. Der Verlauf laesst sich NICHT einfach abschwaechen. Gemessen am
+          gerenderten Ausschnitt -- nicht am Foto auf der Platte, der Hero
+          schneidet zu -- liegen die hellsten fuenf Prozent aller fuenf
+          Motive zwischen 167 und 255. Damit die gelbe Vorzeile (13,5 px,
+          also AA 4,5:1) lesbar bleibt, braucht es 0,67 bis 0,73 Deckung.
+       2. Der Text belegt am Handy nur 19 bis 78 Prozent der Hoehe.
+          Oben und unten bleiben je rund 109 von 560 Pixeln frei.
+
+       Also deckt der Verlauf nur noch das Textband voll ab und laeuft
+       darueber und darunter auf 0,30 aus. Dort ist das Foto zu sehen.
+       Wie stark das Band deckt, steht pro Bildebene in data-deckung -- der
+       gemessene Bedarf des jeweiligen Motivs. */
+    .hero-overlay{
+      transition:--hero-deckung 1.1s ease-in-out;
+      background:linear-gradient(180deg,
+        rgba(26,34,42, .30) 0%,
+        rgba(26,34,42, .34) 12%,
+        rgba(26,34,42, var(--hero-deckung)) 20%,
+        rgba(26,34,42, var(--hero-deckung)) 78%,
+        rgba(26,34,42, .36) 92%,
+        rgba(26,34,42, .30) 100%);}
     /* Am Handy wurde das Motiv zweimal abgedunkelt: einmal von der
        Bildebene mit 78 Prozent Deckung ueber dunklem Grund, einmal vom
        Verlauf darueber. Vom Foto kamen so nur rund 46 von 255 Helligkeit
@@ -825,11 +854,11 @@
 
 <section id="hero" class="hero">
   <div class="hero-plan" aria-hidden="true">
-    <div class="hero-plan-img an" data-bild="hero-0.jpg" style="background-image:url('hero-0.jpg');background-position:20% center;"></div>
-    <div class="hero-plan-img" data-bild="hero-echeck.jpg"></div>
-    <div class="hero-plan-img" data-bild="hero-eauto.jpg"></div>
-    <div class="hero-plan-img" data-bild="hero-solar.jpg"></div>
-    <div class="hero-plan-img" data-bild="hero-4.jpg"></div>
+    <div class="hero-plan-img an" data-bild="hero-0.jpg" data-deckung="0.68" style="background-image:url('hero-0.jpg');background-position:20% center;"></div>
+    <div class="hero-plan-img" data-bild="hero-echeck.jpg" data-deckung="0.74"></div>
+    <div class="hero-plan-img" data-bild="hero-eauto.jpg" data-deckung="0.69"></div>
+    <div class="hero-plan-img" data-bild="hero-solar.jpg" data-deckung="0.68"></div>
+    <div class="hero-plan-img" data-bild="hero-4.jpg" data-deckung="0.73"></div>
   </div>
   <div class="hero-overlay"></div>
   <div class="hero-content wrap">
@@ -1531,6 +1560,18 @@
   // gesetzt, damit der erste Seitenaufbau nur auf ein Bild wartet.
   (function () {
     var ebenen = Array.prototype.slice.call(document.querySelectorAll('.hero-plan-img'));
+    if (!ebenen.length) return;
+
+    // Jedes Foto braucht eine andere Deckung, damit die Schrift lesbar
+    // bleibt, ohne dunkle Motive zuzudecken. Der Wert steht am Bild.
+    var ueberzug = document.querySelector('.hero-overlay');
+    function deckungSetzen(ebene) {
+      if (ueberzug && ebene && ebene.dataset.deckung) {
+        ueberzug.style.setProperty('--hero-deckung', ebene.dataset.deckung);
+      }
+    }
+    deckungSetzen(ebenen[0]);
+
     if (ebenen.length < 2) return;
 
     function bilderNachreichen() {
@@ -1549,6 +1590,7 @@
       ebenen[i].classList.remove('an');
       i = (i + 1) % ebenen.length;
       ebenen[i].classList.add('an');
+      deckungSetzen(ebenen[i]);
     }, 4000);
   })();
 
