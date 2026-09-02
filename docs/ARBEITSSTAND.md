@@ -181,8 +181,8 @@ Testadresse geprueft.
 | # | Schritt | Wer |
 |---|---|---|
 | 1 | Aktuelles Paket in `public_html` hochladen | **erledigt 02.09.2026** |
-| 2 | Google-App-Passwort erzeugen (Sicherheit → App-Passwoerter) | Irfan |
-| 3 | `kontakt-konfig.php` **ueber** `public_html` anlegen, Passwort dort eintragen | Irfan |
+| 2 | Google-App-Passwort erzeugen | **blockiert, siehe unten** |
+| 3 | `kontakt-konfig.php` **ueber** `public_html` anlegen | **erledigt 02.09.2026** |
 | 4 | Testanfrage abschicken, Ankunft bei `info@…` pruefen | gemeinsam |
 | 5 | DNS bei Wix: A-Record auf `92.113.18.111`, `www` als CNAME | Irfan |
 | 6 | AuthInfo-Code bei Wix holen, Domain uebertragen | Irfan |
@@ -204,6 +204,39 @@ wie erwartet. Diese Methode ersetzt die unzuverlaessige Speicheranzeige.
 **Noch aufzuraeumen:** In `public_html` liegen zwei ZIP-Dateien oeffentlich
 abrufbar — `homepagehostinger.zip` (3,43 MiB) und `elektrotechnikpauluswebsite.zip`
 (3,41 MiB, vom Vortag). Beide loeschen.
+
+**Stand Kontaktformular (02.09.2026).** `kontakt-konfig.php` liegt richtig unter
+`/files/domains/elektrotechnik-paulus.de/` und **wird gefunden** — nachgewiesen
+dadurch, dass ein direkter Aufruf von `kontakt.php` auf die Startseite mit dem
+roten Fehlerkasten umleitet statt mit HTTP 500 abzubrechen. Der Versand
+scheitert erst an der Anmeldung bei Google.
+
+Ursache: Das erste App-Passwort wurde im falschen Konto erzeugt. **Fuer
+`info@elektrotechnik-paulus.de` sind App-Passwoerter nicht verfuegbar** —
+Google meldet „Die gesuchte Einstellung ist fuer Ihr Konto nicht verfuegbar",
+weil dort die Zwei-Schritt-Bestaetigung fehlt. Bei
+`ayar@elektrotechnik-paulus.de` funktionieren sie.
+
+Entscheidung Irfan: **Absender muss `info@` sein.** Naechster Schritt daher:
+Zwei-Schritt-Bestaetigung fuer `info@` einschalten
+(`myaccount.google.com/signinoptions/twosv`), danach App-Passwort erzeugen und
+in Zeile 7 der Konfigurationsdatei eintragen. Alternative, falls 2FA dort
+unerwuenscht: Anmeldung ueber `ayar@`, `info@` dort als „Senden als"-Adresse
+bestaetigen.
+
+**Achtung fuer die Fehlersuche:** Die Seite loescht `?gesendet=1` und
+`?fehler=1` sofort wieder aus der Adresszeile (`adresseSaeubern()` per
+`history.replaceState`). Das Ergebnis steht also **nicht** in der Adresszeile,
+sondern auf der Seite: „Anfrage ist raus" bei Erfolg, roter Kasten „Die Anfrage
+konnte nicht gesendet werden" bei Misserfolg. Den genauen Grund protokolliert
+`kontakt.php` per `error_log` — ohne das Passwort, das ist im Code
+ausdruecklich abgesichert.
+
+**Ebenfalls gemessen:** Die Hostinger-Testadresse ersetzt im ausgelieferten
+Text die echte Domain durch die Testdomain. Auf der Seite steht deshalb
+`info@magenta-crocodile-313036.hostingersite.com`. Im Quelltext ist die Adresse
+fest und richtig eingetragen (`index.html:1259`), und nirgends wird sie aus dem
+Hostnamen gebaut — kein Fehler der Seite.
 
 **MX und TXT NICHT anfassen.** Daran haengt die Geschaeftsmail. Gemessen:
 Nameserver bei Wix (`ns10/ns11.wixdns.net`), Mail bei Google Workspace, genau
