@@ -138,7 +138,7 @@ Damit sie nicht in jeder Sitzung neu erfragt werden.
 | Datum | Entscheidung | Begruendung |
 |---|---|---|
 | 02.09.2026 | Bei „Bewegung reduzieren" verschwinden die Hintergrundsymbole **vollstaendig** (nicht: ruhig stehenbleiben) | Barrierefreiheit — wer Bewegung abschaltet, will die dekorative Ebene nicht. Umgesetzt in `67a8b97` |
-| 02.09.2026 | Bei der Geraetepruefung faellt der Zusatz „auf Wunsch" weg | Auf Wunsch Irfan. Geaendert in `index.html` (Leistungskarte) und `leistung-vde.html` (Checkliste), Commit `feb59a3` |
+| 02.09.2026 | Bei der Geraetepruefung faellt der Zusatz „auf Wunsch" **ueberall** weg | Entscheidung Irfan. `index.html` (Leistungskarte) und `leistung-vde.html` (Checkliste) in `feb59a3`, die FAQ derselben Seite nachgezogen. Die uebrigen acht „auf Wunsch" im Projekt betreffen andere Themen (PV-Kopplung, App, Tueroeffner, Foerderhinweis) und bleiben |
 | 02.09.2026 | Homepage wird **nicht** nach `master` gemergt, solange nicht ausdruecklich gewuenscht | Entscheidung Irfan, offen gelassen |
 | frueher | Pflichtfelder im Formular sind **nur Vorname und Nachname** | So gewuenscht. Folge: eine Anfrage kann ohne Rueckmeldeweg ankommen, `Reply-To` entfaellt dann — ist so gebaut und geprueft |
 | frueher | Standort im Kontaktblock heisst **„Koeln"**, nicht „Koeln Nippes" | Gekuerzt auf Wunsch |
@@ -155,24 +155,20 @@ Damit sie nicht in jeder Sitzung neu erfragt werden.
 1. **Bilderband-Tempo.** Laeuft es zu schnell (dann 168 s), oder waren die
    Bilder zu gross (dann Bandhoehe zurueck)? Zweimal gefragt, noch nicht
    beantwortet. **Nichts anfassen, bevor das geklaert ist.**
-2. **Widerspruch auf `leistung-vde.html`.** In der Checkliste heisst es seit
-   `feb59a3` „Geraetepruefung mit Pruefplakette" ohne Einschraenkung, in der
-   FAQ derselben Seite steht weiter „Ja, nach DGUV Vorschrift 3, **auf Wunsch**
-   mit Pruefplakette und Geraeteliste." Gefragt, nicht beantwortet.
-3. **Herkunft der Koelner Silhouette.** Kam als Bild aus dem Chat. Stammt sie
+2. **Herkunft der Koelner Silhouette.** Kam als Bild aus dem Chat. Stammt sie
    aus einer Bilddatenbank, braucht die gewerbliche Nutzung eine Lizenz.
-4. **Datenschutztext zum Kontaktformular.** Der Abschnitt nennt keinen
+3. **Datenschutztext zum Kontaktformular.** Der Abschnitt nennt keinen
    Dienstleister. Ob der Versand ueber Google Workspace genannt werden muss,
    ist eine Rechtsfrage — **nicht eigenmaechtig aendern.**
-5. **`master`-Frage.** 163 Commits liegen davor. Vorspulen waere sauber, ist
+4. **`master`-Frage.** 163 Commits liegen davor. Vorspulen waere sauber, ist
    aber nicht entschieden.
 
 ### Kann ohne Rueckfrage gemacht werden
 
-6. **Zweite Domain** `elektropersonal-aya…` haengt am selben Wix-Konto —
+5. **Zweite Domain** `elektropersonal-aya…` haengt am selben Wix-Konto —
    Entscheidung ueber ihr Schicksal offen.
-7. **Jimdo pruefen** (die alte Domain lag frueher dort).
-8. **Formspree-Konto abschalten** — wird nicht mehr benutzt.
+6. **Jimdo pruefen** (die alte Domain lag frueher dort).
+7. **Formspree-Konto abschalten** — wird nicht mehr benutzt.
 
 ---
 
