@@ -86,7 +86,10 @@ jobs:
           # Kopiert wird mit tar statt rsync: tar ist ueberall vorhanden, damit
           # haengt der Ablauf an einem Werkzeug weniger.
           kopieren() {   # $1 = Zielordner
-            tar -c --exclude='./.git' --exclude='./.github' . | tar -x -C "$1"
+            # Interne Notizen gehoeren nicht ins Netz: docs/ und alle
+            # Markdown-Dateien bleiben draussen (frueherer Punkt A3).
+            tar -c --exclude='./.git' --exclude='./.github' \
+                   --exclude='./docs' --exclude='*.md' . | tar -x -C "$1"
           }
           case "$AKTION" in
             live)
