@@ -18,7 +18,11 @@
 
 declare(strict_types=1);
 
-const FELDER_PFLICHT = ['Vorname', 'Nachname', 'E-Mail', 'Nachricht'];
+// Pflicht sind nur Vor- und Nachname. E-Mail und Nachricht sind
+// freiwillig -- so gewuenscht. Folge: eine Anfrage kann ohne jede
+// Rueckmeldemoeglichkeit ankommen. Wenn keine Adresse dabei ist, faellt
+// unten der Reply-To weg; ein leerer waere ein ungueltiger Kopfeintrag.
+const FELDER_PFLICHT = ['Vorname', 'Nachname'];
 const FELDER_ALLE    = ['Vorname', 'Nachname', 'E-Mail', 'Telefon', 'Anliegen', 'Nachricht'];
 const MAX_LAENGE     = 5000;
 
@@ -169,18 +173,23 @@ function nachricht_bauen(array $eingaben, array $k): array {
     $koerper = implode("\r\n", str_replace("\r\n", "\n", $zeilen));
     $koerper = str_replace("\n", "\r\n", $koerper);
 
-    $kopf = implode("\r\n", [
+    $kopfzeilen = [
         'From: ' . $absender,
         'To: ' . eine_zeile($k['empfaenger']),
-        // Damit "Antworten" beim Kunden landet und nicht bei uns selbst.
-        'Reply-To: ' . adresse_mit_namen($kundenmail, $kundenname),
+    ];
+    // Damit "Antworten" beim Kunden landet und nicht bei uns selbst.
+    // Ohne Adresse entfaellt die Zeile -- "Name <>" waere ungueltig.
+    if ($kundenmail !== '') {
+        $kopfzeilen[] = 'Reply-To: ' . adresse_mit_namen($kundenmail, $kundenname);
+    }
+    $kopf = implode("\r\n", array_merge($kopfzeilen, [
         'Subject: ' . kopf_kodieren($betreff),
         'Date: ' . date('r'),
         'Message-ID: <' . bin2hex(random_bytes(12)) . '@' . substr(strrchr($k['absender'], '@') ?: '@localhost', 1) . '>',
         'MIME-Version: 1.0',
         'Content-Type: text/plain; charset=UTF-8',
         'Content-Transfer-Encoding: 8bit',
-    ]);
+    ]));
 
     return [$kopf, $koerper];
 }
