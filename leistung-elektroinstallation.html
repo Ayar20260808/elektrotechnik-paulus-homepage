@@ -131,7 +131,14 @@
     -webkit-mask-size:auto 100%;mask-size:auto 100%;
     -webkit-mask-position:center bottom;mask-position:center bottom;
     transition:opacity .18s ease;}
-  header.geschrumpft::after{opacity:0;}
+  /* Auch im geschrumpften Kopf sichtbar. Dort ist nur weniger Platz:
+     die Zeichnung richtet sich nach --header-klein, der gemessenen Hoehe
+     des geschrumpften Kopfes, und das Logo ist schmaler, also darf sie
+     weiter links beginnen. */
+  header.geschrumpft::after{
+    height:calc(var(--header-klein, 46px) - 10px);
+    left:calc(max(24px,calc((100% - var(--inhalt-breite))/2)) + clamp(150px,14vw,210px));
+    opacity:.34;}
   /* Auf schmalen Schirmen steht zwischen Logo und Burger-Knopf zu wenig
      Platz: die Silhouette lief unter den Knopf und wurde am rechten Rand
      abgeschnitten. Dort bleibt der Kopf schmucklos, die Fusszeile traegt
