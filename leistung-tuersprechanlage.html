@@ -914,6 +914,10 @@
       cycleToken++;
       var token = cycleToken;
       clearAll();
+      // Bewegungsreduzierung: Der Hintergrund bleibt vollstaendig leer.
+      // Es wird gar kein Symbol angelegt -- damit kann auch keine
+      // Inline-Deckung die CSS-Regel oben aushebeln.
+      if (reduceMotionHere) return;
       var positions = computePositions();
       if (!positions.length) return;
 
@@ -926,15 +930,6 @@
         span._pos = pos;
         bg.appendChild(span);
         spans.push(span);
-
-        if (reduceMotionHere) {
-          var still = drawIcon(visibleSrcs);
-          visibleSrcs[still.src] = true;
-          span._icon = still;
-          applyIcon(span, still, pos);
-          span.style.opacity = '1';
-          return;
-        }
 
         // Jede Position laeuft ihren eigenen Zyklus: langsam auftauchen,
         // kurz stehen, schnell verschwinden, dann das naechste Symbol.
