@@ -271,6 +271,53 @@ Nameserver bei Wix — die DNS-Verwaltung muss dann umziehen. Reihenfolge dabei:
 **erst MX und SPF bei Hostinger anlegen und pruefen, dann die Nameserver
 umschalten.** Nie andersherum.
 
+### Schritt 5 — fertige Abhakliste (Wix-Stand vom 02.09.2026 abgelesen)
+
+**Vorher — so sieht es bei Wix aus:**
+
+| Kasten | Host-Name | Wert | TTL |
+|---|---|---|---|
+| A | elektrotechnik-paulus.de | `185.230.63.107` | 1 Stunde |
+| A | elektrotechnik-paulus.de | `185.230.63.186` | 1 Stunde |
+| A | elektrotechnik-paulus.de | `185.230.63.171` | 1 Stunde |
+| CNAME | www.elektrotechnik-paulus.de | `cdn3.wixdns.net` | 1 Stunde |
+| TXT | elektrotechnik-paulus.de | `v=spf1 include:_spf.google.…` | 1 Stunde |
+| MX | elektrotechnik-paulus.de | `aspmx.l.google.…`, Prio 10 | 1 Stunde |
+| NS | elektrotechnik-paulus.de | `ns10`/`ns11.wixdns.net` | 1 Tag |
+
+**Die Aenderung — vier Handgriffe in dieser Reihenfolge:**
+
+1. A-Eintrag `185.230.63.186` **loeschen**
+2. A-Eintrag `185.230.63.171` **loeschen**
+3. A-Eintrag `185.230.63.107` **bearbeiten** → Wert `92.113.18.111`
+4. CNAME `www` **bearbeiten** → Wert `elektrotechnik-paulus.de`
+
+Diese Reihenfolge ist bewusst: Nach den ersten beiden Schritten zeigt die
+Domain immer noch geschlossen auf Wix. Erst Schritt 3 schaltet um. Wuerde man
+zuerst umschalten und dann loeschen, bekaemen Besucher zwischendurch zufaellig
+mal Wix und mal Hostinger.
+
+**Unberuehrt bleiben: TXT, MX, NS.** Der MX-Kasten hat einen Link
+„MX-Eintraege bearbeiten" — nicht anklicken. Daran haengt die Geschaeftsmail
+und damit auch das Kontaktformular.
+
+**Der Rueckweg, falls etwas klemmt.** Diese Werte wiederherstellen:
+
+    A      elektrotechnik-paulus.de      185.230.63.107
+    A      elektrotechnik-paulus.de      185.230.63.186
+    A      elektrotechnik-paulus.de      185.230.63.171
+    CNAME  www.elektrotechnik-paulus.de  cdn3.wixdns.net
+
+**Danach pruefen**, in dieser Reihenfolge:
+
+1. `https://elektrotechnik-paulus.de` aufrufen — zeigt sie die neue Seite?
+   DNS-Aenderungen brauchen bis zu einigen Stunden, die alte TTL steht auf
+   1 Stunde.
+2. `https://www.elektrotechnik-paulus.de` — dasselbe.
+3. **Testmail an `info@elektrotechnik-paulus.de` schicken und Ankunft
+   pruefen.** Das ist der wichtigste Test.
+4. Kontaktformular auf der neuen Adresse absenden.
+
 **MX und TXT NICHT anfassen.** Daran haengt die Geschaeftsmail. Gemessen:
 Nameserver bei Wix (`ns10/ns11.wixdns.net`), Mail bei Google Workspace, genau
 ein MX, ein SPF (`v=spf1 include:_spf.google.com ~all`), **kein DKIM, kein
