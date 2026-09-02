@@ -181,9 +181,9 @@ Testadresse geprueft.
 | # | Schritt | Wer |
 |---|---|---|
 | 1 | Aktuelles Paket in `public_html` hochladen | **erledigt 02.09.2026** |
-| 2 | Google-App-Passwort erzeugen | **blockiert, siehe unten** |
+| 2 | Google-App-Passwort erzeugen | **erledigt 02.09.2026** |
 | 3 | `kontakt-konfig.php` **ueber** `public_html` anlegen | **erledigt 02.09.2026** |
-| 4 | Testanfrage abschicken, Ankunft bei `info@…` pruefen | gemeinsam |
+| 4 | Testanfrage abschicken, Ankunft bei `info@…` pruefen | **erledigt 02.09.2026 — Mail kam an** |
 | 5 | DNS bei Wix: A-Record auf `92.113.18.111`, `www` als CNAME | Irfan |
 | 6 | AuthInfo-Code bei Wix holen, Domain uebertragen | Irfan |
 | 7 | Wix kuendigen | Irfan |
@@ -211,18 +211,22 @@ dadurch, dass ein direkter Aufruf von `kontakt.php` auf die Startseite mit dem
 roten Fehlerkasten umleitet statt mit HTTP 500 abzubrechen. Der Versand
 scheitert erst an der Anmeldung bei Google.
 
-Ursache: Das erste App-Passwort wurde im falschen Konto erzeugt. **Fuer
-`info@elektrotechnik-paulus.de` sind App-Passwoerter nicht verfuegbar** —
-Google meldet „Die gesuchte Einstellung ist fuer Ihr Konto nicht verfuegbar",
-weil dort die Zwei-Schritt-Bestaetigung fehlt. Bei
-`ayar@elektrotechnik-paulus.de` funktionieren sie.
+**Das Formular laeuft seit 02.09.2026.** Der Weg dorthin, damit ihn niemand
+nochmal suchen muss:
 
-Entscheidung Irfan: **Absender muss `info@` sein.** Naechster Schritt daher:
-Zwei-Schritt-Bestaetigung fuer `info@` einschalten
-(`myaccount.google.com/signinoptions/twosv`), danach App-Passwort erzeugen und
-in Zeile 7 der Konfigurationsdatei eintragen. Alternative, falls 2FA dort
-unerwuenscht: Anmeldung ueber `ayar@`, `info@` dort als „Senden als"-Adresse
-bestaetigen.
+Google prueft Benutzername und Passwort **als Paar**. In der Konfiguration
+steht `info@elektrotechnik-paulus.de` als `smtp_benutzer`, also muss das
+App-Passwort auch aus **diesem** Konto stammen. Das erste stammte aus
+`ayar@elektrotechnik-paulus.de` und wurde deshalb abgelehnt.
+
+Fuer `info@` waren App-Passwoerter zunaechst gar nicht verfuegbar („Die
+gesuchte Einstellung ist fuer Ihr Konto nicht verfuegbar"), weil die
+Zwei-Schritt-Bestaetigung fehlte. Nach dem Einschalten erschien die Funktion.
+
+**Beim Wechsel zwischen Konten aufpassen:** Google haengt an die Adresse eine
+Kontonummer (`/u/0/`, `/u/2/`). Wer sie von Hand eintippt, landet im
+Standardkonto — genau so entstand der erste Fehlversuch. Sicherer ist der Weg
+ueber das Suchfeld „Google-Konto durchsuchen" innerhalb des richtigen Kontos.
 
 **Achtung fuer die Fehlersuche:** Die Seite loescht `?gesendet=1` und
 `?fehler=1` sofort wieder aus der Adresszeile (`adresseSaeubern()` per
