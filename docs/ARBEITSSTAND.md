@@ -242,6 +242,35 @@ Text die echte Domain durch die Testdomain. Auf der Seite steht deshalb
 fest und richtig eingetragen (`index.html:1259`), und nirgends wird sie aus dem
 Hostnamen gebaut — kein Fehler der Seite.
 
+### Schritt 5 — die genauen Werte (02.09.2026 bei Hostinger abgelesen)
+
+Hostinger bietet **zwei** Wege an. **Der empfohlene ist fuer uns der falsche.**
+
+| Weg | Was passiert | Folge fuer die Mail |
+|---|---|---|
+| „Ueber Nameserver verbinden" | Die ganze DNS-Verwaltung wandert zu Hostinger (`athena.dns-parking.com`, `apollo.dns-parking.com`) | **Toedlich, solange MX und SPF dort nicht angelegt sind.** Die alten Eintraege bei Wix werden nicht mehr gefragt |
+| **„Ueber DNS-Eintraege verbinden"** | Nur A und CNAME aendern, Nameserver bleiben bei Wix | **Sicher** — MX und TXT bleiben unberuehrt |
+
+**Also den zweiten Weg nehmen.** Diese Eintraege sind bei Wix zu setzen:
+
+| Typ | Name | Wert | TTL |
+|---|---|---|---|
+| A | `@` | `92.113.18.111` | 300 |
+| CNAME | `www` | `elektrotechnik-paulus.de` | 300 |
+
+Hostinger weist ausserdem darauf hin: **alle anderen bestehenden A- oder
+CNAME-Eintraege fuer `@` und `www` entfernen.** Bei Wix zeigen die heute auf
+Wix-Server. Alles andere — MX, TXT, und was sonst noch da ist — bleibt stehen.
+
+Bestaetigt am 02.09.2026 durch Hostinger selbst: die aktuellen Nameserver sind
+`ns10.wixdns.net` und `ns11.wixdns.net`. Die Messung aus der frueheren Sitzung
+stimmt also.
+
+**Spaeter, vor der Wix-Kuendigung:** Mit der Kuendigung verschwinden auch die
+Nameserver bei Wix — die DNS-Verwaltung muss dann umziehen. Reihenfolge dabei:
+**erst MX und SPF bei Hostinger anlegen und pruefen, dann die Nameserver
+umschalten.** Nie andersherum.
+
 **MX und TXT NICHT anfassen.** Daran haengt die Geschaeftsmail. Gemessen:
 Nameserver bei Wix (`ns10/ns11.wixdns.net`), Mail bei Google Workspace, genau
 ein MX, ein SPF (`v=spf1 include:_spf.google.com ~all`), **kein DKIM, kein
