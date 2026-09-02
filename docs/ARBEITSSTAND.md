@@ -279,6 +279,17 @@ der Webserver liefert sie nicht aus. `kontakt.php` sucht dort zuerst
 
 Jeder Punkt hier hat schon einmal Zeit gekostet.
 
+- **`kontakt.php` hat das Passwort ins Fehlerprotokoll geschrieben** (behoben am
+  02.09.2026). Die Schutzabfrage pruefte auf `AUTH` am Zeilenanfang, das
+  Passwort geht aber als nackte Base64-Zeichenkette ueber die Leitung und fiel
+  durch. Base64 ist keine Verschluesselung. Jeder `sagen()`-Aufruf benennt sich
+  jetzt selbst, es wird nichts mehr aus dem Befehl abgeleitet.
+  **Wer das Protokoll `.logs/error_log_*` aus dieser Zeit noch hat, muss die
+  darin genannten App-Passwoerter widerrufen.**
+- **Aus dem Protokoll laesst sich die Passwortlaenge ablesen**, ohne es zu
+  entschluesseln: 24 Base64-Zeichen mit `==` am Ende bedeuten genau 16 Bytes.
+  Damit war belegt, dass keine Leerzeichen mitkopiert waren — die naechstliegende
+  Vermutung war also falsch.
 - **Der Agent-Proxy sperrt die Zieladressen.** Gemessen am 02.09.2026:
   `ayar20260808.github.io` und `magenta-crocodile-313036.hostingersite.com`
   antworten mit `connect_rejected`. **Eine KI-Sitzung kann die

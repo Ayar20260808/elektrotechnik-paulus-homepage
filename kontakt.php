@@ -79,13 +79,19 @@ final class Smtp {
         return $antwort;
     }
 
-    private function sagen(string $befehl, string $erwartet): string {
+    /*
+     * $name ist der Text, der im Fehlerfall protokolliert wird -- und er wird
+     * bewusst NICHT aus $befehl abgeleitet. Genau das war ein Fehler: die
+     * fruehere Fassung prueft auf 'AUTH' am Anfang, das Passwort geht aber als
+     * nackte Base64-Zeichenkette ueber die Leitung. Es fiel durch die Pruefung
+     * und stand danach im Fehlerprotokoll -- Base64 ist keine Verschluesselung.
+     * Deshalb benennt jeder Aufrufer sich selbst; geraten wird hier nichts mehr.
+     */
+    private function sagen(string $befehl, string $erwartet, string $name): string {
         if ($befehl !== '') fwrite($this->verbindung, $befehl . "\r\n");
         $antwort = $this->lesen();
         if (strncmp($antwort, $erwartet, strlen($erwartet)) !== 0) {
-            // Das Passwort darf nie in einer Fehlermeldung auftauchen.
-            $gezeigt = str_starts_with($befehl, 'AUTH') || $befehl === '' ? '(Anmeldung)' : explode(' ', $befehl)[0];
-            throw new SmtpFehler('Server lehnte ab bei ' . $gezeigt . ': ' . trim($antwort));
+            throw new SmtpFehler('Server lehnte ab bei ' . $name . ': ' . trim($antwort));
         }
         return $antwort;
     }
@@ -99,26 +105,26 @@ final class Smtp {
         if (!$this->verbindung) throw new SmtpFehler('Keine Verbindung: ' . $fehlertext);
         stream_set_timeout($this->verbindung, 20);
 
-        $this->sagen('', '220');
-        $this->sagen('EHLO ' . $this->eigener_name(), '250');
+        $this->sagen('', '220', 'Begruessung');
+        $this->sagen('EHLO ' . $this->eigener_name(), '250', 'EHLO');
 
         if ($this->k['smtp_sicherheit'] === 'starttls') {
-            $this->sagen('STARTTLS', '220');
+            $this->sagen('STARTTLS', '220', 'STARTTLS');
             if (!stream_socket_enable_crypto($this->verbindung, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) {
                 throw new SmtpFehler('Verschluesselung fehlgeschlagen.');
             }
-            $this->sagen('EHLO ' . $this->eigener_name(), '250');
+            $this->sagen('EHLO ' . $this->eigener_name(), '250', 'EHLO');
         }
 
         if (($this->k['smtp_passwort'] ?? '') !== '') {
-            $this->sagen('AUTH LOGIN', '334');
-            $this->sagen(base64_encode($this->k['smtp_benutzer']), '334');
-            $this->sagen(base64_encode($this->k['smtp_passwort']), '235');
+            $this->sagen('AUTH LOGIN', '334', '(Anmeldung)');
+            $this->sagen(base64_encode($this->k['smtp_benutzer']), '334', '(Anmeldung)');
+            $this->sagen(base64_encode($this->k['smtp_passwort']), '235', '(Anmeldung)');
         }
 
-        $this->sagen('MAIL FROM:<' . $von . '>', '250');
-        $this->sagen('RCPT TO:<' . $an . '>', '250');
-        $this->sagen('DATA', '354');
+        $this->sagen('MAIL FROM:<' . $von . '>', '250', 'MAIL FROM');
+        $this->sagen('RCPT TO:<' . $an . '>', '250', 'RCPT TO');
+        $this->sagen('DATA', '354', 'DATA');
 
         // Leerzeile zwischen Kopf und Text: ohne sie liest das
         // Mailprogramm die ersten Textzeilen als Kopfzeilen weiter, und
@@ -129,7 +135,7 @@ final class Smtp {
         fwrite($this->verbindung, $daten . "\r\n.\r\n");
         $this->lesenPruefen('250');
 
-        $this->sagen('QUIT', '221');
+        $this->sagen('QUIT', '221', 'QUIT');
         fclose($this->verbindung);
     }
 
