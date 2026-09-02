@@ -138,6 +138,7 @@ Damit sie nicht in jeder Sitzung neu erfragt werden.
 | Datum | Entscheidung | Begruendung |
 |---|---|---|
 | 02.09.2026 | Bei „Bewegung reduzieren" verschwinden die Hintergrundsymbole **vollstaendig** (nicht: ruhig stehenbleiben) | Barrierefreiheit — wer Bewegung abschaltet, will die dekorative Ebene nicht. Umgesetzt in `67a8b97` |
+| 02.09.2026 | Bei der Geraetepruefung faellt der Zusatz „auf Wunsch" weg | Auf Wunsch Irfan. Geaendert in `index.html` (Leistungskarte) und `leistung-vde.html` (Checkliste), Commit `feb59a3` |
 | 02.09.2026 | Homepage wird **nicht** nach `master` gemergt, solange nicht ausdruecklich gewuenscht | Entscheidung Irfan, offen gelassen |
 | frueher | Pflichtfelder im Formular sind **nur Vorname und Nachname** | So gewuenscht. Folge: eine Anfrage kann ohne Rueckmeldeweg ankommen, `Reply-To` entfaellt dann — ist so gebaut und geprueft |
 | frueher | Standort im Kontaktblock heisst **„Koeln"**, nicht „Koeln Nippes" | Gekuerzt auf Wunsch |
@@ -154,20 +155,24 @@ Damit sie nicht in jeder Sitzung neu erfragt werden.
 1. **Bilderband-Tempo.** Laeuft es zu schnell (dann 168 s), oder waren die
    Bilder zu gross (dann Bandhoehe zurueck)? Zweimal gefragt, noch nicht
    beantwortet. **Nichts anfassen, bevor das geklaert ist.**
-2. **Herkunft der Koelner Silhouette.** Kam als Bild aus dem Chat. Stammt sie
+2. **Widerspruch auf `leistung-vde.html`.** In der Checkliste heisst es seit
+   `feb59a3` „Geraetepruefung mit Pruefplakette" ohne Einschraenkung, in der
+   FAQ derselben Seite steht weiter „Ja, nach DGUV Vorschrift 3, **auf Wunsch**
+   mit Pruefplakette und Geraeteliste." Gefragt, nicht beantwortet.
+3. **Herkunft der Koelner Silhouette.** Kam als Bild aus dem Chat. Stammt sie
    aus einer Bilddatenbank, braucht die gewerbliche Nutzung eine Lizenz.
-3. **Datenschutztext zum Kontaktformular.** Der Abschnitt nennt keinen
+4. **Datenschutztext zum Kontaktformular.** Der Abschnitt nennt keinen
    Dienstleister. Ob der Versand ueber Google Workspace genannt werden muss,
    ist eine Rechtsfrage — **nicht eigenmaechtig aendern.**
-4. **`master`-Frage.** 163 Commits liegen davor. Vorspulen waere sauber, ist
+5. **`master`-Frage.** 163 Commits liegen davor. Vorspulen waere sauber, ist
    aber nicht entschieden.
 
 ### Kann ohne Rueckfrage gemacht werden
 
-5. **Zweite Domain** `elektropersonal-aya…` haengt am selben Wix-Konto —
+6. **Zweite Domain** `elektropersonal-aya…` haengt am selben Wix-Konto —
    Entscheidung ueber ihr Schicksal offen.
-6. **Jimdo pruefen** (die alte Domain lag frueher dort).
-7. **Formspree-Konto abschalten** — wird nicht mehr benutzt.
+7. **Jimdo pruefen** (die alte Domain lag frueher dort).
+8. **Formspree-Konto abschalten** — wird nicht mehr benutzt.
 
 ---
 
@@ -456,14 +461,24 @@ Pfad gegen das Paket halten — dabei `src`, `href`, `srcset`, `content`,
 ## 9. Prompt zum Kopieren
 
 ```text
-Ich arbeite an der Homepage von Elektrotechnik Paulus
-(Repository ayar20260808/elektrotechnik-paulus-homepage,
-Branch claude/home-page-rdyw91).
+Homepage von Elektrotechnik Paulus.
 
-Lies zuerst AGENTS.md und docs/ARBEITSSTAND.md. Dort steht der Stand, die
-getroffenen Entscheidungen, was offen ist, welche Sackgassen schon erforscht
-wurden und wie geprueft wird. CLAUDE.md enthaelt die Arbeitsregeln.
+Repository: ayar20260808/elektrotechnik-paulus-homepage
+Branch:     claude/home-page-rdyw91
 
-Meine Aufgabe:
-[hier eintragen]
+Falls die Sitzung in einem anderen Repository geoeffnet wurde: dieses hier
+zuerst dazuholen. Es gibt ein zweites Projekt (elektrotechnik-hub, die
+Betriebs-App) -- das ist ein anderes System und hat mit der Homepage nichts
+zu tun. Beim letzten Mal war die Sitzung versehentlich dort geoeffnet.
+
+Lies zuerst, in dieser Reihenfolge:
+  1. CLAUDE.md            -- die Arbeitsregeln, sie gelten uneingeschraenkt
+  2. docs/ARBEITSSTAND.md -- Stand, Entscheidungen, Offenes, Sackgassen,
+                             Pruefgriffe
+
+Dann sag mir in ein paar Zeilen, wo wir stehen und was du als naechstes
+vorschlaegst. Fang noch nichts an.
+
+Ich bin Programmier-Anfaenger und will mitlernen: erklaere kurz, was du
+tust und warum.
 ```
