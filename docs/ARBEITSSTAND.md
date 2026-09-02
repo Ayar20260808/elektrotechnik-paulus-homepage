@@ -180,13 +180,30 @@ Testadresse geprueft.
 
 | # | Schritt | Wer |
 |---|---|---|
-| 1 | Aktuelles Paket in `public_html` hochladen | Irfan |
+| 1 | Aktuelles Paket in `public_html` hochladen | **erledigt 02.09.2026** |
 | 2 | Google-App-Passwort erzeugen (Sicherheit → App-Passwoerter) | Irfan |
 | 3 | `kontakt-konfig.php` **ueber** `public_html` anlegen, Passwort dort eintragen | Irfan |
 | 4 | Testanfrage abschicken, Ankunft bei `info@…` pruefen | gemeinsam |
 | 5 | DNS bei Wix: A-Record auf `92.113.18.111`, `www` als CNAME | Irfan |
 | 6 | AuthInfo-Code bei Wix holen, Domain uebertragen | Irfan |
 | 7 | Wix kuendigen | Irfan |
+
+**Zu Schritt 1 (erledigt am 02.09.2026):** 246 Dateien als ZIP hochgeladen und
+im hPanel-Dateimanager entpackt. Das Extract-Fenster setzt das Ziel aus
+*Choose folder name* + *Select the destination* zusammen. Richtig ist deshalb:
+im Zielwaehler einmal auf `..` (Ziel wird
+`/files/domains/elektrotechnik-paulus.de/`), als Ordnernamen `public_html`
+eintippen, *Overwrite existing files* anhaken. **Der Dateimanager aktualisiert
+die Liste danach nicht von selbst** — es sieht aus, als sei nichts passiert.
+Erst F5 zeigt das Ergebnis.
+
+Nachgewiesen ueber vorausberechnete Dateigroessen: `index.html` 125,05 →
+**132,46 KiB**, `kontakt.php` 9,67 → **10,09 KiB**, beide auf die Stelle genau
+wie erwartet. Diese Methode ersetzt die unzuverlaessige Speicheranzeige.
+
+**Noch aufzuraeumen:** In `public_html` liegen zwei ZIP-Dateien oeffentlich
+abrufbar — `homepagehostinger.zip` (3,43 MiB) und `elektrotechnikpauluswebsite.zip`
+(3,41 MiB, vom Vortag). Beide loeschen.
 
 **MX und TXT NICHT anfassen.** Daran haengt die Geschaeftsmail. Gemessen:
 Nameserver bei Wix (`ns10/ns11.wixdns.net`), Mail bei Google Workspace, genau
