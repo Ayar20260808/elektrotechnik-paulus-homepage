@@ -273,6 +273,51 @@ Nameserver bei Wix — die DNS-Verwaltung muss dann umziehen. Reihenfolge dabei:
 **erst MX und SPF bei Hostinger anlegen und pruefen, dann die Nameserver
 umschalten.** Nie andersherum.
 
+### Schritte 6 und 7 — die Reihenfolge, an der die Mail haengt (03.09.2026)
+
+**Der Denkfehler, den ich zuerst hatte:** Ich wollte MX und SPF bei Hostinger
+anlegen, *bevor* die Domain uebertragen wird. Das geht nicht. Solange die
+Domain bei Wix registriert ist und die Nameserver auf Wix zeigen, hat Hostinger
+fuer sie **gar keine DNS-Zone** — die Seite „DNS / Nameserver" im hPanel zeigt
+nur die Knoepfe *Uebertragen* und *Leitfaden ansehen*.
+
+**Der Grund, warum die Reihenfolge trotzdem lebenswichtig ist**, im Wortlaut
+der Hostinger-Anleitung: „Changing nameservers to Hostinger removes existing
+custom DNS records, such as TXT verification records, and email records will be
+set to Hostinger Mail values." Der Nameserver-Wechsel **loescht MX und TXT** und
+setzt Hostingers eigene Mail-Werte ein. Ohne Vorbereitung waere die
+Google-Workspace-Mail in diesem Moment tot.
+
+**Die Rettung** steht in derselben Quelle: Beim Transfer bietet Hostinger eine
+Nameserver-Option an, die „keeps your current nameservers and all existing DNS
+records unchanged". Diese Option waehlen. Waehrend des Transfers sind die
+Nameserver gesperrt, die Wahl muss also gleich sitzen.
+
+**Verbindliche Reihenfolge:**
+
+1. AuthInfo-Code bei Wix holen, Domainsperre aus
+2. Transfer bei Hostinger starten, dabei **bestehende Nameserver behalten**
+3. Transfer abwarten (Nameserver sind gesperrt)
+4. DNS-Zone bei Hostinger fuellen: A, CNAME, **MX, TXT**
+5. Erst jetzt Nameserver auf Hostinger umstellen
+6. **Testmail an `info@elektrotechnik-paulus.de`** — der eigentliche Beweis
+7. Erst danach Wix kuendigen
+
+**Die Werte fuer Schritt 4**, am 03.09.2026 aus der laufenden Zone gemessen:
+
+    A      @      92.113.18.111                          TTL 3600
+    CNAME  www    elektrotechnik-paulus.de               TTL 3600
+    MX     @      aspmx.l.google.com          Prio 10    TTL 3600
+    TXT    @      v=spf1 include:_spf.google.com ~all    TTL 3600
+
+Eins zu eins uebernehmen, nichts „verbessern". Nach Schritt 5 nachmessen, ob
+Hostinger die MX-Werte trotzdem ueberschrieben hat.
+
+**Der AuthInfo-Code geht nie durch den Chat.** Er ist das Passwort der Domain.
+
+Quellen: support.hostinger.com/en/articles/8925103 sowie
+hostinger.com/support/1696789 und /1583436.
+
 ### Falle beim Nachladen einzelner Dateien (03.09.2026)
 
 Beim Nachladen von drei Dateien nach Hostinger sind zwei Dinge schiefgegangen,
