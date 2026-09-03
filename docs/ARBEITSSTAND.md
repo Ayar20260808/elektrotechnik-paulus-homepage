@@ -185,7 +185,7 @@ Testadresse geprueft.
 | 2 | Google-App-Passwort erzeugen | **erledigt 02.09.2026** |
 | 3 | `kontakt-konfig.php` **ueber** `public_html` anlegen | **erledigt 02.09.2026** |
 | 4 | Testanfrage abschicken, Ankunft bei `info@…` pruefen | **erledigt 02.09.2026 — Mail kam an** |
-| 5 | DNS bei Wix: A-Record auf `92.113.18.111`, `www` als CNAME | Irfan |
+| 5 | DNS bei Wix: A-Record auf `92.113.18.111`, `www` als CNAME | **erledigt 03.09.2026** |
 | 6 | AuthInfo-Code bei Wix holen, Domain uebertragen | Irfan |
 | 7 | Wix kuendigen | Irfan |
 
@@ -272,7 +272,32 @@ Nameserver bei Wix — die DNS-Verwaltung muss dann umziehen. Reihenfolge dabei:
 **erst MX und SPF bei Hostinger anlegen und pruefen, dann die Nameserver
 umschalten.** Nie andersherum.
 
-### Schritt 5 — fertige Abhakliste (Wix-Stand vom 02.09.2026 abgelesen)
+### Schritt 5 — erledigt am 03.09.2026
+
+Die vier Handgriffe bei Wix sind ausgefuehrt. Nachgemessen ueber eine direkte
+DNS-Abfrage aus der Sitzung heraus, rund eine Viertelstunde nach dem
+Speichern — die Umstellung war da schon durch:
+
+    A      elektrotechnik-paulus.de      92.113.18.111          TTL 3600
+    CNAME  www.elektrotechnik-paulus.de  elektrotechnik-paulus.de  TTL 3600
+    MX     elektrotechnik-paulus.de      Prio 10 aspmx.l.google.com  TTL 3600
+    TXT    elektrotechnik-paulus.de      v=spf1 include:_spf.google.com ~all
+    NS     elektrotechnik-paulus.de      ns10/ns11.wixdns.net   TTL 21600
+
+**MX, TXT und NS sind unveraendert** — die Geschaeftsmail haengt weiter an
+Google Workspace, die Nameserver weiter bei Wix. Genau so soll es bis zur
+Domain-Uebertragung bleiben.
+
+Werkzeug-Hinweis fuer die naechste Sitzung: `dig` gibt es im Container nicht,
+und die DNS-ueber-HTTPS-Dienste (`dns.google`, `cloudflare-dns.com`) sperrt die
+Egress-Richtlinie mit 403. Was geht: `socket.getaddrinfo` in Python, und eine
+selbstgebaute UDP-Abfrage an den Resolver aus `/etc/resolv.conf` — das Skript
+dafuer steht im Scratchpad als `dnsfrage.py`. **Die Domain selbst
+(`elektrotechnik-paulus.de:443`) ist ebenfalls per Richtlinie gesperrt**, ein
+Seitenabruf von hier aus ist also nicht moeglich. Der Sichttest laeuft ueber
+den Browser von Irfan.
+
+### Schritt 5 — die Abhakliste, wie sie ausgefuehrt wurde (Wix-Stand vom 02.09.2026)
 
 **Vorher — so sieht es bei Wix aus:**
 
