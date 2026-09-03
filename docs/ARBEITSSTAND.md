@@ -273,6 +273,38 @@ Nameserver bei Wix — die DNS-Verwaltung muss dann umziehen. Reihenfolge dabei:
 **erst MX und SPF bei Hostinger anlegen und pruefen, dann die Nameserver
 umschalten.** Nie andersherum.
 
+### Google Workspace laeuft NICHT ueber Wix — geprueft am 03.09.2026
+
+Wix warnt beim Wegtransferieren: „Verknuepfte E-Mail-Konten werden
+deaktiviert." Weil Wix Google Workspace auch als Wiederverkaeufer anbietet,
+musste das geklaert werden, bevor der Transfer startet.
+
+**Ergebnis: Wix verwaltet null Postfaecher.** Unter *Kontoeinstellungen →
+Geschaeftliche E-Mail-Adresse* steht in allen vier Reitern eine 0 (Alle
+Abonnements, Aktiv, Handlung erforderlich, Abgelaufen), und Wix bietet
+darunter an, fuer beide Domains erst eine einzurichten. Auch in den vier
+Premium-Abos taucht kein Mail-Produkt auf: Brand Maker, Premiumpaket und zwei
+Domain-Abos.
+
+**`info@elektrotechnik-paulus.de` laeuft also direkt bei Google.** Die Warnung
+ist fuer dieses Konto gegenstandslos. Bitte nicht nochmal nachforschen.
+
+Nebenbefund: Die beiden Domains sind **eigene, bezahlte Abos**, nicht
+kostenlose Paketbestandteile wie frueher notiert. Die Ersparnisrechnung weiter
+unten ist damit zu niedrig angesetzt und muss nachgerechnet werden.
+
+Anzeigefehler bei Wix, nicht erschrecken: Auf der leeren Mail-Seite steht
+`cairo.emptyState.additem.title` statt einer Ueberschrift. Ein
+Uebersetzungsplatzhalter, keine Kontostoerung.
+
+### Restrisiko beim Transfer: die DNS-Zone bleibt bei Wix
+
+Der MX-Eintrag liegt in der Wix-Zone. Ob Wix diese Zone nach dem Transfer
+weiter bedient, ist ungeklaert. Faellt sie weg, ist Mail **verzoegert, nicht
+verloren** — sendende Server versuchen es ueber Stunden und Tage erneut.
+Reparatur: Nameserver auf Hostinger, MX anlegen, rund ein bis zwei Stunden.
+Deshalb direkt nach dem Transfer den MX messen (Skript `dnsfrage.py`).
+
 ### Schritte 6 und 7 — die Reihenfolge, an der die Mail haengt (03.09.2026)
 
 **Der Denkfehler, den ich zuerst hatte:** Ich wollte MX und SPF bei Hostinger
