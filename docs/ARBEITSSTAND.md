@@ -202,9 +202,10 @@ Nachgewiesen ueber vorausberechnete Dateigroessen: `index.html` 125,05 →
 **132,46 KiB**, `kontakt.php` 9,67 → **10,09 KiB**, beide auf die Stelle genau
 wie erwartet. Diese Methode ersetzt die unzuverlaessige Speicheranzeige.
 
-**Noch aufzuraeumen:** In `public_html` liegen zwei ZIP-Dateien oeffentlich
-abrufbar — `homepagehostinger.zip` (3,43 MiB) und `elektrotechnikpauluswebsite.zip`
-(3,41 MiB, vom Vortag). Beide loeschen.
+**Aufgeraeumt am 03.09.2026:** Die zwei oeffentlich abrufbaren ZIP-Dateien in
+`public_html` — `homepagehostinger.zip` und `elektrotechnikpauluswebsite.zip` —
+sind geloescht. Merkregel fuer kuenftige Uploads: **das Upload-ZIP nach dem
+Entpacken sofort loeschen**, es liegt sonst offen im Netz.
 
 **Stand Kontaktformular (02.09.2026).** `kontakt-konfig.php` liegt richtig unter
 `/files/domains/elektrotechnik-paulus.de/` und **wird gefunden** — nachgewiesen
