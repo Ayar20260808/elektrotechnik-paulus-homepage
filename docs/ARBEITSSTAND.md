@@ -186,7 +186,7 @@ Testadresse geprueft.
 | 3 | `kontakt-konfig.php` **ueber** `public_html` anlegen | **erledigt 02.09.2026** |
 | 4 | Testanfrage abschicken, Ankunft bei `info@…` pruefen | **erledigt 02.09.2026 — Mail kam an** |
 | 5 | DNS bei Wix: A-Record auf `92.113.18.111`, `www` als CNAME | **erledigt 03.09.2026** |
-| 6 | AuthInfo-Code bei Wix holen, Domain uebertragen | Irfan |
+| 6 | AuthInfo-Code bei Wix holen, Domain uebertragen | **eingeleitet 03.09.2026** |
 | 7 | Wix kuendigen | Irfan |
 
 **Zu Schritt 1 (erledigt am 02.09.2026):** 246 Dateien als ZIP hochgeladen und
@@ -272,6 +272,43 @@ stimmt also.
 Nameserver bei Wix — die DNS-Verwaltung muss dann umziehen. Reihenfolge dabei:
 **erst MX und SPF bei Hostinger anlegen und pruefen, dann die Nameserver
 umschalten.** Nie andersherum.
+
+### Schritt 6 — Transfer eingeleitet am 03.09.2026, 20:44 Uhr
+
+Wix: Domains → ... → *Von Wix wegtransferieren* → *Domain transferieren*. Das
+entsperrt die Domain und schickt den AuthInfo-Code per Mail an die
+**Eigentuemer-Adresse** `ayar@elektrotechnik-paulus.de` — nicht an die
+Login-Adresse. Der Code wird nirgends am Bildschirm angezeigt.
+
+Hostinger: Domains → *Uebertragen*. Die Domain wurde sofort als **„Bereit zur
+Uebertragung"** erkannt, die Wix-Entsperrung hatte also gegriffen.
+**Preis 4,99 €**, eine einjaehrige Verlaengerung inbegriffen. Das Ablaufdatum
+wird auf ein Jahr ab Transfertag gesetzt — vorher 08.04.2027, danach also etwa
+September 2027. Kein Laufzeitverlust, rund fuenf Monate Gewinn.
+
+**Der wichtigste Moment lief besser als geplant:** Hostinger liest die
+bestehende Zone selbst aus und legt sie unter *DNS-Eintraege Ihrer Domain
+verwalten* zur Bestaetigung vor. Alle vier Eintraege stimmten auf die Stelle
+mit der Messung von 13:15 Uhr ueberein:
+
+    A      @      92.113.18.111
+    CNAME  www    elektrotechnik-paulus.de.
+    MX     @      Prio 10  aspmx.l.google.com.
+    TXT    @      v=spf1 include:_spf.google.com ~all
+
+**„Bestaetigen" behaelt sie. „Standardeintraege verwenden" waere der Knopf, der
+den Google-MX ersetzt** — der ist der gefaehrliche, nicht die Nameserver-Frage.
+
+**Messung direkt nach dem Absenden (20:44 Uhr): nichts veraendert.** A, MX, TXT
+und die Nameserver stehen unveraendert, die Zone wird weiter von Wix bedient.
+
+**Noch zu pruefen, sobald die Nameserver auf Hostinger zeigen:** In der
+MX-Zeile stand die `10` doppelt — einmal in der Spalte *Prioritaet*, einmal am
+Anfang von *Inhalte*. Vermutlich nur eine Anzeigeform. Waere sie echt doppelt
+gespeichert, waere der MX ungueltig und die Mail tot. Also nach dem
+Nameserver-Wechsel sofort `dnsfrage.py` laufen lassen.
+
+**Laufzeit laut Hostinger: bis zu 5-7 Werktage.** Bei `.de` oft schneller.
 
 ### Google Workspace laeuft NICHT ueber Wix — geprueft am 03.09.2026
 
