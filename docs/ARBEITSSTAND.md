@@ -310,6 +310,11 @@ Nameserver-Wechsel sofort `dnsfrage.py` laufen lassen.
 
 **Laufzeit laut Hostinger: bis zu 5-7 Werktage.** Bei `.de` oft schneller.
 
+**Bestaetigungsschritt erledigt am 03.09.2026:** Hostinger schickt eine Mail an
+`ayar@elektrotechnik-paulus.de`, deren Link die Kontaktadresse verifiziert
+(„Your email is verified — verified for all domain(s) linked to it"). Ohne
+diesen Klick laeuft der Antrag in eine Frist. Ist angeklickt.
+
 ### Google Workspace laeuft NICHT ueber Wix — geprueft am 03.09.2026
 
 Wix warnt beim Wegtransferieren: „Verknuepfte E-Mail-Konten werden
