@@ -273,6 +273,65 @@ Nameserver bei Wix — die DNS-Verwaltung muss dann umziehen. Reihenfolge dabei:
 **erst MX und SPF bei Hostinger anlegen und pruefen, dann die Nameserver
 umschalten.** Nie andersherum.
 
+### OFFEN UND WICHTIG — die Mail zeigt auf Hostinger statt Google
+
+**Stand 03.09.2026, 22:30 Uhr. Das ist der erste Punkt am naechsten Tag.**
+
+Der Transfer war noch am selben Abend durch, keine 5-7 Werktage. Danach hat
+Hostinger zwei Dinge getan, die so nicht bestellt waren:
+
+1. **Eigene Nameserver gesetzt** — `aurora.dns-parking.com` und
+   `nebula.dns-parking.com`. Die Option „bestehende Nameserver behalten" hat
+   nicht gehalten.
+2. **Die Zone mit eigenen Mail-Eintraegen befuellt**, obwohl der
+   Bestaetigungsdialog vorher die richtigen Google-Werte anzeigte. Der
+   Bildschirm hat nicht gehalten, was er versprach.
+
+**Falsch in der Zone, autoritativ nachgemessen um 22:30 Uhr:**
+
+    MX   @   Prio  5  mx1.hostinger.com        <- faengt die Mail ab
+    MX   @   Prio 10  mx2.hostinger.com
+    TXT  @   v=spf1 include:_spf.mail.hostinger.com ~all
+
+**Bereits erledigt:** `aspmx.l.google.com` Prio 10 ist angelegt und auf beiden
+Nameservern sichtbar. `autodiscover` und `autoconfig` sind geloescht. Loeschen
+funktioniert also grundsaetzlich.
+
+**Nicht erledigt:** Die Loeschung von `mx1`/`mx2` und der Austausch des SPF
+sind nicht angekommen — auch nach einer halben Stunde nicht, direkt bei beiden
+autoritativen Servern geprueft. Entweder wurde nicht gespeichert, oder die
+Oberflaeche verlangt eine Bestaetigung, die uebersehen wurde.
+
+**Erster Handgriff morgen:** hPanel → Domains → `elektrotechnik-paulus.de` →
+*DNS-Zone bearbeiten*, Seite mit F5 neu laden und nachsehen, was wirklich in
+der Liste steht. Dann:
+
+1. `MX @ 5 mx1.hostinger.com` loeschen
+2. `MX @ 10 mx2.hostinger.com` loeschen
+3. `TXT @ v=spf1 include:_spf.mail.hostinger.com ~all` loeschen
+4. `TXT @ v=spf1 include:_spf.google.com ~all` anlegen, TTL 3600
+5. Danach `python3 docs/werkzeuge/dnsfrage.py --autoritativ` laufen lassen
+6. Testmail an `info@elektrotechnik-paulus.de`
+
+Nie zwei SPF-Eintraege gleichzeitig — dann faellt die Pruefung ganz aus.
+Deshalb Schritt 3 vor Schritt 4.
+
+**Ebenfalls offen: die automatische Verlaengerung steht auf AUS.** Wix hat sie
+beim Wegtransferieren abgeschaltet, Hostinger hat sie nicht wieder aktiviert.
+Ablaufdatum ist der **01.10.2027**. Bleibt der Schalter aus, ist die
+Firmendomain danach frei. Einschalten.
+
+**Werkzeug:** `docs/werkzeuge/dnsfrage.py` liegt jetzt im Projekt statt im
+fluechtigen Scratchpad. Ohne Schalter fragt es den lokalen Resolver sechsmal
+(waehrend einer Umstellung schwanken die Antworten), mit `--autoritativ` geht
+es direkt an die Nameserver und beweist ueber eine NXDOMAIN-Kontrollabfrage,
+dass wirklich der autoritative Server geantwortet hat und kein
+Zwischenspeicher.
+
+**Gemerkt fuer den naechsten Anbieterwechsel:** Ein Bestaetigungsdialog, der
+die richtigen Werte anzeigt, ist kein Beweis, dass sie auch angelegt werden.
+Nach jeder Uebernahme autoritativ nachmessen.
+
 ### Schritt 6 — Transfer eingeleitet am 03.09.2026, 20:44 Uhr
 
 Wix: Domains → ... → *Von Wix wegtransferieren* → *Domain transferieren*. Das
