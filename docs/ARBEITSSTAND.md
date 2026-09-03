@@ -272,6 +272,33 @@ Nameserver bei Wix — die DNS-Verwaltung muss dann umziehen. Reihenfolge dabei:
 **erst MX und SPF bei Hostinger anlegen und pruefen, dann die Nameserver
 umschalten.** Nie andersherum.
 
+### Falle beim Nachladen einzelner Dateien (03.09.2026)
+
+Beim Nachladen von drei Dateien nach Hostinger sind zwei Dinge schiefgegangen,
+beide kosten Zeit, wenn man sie nicht kennt:
+
+**1. Der Upload wurde mit `403 Forbidden` (openresty) abgewiesen.** Nicht die
+Dateien waren das Problem. Nach einem Neuladen des Dateimanagers und erneuter
+Anmeldung lief derselbe Upload durch — es war die abgelaufene Sitzung.
+
+**2. Ein Dateiname verlor beim Herunterladen den Bindestrich.** Aus
+`leistung-vde.html` wurde `leistungvde.html`. Damit kollidiert die Datei mit
+nichts, wird also als neue Datei angelegt, waehrend die echte Seite alt bleibt.
+Das sieht nach Erfolg aus und ist keiner.
+
+**Frueherkennung:** Der Ueberschreiben-Dialog nennt die Zahl der
+Namenskonflikte. Sind es weniger als hochgeladene Dateien, ist mindestens ein
+Name verkehrt. Vor dem Bestaetigen die Namen im Download-Ordner pruefen.
+Achtung, Windows blendet bekannte Endungen aus: `index` ist `index.html`,
+`kontakt.php` wird voll angezeigt, weil `.php` nicht registriert ist.
+
+**Konsequenz fuer die Zukunft: mehrere Dateien immer als ZIP uebergeben.**
+Innerhalb eines ZIPs bleiben Namen unveraendert. Der ZIP-Weg umgeht ausserdem
+Schutzregeln, die den direkten Upload von `.php` blocken koennen.
+
+**Reparatur ohne neuen Upload:** alte Datei loeschen, die falsch benannte
+umbenennen. Die Datei liegt ja schon auf dem Server.
+
 ### Schritt 5 — erledigt am 03.09.2026
 
 Die vier Handgriffe bei Wix sind ausgefuehrt. Nachgemessen ueber eine direkte
