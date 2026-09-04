@@ -402,6 +402,26 @@ Block anfassen.
 stellen (`addInitScript`, `Date` ueberschreiben). Am 04.09.2026 so geprueft:
 am 4. und 6. September sichtbar, am 7. verschwunden.
 
+### Paket in ein volles public_html entpacken (04.09.2026)
+
+Das Entpacken bricht mit **409 Conflict** ab, wenn die Zieldateien schon
+existieren. Der Fehler kommt vom Entpacken, nicht vom Hochladen -- das ZIP ist
+danach trotzdem da.
+
+**Loesung: im Extract-Fenster „Overwrite existing files" anhaken.** Am
+04.09.2026 geprueft, funktioniert. Beim ersten Upload am 02.09. war
+`public_html` noch leer, deshalb war das vorher nie getestet.
+
+**Dateinamen verlieren beim Herunterladen die Bindestriche** --
+`seite-04-09-c.zip` kam als `seite0409c.zip` an. Beim ZIP egal, weil die Namen
+im Archiv unversehrt bleiben. Genau deshalb immer ein Paket schicken und nie
+Einzeldateien.
+
+**Reihenfolge nach dem Entpacken:** F5 (der Dateimanager aktualisiert nicht von
+selbst) → Groesse von `index.html` gegen den erwarteten Wert halten → das ZIP
+loeschen, sonst liegt es oeffentlich abrufbar herum → *Vorschau ohne Cache*
+→ *Cache leeren*.
+
 ### Noch offen — kurz und konkret
 
 | | Was | Warum es zaehlt |
