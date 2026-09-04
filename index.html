@@ -1266,18 +1266,14 @@
     </div>
 
     <div data-reveal>
-      <!-- Hier stand ein Urlaubshinweis. Fuer den naechsten Urlaub diesen
-           Block wieder einsetzen und beide Daten anpassen -- CSS und
-           JavaScript dafuer sind noch vorhanden:
-
-           <div class="form-urlaub" id="urlaubshinweis" data-bis="JJJJ-MM-TT">
-             <b>Wir sind bis zum T. Monat JJJJ im Urlaub.</b>
-             <p>Ihre Anfrage erreicht uns trotzdem — wir beantworten sie,
-                sobald wir zurueck sind.</p>
-           </div>
-
-           data-bis ist der letzte Urlaubstag. Danach nimmt sich der Hinweis
-           von selbst heraus, damit dort kein alter Termin stehenbleibt. -->
+      <!-- data-bis ist der letzte Urlaubstag. Danach nimmt sich der Hinweis
+           von selbst heraus, damit kein alter Termin stehenbleibt. Beim
+           Aendern immer beides anpassen: das Datum im Attribut und das im
+           Text darunter. -->
+      <div class="form-urlaub" id="urlaubshinweis" data-bis="2026-09-06">
+        <b>Wir sind bis zum 6. September 2026 im Urlaub.</b>
+        <p>Ihre Anfrage erreicht uns trotzdem — wir beantworten sie, sobald wir zurück sind.</p>
+      </div>
       <form id="kontaktform" action="kontakt.php" method="POST">
         <!-- Honigtopf gegen Maschinen: unsichtbar und aus der Tastaturfolge
              genommen. Ein Mensch fuellt das nie aus, viele Spam-Programme
