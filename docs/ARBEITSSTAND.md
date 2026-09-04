@@ -372,6 +372,36 @@ Adresse auf fremde Inhalte.
 Wann sie frei wird, haengt von der Abwicklung der Wix-Kuendigung ab. Bis dahin
 ist die Entscheidung umkehrbar: ein Transfer kostet 4,99 € inklusive einem Jahr.
 
+### Urlaubshinweis — wie er funktioniert und wo die Falle liegt
+
+Ueber dem Kontaktformular in `index.html` steht ein Kasten, der einen Urlaub
+ankuendigt. Er besteht aus drei Teilen, die zusammengehoeren:
+
+    HTML   <div class="form-urlaub" id="urlaubshinweis" data-bis="2026-09-06">
+    CSS    .form-urlaub{...}          heller Grund, gelbe Kante links
+    JS     if (new Date() > bis) hinweis.remove();
+
+**`data-bis` ist der letzte Urlaubstag.** Danach nimmt das JavaScript den
+Kasten aus der angezeigten Seite. Wichtig zu verstehen: Es loescht ihn **aus
+der Anzeige, nicht aus der Datei**. Der Text bleibt im Quelltext stehen und
+wird von jedem Besucher mitgeladen. Ohne JavaScript -- etwa bei Suchmaschinen
+-- waere ein veralteter Hinweis weiterhin sichtbar. Wer sicher gehen will,
+nimmt den Block nach dem Urlaub aus der Datei.
+
+**Die Falle: Das Datum steht an zwei Stellen.** Einmal als `data-bis` im
+Attribut, einmal ausgeschrieben im Text. Wer nur eines aendert, bekommt eine
+Seite, die etwas anderes sagt als sie tut. Deshalb steht im Code ein Kommentar
+darueber, der genau darauf hinweist.
+
+**Beim Entfernen aufpassen:** Der umschliessende `<div data-reveal>` umfasst
+Hinweis **und** Formular. Nimmt man ihn mit, verliert das Formular seine
+Einblendung und bleibt auf Deckkraft 0 -- also unsichtbar. Nur den inneren
+Block anfassen.
+
+**Pruefen ohne zu warten:** Mit Playwright laesst sich die Uhr des Browsers
+stellen (`addInitScript`, `Date` ueberschreiben). Am 04.09.2026 so geprueft:
+am 4. und 6. September sichtbar, am 7. verschwunden.
+
 ### Noch offen — kurz und konkret
 
 | | Was | Warum es zaehlt |
