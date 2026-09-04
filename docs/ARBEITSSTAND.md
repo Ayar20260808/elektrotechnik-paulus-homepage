@@ -152,9 +152,22 @@ Damit sie nicht in jeder Sitzung neu erfragt werden.
 
 ### Braucht eine Entscheidung von Irfan
 
-1. **Bilderband-Tempo.** Laeuft es zu schnell (dann 168 s), oder waren die
-   Bilder zu gross (dann Bandhoehe zurueck)? Zweimal gefragt, noch nicht
-   beantwortet. **Nichts anfassen, bevor das geklaert ist.**
+1. ~~**Bilderband-Tempo.**~~ **Am 04.09.2026 ausgemessen und erledigt — es
+   bleibt bei 140 s.** Im Browser gemessen, alle 26 Bilder geladen:
+
+       Fenster  390 px   Bild 106x53   Gruppe 1399 px   10,0 px/s
+       Fenster 1280 px   Bild 132x66   Gruppe 1742 px   12,4 px/s
+       Fenster 1920 px   Bild 156x78   Gruppe 2054 px   14,7 px/s
+
+   Uebliche Laufbaender liegen bei 30 bis 80 px/s. Die Frage „laeuft es zu
+   schnell" beantwortet sich damit von selbst: Es laeuft sehr langsam. 168 s
+   wuerden auf 8 bis 12 px/s bremsen, dann wirkt es stillstehend. Der
+   CSS-Kommentar nannte falsche Werte (2650 px, 19 px/s) und ist korrigiert.
+
+   **Messfalle dabei:** `--header-hoehe` steht im CSS nur als Rueckfallwert
+   139px, gesetzt wird sie per JavaScript auf 82 bis 103 px. Wer mit 139
+   rechnet, kommt auf ein Drittel zu viel. Und die Bandbilder sind `lazy` —
+   ohne Scrollen zum Band misst man Breite 0.
 2. **Herkunft der Koelner Silhouette.** Kam als Bild aus dem Chat. Stammt sie
    aus einer Bilddatenbank, braucht die gewerbliche Nutzung eine Lizenz.
 3. **Datenschutztext zum Kontaktformular.** Der Abschnitt nennt keinen
