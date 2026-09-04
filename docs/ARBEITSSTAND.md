@@ -444,6 +444,18 @@ selbst) → Groesse von `index.html` gegen den erwarteten Wert halten → das ZI
 loeschen, sonst liegt es oeffentlich abrufbar herum → *Vorschau ohne Cache*
 → *Cache leeren*.
 
+### Stand der Veroeffentlichung
+
+**04.09.2026: Commit `04487d7` ist live auf `elektrotechnik-paulus.de`.**
+Enthalten: Waermepumpe als fuenftes Hero-Bild, Urlaubshinweis bis 06.09.,
+Datenschutz-Ueberschrift *Kontakt in Datenschutzfragen*, Pruefplakette ohne
+*auf Wunsch*, `kontakt.php` mit der Passwort-Korrektur. Vom Nutzer im Browser
+bestaetigt.
+
+Ablauf, der funktioniert hat: ZIP nach `public_html`, Extract **mit**
+*Overwrite existing files*, F5, ZIP loeschen, *Vorschau ohne Cache* zur
+Kontrolle, dann *Cache leeren*.
+
 ### Noch offen — kurz und konkret
 
 | | Was | Warum es zaehlt |
@@ -451,7 +463,7 @@ loeschen, sonst liegt es oeffentlich abrufbar herum → *Vorschau ohne Cache*
 | 1 | **Testmail an `info@elektrotechnik-paulus.de`** | DNS ist nur die Wegbeschreibung, die Mail ist der Beweis |
 | 2 | **Automatische Verlaengerung einschalten** | steht auf AUS, Ablauf **01.10.2027**, danach ist die Firmendomain frei |
 | 3 | Seite im Browser pruefen, auch auf Zertifikatswarnung | seit dem CDN nicht mehr geprueft |
-| 4 | `leistungvde.html` in `public_html` umbenennen | Kosmetik: VDE-Seite zeigt noch „auf Wunsch mit Pruefplakette" |
+| 4 | ~~Paket hochladen~~ **erledigt 04.09.2026** — Commit `04487d7` ist live: Waermepumpe im Hero, Urlaub bis 06.09., Datenschutz-Ueberschrift, Pruefplakette. Die verirrte `leistungvde.html` wurde beim Ueberschreiben gegenstandslos | |
 | 5 | ~~`elektropersonal-ayar.de` mitnehmen?~~ **entschieden 04.09.2026: auslaufen lassen** | siehe unten |
 | 6 | Wix kuendigen | **erst wenn 1 und 3 gruen sind** |
 | 7 | Ersparnis neu rechnen | die Domains waren eigene Abos, nicht Paketbestandteil |
