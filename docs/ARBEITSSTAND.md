@@ -67,9 +67,31 @@ Ansprechpartner (weiss) · Kontakt (hellgrau).
 
 ### 3.1 Hero-Bilderfolge
 
-Vier Bildebenen uebereinander, sichtbar ist immer genau eine. Alle vier
+**Sechs** Bildebenen uebereinander, sichtbar ist immer genau eine. Alle vier
 Sekunden wechselt die aktive Ebene, Ueberblendung 1,1 s, dazu ein sehr
-langsamer Zoom ueber 90 s. Bildebene Deckkraft `.78`.
+langsamer Zoom ueber 90 s. Bildebene Deckkraft `.78`. Ein voller Umlauf dauert
+damit 24 Sekunden.
+
+Reihenfolge (Stand 04.09.2026): `hero-0` · `hero-echeck` · `hero-eauto` ·
+`hero-solar` · `waermepumpe-hero` · `hero-4`.
+
+**`data-deckung` und `data-quer` sind keine Geschmackswerte.** Sie steuern, wie
+stark der dunkle Verlauf ueber dem Textband deckt -- je heller das Motiv, desto
+mehr braucht die Schrift. Statt zu raten laesst sich das messen: Bild im
+Browser auf ein Canvas zeichnen, im Bereich 20-78 % der Hoehe die mittlere
+Helligkeit und den Anteil heller Pixel (Luminanz > 180) bestimmen, dann gegen
+die bekannten Werte einordnen. Gemessen am 04.09.2026:
+
+    hero-solar          89,5    3,4 % hell    0.68 / 0.66
+    hero-4             111,7   26,9 %         0.74 / 0.70
+    hero-eauto         113,4   22,8 %         0.71 / 0.66
+    hero-0             113,5    9,9 %         0.68 / 0.66
+    waermepumpe-hero   134,0   25,3 %         0.74 / 0.70   <- daraus abgeleitet
+    hero-echeck        240,7   92,5 %         0.74 / 0.74
+
+Der helle Flaechenanteil sagt mehr als der Mittelwert: `hero-0` und
+`hero-eauto` haben fast dieselbe mittlere Helligkeit, aber unterschiedliche
+Werte -- der Unterschied liegt im Anteil heller Flaechen.
 
 Unter 1000 px laeuft der Verlauf **senkrecht**, weil der Text dort ueber die
 volle Breite geht und sonst ueber der hellen rechten Seite stuende. Vorher lag
