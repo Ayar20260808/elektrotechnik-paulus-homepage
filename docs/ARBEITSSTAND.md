@@ -312,6 +312,30 @@ umgelegt hat oder Hostinger es selbst tat.
 der Zwischenspeicher liefert erst die alte Fassung. Vor jedem Sichttest nach
 einem Upload den CDN-Zwischenspeicher im hPanel leeren.
 
+### CDN und Cache — Wege im hPanel, am 04.09.2026 am Bildschirm gefunden
+
+**hPanel → Websites → in der Zeile der Domain auf „Armaturenbrett".** Nicht ins
+Drei-Punkte-Menue daneben: dort steht „Loeschen", das entfernt die Website.
+
+Auf dem Armaturenbrett oben rechts drei Statusabzeichen, alle gruen:
+**Malware-geschuetzt, SSL, CDN.** Damit ist zweierlei belegt — Hostinger hat
+nach der Domain-Uebernahme ein gueltiges Zertifikat ausgestellt, und das CDN
+laeuft tatsaechlich. Hostingers Doku nennt CDN erst ab „Premium", der Tarif
+hier ist **Einzel** — die Doku ist also veraltet, nicht die Messung.
+
+Im Kasten **Grundausstattung**, Abschnitt **Cache**, zwei Knoepfe:
+
+- **„Cache leeren"** — wirft die Kopien auf den CDN-Zwischenservern weg
+- **„Vorschau ohne Cache"** — zeigt die Seite direkt vom Server, am
+  Zwischenspeicher vorbei
+
+**Reihenfolge nach einem Upload:** erst *Vorschau ohne Cache* (stimmt die
+Aenderung?), dann *Cache leeren* (damit Besucher sie auch bekommen). So wird
+erst geprueft und dann veroeffentlicht.
+
+`Strg`+`F5` hilft hier nicht — das leert nur den Browser, nicht den
+CDN-Server davor.
+
 ### Noch offen — kurz und konkret
 
 | | Was | Warum es zaehlt |
