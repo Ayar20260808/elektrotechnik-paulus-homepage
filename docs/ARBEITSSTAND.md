@@ -186,7 +186,7 @@ Testadresse geprueft.
 | 3 | `kontakt-konfig.php` **ueber** `public_html` anlegen | **erledigt 02.09.2026** |
 | 4 | Testanfrage abschicken, Ankunft bei `info@…` pruefen | **erledigt 02.09.2026 — Mail kam an** |
 | 5 | DNS bei Wix: A-Record auf `92.113.18.111`, `www` als CNAME | **erledigt 03.09.2026** |
-| 6 | AuthInfo-Code bei Wix holen, Domain uebertragen | **eingeleitet 03.09.2026** |
+| 6 | AuthInfo-Code bei Wix holen, Domain uebertragen | **erledigt 03.09.2026** |
 | 7 | Wix kuendigen | Irfan |
 
 **Zu Schritt 1 (erledigt am 02.09.2026):** 246 Dateien als ZIP hochgeladen und
@@ -273,64 +273,56 @@ Nameserver bei Wix — die DNS-Verwaltung muss dann umziehen. Reihenfolge dabei:
 **erst MX und SPF bei Hostinger anlegen und pruefen, dann die Nameserver
 umschalten.** Nie andersherum.
 
-### OFFEN UND WICHTIG — die Mail zeigt auf Hostinger statt Google
+### Mail repariert — nachgemessen am 04.09.2026, 05:34 Uhr
 
-**Stand 03.09.2026, 22:30 Uhr. Das ist der erste Punkt am naechsten Tag.**
+Der Vorfall vom Vorabend ist behoben. Beide autoritativen Nameserver liefern
+jetzt:
 
-Der Transfer war noch am selben Abend durch, keine 5-7 Werktage. Danach hat
-Hostinger zwei Dinge getan, die so nicht bestellt waren:
+    MX   @   Prio 10  aspmx.l.google.com
+    TXT  @   v=spf1 include:_spf.google.com ~all
 
-1. **Eigene Nameserver gesetzt** — `aurora.dns-parking.com` und
-   `nebula.dns-parking.com`. Die Option „bestehende Nameserver behalten" hat
-   nicht gehalten.
-2. **Die Zone mit eigenen Mail-Eintraegen befuellt**, obwohl der
-   Bestaetigungsdialog vorher die richtigen Google-Werte anzeigte. Der
-   Bildschirm hat nicht gehalten, was er versprach.
+Kein Hostinger-MX mehr, kein Hostinger-SPF. Nachgewiesen mit
+`python3 docs/werkzeuge/dnsfrage.py --autoritativ`, inklusive
+NXDOMAIN-Kontrolle gegen Zwischenspeicher.
 
-**Falsch in der Zone, autoritativ nachgemessen um 22:30 Uhr:**
+**Was am Vorabend passiert war:** Hostinger hat beim Transfer entgegen der
+gewaehlten Option eigene Nameserver gesetzt (`aurora`/`nebula.dns-parking.com`)
+und die Zone mit eigenen Mail-Eintraegen befuellt — obwohl der
+Bestaetigungsdialog vorher die richtigen Google-Werte anzeigte. Vier Stunden
+lang faengt `mx1.hostinger.com` mit Prioritaet 5 die Mail ab.
 
-    MX   @   Prio  5  mx1.hostinger.com        <- faengt die Mail ab
-    MX   @   Prio 10  mx2.hostinger.com
-    TXT  @   v=spf1 include:_spf.mail.hostinger.com ~all
+**Die Lehre, die bleibt:** Ein Bestaetigungsdialog, der die richtigen Werte
+anzeigt, ist kein Beweis, dass sie auch angelegt werden. Nach jeder Uebernahme
+autoritativ nachmessen. Und: die Loeschungen brauchten mehrere Stunden bis sie
+griffen — nicht vorschnell auf „hat nicht geklappt" schliessen, sondern
+nachmessen und Zeit geben.
 
-**Bereits erledigt:** `aspmx.l.google.com` Prio 10 ist angelegt und auf beiden
-Nameservern sichtbar. `autodiscover` und `autoconfig` sind geloescht. Loeschen
-funktioniert also grundsaetzlich.
+### Die Seite laeuft jetzt ueber Hostingers CDN — offen, ob gewollt
 
-**Nicht erledigt:** Die Loeschung von `mx1`/`mx2` und der Austausch des SPF
-sind nicht angekommen — auch nach einer halben Stunde nicht, direkt bei beiden
-autoritativen Servern geprueft. Entweder wurde nicht gespeichert, oder die
-Oberflaeche verlangt eine Bestaetigung, die uebersehen wurde.
+Ebenfalls am 04.09.2026 gemessen:
 
-**Erster Handgriff morgen:** hPanel → Domains → `elektrotechnik-paulus.de` →
-*DNS-Zone bearbeiten*, Seite mit F5 neu laden und nachsehen, was wirklich in
-der Liste steht. Dann:
+    elektrotechnik-paulus.de       A      89.116.213.50 , 91.108.127.221
+    www.elektrotechnik-paulus.de   CNAME  www.elektrotechnik-paulus.de.cdn.hstgr.net
 
-1. `MX @ 5 mx1.hostinger.com` loeschen
-2. `MX @ 10 mx2.hostinger.com` loeschen
-3. `TXT @ v=spf1 include:_spf.mail.hostinger.com ~all` loeschen
-4. `TXT @ v=spf1 include:_spf.google.com ~all` anlegen, TTL 3600
-5. Danach `python3 docs/werkzeuge/dnsfrage.py --autoritativ` laufen lassen
-6. Testmail an `info@elektrotechnik-paulus.de`
+`hstgr.net` ist Hostinger. Die frueheren Werte (`92.113.18.111`, `www` als
+CNAME auf die Domain selbst) sind ersetzt. Unklar, ob Irfan den CDN-Schalter
+umgelegt hat oder Hostinger es selbst tat.
 
-Nie zwei SPF-Eintraege gleichzeitig — dann faellt die Pruefung ganz aus.
-Deshalb Schritt 3 vor Schritt 4.
+**Praktische Folge:** Geaenderte Dateien kommen verzoegert bei Besuchern an,
+der Zwischenspeicher liefert erst die alte Fassung. Vor jedem Sichttest nach
+einem Upload den CDN-Zwischenspeicher im hPanel leeren.
 
-**Ebenfalls offen: die automatische Verlaengerung steht auf AUS.** Wix hat sie
-beim Wegtransferieren abgeschaltet, Hostinger hat sie nicht wieder aktiviert.
-Ablaufdatum ist der **01.10.2027**. Bleibt der Schalter aus, ist die
-Firmendomain danach frei. Einschalten.
+### Noch offen — kurz und konkret
 
-**Werkzeug:** `docs/werkzeuge/dnsfrage.py` liegt jetzt im Projekt statt im
-fluechtigen Scratchpad. Ohne Schalter fragt es den lokalen Resolver sechsmal
-(waehrend einer Umstellung schwanken die Antworten), mit `--autoritativ` geht
-es direkt an die Nameserver und beweist ueber eine NXDOMAIN-Kontrollabfrage,
-dass wirklich der autoritative Server geantwortet hat und kein
-Zwischenspeicher.
-
-**Gemerkt fuer den naechsten Anbieterwechsel:** Ein Bestaetigungsdialog, der
-die richtigen Werte anzeigt, ist kein Beweis, dass sie auch angelegt werden.
-Nach jeder Uebernahme autoritativ nachmessen.
+| | Was | Warum es zaehlt |
+|---|---|---|
+| 1 | **Testmail an `info@elektrotechnik-paulus.de`** | DNS ist nur die Wegbeschreibung, die Mail ist der Beweis |
+| 2 | **Automatische Verlaengerung einschalten** | steht auf AUS, Ablauf **01.10.2027**, danach ist die Firmendomain frei |
+| 3 | Seite im Browser pruefen, auch auf Zertifikatswarnung | seit dem CDN nicht mehr geprueft |
+| 4 | `leistungvde.html` in `public_html` umbenennen | Kosmetik: VDE-Seite zeigt noch „auf Wunsch mit Pruefplakette" |
+| 5 | `elektropersonal-ayar.de` mitnehmen oder auslaufen lassen | Entscheidung **vor** der Wix-Kuendigung |
+| 6 | Wix kuendigen | **erst wenn 1 und 3 gruen sind** |
+| 7 | Ersparnis neu rechnen | die Domains waren eigene Abos, nicht Paketbestandteil |
 
 ### Schritt 6 — Transfer eingeleitet am 03.09.2026, 20:44 Uhr
 
