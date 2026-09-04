@@ -168,8 +168,9 @@ Damit sie nicht in jeder Sitzung neu erfragt werden.
    139px, gesetzt wird sie per JavaScript auf 82 bis 103 px. Wer mit 139
    rechnet, kommt auf ein Drittel zu viel. Und die Bandbilder sind `lazy` —
    ohne Scrollen zum Band misst man Breite 0.
-2. **Herkunft der Koelner Silhouette.** Kam als Bild aus dem Chat. Stammt sie
-   aus einer Bilddatenbank, braucht die gewerbliche Nutzung eine Lizenz.
+2. ~~**Herkunft der Koelner Silhouette.**~~ **Geklaert am 04.09.2026: von
+   Irfan selbst erstellt.** Damit liegen die Rechte beim Betrieb, es braucht
+   keine Lizenz und niemand kann nachfordern. Nicht erneut aufwerfen.
 3. **Datenschutztext zum Kontaktformular.** Der Abschnitt nennt keinen
    Dienstleister. Ob der Versand ueber Google Workspace genannt werden muss,
    ist eine Rechtsfrage — **nicht eigenmaechtig aendern.**
