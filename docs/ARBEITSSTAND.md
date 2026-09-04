@@ -336,6 +336,28 @@ erst geprueft und dann veroeffentlicht.
 `Strg`+`F5` hilft hier nicht — das leert nur den Browser, nicht den
 CDN-Server davor.
 
+### Entscheidung 04.09.2026: `elektropersonal-ayar.de` laeuft aus
+
+Irfan nimmt die zweite Domain nicht mit zu Hostinger. Gemessen vor der
+Entscheidung, damit klar ist, was verloren geht:
+
+    elektropersonal-ayar.de   NS   ns10/ns11.wixdns.net
+                              A    185.230.63.107 / .171 / .186   (Wix)
+                              MX   — kein Eintrag
+                              TXT  — kein Eintrag
+
+**Kein MX, kein SPF: auf der Domain laeuft keine E-Mail.** Sie leitet nur auf
+die Hauptseite um und zeigt dafuer noch auf die alten Wix-Adressen. Verloren
+geht also ausschliesslich die Weiterleitung.
+
+**Restrisiko, das Irfan selbst pruefen muss:** Steht die Adresse gedruckt
+irgendwo — Visitenkarten, Fahrzeug, Stempel, Branchenbuch, Signatur? Eine freie
+`.de` wird oft binnen Tagen neu registriert; danach zeigt eine gedruckte
+Adresse auf fremde Inhalte.
+
+Wann sie frei wird, haengt von der Abwicklung der Wix-Kuendigung ab. Bis dahin
+ist die Entscheidung umkehrbar: ein Transfer kostet 4,99 € inklusive einem Jahr.
+
 ### Noch offen — kurz und konkret
 
 | | Was | Warum es zaehlt |
@@ -344,7 +366,7 @@ CDN-Server davor.
 | 2 | **Automatische Verlaengerung einschalten** | steht auf AUS, Ablauf **01.10.2027**, danach ist die Firmendomain frei |
 | 3 | Seite im Browser pruefen, auch auf Zertifikatswarnung | seit dem CDN nicht mehr geprueft |
 | 4 | `leistungvde.html` in `public_html` umbenennen | Kosmetik: VDE-Seite zeigt noch „auf Wunsch mit Pruefplakette" |
-| 5 | `elektropersonal-ayar.de` mitnehmen oder auslaufen lassen | Entscheidung **vor** der Wix-Kuendigung |
+| 5 | ~~`elektropersonal-ayar.de` mitnehmen?~~ **entschieden 04.09.2026: auslaufen lassen** | siehe unten |
 | 6 | Wix kuendigen | **erst wenn 1 und 3 gruen sind** |
 | 7 | Ersparnis neu rechnen | die Domains waren eigene Abos, nicht Paketbestandteil |
 
