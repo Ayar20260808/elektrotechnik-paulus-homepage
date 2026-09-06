@@ -467,6 +467,74 @@ Kontrolle, dann *Cache leeren*.
 | 5 | ~~`elektropersonal-ayar.de` mitnehmen?~~ **entschieden 04.09.2026: auslaufen lassen** | siehe unten |
 | 6 | Wix kuendigen | **erst wenn 1 und 3 gruen sind** |
 | 7 | Ersparnis neu rechnen | die Domains waren eigene Abos, nicht Paketbestandteil |
+| 8 | **Paket `seite-06-09.zip` hochladen** | Hager-Logo repariert, Commit `cdf19d0` |
+
+### Hager-Logo repariert (06.09.2026)
+
+Gemeldet als "beim Hager-Logo fehlt das r". Die Messung fand **drei** Fehler,
+nicht einen. Die Datei `marke-hager.png` (235 x 120) war ein Fehlausschnitt:
+
+| Befund | Messwert |
+|---|---|
+| "r" fehlt, rechts mitten im Strich abgeschnitten | Inhalt lief bis Spalte x=234 von 235 |
+| orange Fremdfragmente links, Rest eines Nachbarlogos | Farbe 236,118,15 ab x=0 |
+| undurchsichtiger weisser Kasten statt Transparenz | Alpha 255 im ganzen Band y=16..104 |
+
+`git log --follow` zeigte: einmal hinzugefuegt in `1b988d1`, es gibt also keine
+heile Vorgaengerfassung. Reparieren war unmoeglich, die Pixel fehlen schlicht.
+Ein Herstellerlogo nachzeichnen kommt nicht in Frage.
+
+**Wie die Vorlage doch noch ankam.** Der Kunde fuegte das richtige Logo dreimal
+in den Chat ein, aber ein eingefuegtes Bild ist keine Datei auf der Maschine --
+`/mnt/user-data/working/` blieb leer. Der Ausweg: Eingefuegte Bilder liegen als
+base64 im Gespraechsprotokoll unter `/root/.claude/projects/`. Dort waren 84
+Bilder, die letzten zwei mit gleicher Pruefsumme -- die beiden Einfuegungen.
+
+Fuer kuenftige Faelle: **Bilder aus dem Protokoll holen, wenn der Anhang
+fehlschlaegt.** Das spart dem Kunden den zweiten Anlauf.
+
+**Warum das Freistellen ueber die Buntheit lief.** Die Vorlage war ein
+Vorschaubild einer Logo-Sammelseite: 360 x 360, Palettenmodus, **nur fuenf
+Farben**, und das Karomuster war als echte Pixel eingebrannt statt als
+Transparenz. Alpha war ueberall 255. Ueber die Helligkeit liess sich der Grund
+also nicht trennen, wohl aber ueber die Buntheit:
+
+    Karopixel sind grau       -> Rot = Gruen = Blau -> Buntheit 0
+    Logopixel sind blau       -> 206 - 86           -> Buntheit 120
+    Deckung = Buntheit / 120
+
+Mischpixel am Rand wurden auf die reine Logofarbe zurueckgerechnet. Auch die
+durchsichtigen Pixel tragen die Logofarbe, sonst zieht das Verkleinern einen
+weissen Saum in die Kanten. Gegen die groben Treppenstufen der Fuenf-Farben-
+Vorlage erst glatt vervierfacht, dann auf Zielgroesse herunter.
+
+**Warum 120 Pixel Hoehe die richtige Zielgroesse ist.** Alle zwanzig
+Markenlogos sind exakt 120 Pixel hoch, die Breite variiert. `.brand-logo` setzt
+`height:34px`. Die Datei liefert also die 3,5-fache Anzeigegroesse -- reichlich
+auch fuer scharfe Bildschirme, und die grobe Vorlage faellt bei 34 Pixel nicht
+auf. Im Browser gegengeprueft: natuerlich 303 x 120, angezeigt 86 x 34.
+
+**Sackgassen, die nichts gebracht haben.** Das Logo aus dem Netz zu holen
+scheitert an der Ausgangssperre: `hager.de` und `commons.wikimedia.org` liefern
+beide `CONNECT tunnel failed, 403`. Paketquellen wie PyPI sind erlaubt, normale
+Webseiten nicht. Ein frueherer Test auf "laeuft der Inhalt bis zum Bildrand"
+war ebenfalls wertlos: **alle** Logos sind randlos zugeschnitten, das ist
+normal und beweist nichts.
+
+### Paket bauen: `docs/werkzeuge/paket.py` (06.09.2026)
+
+Bis hierher wurden die Pakete von Hand gepackt. Jetzt gibt es ein Werkzeug:
+
+    python3 docs/werkzeuge/paket.py     ->  seite-TT-MM.zip
+
+Aufnahme-Regel: **alles, was Git kennt, minus `docs/`, `.github/`, `CLAUDE.md`,
+`AGENTS.md`, `.gitignore`.** So kann nichts vergessen werden und nichts
+Fremdes hineinrutschen. Das Werkzeug prueft sich selbst: Archiv lesbar, und
+jede vorgesehene Datei wirklich enthalten.
+
+Stand 06.09.2026: 246 Dateien, 3,45 MiB, alle zehn HTML-Seiten drin,
+Entwicklungsdateien draussen. Zusaetzlich gegengeprueft: 242 Dateiverweise in
+den HTML-Seiten und in `marke.css`, **242 davon im Paket, null fehlend**.
 
 ### Schritt 6 — Transfer eingeleitet am 03.09.2026, 20:44 Uhr
 
