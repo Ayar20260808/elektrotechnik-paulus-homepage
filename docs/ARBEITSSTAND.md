@@ -1,6 +1,8 @@
 # Arbeitsstand — Homepage Elektrotechnik Paulus
 
-Stand: 02.09.2026 · Branch `claude/home-page-rdyw91` · Commit `67a8b97`
+Stand: 09.09.2026 · Branch `claude/home-page-rdyw91`
+Aktueller Commit: `git log --oneline -1` fragen, nicht hier nachschlagen —
+eine fest eingetragene Nummer veraltet mit dem naechsten Commit.
 
 **Diese Datei ist die einzige Quelle der Wahrheit.** Sie ersetzt die früheren
 `PROJEKTSTAND.md` und `CHAT-ZUSAMMENFASSUNG.md`, die drei verschiedene und
@@ -22,10 +24,12 @@ erst am Schluss schreibt, verliert den Schluss.
 | Vorschau (dieser Branch) | `https://ayar20260808.github.io/elektrotechnik-paulus-homepage/vorschau/claude-home-page-rdyw91/` |
 | Fertige Seite (`master`) | `https://ayar20260808.github.io/elektrotechnik-paulus-homepage/` |
 | Hostinger-Testadresse | `https://magenta-crocodile-313036.hostingersite.com/` |
-| Zieladresse | `https://elektrotechnik-paulus.de` — zeigt noch auf Wix |
+| Zieladresse | `https://elektrotechnik-paulus.de` — **seit 03.09.2026 bei Hostinger**, Domain dort registriert |
+| Uebergabe an eine neue Sitzung | `docs/UEBERGABE.md` — fertiger Prompt zum Kopieren |
 
 `master` steht bei `250809a` und hat **keine eigenen Commits**; der
-Arbeitsbranch liegt 163 Commits davor. Ein Vorspulen waere also sauber
+Arbeitsbranch liegt 197 Commits davor (nachgezaehlt am 09.09.2026 mit
+`git rev-list --count origin/master..HEAD`). Ein Vorspulen waere also sauber
 moeglich. Ob und wann gemergt wird, ist offen (siehe Abschnitt 5).
 
 ---
