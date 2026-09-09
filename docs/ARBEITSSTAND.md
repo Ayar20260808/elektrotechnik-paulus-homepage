@@ -424,6 +424,23 @@ Block anfassen.
 stellen (`addInitScript`, `Date` ueberschreiben). Am 04.09.2026 so geprueft:
 am 4. und 6. September sichtbar, am 7. verschwunden.
 
+**Am 09.09.2026 unter echten Bedingungen bestaetigt**, ohne gestellte Uhr, mit
+dem tatsaechlichen Datum drei Tage nach dem letzten Urlaubstag:
+
+| Messwert | Ergebnis |
+|---|---|
+| `document.getElementById('urlaubshinweis')` | `null` -- Kasten hat sich selbst entfernt |
+| Formular Breite x Hoehe | 584 x 568 px |
+| Formular `opacity` | **1** -- die Einblendung hat gegriffen |
+| Formular `display` | `grid` |
+| Eingabefelder | 7, alle vorhanden |
+
+Damit ist die oben beschriebene Falle nachweislich **nicht** eingetreten: Das
+JavaScript fasst nur `#urlaubshinweis` an, der umschliessende `<div data-reveal>`
+bleibt stehen und blendet das Formular normal ein. Ein Screenshot des Formulars
+lag vor. Die naechste Aufgabe daraus: den Block bei Gelegenheit auch aus der
+Datei nehmen, damit kein veralteter Text mehr mitgeladen wird.
+
 ### Paket in ein volles public_html entpacken (04.09.2026)
 
 Das Entpacken bricht mit **409 Conflict** ab, wenn die Zieldateien schon
@@ -466,7 +483,7 @@ Kontrolle, dann *Cache leeren*.
 | 4 | ~~Paket hochladen~~ **erledigt 04.09.2026** — Commit `04487d7` ist live: Waermepumpe im Hero, Urlaub bis 06.09., Datenschutz-Ueberschrift, Pruefplakette. Die verirrte `leistungvde.html` wurde beim Ueberschreiben gegenstandslos | |
 | 5 | ~~`elektropersonal-ayar.de` mitnehmen?~~ **entschieden 04.09.2026: auslaufen lassen** | siehe unten |
 | 6 | Wix kuendigen | **erst wenn 1 und 3 gruen sind** |
-| 7 | Ersparnis neu rechnen | die Domains waren eigene Abos, nicht Paketbestandteil |
+| 7 | ~~Ersparnis neu rechnen~~ **gerechnet 09.09.2026: mindestens 223,63 €/Jahr** | drei Zahlen fehlen noch, siehe Kostenkapitel — **zwei davon nur bis zur Wix-Kuendigung ablesbar** |
 | 8 | **Paket `seite-06-09.zip` hochladen** | Hager-Logo repariert, Commit `cdf19d0` |
 
 ### Hager-Logo repariert (06.09.2026)
@@ -762,15 +779,53 @@ DMARC**.
 **Erst uebertragen, dann kuendigen.** Die Domain ist bei Wix registriert (in
 der Rechnung 0,00 € als Paketbestandteil). Wer vorher kuendigt, verliert sie.
 
-### Was der Wechsel bringt
+### Was der Wechsel bringt (neu gerechnet 09.09.2026)
 
-| | |
-|---|---|
-| Wix Premiumpaket | 178,50 €/Jahr |
-| Wix Brand Maker | 71,40 €/Jahr, wiederkehrend |
-| **Wix gesamt** | **249,90 €/Jahr** |
-| Hostinger Einzel | 85,11 € fuer 4 Jahre (bis 2030-08-31), danach 99,82 €/Jahr |
-| **Ersparnis** | **210,83 €/Jahr**, ab 2030 132,29 €/Jahr |
+**Warum ueberhaupt neu gerechnet wurde.** Die alte Tabelle nannte 210,83 €/Jahr
+und ab 2030 132,29 €/Jahr, zeigte aber ihren Rechenweg nicht. Nachgerechnet
+geht sie nur auf, wenn man auf der Hostinger-Seite **17,79 €/Jahr** hinzunimmt,
+in beiden Zeilen denselben Betrag. Der steht nirgends im Dokument. Vermutlich
+ein angenommener Domain-Verlaengerungspreis -- aber eine Kostenrechnung mit
+einem unbelegten Posten ist keine Rechnung. Dazu kam der Nebenbefund vom
+03.09.: die beiden Wix-Domains waren **eigene, bezahlte Abos**, nicht
+kostenlose Paketbestandteile. Die Wix-Seite war also zu niedrig angesetzt.
+
+**Wix -- faellt weg**
+
+| Posten | Betrag | Stand |
+|---|---|---|
+| Premiumpaket | 178,50 €/Jahr | belegt |
+| Brand Maker | 71,40 €/Jahr | belegt |
+| Domain-Abo `elektrotechnik-paulus.de` | **?** | **fehlt** |
+| Domain-Abo `elektropersonal-ayar.de` | **?** | **fehlt** |
+| belegte Summe | **249,90 €/Jahr** | Untergrenze |
+
+**Hostinger -- kommt dafuer**
+
+| Posten | Betrag | Stand |
+|---|---|---|
+| Miete bis 31.08.2030 | 85,11 € / 4 Jahre = **21,28 €/Jahr** | belegt |
+| Miete ab 01.09.2030 | 99,82 €/Jahr | belegt |
+| Domain bis 01.10.2027 | 4,99 € einmalig, ein Jahr inbegriffen | belegt |
+| Domain ab 01.10.2027 | **?** | **fehlt** |
+| zweite Domain | 0,00 € | entfaellt, laeuft aus |
+
+**Ersparnis im ersten Jahr, nur mit belegten Zahlen:**
+
+    249,90 - (21,28 + 4,99) = 223,63 €/Jahr
+
+Das sind **12,80 € mehr** als die alte Zahl, und es ist eine **Untergrenze**:
+die zwei Wix-Domain-Abos kommen noch obendrauf. Ab 01.09.2030 bleiben
+249,90 - 99,82 = 150,08 €/Jahr, davon geht der Domain-Verlaengerungspreis ab.
+
+**Die drei fehlenden Zahlen und wo sie stehen:**
+
+1. + 2. die zwei Wix-Domain-Abos -- Wix, `Premium-Abonnements`, dort stehen
+   vier Eintraege: Brand Maker, Premiumpaket und **zwei Domain-Abos**. Vor der
+   Kuendigung ablesen, danach ist die Seite weg.
+3. der Domain-Verlaengerungspreis bei Hostinger -- hPanel,
+   `Domains → Portfolio`, Zeile `elektrotechnik-paulus.de`. Dieselbe Seite, auf
+   der die automatische Verlaengerung eingeschaltet werden muss.
 
 ### Der Weg im hPanel (02.09.2026 am Bildschirm mitverfolgt)
 
