@@ -1,6 +1,8 @@
 # Arbeitsstand — Homepage Elektrotechnik Paulus
 
-Stand: 09.09.2026 · Branch `claude/home-page-rdyw91`
+Stand: 10.09.2026 · Branch `claude/home-page-rdyw91`
+**Zweiter Name fuer denselben Stand:** `claude/gracious-einstein-kd9y44`
+(am 10.09.2026 vorgespult, beide zeigen auf denselben Commit)
 Aktueller Commit: `git log --oneline -1` fragen, nicht hier nachschlagen —
 eine fest eingetragene Nummer veraltet mit dem naechsten Commit.
 
@@ -20,7 +22,7 @@ erst am Schluss schreibt, verliert den Schluss.
 | | |
 |---|---|
 | Repository | `Ayar20260808/elektrotechnik-paulus-homepage` |
-| Arbeitsbranch | `claude/home-page-rdyw91` |
+| Arbeitsbranch | `claude/home-page-rdyw91` — **gleichwertig:** `claude/gracious-einstein-kd9y44`, seit 10.09.2026 derselbe Commit |
 | Vorschau (dieser Branch) | `https://ayar20260808.github.io/elektrotechnik-paulus-homepage/vorschau/claude-home-page-rdyw91/` |
 | Fertige Seite (`master`) | `https://ayar20260808.github.io/elektrotechnik-paulus-homepage/` |
 | Hostinger-Testadresse | `https://magenta-crocodile-313036.hostingersite.com/` |
@@ -28,7 +30,7 @@ erst am Schluss schreibt, verliert den Schluss.
 | Uebergabe an eine neue Sitzung | `docs/UEBERGABE.md` — fertiger Prompt zum Kopieren |
 
 `master` steht bei `250809a` und hat **keine eigenen Commits**; der
-Arbeitsbranch liegt 197 Commits davor (nachgezaehlt am 09.09.2026 mit
+Arbeitsbranch liegt 198 Commits davor (nachgezaehlt am 10.09.2026 mit
 `git rev-list --count origin/master..HEAD`). Ein Vorspulen waere also sauber
 moeglich. Ob und wann gemergt wird, ist offen (siehe Abschnitt 5).
 
@@ -442,8 +444,40 @@ dem tatsaechlichen Datum drei Tage nach dem letzten Urlaubstag:
 Damit ist die oben beschriebene Falle nachweislich **nicht** eingetreten: Das
 JavaScript fasst nur `#urlaubshinweis` an, der umschliessende `<div data-reveal>`
 bleibt stehen und blendet das Formular normal ein. Ein Screenshot des Formulars
-lag vor. Die naechste Aufgabe daraus: den Block bei Gelegenheit auch aus der
-Datei nehmen, damit kein veralteter Text mehr mitgeladen wird.
+lag vor.
+
+**Am 10.09.2026 aus der Datei genommen.** Entfernt wurden genau acht Zeilen
+in `index.html` (Kommentar plus `div.form-urlaub`), nichts hinzugefuegt.
+`<div data-reveal>` davor und `<form>` dahinter blieben stehen.
+
+**Die Mechanik ist absichtlich stehengeblieben** — CSS `.form-urlaub`, das
+JavaScript und der Eintrag in der Symbolanimation. Beides ist ohne den Block
+nachweislich harmlos: das JavaScript steigt bei `if (!hinweis) return;` aus,
+und ein Selektor ohne Treffer liefert eine leere Liste. Der Vorteil: Der
+Kasten ist beim naechsten Urlaub mit vier Zeilen wieder da, statt neu gebaut
+werden zu muessen. Dieser Schnipsel gehoert dann direkt vor `<form id="kontaktform"`:
+
+```html
+<div class="form-urlaub" id="urlaubshinweis" data-bis="JJJJ-MM-TT">
+  <b>Wir sind bis zum T. Monat JJJJ im Urlaub.</b>
+  <p>Ihre Anfrage erreicht uns trotzdem — wir beantworten sie, sobald wir zurück sind.</p>
+</div>
+```
+
+**Das Datum steht auch dann wieder an zwei Stellen** (`data-bis` und der Text).
+Beide anpassen, sonst sagt die Seite etwas anderes als sie tut.
+
+Nachgemessen ueber 3 Breiten x 2 Bewegungsmodi, **null Befunde**:
+
+| Breite | Formular | opacity | Felder | Symbole ueber dem Formular |
+|---|---|---|---|---|
+| 390 px | 350 x 718 | 1 | 7 | 0 |
+| 768 px | 691 x 544 | 1 | 7 | 0 |
+| 1440 px | 575 x 568 | 1 | 7 | 0 |
+
+Die Hoehe 568 px bei 1440 px ist dieselbe wie am 09.09. — das Entfernen hat
+das Formular selbst nicht angetastet. Bei `prefers-reduced-motion` waren es
+0 statt 2 Symbole, die Entscheidung vom 02.09. gilt also weiter.
 
 ### Paket in ein volles public_html entpacken (04.09.2026)
 
@@ -488,7 +522,7 @@ Kontrolle, dann *Cache leeren*.
 | 5 | ~~`elektropersonal-ayar.de` mitnehmen?~~ **entschieden 04.09.2026: auslaufen lassen** | siehe unten |
 | 6 | Wix kuendigen | **erst wenn 1 und 3 gruen sind** |
 | 7 | ~~Ersparnis neu rechnen~~ **gerechnet 09.09.2026: mindestens 223,63 €/Jahr** | drei Zahlen fehlen noch, siehe Kostenkapitel — **zwei davon nur bis zur Wix-Kuendigung ablesbar** |
-| 8 | **Paket `seite-06-09.zip` hochladen** | Hager-Logo repariert, Commit `cdf19d0` |
+| 8 | **Neues Paket bauen und hochladen** | Live ist `04487d7`. Seither an ausgelieferten Dateien **nur zwei Aenderungen**: repariertes `marke-hager.png` (`cdf19d0`) und der entfernte Urlaubshinweis (10.09.2026). Am 10.09. von Irfan bestaetigt: `seite-06-09.zip` ist **nicht** hochgeladen |
 
 ### Hager-Logo repariert (06.09.2026)
 
@@ -865,6 +899,17 @@ Jeder Punkt hier hat schon einmal Zeit gekostet.
   entschluesseln: 24 Base64-Zeichen mit `==` am Ende bedeuten genau 16 Bytes.
   Damit war belegt, dass keine Leerzeichen mitkopiert waren — die naechstliegende
   Vermutung war also falsch.
+- **Eine Sitzung kann auf einem fremden, viel aelteren Branch starten.** Am
+  10.09.2026 oeffnete die Sitzung `claude/gracious-einstein-kd9y44` — 198
+  Commits hinter der Arbeit, ohne `CLAUDE.md` und ohne `docs/`. Genau daran
+  war es zu erkennen: **Fehlt `CLAUDE.md`, ist es der falsche Branch**, nicht
+  eine geloeschte Datei. Gemessen mit
+  `git merge-base --is-ancestor <alt> origin/claude/home-page-rdyw91`: reiner
+  Vorfahre, null eigene Commits, also war nichts verloren. Behoben durch
+  Vorspulen mit `git merge --ff-only` und einem gewoehnlichen Push —
+  **kein `--force`**. Verweigert Git das Vorspulen, ist es *kein* Vorfahre und
+  es darf auf keinen Fall nachgeholfen werden. Der Branch `home-page-rdyw91`
+  wurde dabei nicht angefasst.
 - **Der Agent-Proxy sperrt die Zieladressen.** Gemessen am 02.09.2026:
   `ayar20260808.github.io` und `magenta-crocodile-313036.hostingersite.com`
   antworten mit `connect_rejected`. **Eine KI-Sitzung kann die
@@ -955,6 +1000,7 @@ Homepage von Elektrotechnik Paulus.
 
 Repository: ayar20260808/elektrotechnik-paulus-homepage
 Branch:     claude/home-page-rdyw91
+            (gleichwertig: claude/gracious-einstein-kd9y44 -- selber Commit)
 
 Falls die Sitzung in einem anderen Repository geoeffnet wurde: dieses hier
 zuerst dazuholen. Es gibt ein zweites Projekt (elektrotechnik-hub, die
