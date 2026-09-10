@@ -1,0 +1,7 @@
+
+# Zugangsdaten des Kontaktformulars -- gehoeren nur auf den Webserver
+kontakt-konfig.php
+
+# Gebaute Upload-Pakete -- werden mit docs/werkzeuge/paket.py jederzeit neu
+# erzeugt und haben im Repository nichts verloren
+seite-*.zip
