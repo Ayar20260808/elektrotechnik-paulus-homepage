@@ -17,11 +17,26 @@ los -- das faellt oft erst auf, wenn schon etwas Falsches gebaut wurde.
 
 ---
 
-# Homepage Elektrotechnik Paulus -- Uebergabe, Stand 09.09.2026
+# Homepage Elektrotechnik Paulus -- Uebergabe, Stand 10.09.2026
 
 Ich bin Irfan Ayar, Elektrotechnik Paulus GmbH, Koeln. **Ich bin
 Programmier-Anfaenger und will mitlernen** -- erklaer mir kurz, was du tust und
 warum, nicht nur das Ergebnis.
+
+## Zuerst pruefen: arbeitet noch jemand am selben Branch?
+
+**An diesem Branch arbeitet mehr als eine Sitzung.** Am 10.09.2026 lagen zwei
+fremde Commits bei `origin`, die lokal fehlten -- und ein daraus gebautes Paket
+war bereits veraltet, bevor es verschickt wurde.
+
+**Deshalb als Allererstes, vor jeder Aussage ueber den Stand:**
+
+    git fetch origin claude/home-page-rdyw91
+    git status -sb        # steht da [behind N], fehlt dir etwas
+
+Bei `[behind N]`: `git merge --ff-only origin/claude/home-page-rdyw91`.
+Das ist ein Nachziehen, kein Zuruecksetzen -- erlaubt. Was **nicht** erlaubt
+ist: `reset --hard` und `push --force`.
 
 ## Zuerst lesen, bevor du irgendetwas anfasst
 
@@ -41,10 +56,14 @@ Sag mir danach in ein paar Zeilen, wo wir stehen und was du vorschlaegst.
 - Repo: `Ayar20260808/elektrotechnik-paulus-homepage`
 - Branch: `claude/home-page-rdyw91` -- **nicht zuruecksetzen, nicht force-pushen**
 - Repo-Stand: `git log --oneline -1` fragen, nicht raten
-- **Live auf dem Server: `04487d7`** vom 04.09.2026. Alles danach ist im Repo,
-  aber noch nicht hochgeladen. Diese Zeile ist die wichtigste der Datei: Wenn
-  ich einen Fehler melde, ist die erste Frage immer, **welchen Stand ich vor
-  mir hatte**.
+- **Live auf dem Server: `04487d7`** vom 04.09.2026. Am 10.09. von mir
+  bestaetigt: `seite-06-09.zip` wurde **nie hochgeladen**. Diese Zeile ist die
+  wichtigste der Datei: Wenn ich einen Fehler melde, ist die erste Frage immer,
+  **welchen Stand ich vor mir hatte**.
+- An **ausgelieferten** Dateien unterscheiden sich vom Live-Stand nur zwei
+  Dinge: das reparierte `marke-hager.png` und der aus `index.html` entfernte
+  Urlaubshinweis. Nachpruefbar mit
+  `git diff --stat 04487d7 HEAD -- . ':(exclude)docs' ':(exclude)*.md'`.
 
 Statische Seite, kein Framework, kein Build. CSS und JS stehen **inline und
 mehrfach** in `index.html` plus neun `leistung-*.html`. Aenderungen an
@@ -83,13 +102,21 @@ Rechtstexten, Hero und Kontaktformular betreffen nur `index.html`.
 - **Ersparnis neu gerechnet** (`93a031f`): mindestens **223,63 EUR/Jahr**.
   Die alte Zahl 210,83 EUR enthielt einen unbelegten Posten von 17,79 EUR/Jahr.
 - **Urlaubshinweis** hat sich am 09.09. selbst entfernt, Formular unversehrt
-  geprueft. Der Text steht aber weiter in der Datei -- offene Frage, ob raus.
-- Paket `seite-06-09.zip` gebaut und mir geschickt. **Ob ich es hochgeladen
-  habe, weisst du nicht -- frag mich.**
+  geprueft. Am 10.09. dann ganz aus `index.html` genommen (`2127879`), damit
+  kein veralteter Text mehr mitgeladen wird. CSS und JS bleiben stehen, der
+  Mechanismus ist fuer den naechsten Urlaub wiederverwendbar.
+- **Namenskollision beim Paket, 10.09.** Zwei Sitzungen bauten am selben Tag
+  je ein `seite-10-09.zip` aus verschiedenen Staenden. Unterschied: 177 Bytes.
+  Im Explorer stehen beide als "3,4 MB" -- nicht unterscheidbar. Aufgeloest
+  durch ein Paket mit eindeutigem Namen. **Merke: den Paketnamen nicht nur
+  nach dem Datum bilden, wenn mehrere Sitzungen laufen.**
+- **Hochgeladen ist immer noch nichts.** Ob ich es inzwischen getan habe,
+  weisst du nicht -- frag mich.
 
 ## Offen
 
 **Bei mir:**
+0. **Paket hochladen** -- haengt seit dem 06.09., nichts davon ist live
 1. Testmail an `info@elektrotechnik-paulus.de` -- der Beweis, der die
    Wix-Kuendigung freigibt
 2. Automatische Verlaengerung einschalten (steht auf **AUS**, Ablauf

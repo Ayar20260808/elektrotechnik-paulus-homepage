@@ -903,6 +903,46 @@ die zwei Wix-Domain-Abos kommen noch obendrauf. Ab 01.09.2030 bleiben
    `Domains → Portfolio`, Zeile `elektrotechnik-paulus.de`. Dieselbe Seite, auf
    der die automatische Verlaengerung eingeschaltet werden muss.
 
+### Zwei Sitzungen am selben Branch (10.09.2026)
+
+Am 10.09. arbeiteten **zwei Sitzungen gleichzeitig** an
+`claude/home-page-rdyw91`. Die eine wusste nichts von der anderen. Was dabei
+schiefging und wie man es vermeidet:
+
+**Der Vorfall.** Sitzung A baute aus ihrem lokalen Stand ein Paket namens
+`seite-10-09.zip` und schickte es. Sitzung B hatte zwei Commits vorher schon
+gepusht -- darunter den entfernten Urlaubshinweis -- und ebenfalls ein
+`seite-10-09.zip` geschickt. Zwei Dateien, gleicher Name, **verschiedener
+Inhalt**. Unterschied 177 Bytes, im Explorer beide "3,4 MB". Wer das falsche
+hochlaedt, macht den entfernten Urlaubshinweis wieder rueckgaengig.
+
+**Wie es auffiel.** `git status -sb` zeigte `[behind 2]`. Nichts anderes haette
+es gezeigt -- `git log` allein sieht nur den lokalen Stand und meldet nichts.
+
+**Regel daraus, als Erstes in jeder Sitzung:**
+
+    git fetch origin claude/home-page-rdyw91
+    git status -sb                                    # [behind N]?
+    git merge --ff-only origin/claude/home-page-rdyw91
+
+Ein `--ff-only`-Nachziehen ist erlaubt: Es setzt nichts zurueck und
+ueberschreibt nichts. Verboten bleiben `reset --hard` und `push --force`.
+
+**Zweite Regel: den Paketnamen nicht nur aus dem Datum bilden**, solange
+mehrere Sitzungen laufen. Ein Datumsname kollidiert am selben Tag zwangslaeufig.
+Aufgeloest wurde es mit `seite-KORRIGIERT-10-09.zip` -- ein Name, der sich
+nicht verwechseln laesst.
+
+**Erkennungsmerkmal fuer das richtige Paket vom 10.09.:**
+
+| | richtig | veraltet |
+|---|---|---|
+| ZIP gesamt | 3.612.227 Bytes | 3.612.404 Bytes |
+| `index.html` | **135.837** Bytes | 136.340 Bytes |
+| `marke-hager.png` | 21.961 Bytes | 21.961 Bytes |
+
+Die verlaessliche Zahl ist `index.html`: 135.837 heisst Urlaubshinweis raus.
+
 ### Der Weg im hPanel (02.09.2026 am Bildschirm mitverfolgt)
 
 `Websites` → Zeile `elektrotechnik-paulus.de` → `Werkzeuge` → `Dateimanager` →
