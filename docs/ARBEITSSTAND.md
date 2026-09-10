@@ -522,7 +522,45 @@ Kontrolle, dann *Cache leeren*.
 | 5 | ~~`elektropersonal-ayar.de` mitnehmen?~~ **entschieden 04.09.2026: auslaufen lassen** | siehe unten |
 | 6 | Wix kuendigen | **erst wenn 1 und 3 gruen sind** |
 | 7 | ~~Ersparnis neu rechnen~~ **gerechnet 09.09.2026: mindestens 223,63 €/Jahr** | drei Zahlen fehlen noch, siehe Kostenkapitel — **zwei davon nur bis zur Wix-Kuendigung ablesbar** |
-| 8 | **Neues Paket bauen und hochladen** | Live ist `04487d7`. Seither an ausgelieferten Dateien **nur zwei Aenderungen**: repariertes `marke-hager.png` (`cdf19d0`) und der entfernte Urlaubshinweis (10.09.2026). Am 10.09. von Irfan bestaetigt: `seite-06-09.zip` ist **nicht** hochgeladen |
+| 8 | **`seite-10-09.zip` hochladen** | Live ist `04487d7`. Seither an ausgelieferten Dateien **nur zwei Aenderungen**: repariertes `marke-hager.png` (`cdf19d0`) und der entfernte Urlaubshinweis (10.09.2026). Am 10.09. von Irfan bestaetigt: `seite-06-09.zip` war **nicht** hochgeladen. Paket am 10.09. gebaut und geschickt, siehe unten |
+
+### Paket `seite-10-09.zip` gebaut (10.09.2026)
+
+246 Dateien, 3,44 MiB. Gebaut mit `python3 docs/werkzeuge/paket.py`, an Irfan
+geschickt. **Hochgeladen ist es noch nicht** — das steht als Punkt 8 offen.
+
+Inhalt gegenueber dem Live-Stand `04487d7`: genau zwei Aenderungen. Das
+reparierte `marke-hager.png` und der aus `index.html` entfernte
+Urlaubshinweis. Sonst nichts.
+
+Gegengeprueft, ueber die Selbstpruefung des Werkzeugs hinaus:
+
+| Pruefung | Ergebnis |
+|---|---|
+| Dateiverweise in HTML, CSS und JSON | **242 geprueft, null fehlend** |
+| Markdown, `docs/`, `.github/` im Paket | keine |
+| HTML-Seiten | 10 |
+| Urlaubstext in `index.html` | nicht mehr enthalten |
+| `marke-hager.png` | 21.961 Bytes, Pruefsumme stimmt mit der Arbeitskopie |
+
+**Messfalle dabei, gleich beim ersten Versuch eingetreten:** Ein Test, der
+`content="..."` als Dateiverweis wertet, meldet 70 Geisterbefunde — das sind
+die `<meta>`-Beschreibungen, also Fliesstext. `content` zaehlt nur dann als
+Pfad, wenn der Wert keine Leerzeichen hat und auf eine echte Dateiendung
+endet. Erst mit dieser Einschraenkung kommt der Test auf dieselben 242 wie
+die Messung vom 06.09. — **zwei unabhaengig geschriebene Tests, dieselbe
+Zahl.** Der Test war falsch, nicht das Paket.
+
+**Erwartete Groessen nach dem Upload** (zur Kontrolle im Dateimanager, weil
+die Speicheranzeige unzuverlaessig ist):
+
+    index.html        135.837 Bytes = 132,65 KiB
+    marke-hager.png    21.961 Bytes =  21,45 KiB
+    kontakt.php        10.774 Bytes =  10,52 KiB
+
+Ablauf wie am 04.09.: ZIP nach `public_html`, Extract **mit** *Overwrite
+existing files*, F5, Groessen vergleichen, ZIP loeschen, *Vorschau ohne Cache*,
+dann *Cache leeren*.
 
 ### Hager-Logo repariert (06.09.2026)
 
