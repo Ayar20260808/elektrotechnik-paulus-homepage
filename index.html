@@ -639,6 +639,21 @@
 
   /* ABLAUF */
   #ablauf{background:var(--grey-100);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);}
+  /* Wie beim Kontakt: Der Menuepunkt Ablauf soll am Markenband landen, das
+     den Abschnitt einleitet, nicht an der Ueberschrift darunter. Das
+     Markenband steht ueber .marquee-section.markenband auf der einfachen
+     Kopfhoehe -- Kopf plus Band ergibt also das Doppelte. Beim Kontakt sind
+     es 2,2, weil das Bilderband dort 1,2-fach hoch ist. */
+  #ablauf{scroll-margin-top:calc(var(--header-hoehe, 139px) * 2);}
+  /* Damit "So arbeiten wir" nach dem Sprung den Rest des Bildschirms
+     fuellt und der Browser ueberhaupt so weit scrollen kann.
+     Gerechnet wird mit --header-klein, nicht mit --header-hoehe: nach dem
+     Scrollen ist der Kopf geschrumpft, und nur diese Hoehe verdeckt noch
+     etwas. Mit der vollen Hoehe blieben 35 bis 56 px des naechsten
+     Abschnitts sichtbar -- gemessen. Abgezogen werden also der
+     geschrumpfte Kopf und das Markenband, das auf der vollen Kopfhoehe
+     steht. */
+  #ablauf{min-height:calc(100vh - var(--header-klein, 46px) - var(--header-hoehe, 139px));}
   .ablauf-grid{display:grid;grid-template-columns:repeat(4, minmax(0,1fr));gap:28px;}
   @media(max-width:1020px){.ablauf-grid{grid-template-columns:repeat(2, minmax(0,1fr));}}
   @media(max-width:560px){.ablauf-grid{grid-template-columns:1fr;}}
@@ -1213,7 +1228,7 @@
   </div>
 </div>
 
-<section id="ablauf">
+<section id="ablauf" data-vorlauf>
   <div class="wrap">
     <div class="section-head" data-reveal>
       <span class="eyebrow">So arbeiten wir</span>
