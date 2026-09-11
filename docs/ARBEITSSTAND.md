@@ -562,6 +562,27 @@ Ablauf wie am 04.09.: ZIP nach `public_html`, Extract **mit** *Overwrite
 existing files*, F5, Groessen vergleichen, ZIP loeschen, *Vorschau ohne Cache*,
 dann *Cache leeren*.
 
+### Paket mit Commit-Hash im Namen (11.09.2026)
+
+Die Lehre vom 10.09. umgesetzt: Der Paketname traegt jetzt den Commit-Kurzhash,
+`seite-10-09-95c6103.zip` statt `seite-10-09.zip`. Ein Name nur aus dem Datum
+kollidiert zwangslaeufig, sobald zwei Sitzungen am selben Tag bauen.
+
+**Achtung:** `docs/werkzeuge/paket.py` bildet den Namen weiterhin allein aus dem
+Datum. Der Hash wurde nach dem Bauen von Hand angehaengt. Wer das vergisst, hat
+wieder einen kollidierenden Namen.
+
+Gegenprobe gegen die am 10.09. hinterlegten Erkennungsmerkmale, alle drei
+stimmen:
+
+    ZIP gesamt        3.612.227 Bytes   = der als richtig dokumentierte Wert
+    index.html          135.837 Bytes   Urlaubshinweis ist raus
+    marke-hager.png      21.961 Bytes   repariertes Logo ist drin
+
+Damit belegt: Ein aus `95c6103` frisch gebautes Paket ist inhaltlich identisch
+mit dem korrekten Paket vom 10.09. Wer eines von beiden hochlaedt, bekommt
+denselben Stand.
+
 ### Hager-Logo repariert (06.09.2026)
 
 Gemeldet als "beim Hager-Logo fehlt das r". Die Messung fand **drei** Fehler,
@@ -942,6 +963,31 @@ nicht verwechseln laesst.
 | `marke-hager.png` | 21.961 Bytes | 21.961 Bytes |
 
 Die verlaessliche Zahl ist `index.html`: 135.837 heisst Urlaubshinweis raus.
+
+### Sitzung auf dem falschen Branch (11.09.2026)
+
+Eine Sitzung startete mit dem von aussen vorgegebenen Arbeitsbranch
+`claude/cool-curie-ypqas8`. Der haengt an `master` und liegt **201 Commits**
+hinter `claude/home-page-rdyw91`. Dort entstanden drei Commits, alle drei
+gegenstandslos:
+
+| Dort gebaut | Wirklichkeit auf dem Arbeitsbranch |
+|---|---|
+| Formspree-Weiterleitung korrigiert | Formular laeuft ueber `kontakt.php`, Formspree ist raus |
+| `index (2).html` geloescht | Die Datei existiert dort nicht |
+| Bilderband vor den Kontakt geschoben | Stand dort laengst davor |
+
+**Ursache.** Der Branchname kam aus der Sitzungsvorgabe, nicht aus dieser
+Datei. Auf `master` liegt weder `CLAUDE.md` noch `docs/` — es gab also keine
+Regel im Arbeitsverzeichnis, die haette widersprechen koennen.
+
+**Erkennungsmerkmal, vor dem ersten Handgriff:**
+
+    git rev-list --count HEAD..origin/claude/home-page-rdyw91
+
+Eine dreistellige Zahl heisst: falscher Branch. `git status -sb` allein reicht
+hier **nicht** — es vergleicht nur mit dem eigenen Upstream, und der war in
+Ordnung. Die Pruefung aus dem Uebergabe-Prompt faengt den Fall also nicht.
 
 ### Der Weg im hPanel (02.09.2026 am Bildschirm mitverfolgt)
 
