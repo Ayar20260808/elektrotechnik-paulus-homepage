@@ -365,7 +365,15 @@ nach der Domain-Uebernahme ein gueltiges Zertifikat ausgestellt, und das CDN
 laeuft tatsaechlich. Hostingers Doku nennt CDN erst ab „Premium", der Tarif
 hier ist **Einzel** — die Doku ist also veraltet, nicht die Messung.
 
-Im Kasten **Grundausstattung**, Abschnitt **Cache**, zwei Knoepfe:
+**Beschriftung geaendert (Stand 11.09.2026).** Der Menuepunkt heisst im
+hPanel jetzt **Dashboard**, nicht mehr *Armaturenbrett*. Die beiden
+Cache-Knoepfe wurden am 11.09. **nicht wiedergefunden** -- die Sitzung endete,
+bevor ein Screenshot der Dashboard-Seite vorlag. Ob der Kasten noch
+*Grundausstattung* heisst, ist damit offen. Naechster Schritt: Screenshot von
+*Dashboard* anfordern, dann erst zeigen.
+
+Stand 04.09.2026, damals bestaetigt -- im Kasten **Grundausstattung**,
+Abschnitt **Cache**, zwei Knoepfe:
 
 - **„Cache leeren"** — wirft die Kopien auf den CDN-Zwischenservern weg
 - **„Vorschau ohne Cache"** — zeigt die Seite direkt vom Server, am
@@ -594,7 +602,8 @@ Kontrolle, dann *Cache leeren*.
 | 6 | Wix kuendigen | **erst wenn 1 und 3 gruen sind** |
 | 7 | ~~Ersparnis neu rechnen~~ **gerechnet 09.09.2026: mindestens 223,63 €/Jahr** | drei Zahlen fehlen noch, siehe Kostenkapitel — **zwei davon nur bis zur Wix-Kuendigung ablesbar** |
 | 8 | ~~`seite-10-09.zip` hochladen~~ **ueberholt 11.09.2026** — hochgeladen wurde stattdessen `seite-11-09-9420917.zip`, das denselben Inhalt und alles Spaetere enthaelt | |
-| 9 | **Seite im Browser nachsehen** | Der Upload ist nur ueber die Dateigroesse belegt, nicht ueber den Augenschein. ~~ZIP aus `public_html` loeschen~~ **erledigt 11.09.2026**, von Irfan bestaetigt |
+| 9 | ~~Seite im Browser nachsehen~~ **erledigt 11.09.2026** — "sieht ok aus", von Irfan bestaetigt. ~~ZIP aus `public_html` loeschen~~ ebenfalls erledigt | |
+| 13 | **Cache leeren** | Bis dahin bekommen normale Besucher weiter die alte Fassung von den CDN-Zwischenservern. Der Knopf ist in dieser Sitzung **nicht gefunden worden**, siehe unten |
 | 10 | ~~Inneren `public_html` entfernen~~ **erledigt 11.09.2026** — im Dateimanager unter `... > elektrotechnik-paulus.de > public_html` stehen nur noch `elektrosymbole`, `png`, `schriften` und die Seitendateien | |
 | 11 | `pub.html` loeschen | Von Irfan am 11.09. aus `public.html` umbenannt, liegt ausserhalb des Webverzeichnisses und ist von aussen nicht erreichbar. Kann weg, sobald die Seite einmal im Browser geprueft ist |
 | 12 | `.gitignore` in `public_html` entfernen | 90 Bytes Ballast aus einem alten Upload. **Ungeprueft**: die Liste zeigte zuletzt keine Dateien mit fuehrendem Punkt, das kann Loeschung oder eine andere Anzeigeeinstellung sein |
