@@ -632,11 +632,52 @@ Property nicht.
     Leistung     120 Klicks aus der Websuche, 09.06. bis 01.09.2026
     Core Web Vitals   keine Daten, Mobil wie Computer
 
-**Die Seite hat zehn Seiten, im Index sind drei.** Das ist der wichtigste
-offene Punkt fuer die Auffindbarkeit. Die Zahlen stammen aus der Zeit vor dem
-Umzug -- die Seite lag bis zum 11.09. bei Wix. Warum die uebrigen nicht
-indexiert sind, steht unter *Indexierung → Seiten* und ist **noch nicht
-angesehen**.
+**Die Seite hat zehn Seiten, im Index sind drei.** Unter
+*Indexierung → Seiten* stehen vier Gruende:
+
+    Nicht gefunden (404)                  Website           4
+    Seite mit Weiterleitung               Website           1
+    Gefunden - zurzeit nicht indexiert    Google-Systeme    4
+    Gecrawlt - zurzeit nicht indexiert    Google-Systeme    1
+
+**Die vier 404 waren die einzige Zeile, bei der Besucher verloren gingen.**
+Es sind die Seitennamen aus der Wix-Zeit:
+
+    /cookie-einstellungen/   zuletzt geprueft 27.05.2026
+    /unsere-leistungen/      13.05.2026
+    /kontakt/                12.05.2026
+    /ueber-uns/              28.04.2026
+
+Dafuer ist am 11.09. eine `.htaccess` entstanden, Commit `3a5b69f`, siehe
+unten. Die beiden Zeilen *zurzeit nicht indexiert* loesen sich meist von
+selbst; dafuer ist die Sitemap da. *Gecrawlt - zurzeit nicht indexiert*
+heisst, dass Google die Seite gelesen und abgelehnt hat -- welche das ist,
+wurde **nicht nachgesehen**.
+
+### Weiterleitungen, `.htaccess` (11.09.2026)
+
+Zuordnung der vier alten Adressen:
+
+    /unsere-leistungen/      ->  /#leistungen
+    /kontakt/                ->  /#kontakt
+    /cookie-einstellungen/   ->  /#datenschutz
+    /ueber-uns/              ->  /
+
+301 statt 302, damit Google die Bewertung der alten Adresse auf die neue
+uebertraegt. Der Teil hinter der Raute zaehlt fuer Google nicht, dort landet
+also alles auf der Startseite -- richtig so, denn dort steht der Inhalt.
+
+**Zwei Punkte, die vor dem Hochladen zu klaeren sind:**
+
+1. **Liegt in `public_html` schon eine `.htaccess`?** Sie ist eine versteckte
+   Datei und wird nicht immer angezeigt. Das Paket wuerde sie ueberschreiben
+   und damit moeglicherweise Einstellungen von Hostinger loeschen. **Nicht
+   geprueft.**
+2. **Die Syntax ist ungeprueft.** Diese Sitzung hatte keinen Apache zum
+   Gegenlesen. Ein Fehler in einer `.htaccess` legt die **ganze** Seite mit
+   einem Fehler 500 lahm. Wiederherstellung: die Datei im Dateimanager
+   loeschen oder umbenennen, die Seite ist sofort wieder da. Nach dem Upload
+   deshalb **zuerst die Startseite aufrufen**, vor allem anderen.
 
 **Falls doch einmal neu verifiziert werden muss: HTML-Tag-Methode, nicht
 DNS.** Die DNS-Methode verlangt einen zusaetzlichen TXT-Eintrag in derselben
@@ -649,11 +690,13 @@ Offene Punkte zuerst, danach das Erledigte zum Nachschlagen.
 
 | | Was | Warum es zaehlt |
 |---|---|---|
-| 1 | ~~Im Maerz und April 2027 nachsehen, dass Wix nichts abbucht~~ **als Kalendereintrag gesetzt, 11.09.2026** — drei ganztaegige Termine in `ayar@elektrotechnik-paulus.de`: 14.03.2027 (Premiumpaket), 04.04.2027 (Brand Maker), 19.04.2027 (Kontoauszug und PayPal). Jeder Termin traegt die Anleitung im Text, damit er in anderthalb Jahren ohne Rueckfrage verstaendlich ist | |
-| 1 | Alte Wix-Seite: ist sie noch oeffentlich erreichbar? | Sie laeuft bis Fruehjahr 2027 weiter, nur ohne die Domain. Steht derselbe Text unter einer Wix-Adresse im Netz, sieht Google ihn doppelt. **Ungeprueft** -- die Adresse ist in dieser Sitzung nicht bekannt |
-| 2 | `.gitignore` in `public_html` entfernen | 90 Bytes Ballast aus einem alten Upload. **Ungeprueft**, ob noch vorhanden: die Liste zeigte zuletzt keine Dateien mit fuehrendem Punkt, das kann Loeschung sein oder eine Anzeigeeinstellung |
-| 3 | Zertifikatswarnung im Browser pruefen | seit dem CDN nicht geprueft. Auf dem Dashboard stehen *SSL* und *CDN* gruen — das ist Hostingers eigene Anzeige, kein Beweis im Browser |
-| 4 | Untermenue *Leistungen* ragt rechts aus dem Fenster | gemessen 38 px bei 1024 und 1440, 24 px bei 1200, 12 px bei 1366. Am Handy nicht. Gefunden beim Messen, nicht beauftragt, deshalb nicht angefasst |
+| 1 | **`.htaccess` hochladen** | Erst Punkt 1 und 2 aus dem Kapitel *Weiterleitungen* klaeren. Danach Paket bauen, hochladen, Cache leeren, **zuerst die Startseite pruefen**, dann die vier alten Adressen einzeln aufrufen |
+| 2 | **Sitemap in der Search Console eintragen** | *Indexierung → Sitemaps*, dort nur `sitemap.xml` eintragen, ohne Adresse davor. Am 11.09. **nicht mehr gemacht** |
+| 3 | Welche Seite ist *Gecrawlt - zurzeit nicht indexiert*? | Google hat sie gelesen und abgelehnt. Erst wenn man weiss, welche es ist, laesst sich etwas tun |
+| 4 | Alte Wix-Seite: ist sie noch oeffentlich erreichbar? | Sie laeuft bis Fruehjahr 2027 weiter, nur ohne die Domain. Steht derselbe Text unter einer Wix-Adresse im Netz, sieht Google ihn doppelt. **Ungeprueft** -- die Adresse ist in dieser Sitzung nicht bekannt |
+| 5 | `.gitignore` in `public_html` entfernen | 90 Bytes Ballast aus einem alten Upload. **Ungeprueft**, ob noch vorhanden: die Liste zeigte zuletzt keine Dateien mit fuehrendem Punkt, das kann Loeschung sein oder eine Anzeigeeinstellung |
+| 6 | Zertifikatswarnung im Browser pruefen | seit dem CDN nicht geprueft. Auf dem Dashboard stehen *SSL* und *CDN* gruen — das ist Hostingers eigene Anzeige, kein Beweis im Browser |
+| 7 | Untermenue *Leistungen* ragt rechts aus dem Fenster | gemessen 38 px bei 1024 und 1440, 24 px bei 1200, 12 px bei 1366. Am Handy nicht. Gefunden beim Messen, nicht beauftragt, deshalb nicht angefasst |
 
 Erledigt:
 
@@ -668,6 +711,7 @@ Erledigt:
 | — | ~~Inneren `public_html` entfernen~~ **11.09.2026** — im Dateimanager stehen nur noch `elektrosymbole`, `png`, `schriften` und die Seitendateien | |
 | — | ~~Cache leeren~~ **11.09.2026**, von Irfan bestaetigt. Damit ist `9420917` fuer Besucher ausgeliefert, nicht nur auf dem Server | |
 | — | ~~`pub.html` loeschen~~ **11.09.2026** — damit ist die Ebene ueber `public_html` wieder aufgeraeumt | |
+| — | ~~Im Maerz und April 2027 nachsehen, dass Wix nichts abbucht~~ **als Kalendereintrag gesetzt, 11.09.2026** — drei ganztaegige Termine in `ayar@elektrotechnik-paulus.de`: 14.03.2027 (Premiumpaket), 04.04.2027 (Brand Maker), 19.04.2027 (Kontoauszug und PayPal). Jeder Termin traegt die Anleitung im Text, damit er in anderthalb Jahren ohne Rueckfrage verstaendlich ist | |
 | — | ~~Automatische Verlaengerung einschalten~~ **steht auf AN**, am 11.09.2026 auf zwei Seiten gesehen: *Domain-Portfolio* und *Domain-Uebersicht*. Der Eintrag "steht auf AUS" vom 04.09. war veraltet | |
 | — | ~~Testmail an `info@elektrotechnik-paulus.de`~~ **11.09.2026** — "mail funktioniert", von Irfan bestaetigt. Damit ist belegt, dass die Geschaeftsmail den Domain-Umzug ueberstanden hat: die MX-Eintraege zeigen weiter auf Google Workspace | |
 | — | ~~Wix kuendigen~~ **11.09.2026** — bei beiden Abos steht jetzt *AUTOMAT. VERLAENGERUNG AUS* und *Automatische Verlaengerung deaktiviert*. Sie laufen bis zum Ende des bezahlten Jahres und enden dann von selbst | |
