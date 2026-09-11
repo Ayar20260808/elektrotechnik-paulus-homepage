@@ -562,6 +562,39 @@ Ablauf wie am 04.09.: ZIP nach `public_html`, Extract **mit** *Overwrite
 existing files*, F5, Groessen vergleichen, ZIP loeschen, *Vorschau ohne Cache*,
 dann *Cache leeren*.
 
+### Paket `seite-11-09-9420917.zip` gebaut (11.09.2026)
+
+246 Dateien, 3.615.507 Bytes = 3,45 MiB. Gebaut mit
+`python3 docs/werkzeuge/paket.py`, Hash von Hand angehaengt, an Irfan
+geschickt. **Hochgeladen ist es noch nicht.**
+
+Enthaelt alles seit dem Live-Stand `04487d7`, darunter die Arbeit dieser
+Sitzung: Kontaktseite mit Band, Baender am Seitenende, enge Bandhoehen,
+Anliegen-Feld leer, Standort Koeln Nippes, Einleitungssatz aus dem Hero
+raus, schnellere und hellere Hero-Animation, grosser Kopf beim Klick auf
+Start, hoeherer Hero-Text am Handy.
+
+Gegengeprueft, unabhaengig von der Selbstpruefung des Werkzeugs:
+
+| Pruefung | Ergebnis |
+|---|---|
+| Dateien | 246, davon 10 HTML-Seiten |
+| Markdown, `docs/`, `.github/`, `CLAUDE.md` im Paket | keins |
+| `index.html` im Paket gegen Arbeitskopie | bytegleich, 145.992 Bytes |
+| Dateiverweise in HTML, CSS und JSON | 459 geprueft, null fehlend |
+| "Meisterbetrieb" | nicht enthalten |
+
+**Erwartete Groessen nach dem Upload** (zur Kontrolle im Dateimanager, weil
+die Speicheranzeige unzuverlaessig ist):
+
+    index.html        145.992 Bytes = 142,57 KiB
+    marke-hager.png    21.961 Bytes =  21,45 KiB
+    kontakt.php        10.774 Bytes =  10,52 KiB
+
+Ablauf wie am 04.09.: ZIP nach `public_html`, Extract **mit** *Overwrite
+existing files*, F5, Groessen vergleichen, ZIP loeschen, *Vorschau ohne Cache*,
+dann *Cache leeren*.
+
 ### Paket mit Commit-Hash im Namen (11.09.2026)
 
 Die Lehre vom 10.09. umgesetzt: Der Paketname traegt jetzt den Commit-Kurzhash,
