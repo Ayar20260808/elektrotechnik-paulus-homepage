@@ -653,7 +653,8 @@
      Abschnitts sichtbar -- gemessen. Abgezogen werden also der
      geschrumpfte Kopf und das Markenband, das auf der vollen Kopfhoehe
      steht. */
-  #ablauf{min-height:calc(100vh - var(--header-klein, 46px) - var(--header-hoehe, 139px));}
+  #ablauf{min-height:calc(100vh - var(--header-klein, 46px) - var(--header-hoehe, 139px));
+    display:flex;flex-direction:column;justify-content:center;}
   .ablauf-grid{display:grid;grid-template-columns:repeat(4, minmax(0,1fr));gap:28px;}
   @media(max-width:1020px){.ablauf-grid{grid-template-columns:repeat(2, minmax(0,1fr));}}
   @media(max-width:560px){.ablauf-grid{grid-template-columns:1fr;}}
@@ -689,11 +690,14 @@
   /* Der Sprung kann nur so weit gehen, wie Seite darunter uebrig ist.
      Ohne Zuschlag stoesst der Browser vorher ans Seitenende und das Band
      bleibt zu weit unten stehen -- gemessen 115 px zu tief bei 1920x1080,
-     235 px bei 1920x1200, 475 px bei 2560x1440. Mit dieser Mindesthoehe
-     fuellen Band und Kontaktbereich zusammen immer das Fenster unterhalb
-     des Kopfes; die Fusszeile kommt obendrauf. Bei Fenstern bis 1440 px
-     Breite ist der Bereich ohnehin hoeher, dort aendert die Regel nichts. */
-  #kontakt{min-height:calc(100vh - var(--header-hoehe, 139px) * 2.2);}
+     235 px bei 1920x1200, 475 px bei 2560x1440.
+     Gerechnet wie beim Ablauf mit --header-klein, weil nach dem Scrollen
+     nur der geschrumpfte Kopf noch etwas verdeckt. Abgezogen werden der
+     geschrumpfte Kopf und das Bilderband, das auf dem 1,2-fachen der
+     vollen Kopfhoehe steht. Der Inhalt sitzt senkrecht mittig, sonst
+     klebte er oben und der Zuschlag bliebe als Leere darunter stehen. */
+  #kontakt{min-height:calc(100vh - var(--header-klein, 46px) - var(--header-hoehe, 139px) * 1.2);
+    display:flex;flex-direction:column;justify-content:center;}
   #kontakt > .wrap{position:relative;z-index:1;}
   /* Weiss wie die Zeile ueber den Leistungen -- Gelb kaeme auf dem
      hellsten Fleck des Planfotos nur auf 3,9:1 und bliebe unter der Norm. */
