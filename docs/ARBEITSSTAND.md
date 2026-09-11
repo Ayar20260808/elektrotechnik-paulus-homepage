@@ -605,11 +605,34 @@ ausliefern, ist **nicht geprueft**. Fuer Google ist das unkritisch, solange
 die canonical-Zeilen einheitlich sind -- und das sind sie. Eine Umleitung
 waere sauberer, ist aber kein offener Fehler.
 
-**Search Console fehlt noch.** Ohne sie sieht niemand, ob Google etwas nicht
-lesen kann. Zur Bestaetigung der Inhaberschaft **die HTML-Tag-Methode nehmen,
-nicht die DNS-Methode.** Die DNS-Methode verlangt einen zusaetzlichen
-TXT-Eintrag in derselben Zone, in der der SPF-Eintrag der Geschaeftsmail
-steht -- und an MX und TXT wird nicht gearbeitet.
+**Search Console ist bereits eingerichtet** und auf
+`https://www.elektrotechnik-paulus.de/` verifiziert -- am 11.09. am Bildschirm
+gesehen. Ein Bestaetigungs-Tag in der Seite ist damit **nicht noetig**. Die
+Vermutung, das muesse erst noch eingerichtet werden, war falsch.
+
+Zugang ueber das Konto *Elektrotechnik Paulus*, `ayar@elektrotechnik-paulus.de`.
+Im Konto-Umschalter stehen ausserdem `irfan.ayar@gmail.com`,
+`info@elektrotechnik-paulus.de`, `info@elektropersonal-ayar.de` und
+`irfanprivat@googlemail.com` -- wer sich mit dem falschen anmeldet, sieht die
+Property nicht.
+
+**Befund vom 11.09.2026, Uebersichtsseite:**
+
+    Indexierung    3 indexierte Seiten
+                  10 nicht indexierte Seiten
+    Leistung     120 Klicks aus der Websuche, 09.06. bis 01.09.2026
+    Core Web Vitals   keine Daten, Mobil wie Computer
+
+**Die Seite hat zehn Seiten, im Index sind drei.** Das ist der wichtigste
+offene Punkt fuer die Auffindbarkeit. Die Zahlen stammen aus der Zeit vor dem
+Umzug -- die Seite lag bis zum 11.09. bei Wix. Warum die uebrigen nicht
+indexiert sind, steht unter *Indexierung → Seiten* und ist **noch nicht
+angesehen**.
+
+**Falls doch einmal neu verifiziert werden muss: HTML-Tag-Methode, nicht
+DNS.** Die DNS-Methode verlangt einen zusaetzlichen TXT-Eintrag in derselben
+Zone, in der der SPF-Eintrag der Geschaeftsmail steht -- und an MX und TXT
+wird nicht gearbeitet.
 
 ### Noch offen — kurz und konkret
 
