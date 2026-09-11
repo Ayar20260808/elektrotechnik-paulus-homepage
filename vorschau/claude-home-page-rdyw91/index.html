@@ -347,6 +347,12 @@
   .hero-eyebrow{display:flex;align-items:center;gap:10px;font-family:var(--font-heading);font-weight:600;font-size:13.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--yellow);margin-bottom:clamp(7px,calc(var(--sh) * 1.7),16px);}
   .hero-eyebrow .dot{width:8px;height:8px;background:var(--green-light);display:inline-block;animation:ep-pulse 2.4s ease-in-out infinite;}
   .hero h1{font-family:var(--font-heading);font-weight:700;font-size:clamp(32px,min(5.7vw, calc(var(--sh) * 6.6)),66px);line-height:1.04;letter-spacing:-.025em;color:#fff;max-width:20ch;margin-bottom:clamp(7px,calc(var(--sh) * 1.7),16px);}
+  /* Der Einleitungssatz unter der Ueberschrift ist entfallen. Damit steht
+     die h1 als letztes Element im Hero, ihr Abstand nach unten haette
+     keinen Zweck mehr und wuerde den Text aus der senkrechten Mitte nach
+     oben schieben. Die Regel fuer .hero-lead bleibt stehen, falls der Satz
+     zurueckkommt. */
+  .hero-content > :last-child{margin-bottom:0;}
   .hero-lead{font-family:var(--font-body);font-size:clamp(15.5px,calc(var(--sh) * 2.15),20px);line-height:1.6;color:rgba(255,255,255,.82);max-width:56ch;margin-bottom:clamp(9px,calc(var(--sh) * 2.1),20px);}
   /* Foto ganz links, Schrift direkt daneben. Der Textblock beginnt bei 38
      Prozent der Inhaltsbreite -- dort endet das Foto (gemessen bei 1024,
@@ -1023,7 +1029,6 @@
   <div class="hero-content wrap">
     <div class="hero-eyebrow"><span class="dot"></span>Elektrofachbetrieb in Köln · über 20 Jahre Erfahrung</div>
     <h1>Elektrotechnik, auf die Sie sich verlassen können.</h1>
-    <p class="hero-lead">Elektroinstallation, Wallbox, Photovoltaik, Wärmepumpen-Anschluss, Smart Home und VDE-Prüfungen – von der Beratung bis zur Abnahme, aus einer Hand und beim selben Ansprechpartner. Jede Anlage übergeben wir gemessen und dokumentiert.</p>
   </div>
 </section>
 
