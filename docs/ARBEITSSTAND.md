@@ -501,7 +501,22 @@ loeschen, sonst liegt es oeffentlich abrufbar herum → *Vorschau ohne Cache*
 
 ### Stand der Veroeffentlichung
 
-**04.09.2026: Commit `04487d7` ist live auf `elektrotechnik-paulus.de`.**
+**11.09.2026: Commit `9420917` ist live.** Paket
+`seite-11-09-9420917.zip` von Irfan nach `public_html` entpackt. Belegt ueber
+die Dateigroesse: `index.html` zeigt im Dateimanager 142,57 KiB = 145.992
+Bytes, genau der erwartete Wert. **Die Seite selbst ist noch nicht im Browser
+nachgesehen** -- und von dieser Sitzung aus auch nicht nachsehbar, der
+Netzzugang weist beide Adressen ab (`connect_rejected`, Richtlinie des
+Proxys). Offen bleibt damit die Sichtpruefung, und ob das ZIP aus
+`public_html` geloescht wurde.
+
+Enthalten ist alles seit `04487d7`, darunter: Kontaktseite beginnt mit dem
+Band, Baender am Seitenende, enge Bandhoehen, Anliegen-Feld anfangs leer,
+Standort Koeln Nippes, Einleitungssatz aus dem Hero entfernt, Hero-Animation
+schneller und heller, Kopf bleibt beim Klick auf Start gross, Hero-Text am
+Handy hoeher.
+
+**04.09.2026: Commit `04487d7` war live auf `elektrotechnik-paulus.de`.**
 Enthalten: Waermepumpe als fuenftes Hero-Bild, Urlaubshinweis bis 06.09.,
 Datenschutz-Ueberschrift *Kontakt in Datenschutzfragen*, Pruefplakette ohne
 *auf Wunsch*, `kontakt.php` mit der Passwort-Korrektur. Vom Nutzer im Browser
@@ -522,7 +537,8 @@ Kontrolle, dann *Cache leeren*.
 | 5 | ~~`elektropersonal-ayar.de` mitnehmen?~~ **entschieden 04.09.2026: auslaufen lassen** | siehe unten |
 | 6 | Wix kuendigen | **erst wenn 1 und 3 gruen sind** |
 | 7 | ~~Ersparnis neu rechnen~~ **gerechnet 09.09.2026: mindestens 223,63 €/Jahr** | drei Zahlen fehlen noch, siehe Kostenkapitel — **zwei davon nur bis zur Wix-Kuendigung ablesbar** |
-| 8 | **`seite-10-09.zip` hochladen** | Live ist `04487d7`. Seither an ausgelieferten Dateien **nur zwei Aenderungen**: repariertes `marke-hager.png` (`cdf19d0`) und der entfernte Urlaubshinweis (10.09.2026). Am 10.09. von Irfan bestaetigt: `seite-06-09.zip` war **nicht** hochgeladen. Paket am 10.09. gebaut und geschickt, siehe unten |
+| 8 | ~~`seite-10-09.zip` hochladen~~ **ueberholt 11.09.2026** — hochgeladen wurde stattdessen `seite-11-09-9420917.zip`, das denselben Inhalt und alles Spaetere enthaelt | |
+| 9 | **Seite im Browser nachsehen, danach das ZIP aus `public_html` loeschen** | Der Upload ist nur ueber die Dateigroesse belegt, nicht ueber den Augenschein. Das ZIP ist oeffentlich abrufbar, solange es dort liegt |
 
 ### Paket `seite-10-09.zip` gebaut (10.09.2026)
 
@@ -566,7 +582,8 @@ dann *Cache leeren*.
 
 246 Dateien, 3.615.507 Bytes = 3,45 MiB. Gebaut mit
 `python3 docs/werkzeuge/paket.py`, Hash von Hand angehaengt, an Irfan
-geschickt. **Hochgeladen ist es noch nicht.**
+geschickt und am selben Tag von Irfan hochgeladen, siehe *Stand der
+Veroeffentlichung*.
 
 Enthaelt alles seit dem Live-Stand `04487d7`, darunter die Arbeit dieser
 Sitzung: Kontaktseite mit Band, Baender am Seitenende, enge Bandhoehen,
