@@ -690,7 +690,7 @@ Offene Punkte zuerst, danach das Erledigte zum Nachschlagen.
 
 | | Was | Warum es zaehlt |
 |---|---|---|
-| 1 | **`.htaccess` hochladen** | Erst Punkt 1 und 2 aus dem Kapitel *Weiterleitungen* klaeren. Danach Paket bauen, hochladen, Cache leeren, **zuerst die Startseite pruefen**, dann die vier alten Adressen einzeln aufrufen |
+| 1 | **`.htaccess` hochladen** | Erst Punkt 1 und 2 aus dem Kapitel *Weiterleitungen* klaeren. Danach Paket bauen, hochladen, Cache leeren, **zuerst die Startseite pruefen**, dann die vier alten Adressen einzeln aufrufen. Als Termin gesetzt: 12.09.2026, 9 Uhr, in `ayar@elektrotechnik-paulus.de`, mit der vollstaendigen Anleitung im Text |
 | 2 | **Sitemap in der Search Console eintragen** | *Indexierung → Sitemaps*, dort nur `sitemap.xml` eintragen, ohne Adresse davor. Am 11.09. **nicht mehr gemacht** |
 | 3 | Welche Seite ist *Gecrawlt - zurzeit nicht indexiert*? | Google hat sie gelesen und abgelehnt. Erst wenn man weiss, welche es ist, laesst sich etwas tun |
 | 4 | Alte Wix-Seite: ist sie noch oeffentlich erreichbar? | Sie laeuft bis Fruehjahr 2027 weiter, nur ohne die Domain. Steht derselbe Text unter einer Wix-Adresse im Netz, sieht Google ihn doppelt. **Ungeprueft** -- die Adresse ist in dieser Sitzung nicht bekannt |
