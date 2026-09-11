@@ -673,11 +673,33 @@ also alles auf der Startseite -- richtig so, denn dort steht der Inhalt.
    Datei und wird nicht immer angezeigt. Das Paket wuerde sie ueberschreiben
    und damit moeglicherweise Einstellungen von Hostinger loeschen. **Nicht
    geprueft.**
-2. **Die Syntax ist ungeprueft.** Diese Sitzung hatte keinen Apache zum
-   Gegenlesen. Ein Fehler in einer `.htaccess` legt die **ganze** Seite mit
-   einem Fehler 500 lahm. Wiederherstellung: die Datei im Dateimanager
-   loeschen oder umbenennen, die Seite ist sofort wieder da. Nach dem Upload
-   deshalb **zuerst die Startseite aufrufen**, vor allem anderen.
+2. ~~**Die Syntax ist ungeprueft.**~~ **Am 11.09.2026 gemessen, sie
+   stimmt.** Der Container hatte zwar keinen Apache, aber einer liess sich
+   nachinstallieren: `apt-get update && apt-get install -y apache2`. Damit
+   wurde die echte `.htaccess` unter einem lokalen Apache 2.4.58 ausgeliefert
+   (`AllowOverride All`, `mod_alias` an) und jede Adresse einzeln abgerufen:
+
+       /unsere-leistungen     301 -> https://www.elektrotechnik-paulus.de/#leistungen
+       /kontakt               301 -> https://www.elektrotechnik-paulus.de/#kontakt
+       /cookie-einstellungen  301 -> https://www.elektrotechnik-paulus.de/#datenschutz
+       /ueber-uns             301 -> https://www.elektrotechnik-paulus.de/
+
+   Jede davon mit **und** ohne abschliessenden Schraegstrich, also acht
+   Abrufe, alle acht richtig. Gegenprobe, damit die Regeln nichts Echtes
+   mitreissen: alle zehn HTML-Seiten, `kontakt.php`, `robots.txt` und
+   `sitemap.xml` liefern **200, keine Umleitung** -- besonders wichtig bei
+   `kontakt.php`, denn `^/kontakt/?$` sieht ihr gefaehrlich aehnlich; das `$`
+   verhindert den Treffer. `/gibtesnicht/` bleibt 404, im Fehlerprotokoll
+   keine einzige Beanstandung. Die drei Sprungziele `#leistungen`,
+   `#kontakt` und `#datenschutz` gibt es in `index.html` je genau einmal.
+
+   **Was damit NICHT bewiesen ist:** welche Serversoftware Hostinger
+   einsetzt. Gemessen wurde gegen Apache. Liefe dort etwas anderes, koennte
+   das Ergebnis abweichen. Der Handgriff danach bleibt derselbe und faengt
+   auch diesen Fall ab: Ein Fehler in einer `.htaccess` legt die **ganze**
+   Seite mit einem Fehler 500 lahm. Nach dem Upload deshalb **zuerst die
+   Startseite aufrufen**, vor allem anderen. Wiederherstellung: die Datei im
+   Dateimanager loeschen oder umbenennen, die Seite ist sofort wieder da.
 
 **Falls doch einmal neu verifiziert werden muss: HTML-Tag-Methode, nicht
 DNS.** Die DNS-Methode verlangt einen zusaetzlichen TXT-Eintrag in derselben
@@ -690,7 +712,7 @@ Offene Punkte zuerst, danach das Erledigte zum Nachschlagen.
 
 | | Was | Warum es zaehlt |
 |---|---|---|
-| 1 | **`.htaccess` hochladen** | Erst Punkt 1 und 2 aus dem Kapitel *Weiterleitungen* klaeren. Danach Paket bauen, hochladen, Cache leeren, **zuerst die Startseite pruefen**, dann die vier alten Adressen einzeln aufrufen. Als Termin gesetzt: 12.09.2026, 9 Uhr, in `ayar@elektrotechnik-paulus.de`, mit der vollstaendigen Anleitung im Text |
+| 1 | **`.htaccess` hochladen** | Punkt 2 aus dem Kapitel *Weiterleitungen* ist am 11.09. gemessen und erledigt, die Umleitungen stimmen. **Offen bleibt nur Punkt 1:** liegt in `public_html` schon eine `.htaccess`? Das kann nur Irfan nachsehen. Danach Paket bauen, hochladen, Cache leeren, **zuerst die Startseite pruefen**, dann die vier alten Adressen einzeln aufrufen. Als Termin gesetzt: 12.09.2026, 9 Uhr, in `ayar@elektrotechnik-paulus.de`, mit der vollstaendigen Anleitung im Text |
 | 2 | **Sitemap in der Search Console eintragen** | *Indexierung → Sitemaps*, dort nur `sitemap.xml` eintragen, ohne Adresse davor. Am 11.09. **nicht mehr gemacht** |
 | 3 | Welche Seite ist *Gecrawlt - zurzeit nicht indexiert*? | Google hat sie gelesen und abgelehnt. Erst wenn man weiss, welche es ist, laesst sich etwas tun |
 | 4 | Alte Wix-Seite: ist sie noch oeffentlich erreichbar? | Sie laeuft bis Fruehjahr 2027 weiter, nur ohne die Domain. Steht derselbe Text unter einer Wix-Adresse im Netz, sieht Google ihn doppelt. **Ungeprueft** -- die Adresse ist in dieser Sitzung nicht bekannt |
