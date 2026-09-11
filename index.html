@@ -642,12 +642,12 @@
   /* Der Ablauf-Abschnitt und das Bilderband darunter fuellen zusammen
      genau einen Bildschirm: das Band schliesst diese Seite unten ab.
      Gerechnet mit --header-klein, weil nach dem Scrollen nur der
-     geschrumpfte Kopf noch etwas verdeckt, und mit dem 1,2-fachen der
-     vollen Kopfhoehe fuer das Bilderband (.marquee-section.bilderband).
+     geschrumpfte Kopf noch etwas verdeckt, und mit der vollen Kopfhoehe
+     fuer das Markenband (.marquee-section.markenband steht auf 1,0).
      Nur ab 901 px -- auf dem Handy ist der Abschnitt ohnehin hoeher und
      die Seiteneinteilung waere dort sinnlos. */
   @media(min-width:901px){
-    #ablauf{min-height:calc(100vh - var(--header-klein, 46px) - var(--header-hoehe, 139px) * 1.2);
+    #ablauf{min-height:calc(100vh - var(--header-klein, 46px) - var(--header-hoehe, 139px));
       display:flex;flex-direction:column;justify-content:center;
       /* Der Inhalt sitzt einen Tick ueber der Mitte: mehr Abstand nach
          unten, die senkrechte Mitte rueckt dadurch nach oben. box-sizing
@@ -678,12 +678,12 @@
      treten davor genauso hervor wie die Leistungskarten; die Angaben in der
      linken Spalte stehen deshalb in Weiss. */
   #kontakt{position:relative;overflow:hidden;background:var(--dark);border-top:2px solid var(--ink);}
-  /* Der Kontaktbereich ist eine eigene Bildschirmseite -- ueber ihm
-     schliesst das Bilderband die Ablauf-Seite ab, es gehoert also nicht
-     mehr dazu. Abgezogen wird nur der geschrumpfte Kopf. Nur ab 901 px,
-     auf dem Handy bleibt alles wie es ist. */
+  /* Der Kontaktbereich und das Bilderband darunter fuellen zusammen eine
+     Bildschirmseite: das Band schliesst sie unten ab. Das Bilderband steht
+     auf dem 1,2-fachen der vollen Kopfhoehe. Nur ab 901 px, auf dem Handy
+     gibt es keine Seiteneinteilung. */
   @media(min-width:901px){
-    #kontakt{min-height:calc(100vh - var(--header-klein, 46px));
+    #kontakt{min-height:calc(100vh - var(--header-klein, 46px) - var(--header-hoehe, 139px) * 1.2);
       display:flex;flex-direction:column;justify-content:center;}
   }
   #kontakt > .wrap{position:relative;z-index:1;}
@@ -865,6 +865,18 @@
   .reveal-group [data-reveal]:nth-child(4n+3){transition-delay:140ms;}
   .reveal-group [data-reveal]:nth-child(4n+4){transition-delay:210ms;}
 
+  /* Die Baender stehen im Markup hinter ihrem Abschnitt, weil sie auf dem
+     Desktop die jeweilige Bildschirmseite unten abschliessen. Auf dem Handy
+     gibt es keine Seiteneinteilung; dort bleibt die gewachsene Reihenfolge
+     erhalten -- erst das Band, dann der Abschnitt. Die Huelle .seitenfolge
+     ist nur dafuer da, dass order hier greifen kann. */
+  @media(max-width:900px){
+    .seitenfolge{display:flex;flex-direction:column;}
+    .seitenfolge > .markenband{order:1;}
+    .seitenfolge > #ablauf{order:2;}
+    .seitenfolge > .bilderband{order:3;}
+    .seitenfolge > #kontakt{order:4;}
+  }
   @media(max-width:900px){
     .nav-links{display:none;}
     .burger{display:flex;}
@@ -1214,20 +1226,7 @@
 </section>
 
 
-<div class="marquee-section attached markenband">
-  <div class="marquee-head">Marken, mit denen wir arbeiten</div>
-  <div class="marquee-clip">
-    <div class="marquee-track marken">
-      <div class="marquee-group">
-        <img class="brand-logo" src="marke-hager.png" alt="Hager" loading="lazy"><img class="brand-logo" src="marke-gira.png" alt="Gira" loading="lazy"><img class="brand-logo" src="marke-buschjaeger.png" alt="Busch-Jaeger" loading="lazy"><img class="brand-logo" src="marke-jung.png" alt="JUNG" loading="lazy"><img class="brand-logo" src="marke-abb.png" alt="ABB" loading="lazy"><img class="brand-logo" src="marke-siemens.png" alt="Siemens" loading="lazy"><img class="brand-logo" src="marke-schneider.png" alt="Schneider Electric" loading="lazy"><img class="brand-logo" src="marke-bosch.png" alt="Bosch" loading="lazy"><img class="brand-logo" src="marke-mennekes.png" alt="MENNEKES" loading="lazy"><img class="brand-logo" src="marke-wago.png" alt="WAGO" loading="lazy"><img class="brand-logo" src="marke-eltako.png" alt="Eltako" loading="lazy"><img class="brand-logo" src="marke-theben.png" alt="Theben" loading="lazy"><img class="brand-logo" src="marke-sma.png" alt="SMA Solar" loading="lazy"><img class="brand-logo" src="marke-heidelberg.png" alt="Heidelberg" loading="lazy"><span class="brand-name">Ohme</span><img class="brand-logo" src="marke-jinko.png" alt="JinkoSolar" loading="lazy"><img class="brand-logo" src="marke-longi.png" alt="LONGi Green Energy" loading="lazy"><img class="brand-logo" src="marke-kostal.png" alt="KOSTAL" loading="lazy"><img class="brand-logo" src="marke-k2systems.png" alt="K2 Systems" loading="lazy"><img class="brand-logo" src="marke-keba.png" alt="KEBA" loading="lazy"><img class="brand-logo" src="marke-goe.png" alt="go-e" loading="lazy">
-      </div>
-      <div class="marquee-group" aria-hidden="true">
-        <img class="brand-logo" src="marke-hager.png" alt="Hager" loading="lazy"><img class="brand-logo" src="marke-gira.png" alt="Gira" loading="lazy"><img class="brand-logo" src="marke-buschjaeger.png" alt="Busch-Jaeger" loading="lazy"><img class="brand-logo" src="marke-jung.png" alt="JUNG" loading="lazy"><img class="brand-logo" src="marke-abb.png" alt="ABB" loading="lazy"><img class="brand-logo" src="marke-siemens.png" alt="Siemens" loading="lazy"><img class="brand-logo" src="marke-schneider.png" alt="Schneider Electric" loading="lazy"><img class="brand-logo" src="marke-bosch.png" alt="Bosch" loading="lazy"><img class="brand-logo" src="marke-mennekes.png" alt="MENNEKES" loading="lazy"><img class="brand-logo" src="marke-wago.png" alt="WAGO" loading="lazy"><img class="brand-logo" src="marke-eltako.png" alt="Eltako" loading="lazy"><img class="brand-logo" src="marke-theben.png" alt="Theben" loading="lazy"><img class="brand-logo" src="marke-sma.png" alt="SMA Solar" loading="lazy"><img class="brand-logo" src="marke-heidelberg.png" alt="Heidelberg" loading="lazy"><span class="brand-name">Ohme</span><img class="brand-logo" src="marke-jinko.png" alt="JinkoSolar" loading="lazy"><img class="brand-logo" src="marke-longi.png" alt="LONGi Green Energy" loading="lazy"><img class="brand-logo" src="marke-kostal.png" alt="KOSTAL" loading="lazy"><img class="brand-logo" src="marke-k2systems.png" alt="K2 Systems" loading="lazy"><img class="brand-logo" src="marke-keba.png" alt="KEBA" loading="lazy"><img class="brand-logo" src="marke-goe.png" alt="go-e" loading="lazy">
-      </div>
-    </div>
-  </div>
-</div>
-
+<div class="seitenfolge">
 <section id="ablauf">
   <div class="wrap">
     <div class="section-head" data-reveal>
@@ -1244,39 +1243,15 @@
   </div>
 </section>
 
-<div class="marquee-section attached bilderband">
-  <div class="marquee-head">Aus dem Arbeitsalltag</div>
+<div class="marquee-section attached markenband">
+  <div class="marquee-head">Marken, mit denen wir arbeiten</div>
   <div class="marquee-clip">
-    <div class="marquee-track slow">
-      <div class="imgband-group">
-        <img src="band-team.jpg" alt="Zwei Mitarbeiter auf der Baustelle" loading="lazy">
-        <img src="band-01-steckdose.jpg" alt="Steckdose wird verdrahtet" loading="lazy">
-        <img src="band-02-verteilung.jpg" alt="Arbeit an einer Unterverteilung" loading="lazy">
-        <img src="band-trennschleifer.jpg" alt="Kabelrinne wird mit dem Trennschleifer gekuerzt" loading="lazy">
-        <img src="band-05-kabeltrommeln.jpg" alt="Kabeltrommeln im Lager" loading="lazy">
-        <img src="band-06-wallbox.jpg" alt="Wallbox an einer Backsteinwand" loading="lazy">
-        <img src="band-montage.jpg" alt="Montage einer Leitung unter der Decke" loading="lazy">
-        <img src="band-08-photovoltaik.jpg" alt="Photovoltaikanlage auf einem Flachdach" loading="lazy">
-        <img src="band-09-waermepumpe.jpg" alt="Waermepumpe an einer Hauswand" loading="lazy">
-        <img src="band-10-smarthome.jpg" alt="Smart-Home-Steuerung per Tablet" loading="lazy">
-        <img src="band-11-kamera.jpg" alt="Montage einer Deckenkamera" loading="lazy">
-        <img src="band-13-licht.jpg" alt="Indirekte Beleuchtung im Wohnzimmer" loading="lazy">
-        <img src="band-14-notleuchte.jpg" alt="Notausgangsleuchte und Alarmgeber" loading="lazy">
+    <div class="marquee-track marken">
+      <div class="marquee-group">
+        <img class="brand-logo" src="marke-hager.png" alt="Hager" loading="lazy"><img class="brand-logo" src="marke-gira.png" alt="Gira" loading="lazy"><img class="brand-logo" src="marke-buschjaeger.png" alt="Busch-Jaeger" loading="lazy"><img class="brand-logo" src="marke-jung.png" alt="JUNG" loading="lazy"><img class="brand-logo" src="marke-abb.png" alt="ABB" loading="lazy"><img class="brand-logo" src="marke-siemens.png" alt="Siemens" loading="lazy"><img class="brand-logo" src="marke-schneider.png" alt="Schneider Electric" loading="lazy"><img class="brand-logo" src="marke-bosch.png" alt="Bosch" loading="lazy"><img class="brand-logo" src="marke-mennekes.png" alt="MENNEKES" loading="lazy"><img class="brand-logo" src="marke-wago.png" alt="WAGO" loading="lazy"><img class="brand-logo" src="marke-eltako.png" alt="Eltako" loading="lazy"><img class="brand-logo" src="marke-theben.png" alt="Theben" loading="lazy"><img class="brand-logo" src="marke-sma.png" alt="SMA Solar" loading="lazy"><img class="brand-logo" src="marke-heidelberg.png" alt="Heidelberg" loading="lazy"><span class="brand-name">Ohme</span><img class="brand-logo" src="marke-jinko.png" alt="JinkoSolar" loading="lazy"><img class="brand-logo" src="marke-longi.png" alt="LONGi Green Energy" loading="lazy"><img class="brand-logo" src="marke-kostal.png" alt="KOSTAL" loading="lazy"><img class="brand-logo" src="marke-k2systems.png" alt="K2 Systems" loading="lazy"><img class="brand-logo" src="marke-keba.png" alt="KEBA" loading="lazy"><img class="brand-logo" src="marke-goe.png" alt="go-e" loading="lazy">
       </div>
-      <div class="imgband-group" aria-hidden="true">
-        <img src="band-team.jpg" alt="" loading="lazy">
-        <img src="band-01-steckdose.jpg" alt="" loading="lazy">
-        <img src="band-02-verteilung.jpg" alt="" loading="lazy">
-        <img src="band-trennschleifer.jpg" alt="" loading="lazy">
-        <img src="band-05-kabeltrommeln.jpg" alt="" loading="lazy">
-        <img src="band-06-wallbox.jpg" alt="" loading="lazy">
-        <img src="band-montage.jpg" alt="" loading="lazy">
-        <img src="band-08-photovoltaik.jpg" alt="" loading="lazy">
-        <img src="band-09-waermepumpe.jpg" alt="" loading="lazy">
-        <img src="band-10-smarthome.jpg" alt="" loading="lazy">
-        <img src="band-11-kamera.jpg" alt="" loading="lazy">
-        <img src="band-13-licht.jpg" alt="" loading="lazy">
-        <img src="band-14-notleuchte.jpg" alt="" loading="lazy">
+      <div class="marquee-group" aria-hidden="true">
+        <img class="brand-logo" src="marke-hager.png" alt="Hager" loading="lazy"><img class="brand-logo" src="marke-gira.png" alt="Gira" loading="lazy"><img class="brand-logo" src="marke-buschjaeger.png" alt="Busch-Jaeger" loading="lazy"><img class="brand-logo" src="marke-jung.png" alt="JUNG" loading="lazy"><img class="brand-logo" src="marke-abb.png" alt="ABB" loading="lazy"><img class="brand-logo" src="marke-siemens.png" alt="Siemens" loading="lazy"><img class="brand-logo" src="marke-schneider.png" alt="Schneider Electric" loading="lazy"><img class="brand-logo" src="marke-bosch.png" alt="Bosch" loading="lazy"><img class="brand-logo" src="marke-mennekes.png" alt="MENNEKES" loading="lazy"><img class="brand-logo" src="marke-wago.png" alt="WAGO" loading="lazy"><img class="brand-logo" src="marke-eltako.png" alt="Eltako" loading="lazy"><img class="brand-logo" src="marke-theben.png" alt="Theben" loading="lazy"><img class="brand-logo" src="marke-sma.png" alt="SMA Solar" loading="lazy"><img class="brand-logo" src="marke-heidelberg.png" alt="Heidelberg" loading="lazy"><span class="brand-name">Ohme</span><img class="brand-logo" src="marke-jinko.png" alt="JinkoSolar" loading="lazy"><img class="brand-logo" src="marke-longi.png" alt="LONGi Green Energy" loading="lazy"><img class="brand-logo" src="marke-kostal.png" alt="KOSTAL" loading="lazy"><img class="brand-logo" src="marke-k2systems.png" alt="K2 Systems" loading="lazy"><img class="brand-logo" src="marke-keba.png" alt="KEBA" loading="lazy"><img class="brand-logo" src="marke-goe.png" alt="go-e" loading="lazy">
       </div>
     </div>
   </div>
@@ -1355,6 +1330,46 @@
 </section>
 
 <!-- Impressum -->
+<div class="marquee-section attached bilderband">
+  <div class="marquee-head">Aus dem Arbeitsalltag</div>
+  <div class="marquee-clip">
+    <div class="marquee-track slow">
+      <div class="imgband-group">
+        <img src="band-team.jpg" alt="Zwei Mitarbeiter auf der Baustelle" loading="lazy">
+        <img src="band-01-steckdose.jpg" alt="Steckdose wird verdrahtet" loading="lazy">
+        <img src="band-02-verteilung.jpg" alt="Arbeit an einer Unterverteilung" loading="lazy">
+        <img src="band-trennschleifer.jpg" alt="Kabelrinne wird mit dem Trennschleifer gekuerzt" loading="lazy">
+        <img src="band-05-kabeltrommeln.jpg" alt="Kabeltrommeln im Lager" loading="lazy">
+        <img src="band-06-wallbox.jpg" alt="Wallbox an einer Backsteinwand" loading="lazy">
+        <img src="band-montage.jpg" alt="Montage einer Leitung unter der Decke" loading="lazy">
+        <img src="band-08-photovoltaik.jpg" alt="Photovoltaikanlage auf einem Flachdach" loading="lazy">
+        <img src="band-09-waermepumpe.jpg" alt="Waermepumpe an einer Hauswand" loading="lazy">
+        <img src="band-10-smarthome.jpg" alt="Smart-Home-Steuerung per Tablet" loading="lazy">
+        <img src="band-11-kamera.jpg" alt="Montage einer Deckenkamera" loading="lazy">
+        <img src="band-13-licht.jpg" alt="Indirekte Beleuchtung im Wohnzimmer" loading="lazy">
+        <img src="band-14-notleuchte.jpg" alt="Notausgangsleuchte und Alarmgeber" loading="lazy">
+      </div>
+      <div class="imgband-group" aria-hidden="true">
+        <img src="band-team.jpg" alt="" loading="lazy">
+        <img src="band-01-steckdose.jpg" alt="" loading="lazy">
+        <img src="band-02-verteilung.jpg" alt="" loading="lazy">
+        <img src="band-trennschleifer.jpg" alt="" loading="lazy">
+        <img src="band-05-kabeltrommeln.jpg" alt="" loading="lazy">
+        <img src="band-06-wallbox.jpg" alt="" loading="lazy">
+        <img src="band-montage.jpg" alt="" loading="lazy">
+        <img src="band-08-photovoltaik.jpg" alt="" loading="lazy">
+        <img src="band-09-waermepumpe.jpg" alt="" loading="lazy">
+        <img src="band-10-smarthome.jpg" alt="" loading="lazy">
+        <img src="band-11-kamera.jpg" alt="" loading="lazy">
+        <img src="band-13-licht.jpg" alt="" loading="lazy">
+        <img src="band-14-notleuchte.jpg" alt="" loading="lazy">
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
 <section id="impressum" style="padding:80px 20px;background:var(--grey-100);display:none;" class="legal-page">
   <div class="wrap" style="max-width:800px;margin:0 auto;padding:0;">
     <h1 style="margin-bottom:40px;">Impressum</h1>
