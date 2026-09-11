@@ -1050,7 +1050,7 @@ kostenlose Paketbestandteile. Die Wix-Seite war also zu niedrig angesetzt.
 
 | Posten | Betrag | Stand |
 |---|---|---|
-| Premiumpaket *Core* | **357,00 €/Jahr** | 11.09.2026 am Bildschirm, naechste Zahlung 22.03.2027 |
+| Premiumpaket *Core* | **357,00 €/Jahr** | 11.09.2026, von Irfan als Text bestaetigt. Naechste Zahlung 22.03.2027 |
 | Brand Maker *Brand Plus* | 71,40 €/Jahr | 11.09.2026 bestaetigt, naechste Zahlung 12.04.2027 |
 | Domain-Abos | entfallen | in `Premium-Abonnements` stehen am 11.09. **nur noch diese zwei Eintraege** |
 | Summe | **428,40 €/Jahr** | |
