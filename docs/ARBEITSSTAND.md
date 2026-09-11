@@ -516,6 +516,27 @@ Standort Koeln Nippes, Einleitungssatz aus dem Hero entfernt, Hero-Animation
 schneller und heller, Kopf bleibt beim Klick auf Start gross, Hero-Text am
 Handy hoeher.
 
+**Doppelter Ordner nach dem Upload (11.09.2026).** In
+`domains/elektrotechnik-paulus.de` liegen seither zwei Ordner nebeneinander:
+
+    public.html    mit Punkt        das Versehen
+    public_html    mit Unterstrich  das echte Webverzeichnis
+
+Beide enthalten `index.html` mit 142,57 KiB, das Entpacken lief also zweimal.
+Ausgeliefert wird nur der Unterstrich-Ordner; der Punkt-Ordner liegt
+ausserhalb des Webverzeichnisses und ist von aussen nicht abrufbar. Er ist
+damit kein Sicherheitsproblem, sondern Ballast: 3,45 MB von 10 GiB.
+
+Entstanden vermutlich, weil im Extract-Feld einmal ein Punkt statt eines
+Unterstrichs stand. **Merkmal fuer die naechste Sitzung:** in der nach Name
+aufsteigend sortierten Liste steht der Punkt-Ordner **oben**, weil der Punkt
+im Zeichensatz vor dem Unterstrich kommt. Punkt und Unterstrich sind auf
+einem Screenshot nicht sicher zu unterscheiden -- die Reihenfolge schon.
+
+**Vor dem Loeschen erst umbenennen.** Umbenennen ist umkehrbar, Loeschen ist
+es nur ueber *Trash bin*. Faellt die Seite nach dem Umbenennen aus, war es der
+falsche Ordner.
+
 **04.09.2026: Commit `04487d7` war live auf `elektrotechnik-paulus.de`.**
 Enthalten: Waermepumpe als fuenftes Hero-Bild, Urlaubshinweis bis 06.09.,
 Datenschutz-Ueberschrift *Kontakt in Datenschutzfragen*, Pruefplakette ohne
