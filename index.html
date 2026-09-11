@@ -1336,6 +1336,12 @@
         <div class="field full">
           <label for="anliegen">Anliegen</label>
           <select id="anliegen" name="Anliegen">
+            <!-- Leer voreingestellt: Ohne diese Zeile steht von Anfang an
+                 "Elektroinstallation" im Feld, und jede Anfrage, bei der
+                 niemand etwas auswaehlt, kommt mit diesem Anliegen an.
+                 kontakt.php haengt ein leeres Anliegen nicht an den
+                 Betreff an, der leere Wert ist dort also vorgesehen. -->
+            <option value="" selected></option>
             <option>Elektroinstallation</option>
             <option>E-Auto Ladetechnik &amp; Wallbox</option>
             <option>Solaranlagen</option>
