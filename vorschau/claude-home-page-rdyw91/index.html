@@ -280,7 +280,7 @@
   .hero-plan-img{position:absolute;inset:-8%;background-position:center;background-size:cover;
     background-repeat:no-repeat;opacity:0;transition:opacity 1.1s ease-in-out;
     will-change:transform,opacity;transform:scale(1.07);}
-  .hero-plan-img.an{opacity:.78;animation:ep-hero-zoom 4s linear forwards;}
+  .hero-plan-img.an{opacity:.78;animation:ep-hero-zoom 3.5s linear forwards;}
   @keyframes ep-hero-zoom{
     from{transform:scale(1);}
     to  {transform:scale(1.07);}
@@ -1771,7 +1771,10 @@
       i = (i + 1) % ebenen.length;
       ebenen[i].classList.add('an');
       deckungSetzen(ebenen[i]);
-    }, 4000);
+      // 3500 statt 4000: eine halbe Sekunde schneller, wie gewuenscht.
+      // Der Zoom in ep-hero-zoom laeuft ueber dieselbe Zeit, sonst stuende
+      // das Bild am Ende des Zooms kurz still, bevor es wechselt.
+    }, 3500);
   })();
 
   // Ablauf: Linie färbt sich beim Sichtbarwerden
