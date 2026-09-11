@@ -1639,7 +1639,15 @@
       // wieder unter die Schwelle und das Spiel beginnt von vorn. Der
       // Abstand der beiden Schwellen ist groesser als die 55 Pixel, um die
       // der Header schrumpft, deshalb kann es nicht mehr hin und her kippen.
-      if (!kopf.classList.contains('geschrumpft')) {
+      // Waehrend eines Sprungs nach ganz oben bleibt der Kopf gross. Ohne
+      // diese Marke setzt der Waechter hier sofort wieder .geschrumpft,
+      // weil y beim Start des Sprungs noch weit ueber der Schwelle liegt --
+      // die Seite fuhr dann mit kleinem Kopf hoch und er sprang erst am
+      // Ende auf. Die Marke gibt sich selbst frei, sobald oben angekommen.
+      if (kopf.dataset.sprungOben === '1') {
+        kopf.classList.remove('geschrumpft');
+        if (y <= 2) delete kopf.dataset.sprungOben;
+      } else if (!kopf.classList.contains('geschrumpft')) {
         if (y > 80) kopf.classList.add('geschrumpft');
       } else if (y < 20) {
         kopf.classList.remove('geschrumpft');
@@ -1668,6 +1676,7 @@
   (function () {
     var kopf = document.querySelector('header');
     if (!kopf) return;
+    var obenUhr;
     document.addEventListener('click', function (e) {
       var a = e.target.closest ? e.target.closest('a[href^="#"]') : null;
       if (!a) return;
@@ -1694,8 +1703,21 @@
       if (ziel.hasAttribute('data-vorlauf') && ziel.previousElementSibling) {
         sprung = ziel.previousElementSibling;
       }
-      var oben = sprung.getBoundingClientRect().top + window.scrollY - kopf.offsetHeight;
-      window.scrollTo({ top: Math.max(0, Math.round(oben)), behavior: 'smooth' });
+      var oben = Math.max(0, Math.round(
+        sprung.getBoundingClientRect().top + window.scrollY - kopf.offsetHeight));
+      // Geht es ganz nach oben -- also beim Klick auf Start --, waechst der
+      // Kopf sofort wieder auf volle Hoehe, statt erst am Ende des Scrollens.
+      // Sonst faehrt die Seite mit kleinem Kopf hoch und er springt zum
+      // Schluss auf. Gemessen waren das 600 ms mit kleinem Kopf.
+      if (oben === 0) {
+        kopf.classList.remove('geschrumpft');
+        kopf.dataset.sprungOben = '1';
+        // Sicherung: wird das Scrollen unterbrochen und die 0 nie erreicht,
+        // gibt die Marke nach 1,5 s von selbst wieder frei.
+        clearTimeout(obenUhr);
+        obenUhr = setTimeout(function () { delete kopf.dataset.sprungOben; }, 1500);
+      }
+      window.scrollTo({ top: oben, behavior: 'smooth' });
       if (window.history && window.history.replaceState) {
         window.history.replaceState(null, '', id);
       }
