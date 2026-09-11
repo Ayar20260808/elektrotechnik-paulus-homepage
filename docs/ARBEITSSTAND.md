@@ -537,6 +537,28 @@ einem Screenshot nicht sicher zu unterscheiden -- die Reihenfolge schon.
 es nur ueber *Trash bin*. Faellt die Seite nach dem Umbenennen aus, war es der
 falsche Ordner.
 
+**Dazu ein zweiter, aelterer Fund (11.09.2026).** Im Dateimanager, Pfadzeile
+`domains > elektrotechnik-paulus.de > public_html`, liegt **noch ein**
+`public_html`, geaendert vor 7 Tagen -- also aus einem frueheren Upload, nicht
+aus dem von heute. Damit sind es drei Ordner:
+
+    domains/elektrotechnik-paulus.de/
+      public.html            11.09.  Versehen, ausserhalb des Webverzeichnisses
+      public_html/                   das echte Webverzeichnis
+        public_html/         ~04.09. alte Kopie, INNERHALB des Webverzeichnisses
+        .gitignore     90 B  ~04.09. gehoert nicht aufs Ziel, paket.py schliesst sie aus
+
+Der Unterschied zaehlt: `public.html` ist von aussen nicht erreichbar, der
+innere `public_html` dagegen schon -- erwartbar unter
+`elektrotechnik-paulus.de/public_html/`. **Nicht gemessen**, diese Sitzung
+kommt nicht an den Server. Falls er ausgeliefert wird, steht dort eine zweite,
+alte Fassung der Seite im Netz: schlecht fuer die Suchmaschine, weil derselbe
+Inhalt zweimal auffindbar ist.
+
+Der Upload vom 11.09. ist richtig gelandet, belegt ueber die Zeitstempel:
+`band-01-steckdose.jpg` und die uebrigen Banddateien zeigen im echten
+`public_html` "vor 18 Minuten".
+
 **04.09.2026: Commit `04487d7` war live auf `elektrotechnik-paulus.de`.**
 Enthalten: Waermepumpe als fuenftes Hero-Bild, Urlaubshinweis bis 06.09.,
 Datenschutz-Ueberschrift *Kontakt in Datenschutzfragen*, Pruefplakette ohne
