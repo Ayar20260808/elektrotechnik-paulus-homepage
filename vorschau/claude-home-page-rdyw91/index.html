@@ -614,6 +614,14 @@
      Header, so gewuenscht. Markenband, Vertrauensleiste und Fusszeile
      bleiben auf Headerhoehe. */
   .marquee-section.bilderband{min-height:calc(var(--header-hoehe, 139px) * 1.2);}
+  /* Der Abstand unter der Ueberschrift war doppelt so breit wie der
+     Weissraum darueber -- gemessen 14 px gegen 5 px bei 1440 px Fenster.
+     Das Band zentriert seinen Inhalt senkrecht, der Ueberschuss verteilt
+     sich also je zur Haelfte nach oben und unten. Ueberschuss ist hier
+     konstant: Bandhoehe 1,2*Kopf minus Schrift 19 minus Bildhoehe
+     1,2*(Kopf-38) = 26,6 px, unabhaengig von der Kopfhoehe. Ein Drittel
+     davon als Abstand macht oben und unten gleich breit. */
+  .marquee-section.bilderband .marquee-head{margin-bottom:9px;}
   /* Die Bildhoehe richtet sich nach dem Header: abzueglich Ueberschrift
      (19), Abstand darunter (14) und etwas Luft, dann derselbe Faktor 1.2
      wie beim Band. Der Inhalt bleibt so unter der Mindesthoehe, die dann
@@ -1271,7 +1279,7 @@
       <div class="kontakt-daten">
         <div class="kontakt-block" data-reveal><div class="label">Telefon</div><a href="tel:+4922129894083">0221 2989 4083</a></div>
         <div class="kontakt-block" data-reveal><div class="label">E-Mail</div><a href="mailto:info@elektrotechnik-paulus.de">info@elektrotechnik-paulus.de</a></div>
-        <div class="kontakt-block" data-reveal><div class="label">Standort</div><span>Köln</span></div>
+        <div class="kontakt-block" data-reveal><div class="label">Standort</div><span>Köln Nippes</span></div>
       </div>
     </div>
 
