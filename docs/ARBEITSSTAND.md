@@ -596,10 +596,11 @@ Offene Punkte zuerst, danach das Erledigte zum Nachschlagen.
 
 | | Was | Warum es zaehlt |
 |---|---|---|
-| 1 | **Wix kuendigen** | Beide Bedingungen sind jetzt erfuellt: Seite laeuft bei Hostinger, Mail kommt an. **Vorher die vier Preise aus `Premium-Abonnements` ablesen** -- nach der Kuendigung ist die Seite weg und zwei der drei fehlenden Zahlen der Ersparnisrechnung sind fuer immer verloren |
-| 2 | `.gitignore` in `public_html` entfernen | 90 Bytes Ballast aus einem alten Upload. **Ungeprueft**, ob noch vorhanden: die Liste zeigte zuletzt keine Dateien mit fuehrendem Punkt, das kann Loeschung sein oder eine Anzeigeeinstellung |
-| 3 | Zertifikatswarnung im Browser pruefen | seit dem CDN nicht geprueft. Auf dem Dashboard stehen *SSL* und *CDN* gruen — das ist Hostingers eigene Anzeige, kein Beweis im Browser |
-| 4 | Untermenue *Leistungen* ragt rechts aus dem Fenster | gemessen 38 px bei 1024 und 1440, 24 px bei 1200, 12 px bei 1366. Am Handy nicht. Gefunden beim Messen, nicht beauftragt, deshalb nicht angefasst |
+| 1 | **Im Maerz und April 2027 nachsehen, dass Wix nichts abbucht** | Die Abos laufen bis 22.03.2027 und 12.04.2027 und enden dann von selbst. Eine Abbuchung an diesen Tagen waere das Zeichen, dass die Deaktivierung doch nicht gegriffen hat. Wer es nicht prueft, merkt 357 € erst auf dem Kontoauszug |
+| 2 | Alte Wix-Seite: ist sie noch oeffentlich erreichbar? | Sie laeuft bis Fruehjahr 2027 weiter, nur ohne die Domain. Steht derselbe Text unter einer Wix-Adresse im Netz, sieht Google ihn doppelt. **Ungeprueft** -- die Adresse ist in dieser Sitzung nicht bekannt |
+| 3 | `.gitignore` in `public_html` entfernen | 90 Bytes Ballast aus einem alten Upload. **Ungeprueft**, ob noch vorhanden: die Liste zeigte zuletzt keine Dateien mit fuehrendem Punkt, das kann Loeschung sein oder eine Anzeigeeinstellung |
+| 4 | Zertifikatswarnung im Browser pruefen | seit dem CDN nicht geprueft. Auf dem Dashboard stehen *SSL* und *CDN* gruen — das ist Hostingers eigene Anzeige, kein Beweis im Browser |
+| 5 | Untermenue *Leistungen* ragt rechts aus dem Fenster | gemessen 38 px bei 1024 und 1440, 24 px bei 1200, 12 px bei 1366. Am Handy nicht. Gefunden beim Messen, nicht beauftragt, deshalb nicht angefasst |
 
 Erledigt:
 
@@ -616,6 +617,7 @@ Erledigt:
 | — | ~~`pub.html` loeschen~~ **11.09.2026** — damit ist die Ebene ueber `public_html` wieder aufgeraeumt | |
 | — | ~~Automatische Verlaengerung einschalten~~ **steht auf AN**, am 11.09.2026 auf zwei Seiten gesehen: *Domain-Portfolio* und *Domain-Uebersicht*. Der Eintrag "steht auf AUS" vom 04.09. war veraltet | |
 | — | ~~Testmail an `info@elektrotechnik-paulus.de`~~ **11.09.2026** — "mail funktioniert", von Irfan bestaetigt. Damit ist belegt, dass die Geschaeftsmail den Domain-Umzug ueberstanden hat: die MX-Eintraege zeigen weiter auf Google Workspace | |
+| — | ~~Wix kuendigen~~ **11.09.2026** — bei beiden Abos steht jetzt *AUTOMAT. VERLAENGERUNG AUS* und *Automatische Verlaengerung deaktiviert*. Sie laufen bis zum Ende des bezahlten Jahres und enden dann von selbst | |
 
 ### Domain-Uebersicht, gesehen am 11.09.2026
 
@@ -1034,6 +1036,13 @@ DMARC**.
 
 **Erst uebertragen, dann kuendigen.** Die Domain ist bei Wix registriert (in
 der Rechnung 0,00 € als Paketbestandteil). Wer vorher kuendigt, verliert sie.
+
+**Beides erledigt (11.09.2026).** Uebertragen am 04.09., gekuendigt am 11.09.
+Die Kuendigung sieht bei Wix nicht wie ein Kuendigungsknopf aus: in
+`Premium-Abonnements` steht danach in der Statusspalte *AUTOMAT. VERLAENGERUNG
+AUS* und darunter ein Link *Aktivieren*, der sie zurueckdrehen wuerde. Das Abo
+laeuft bis zum Ende des bezahlten Jahres weiter -- richtig so, bezahlt ist es
+ohnehin.
 
 ### Was der Wechsel bringt (neu gerechnet 09.09.2026)
 
