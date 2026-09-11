@@ -596,13 +596,13 @@ Offene Punkte zuerst, danach das Erledigte zum Nachschlagen.
 
 | | Was | Warum es zaehlt |
 |---|---|---|
-| 1 | **Cache leeren** | Ein Klick, *Dashboard* → *Grundausstattung* → *Cache*. Bis dahin bekommen Besucher die alte Fassung von den CDN-Zwischenservern. Am 11.09. **nicht bestaetigt** — Irfan hat die Vorschau gesehen, den Knopf aber nicht gemeldet |
-| 2 | **Automatische Verlaengerung einschalten** | steht auf AUS, Ablauf **01.10.2027**. Danach ist die Firmendomain fuer jeden frei. Der teuerste Punkt der Liste |
-| 3 | **Testmail an `info@elektrotechnik-paulus.de`** | DNS ist nur die Wegbeschreibung, die Mail ist der Beweis |
-| 4 | Wix kuendigen | **erst wenn 3 gruen ist** |
-| 5 | `pub.html` loeschen | Von Irfan am 11.09. aus `public.html` umbenannt. Liegt ausserhalb des Webverzeichnisses, von aussen nicht erreichbar — reine Ordnung |
-| 6 | `.gitignore` in `public_html` entfernen | 90 Bytes Ballast aus einem alten Upload. **Ungeprueft**, ob noch vorhanden: die Liste zeigte zuletzt keine Dateien mit fuehrendem Punkt, das kann Loeschung sein oder eine Anzeigeeinstellung |
-| 7 | Zertifikatswarnung im Browser pruefen | seit dem CDN nicht geprueft. Auf dem Dashboard stehen *SSL* und *CDN* gruen — das ist Hostingers eigene Anzeige, kein Beweis im Browser |
+| 1 | **Automatische Verlaengerung einschalten** | steht auf AUS, Ablauf **01.10.2027**. Danach ist die Firmendomain fuer jeden frei. Der teuerste Punkt der Liste |
+| 2 | **Testmail an `info@elektrotechnik-paulus.de`** | DNS ist nur die Wegbeschreibung, die Mail ist der Beweis |
+| 3 | Wix kuendigen | **erst wenn 2 gruen ist** |
+| 4 | `pub.html` loeschen | Von Irfan am 11.09. aus `public.html` umbenannt. Liegt ausserhalb des Webverzeichnisses, von aussen nicht erreichbar — reine Ordnung |
+| 5 | `.gitignore` in `public_html` entfernen | 90 Bytes Ballast aus einem alten Upload. **Ungeprueft**, ob noch vorhanden: die Liste zeigte zuletzt keine Dateien mit fuehrendem Punkt, das kann Loeschung sein oder eine Anzeigeeinstellung |
+| 6 | Zertifikatswarnung im Browser pruefen | seit dem CDN nicht geprueft. Auf dem Dashboard stehen *SSL* und *CDN* gruen — das ist Hostingers eigene Anzeige, kein Beweis im Browser |
+| 7 | Untermenue *Leistungen* ragt rechts aus dem Fenster | gemessen 38 px bei 1024 und 1440, 24 px bei 1200, 12 px bei 1366. Am Handy nicht. Gefunden beim Messen, nicht beauftragt, deshalb nicht angefasst |
 
 Erledigt:
 
@@ -615,6 +615,7 @@ Erledigt:
 | — | ~~Seite im Browser nachsehen~~ **11.09.2026** — ueber *Vorschau ohne Cache*, "sieht gut aus" | |
 | — | ~~ZIP aus `public_html` loeschen~~ **11.09.2026** | |
 | — | ~~Inneren `public_html` entfernen~~ **11.09.2026** — im Dateimanager stehen nur noch `elektrosymbole`, `png`, `schriften` und die Seitendateien | |
+| — | ~~Cache leeren~~ **11.09.2026**, von Irfan bestaetigt. Damit ist `9420917` fuer Besucher ausgeliefert, nicht nur auf dem Server | |
 
 ### Paket `seite-10-09.zip` gebaut (10.09.2026)
 
