@@ -663,6 +663,22 @@
      treten davor genauso hervor wie die Leistungskarten; die Angaben in der
      linken Spalte stehen deshalb in Weiss. */
   #kontakt{position:relative;overflow:hidden;background:var(--dark);border-top:2px solid var(--ink);}
+  /* Der Kontakt-Link soll nicht am Formular landen, sondern am Anfang des
+     Bilderbands darueber. Statt die id zu verschieben -- daran haengen 15
+     CSS-Regeln und die Symbolanimation -- bekommt das Sprungziel einen
+     Vorlauf: Kopfhoehe plus Bandhoehe. Das Band ist ueber
+     .marquee-section.bilderband auf das 1,2-fache der Kopfhoehe gesetzt,
+     also zusammen das 2,2-fache. Gemessen: Kopf 103 px, Band 124 px bei
+     1440 px Fensterbreite -- 103 * 1,2 = 123,6. Die Rechnung traegt. */
+  #kontakt{scroll-margin-top:calc(var(--header-hoehe, 139px) * 2.2);}
+  /* Der Sprung kann nur so weit gehen, wie Seite darunter uebrig ist.
+     Ohne Zuschlag stoesst der Browser vorher ans Seitenende und das Band
+     bleibt zu weit unten stehen -- gemessen 115 px zu tief bei 1920x1080,
+     235 px bei 1920x1200, 475 px bei 2560x1440. Mit dieser Mindesthoehe
+     fuellen Band und Kontaktbereich zusammen immer das Fenster unterhalb
+     des Kopfes; die Fusszeile kommt obendrauf. Bei Fenstern bis 1440 px
+     Breite ist der Bereich ohnehin hoeher, dort aendert die Regel nichts. */
+  #kontakt{min-height:calc(100vh - var(--header-hoehe, 139px) * 2.2);}
   #kontakt > .wrap{position:relative;z-index:1;}
   /* Weiss wie die Zeile ueber den Leistungen -- Gelb kaeme auf dem
      hellsten Fleck des Planfotos nur auf 3,9:1 und bliebe unter der Norm. */
@@ -1251,7 +1267,7 @@
   </div>
 </div>
 
-<section id="kontakt">
+<section id="kontakt" data-vorlauf>
   <div class="leistungen-bg" aria-hidden="true">
     <div class="leistungen-bg-photo"></div>
   </div>
@@ -1597,7 +1613,15 @@
         if (offen) showLegalPage('home');
       }
       kopf.classList.add('geschrumpft');
-      var oben = ziel.getBoundingClientRect().top + window.scrollY - kopf.offsetHeight;
+      // Traegt das Ziel data-vorlauf, wird nicht es selbst angesprungen,
+      // sondern das Element unmittelbar davor. Beim Kontakt ist das das
+      // Bilderband "Aus dem Arbeitsalltag": es leitet den Bereich ein und
+      // soll beim Klick auf "Kontakt" oben stehen, nicht das Formular.
+      var sprung = ziel;
+      if (ziel.hasAttribute('data-vorlauf') && ziel.previousElementSibling) {
+        sprung = ziel.previousElementSibling;
+      }
+      var oben = sprung.getBoundingClientRect().top + window.scrollY - kopf.offsetHeight;
       window.scrollTo({ top: Math.max(0, Math.round(oben)), behavior: 'smooth' });
       if (window.history && window.history.replaceState) {
         window.history.replaceState(null, '', id);
