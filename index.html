@@ -639,26 +639,21 @@
 
   /* ABLAUF */
   #ablauf{background:var(--grey-100);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);}
-  /* Wie beim Kontakt: Der Menuepunkt Ablauf soll am Markenband landen, das
-     den Abschnitt einleitet, nicht an der Ueberschrift darunter. Das
-     Markenband steht ueber .marquee-section.markenband auf der einfachen
-     Kopfhoehe -- Kopf plus Band ergibt also das Doppelte. Beim Kontakt sind
-     es 2,2, weil das Bilderband dort 1,2-fach hoch ist. */
-  #ablauf{scroll-margin-top:calc(var(--header-hoehe, 139px) * 2);}
-  /* Damit "So arbeiten wir" nach dem Sprung den Rest des Bildschirms
-     fuellt und der Browser ueberhaupt so weit scrollen kann.
-     Gerechnet wird mit --header-klein, nicht mit --header-hoehe: nach dem
-     Scrollen ist der Kopf geschrumpft, und nur diese Hoehe verdeckt noch
-     etwas. Mit der vollen Hoehe blieben 35 bis 56 px des naechsten
-     Abschnitts sichtbar -- gemessen. Abgezogen werden also der
-     geschrumpfte Kopf und das Markenband, das auf der vollen Kopfhoehe
-     steht. */
-  #ablauf{min-height:calc(100vh - var(--header-klein, 46px) - var(--header-hoehe, 139px));
-    display:flex;flex-direction:column;justify-content:center;
-    /* Der Inhalt sitzt einen Tick ueber der Mitte: mehr Abstand nach unten,
-       die senkrechte Mitte rueckt dadurch nach oben. box-sizing ist
-       border-box, die Gesamthoehe des Abschnitts bleibt also gleich. */
-    padding-bottom:calc(84px + 7vh);}
+  /* Der Ablauf-Abschnitt und das Bilderband darunter fuellen zusammen
+     genau einen Bildschirm: das Band schliesst diese Seite unten ab.
+     Gerechnet mit --header-klein, weil nach dem Scrollen nur der
+     geschrumpfte Kopf noch etwas verdeckt, und mit dem 1,2-fachen der
+     vollen Kopfhoehe fuer das Bilderband (.marquee-section.bilderband).
+     Nur ab 901 px -- auf dem Handy ist der Abschnitt ohnehin hoeher und
+     die Seiteneinteilung waere dort sinnlos. */
+  @media(min-width:901px){
+    #ablauf{min-height:calc(100vh - var(--header-klein, 46px) - var(--header-hoehe, 139px) * 1.2);
+      display:flex;flex-direction:column;justify-content:center;
+      /* Der Inhalt sitzt einen Tick ueber der Mitte: mehr Abstand nach
+         unten, die senkrechte Mitte rueckt dadurch nach oben. box-sizing
+         ist border-box, die Gesamthoehe bleibt gleich. */
+      padding-bottom:calc(84px + 7vh);}
+  }
   .ablauf-grid{display:grid;grid-template-columns:repeat(4, minmax(0,1fr));gap:28px;}
   @media(max-width:1020px){.ablauf-grid{grid-template-columns:repeat(2, minmax(0,1fr));}}
   @media(max-width:560px){.ablauf-grid{grid-template-columns:1fr;}}
@@ -683,25 +678,14 @@
      treten davor genauso hervor wie die Leistungskarten; die Angaben in der
      linken Spalte stehen deshalb in Weiss. */
   #kontakt{position:relative;overflow:hidden;background:var(--dark);border-top:2px solid var(--ink);}
-  /* Der Kontakt-Link soll nicht am Formular landen, sondern am Anfang des
-     Bilderbands darueber. Statt die id zu verschieben -- daran haengen 15
-     CSS-Regeln und die Symbolanimation -- bekommt das Sprungziel einen
-     Vorlauf: Kopfhoehe plus Bandhoehe. Das Band ist ueber
-     .marquee-section.bilderband auf das 1,2-fache der Kopfhoehe gesetzt,
-     also zusammen das 2,2-fache. Gemessen: Kopf 103 px, Band 124 px bei
-     1440 px Fensterbreite -- 103 * 1,2 = 123,6. Die Rechnung traegt. */
-  #kontakt{scroll-margin-top:calc(var(--header-hoehe, 139px) * 2.2);}
-  /* Der Sprung kann nur so weit gehen, wie Seite darunter uebrig ist.
-     Ohne Zuschlag stoesst der Browser vorher ans Seitenende und das Band
-     bleibt zu weit unten stehen -- gemessen 115 px zu tief bei 1920x1080,
-     235 px bei 1920x1200, 475 px bei 2560x1440.
-     Gerechnet wie beim Ablauf mit --header-klein, weil nach dem Scrollen
-     nur der geschrumpfte Kopf noch etwas verdeckt. Abgezogen werden der
-     geschrumpfte Kopf und das Bilderband, das auf dem 1,2-fachen der
-     vollen Kopfhoehe steht. Der Inhalt sitzt senkrecht mittig, sonst
-     klebte er oben und der Zuschlag bliebe als Leere darunter stehen. */
-  #kontakt{min-height:calc(100vh - var(--header-klein, 46px) - var(--header-hoehe, 139px) * 1.2);
-    display:flex;flex-direction:column;justify-content:center;}
+  /* Der Kontaktbereich ist eine eigene Bildschirmseite -- ueber ihm
+     schliesst das Bilderband die Ablauf-Seite ab, es gehoert also nicht
+     mehr dazu. Abgezogen wird nur der geschrumpfte Kopf. Nur ab 901 px,
+     auf dem Handy bleibt alles wie es ist. */
+  @media(min-width:901px){
+    #kontakt{min-height:calc(100vh - var(--header-klein, 46px));
+      display:flex;flex-direction:column;justify-content:center;}
+  }
   #kontakt > .wrap{position:relative;z-index:1;}
   /* Weiss wie die Zeile ueber den Leistungen -- Gelb kaeme auf dem
      hellsten Fleck des Planfotos nur auf 3,9:1 und bliebe unter der Norm. */
@@ -1244,7 +1228,7 @@
   </div>
 </div>
 
-<section id="ablauf" data-vorlauf>
+<section id="ablauf">
   <div class="wrap">
     <div class="section-head" data-reveal>
       <span class="eyebrow">So arbeiten wir</span>
@@ -1298,7 +1282,7 @@
   </div>
 </div>
 
-<section id="kontakt" data-vorlauf>
+<section id="kontakt">
   <div class="leistungen-bg" aria-hidden="true">
     <div class="leistungen-bg-photo"></div>
   </div>
