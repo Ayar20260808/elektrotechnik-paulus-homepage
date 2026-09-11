@@ -543,10 +543,19 @@ falsche Ordner.
 aus dem von heute. Damit sind es drei Ordner:
 
     domains/elektrotechnik-paulus.de/
-      public.html            11.09.  Versehen, ausserhalb des Webverzeichnisses
+      <ueberzaehlig>         11.09.  Versehen, ausserhalb des Webverzeichnisses
       public_html/                   das echte Webverzeichnis
         public_html/         ~04.09. alte Kopie, INNERHALB des Webverzeichnisses
         .gitignore     90 B  ~04.09. gehoert nicht aufs Ziel, paket.py schliesst sie aus
+
+**Der Name des ueberzaehligen Ordners steht hier bewusst nicht.** Er wurde aus
+zwei Screenshots zweimal verschieden gelesen, einmal als `public.html` und
+einmal als `pub.html`. Eine der beiden Lesungen ist falsch, und welche, laesst
+sich aus einem Bild nicht entscheiden -- genau der Fall, vor dem die Regel
+"nie aus Screenshots ablesen" warnt. Verlaesslich ist nur die **Position**: in
+der nach Name aufsteigend sortierten Liste steht er ueber `public_html`, weil
+sowohl Punkt als auch die kuerzere Zeichenfolge im Zeichensatz vor dem
+Unterstrich einsortiert werden.
 
 Der Unterschied zaehlt: `public.html` ist von aussen nicht erreichbar, der
 innere `public_html` dagegen schon -- erwartbar unter
@@ -583,7 +592,7 @@ Kontrolle, dann *Cache leeren*.
 | 8 | ~~`seite-10-09.zip` hochladen~~ **ueberholt 11.09.2026** — hochgeladen wurde stattdessen `seite-11-09-9420917.zip`, das denselben Inhalt und alles Spaetere enthaelt | |
 | 9 | **Seite im Browser nachsehen** | Der Upload ist nur ueber die Dateigroesse belegt, nicht ueber den Augenschein. ~~ZIP aus `public_html` loeschen~~ **erledigt 11.09.2026**, von Irfan bestaetigt |
 | 10 | ~~Inneren `public_html` entfernen~~ **erledigt 11.09.2026** — im Dateimanager unter `... > elektrotechnik-paulus.de > public_html` stehen nur noch `elektrosymbole`, `png`, `schriften` und die Seitendateien | |
-| 11 | `public.html` entfernen | reiner Ballast, liegt ausserhalb des Webverzeichnisses und ist von aussen nicht erreichbar. **Ungeprueft, ob noch vorhanden** — dafuer muesste die Ebene darueber angesehen werden |
+| 11 | Ueberzaehligen Ordner neben `public_html` entfernen | reiner Ballast, liegt ausserhalb des Webverzeichnisses und ist von aussen nicht erreichbar. Steht in der nach Name aufsteigend sortierten Liste **ueber** `public_html`. Sein Name wurde aus Screenshots zweimal verschieden gelesen, siehe unten -- deshalb nur ueber die Position ansprechen |
 | 12 | `.gitignore` in `public_html` entfernen | 90 Bytes Ballast aus einem alten Upload. **Ungeprueft**: die Liste zeigte zuletzt keine Dateien mit fuehrendem Punkt, das kann Loeschung oder eine andere Anzeigeeinstellung sein |
 
 ### Paket `seite-10-09.zip` gebaut (10.09.2026)
