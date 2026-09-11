@@ -581,7 +581,9 @@ Kontrolle, dann *Cache leeren*.
 | 6 | Wix kuendigen | **erst wenn 1 und 3 gruen sind** |
 | 7 | ~~Ersparnis neu rechnen~~ **gerechnet 09.09.2026: mindestens 223,63 €/Jahr** | drei Zahlen fehlen noch, siehe Kostenkapitel — **zwei davon nur bis zur Wix-Kuendigung ablesbar** |
 | 8 | ~~`seite-10-09.zip` hochladen~~ **ueberholt 11.09.2026** — hochgeladen wurde stattdessen `seite-11-09-9420917.zip`, das denselben Inhalt und alles Spaetere enthaelt | |
-| 9 | **Seite im Browser nachsehen, danach das ZIP aus `public_html` loeschen** | Der Upload ist nur ueber die Dateigroesse belegt, nicht ueber den Augenschein. Das ZIP ist oeffentlich abrufbar, solange es dort liegt |
+| 9 | **Seite im Browser nachsehen** | Der Upload ist nur ueber die Dateigroesse belegt, nicht ueber den Augenschein. ~~ZIP aus `public_html` loeschen~~ **erledigt 11.09.2026**, von Irfan bestaetigt |
+| 10 | **Inneren `public_html` entfernen** | Liegt IM Webverzeichnis und ist damit erwartbar unter `elektrotechnik-paulus.de/public_html/` abrufbar -- eine zweite, alte Fassung der Seite im Netz. Erst umbenennen, Seite pruefen, dann loeschen |
+| 11 | `public.html` und `.gitignore` entfernen | reiner Ballast, `public.html` liegt ausserhalb des Webverzeichnisses und ist von aussen nicht erreichbar |
 
 ### Paket `seite-10-09.zip` gebaut (10.09.2026)
 
