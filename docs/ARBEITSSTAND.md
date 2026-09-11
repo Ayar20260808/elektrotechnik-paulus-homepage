@@ -596,11 +596,10 @@ Offene Punkte zuerst, danach das Erledigte zum Nachschlagen.
 
 | | Was | Warum es zaehlt |
 |---|---|---|
-| 1 | **Testmail an `info@elektrotechnik-paulus.de`** | DNS ist nur die Wegbeschreibung, die Mail ist der Beweis |
-| 2 | Wix kuendigen | **erst wenn 1 gruen ist** |
-| 3 | `.gitignore` in `public_html` entfernen | 90 Bytes Ballast aus einem alten Upload. **Ungeprueft**, ob noch vorhanden: die Liste zeigte zuletzt keine Dateien mit fuehrendem Punkt, das kann Loeschung sein oder eine Anzeigeeinstellung |
-| 4 | Zertifikatswarnung im Browser pruefen | seit dem CDN nicht geprueft. Auf dem Dashboard stehen *SSL* und *CDN* gruen — das ist Hostingers eigene Anzeige, kein Beweis im Browser |
-| 5 | Untermenue *Leistungen* ragt rechts aus dem Fenster | gemessen 38 px bei 1024 und 1440, 24 px bei 1200, 12 px bei 1366. Am Handy nicht. Gefunden beim Messen, nicht beauftragt, deshalb nicht angefasst |
+| 1 | **Wix kuendigen** | Beide Bedingungen sind jetzt erfuellt: Seite laeuft bei Hostinger, Mail kommt an. **Vorher die vier Preise aus `Premium-Abonnements` ablesen** -- nach der Kuendigung ist die Seite weg und zwei der drei fehlenden Zahlen der Ersparnisrechnung sind fuer immer verloren |
+| 2 | `.gitignore` in `public_html` entfernen | 90 Bytes Ballast aus einem alten Upload. **Ungeprueft**, ob noch vorhanden: die Liste zeigte zuletzt keine Dateien mit fuehrendem Punkt, das kann Loeschung sein oder eine Anzeigeeinstellung |
+| 3 | Zertifikatswarnung im Browser pruefen | seit dem CDN nicht geprueft. Auf dem Dashboard stehen *SSL* und *CDN* gruen — das ist Hostingers eigene Anzeige, kein Beweis im Browser |
+| 4 | Untermenue *Leistungen* ragt rechts aus dem Fenster | gemessen 38 px bei 1024 und 1440, 24 px bei 1200, 12 px bei 1366. Am Handy nicht. Gefunden beim Messen, nicht beauftragt, deshalb nicht angefasst |
 
 Erledigt:
 
@@ -616,6 +615,7 @@ Erledigt:
 | — | ~~Cache leeren~~ **11.09.2026**, von Irfan bestaetigt. Damit ist `9420917` fuer Besucher ausgeliefert, nicht nur auf dem Server | |
 | — | ~~`pub.html` loeschen~~ **11.09.2026** — damit ist die Ebene ueber `public_html` wieder aufgeraeumt | |
 | — | ~~Automatische Verlaengerung einschalten~~ **steht auf AN**, am 11.09.2026 auf zwei Seiten gesehen: *Domain-Portfolio* und *Domain-Uebersicht*. Der Eintrag "steht auf AUS" vom 04.09. war veraltet | |
+| — | ~~Testmail an `info@elektrotechnik-paulus.de`~~ **11.09.2026** — "mail funktioniert", von Irfan bestaetigt. Damit ist belegt, dass die Geschaeftsmail den Domain-Umzug ueberstanden hat: die MX-Eintraege zeigen weiter auf Google Workspace | |
 
 ### Domain-Uebersicht, gesehen am 11.09.2026
 
