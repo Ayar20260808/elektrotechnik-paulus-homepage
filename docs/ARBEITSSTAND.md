@@ -596,12 +596,11 @@ Offene Punkte zuerst, danach das Erledigte zum Nachschlagen.
 
 | | Was | Warum es zaehlt |
 |---|---|---|
-| 1 | **Automatische Verlaengerung einschalten** | steht auf AUS, Ablauf **01.10.2027**. Danach ist die Firmendomain fuer jeden frei. Der teuerste Punkt der Liste |
-| 2 | **Testmail an `info@elektrotechnik-paulus.de`** | DNS ist nur die Wegbeschreibung, die Mail ist der Beweis |
-| 3 | Wix kuendigen | **erst wenn 2 gruen ist** |
-| 4 | `.gitignore` in `public_html` entfernen | 90 Bytes Ballast aus einem alten Upload. **Ungeprueft**, ob noch vorhanden: die Liste zeigte zuletzt keine Dateien mit fuehrendem Punkt, das kann Loeschung sein oder eine Anzeigeeinstellung |
-| 5 | Zertifikatswarnung im Browser pruefen | seit dem CDN nicht geprueft. Auf dem Dashboard stehen *SSL* und *CDN* gruen — das ist Hostingers eigene Anzeige, kein Beweis im Browser |
-| 6 | Untermenue *Leistungen* ragt rechts aus dem Fenster | gemessen 38 px bei 1024 und 1440, 24 px bei 1200, 12 px bei 1366. Am Handy nicht. Gefunden beim Messen, nicht beauftragt, deshalb nicht angefasst |
+| 1 | **Testmail an `info@elektrotechnik-paulus.de`** | DNS ist nur die Wegbeschreibung, die Mail ist der Beweis |
+| 2 | Wix kuendigen | **erst wenn 1 gruen ist** |
+| 3 | `.gitignore` in `public_html` entfernen | 90 Bytes Ballast aus einem alten Upload. **Ungeprueft**, ob noch vorhanden: die Liste zeigte zuletzt keine Dateien mit fuehrendem Punkt, das kann Loeschung sein oder eine Anzeigeeinstellung |
+| 4 | Zertifikatswarnung im Browser pruefen | seit dem CDN nicht geprueft. Auf dem Dashboard stehen *SSL* und *CDN* gruen — das ist Hostingers eigene Anzeige, kein Beweis im Browser |
+| 5 | Untermenue *Leistungen* ragt rechts aus dem Fenster | gemessen 38 px bei 1024 und 1440, 24 px bei 1200, 12 px bei 1366. Am Handy nicht. Gefunden beim Messen, nicht beauftragt, deshalb nicht angefasst |
 
 Erledigt:
 
@@ -616,6 +615,39 @@ Erledigt:
 | — | ~~Inneren `public_html` entfernen~~ **11.09.2026** — im Dateimanager stehen nur noch `elektrosymbole`, `png`, `schriften` und die Seitendateien | |
 | — | ~~Cache leeren~~ **11.09.2026**, von Irfan bestaetigt. Damit ist `9420917` fuer Besucher ausgeliefert, nicht nur auf dem Server | |
 | — | ~~`pub.html` loeschen~~ **11.09.2026** — damit ist die Ebene ueber `public_html` wieder aufgeraeumt | |
+| — | ~~Automatische Verlaengerung einschalten~~ **steht auf AN**, am 11.09.2026 auf zwei Seiten gesehen: *Domain-Portfolio* und *Domain-Uebersicht*. Der Eintrag "steht auf AUS" vom 04.09. war veraltet | |
+
+### Domain-Uebersicht, gesehen am 11.09.2026
+
+Werte von der Seite `Domains → Portfolio → Verwalten`:
+
+    Status             Aktiv, mit Schloss-Zeichen (Transfersperre)
+    Ablaufdatum        2027-10-01
+    Automatische
+    Verlaengerung      AN
+    Namenserver        aurora.dns-parking.com
+                       nebula.dns-parking.com
+    Inhaber            Irfan Ayar, ayar@elektrotechnik-paulus.de
+
+`dns-parking.com` ist Hostingers eigene Namenserver-Domain, kein Parken im
+Sinne von "Domain liegt brach". Die Zone wird also bei Hostinger verwaltet --
+so, wie es sein soll. **Kein Handlungsbedarf.**
+
+**Zwei Fallen auf genau dieser Seite:**
+
+1. In der *Domain-Checkliste* steht als offener dritter Punkt *"Richten Sie ein
+   geschaeftliches @elektrotechnik-paulus.de E-Mail-Konto ein"* mit einem Knopf
+   *Kostenlos testen*. **Nicht anklicken.** Die Geschaeftsmail laeuft ueber
+   Google Workspace; ein Hostinger-Mailkonto wuerde die MX-Eintraege
+   umschreiben. Das ist genau der Eintrag, der laut Uebergabe nie angefasst
+   werden darf.
+2. Rechts unten steht *Uebertragung → Autorisierungscode → Code abrufen*. Der
+   Code gehoert **nie** in einen Chat und nie ins Repository. Es gibt derzeit
+   keinen Grund, ihn abzurufen.
+
+Der **Verlaengerungspreis** der `.de` steht auf dieser Seite **nicht**. Er
+fehlt weiterhin fuer die Ersparnisrechnung.
+
 
 ### Paket `seite-10-09.zip` gebaut (10.09.2026)
 
