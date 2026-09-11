@@ -592,21 +592,29 @@ Kontrolle, dann *Cache leeren*.
 
 ### Noch offen — kurz und konkret
 
+Offene Punkte zuerst, danach das Erledigte zum Nachschlagen.
+
 | | Was | Warum es zaehlt |
 |---|---|---|
-| 1 | **Testmail an `info@elektrotechnik-paulus.de`** | DNS ist nur die Wegbeschreibung, die Mail ist der Beweis |
-| 2 | **Automatische Verlaengerung einschalten** | steht auf AUS, Ablauf **01.10.2027**, danach ist die Firmendomain frei |
-| 3 | Seite im Browser pruefen, auch auf Zertifikatswarnung | seit dem CDN nicht mehr geprueft |
-| 4 | ~~Paket hochladen~~ **erledigt 04.09.2026** — Commit `04487d7` ist live: Waermepumpe im Hero, Urlaub bis 06.09., Datenschutz-Ueberschrift, Pruefplakette. Die verirrte `leistungvde.html` wurde beim Ueberschreiben gegenstandslos | |
-| 5 | ~~`elektropersonal-ayar.de` mitnehmen?~~ **entschieden 04.09.2026: auslaufen lassen** | siehe unten |
-| 6 | Wix kuendigen | **erst wenn 1 und 3 gruen sind** |
-| 7 | ~~Ersparnis neu rechnen~~ **gerechnet 09.09.2026: mindestens 223,63 €/Jahr** | drei Zahlen fehlen noch, siehe Kostenkapitel — **zwei davon nur bis zur Wix-Kuendigung ablesbar** |
-| 8 | ~~`seite-10-09.zip` hochladen~~ **ueberholt 11.09.2026** — hochgeladen wurde stattdessen `seite-11-09-9420917.zip`, das denselben Inhalt und alles Spaetere enthaelt | |
-| 9 | ~~Seite im Browser nachsehen~~ **erledigt 11.09.2026** — "sieht ok aus", von Irfan bestaetigt. ~~ZIP aus `public_html` loeschen~~ ebenfalls erledigt | |
-| 13 | **Cache leeren** | Bis dahin bekommen normale Besucher weiter die alte Fassung von den CDN-Zwischenservern. Der Knopf ist in dieser Sitzung **nicht gefunden worden**, siehe unten |
-| 10 | ~~Inneren `public_html` entfernen~~ **erledigt 11.09.2026** — im Dateimanager unter `... > elektrotechnik-paulus.de > public_html` stehen nur noch `elektrosymbole`, `png`, `schriften` und die Seitendateien | |
-| 11 | `pub.html` loeschen | Von Irfan am 11.09. aus `public.html` umbenannt, liegt ausserhalb des Webverzeichnisses und ist von aussen nicht erreichbar. Kann weg, sobald die Seite einmal im Browser geprueft ist |
-| 12 | `.gitignore` in `public_html` entfernen | 90 Bytes Ballast aus einem alten Upload. **Ungeprueft**: die Liste zeigte zuletzt keine Dateien mit fuehrendem Punkt, das kann Loeschung oder eine andere Anzeigeeinstellung sein |
+| 1 | **Cache leeren** | Ein Klick, *Dashboard* → *Grundausstattung* → *Cache*. Bis dahin bekommen Besucher die alte Fassung von den CDN-Zwischenservern. Am 11.09. **nicht bestaetigt** — Irfan hat die Vorschau gesehen, den Knopf aber nicht gemeldet |
+| 2 | **Automatische Verlaengerung einschalten** | steht auf AUS, Ablauf **01.10.2027**. Danach ist die Firmendomain fuer jeden frei. Der teuerste Punkt der Liste |
+| 3 | **Testmail an `info@elektrotechnik-paulus.de`** | DNS ist nur die Wegbeschreibung, die Mail ist der Beweis |
+| 4 | Wix kuendigen | **erst wenn 3 gruen ist** |
+| 5 | `pub.html` loeschen | Von Irfan am 11.09. aus `public.html` umbenannt. Liegt ausserhalb des Webverzeichnisses, von aussen nicht erreichbar — reine Ordnung |
+| 6 | `.gitignore` in `public_html` entfernen | 90 Bytes Ballast aus einem alten Upload. **Ungeprueft**, ob noch vorhanden: die Liste zeigte zuletzt keine Dateien mit fuehrendem Punkt, das kann Loeschung sein oder eine Anzeigeeinstellung |
+| 7 | Zertifikatswarnung im Browser pruefen | seit dem CDN nicht geprueft. Auf dem Dashboard stehen *SSL* und *CDN* gruen — das ist Hostingers eigene Anzeige, kein Beweis im Browser |
+
+Erledigt:
+
+| | Was | |
+|---|---|---|
+| — | ~~Paket hochladen~~ **04.09.2026** — Commit `04487d7` live. Die verirrte `leistungvde.html` wurde beim Ueberschreiben gegenstandslos | |
+| — | ~~`elektropersonal-ayar.de` mitnehmen?~~ **04.09.2026: auslaufen lassen** | siehe unten |
+| — | ~~Ersparnis neu rechnen~~ **09.09.2026: mindestens 223,63 €/Jahr** | drei Zahlen fehlen noch, siehe Kostenkapitel — **zwei davon nur bis zur Wix-Kuendigung ablesbar** |
+| — | ~~`seite-10-09.zip` hochladen~~ **ueberholt 11.09.2026** — hochgeladen wurde `seite-11-09-9420917.zip` mit demselben Inhalt und allem Spaeteren | |
+| — | ~~Seite im Browser nachsehen~~ **11.09.2026** — ueber *Vorschau ohne Cache*, "sieht gut aus" | |
+| — | ~~ZIP aus `public_html` loeschen~~ **11.09.2026** | |
+| — | ~~Inneren `public_html` entfernen~~ **11.09.2026** — im Dateimanager stehen nur noch `elektrosymbole`, `png`, `schriften` und die Seitendateien | |
 
 ### Paket `seite-10-09.zip` gebaut (10.09.2026)
 
