@@ -625,35 +625,35 @@
      Groesse, die Vertrauensleiste und Fusszeile schon nutzen. Mindesthoehe
      statt fester Hoehe, damit auf schmalen Schirmen nichts abgeschnitten
      wird, wenn der Header dort kleiner ist als der Bandinhalt. */
+  /* Bis hierher war die Bandhoehe an die Kopfhoehe gekoppelt. Der Inhalt
+     ist aber niedriger, der Rest wurde zu Weissraum -- bei Kopf 103 px
+     blieben im Markenband 50 px uebrig, je zur Haelfte ueber und unter
+     der Schrift. Auf Wunsch sitzt das Band jetzt eng um seinen Inhalt:
+     4 px Luft oben, 4 px unter der Schrift, 4 px unten.
+     Die Bandhoehen stehen als Variablen, weil die Abschnitte darueber sie
+     abziehen muessen, um zusammen eine Bildschirmseite zu ergeben. */
+  :root{
+    --band-luft: 4px;
+    --band-schrift: 19px;
+    --band-bildhoehe: calc((var(--header-hoehe, 139px) - 38px) * 1.2);
+    --band-marken-hoehe: calc(var(--band-luft) * 3 + var(--band-schrift) + 34px);
+    --band-bilder-hoehe: calc(var(--band-luft) * 3 + var(--band-schrift) + var(--band-bildhoehe));
+  }
   .marquee-section.markenband,
-  .marquee-section.bilderband{min-height:var(--header-hoehe, 139px);
-    padding-top:0;padding-bottom:0;display:flex;flex-direction:column;justify-content:center;}
+  .marquee-section.bilderband{
+    padding-top:var(--band-luft);padding-bottom:var(--band-luft);
+    display:flex;flex-direction:column;justify-content:center;}
+  .marquee-section.markenband{min-height:var(--band-marken-hoehe);}
   /* Das Bilderband ist als einziges Band um ein Fuenftel hoeher als der
      Header, so gewuenscht. Markenband, Vertrauensleiste und Fusszeile
      bleiben auf Headerhoehe. */
-  .marquee-section.bilderband{min-height:calc(var(--header-hoehe, 139px) * 1.2);}
-  /* Der Abstand unter der Ueberschrift war doppelt so breit wie der
-     Weissraum darueber -- gemessen 14 px gegen 5 px bei 1440 px Fenster.
-     Das Band zentriert seinen Inhalt senkrecht, der Ueberschuss verteilt
-     sich also je zur Haelfte nach oben und unten. Ueberschuss ist hier
-     konstant: Bandhoehe 1,2*Kopf minus Schrift 19 minus Bildhoehe
-     1,2*(Kopf-38) = 26,6 px, unabhaengig von der Kopfhoehe. Ein Drittel
-     davon als Abstand macht oben und unten gleich breit. */
-  .marquee-section.bilderband .marquee-head{margin-bottom:9px;}
-  /* Dasselbe fuers Markenband, nur mit anderer Rechnung: Dort ist die
-     Bandhoehe genau die Kopfhoehe, die Logos sind mit 34 px fest. Der
-     Ueberschuss ist also Kopfhoehe minus Schrift 19 minus Logos 34, und
-     er waechst mit dem Kopf mit -- 29 px bei Kopf 82, 50 px bei Kopf 103.
-     Deshalb keine feste Zahl wie beim Bilderband, sondern ein Drittel des
-     gemessenen Ueberschusses. max() faengt sehr flache Koepfe ab, bei
-     denen die Rechnung sonst negativ wuerde. */
-  .marquee-section.markenband .marquee-head{
-    margin-bottom:max(4px, calc((var(--header-hoehe, 139px) - 53px) / 3));}
-  /* Die Bildhoehe richtet sich nach dem Header: abzueglich Ueberschrift
-     (19), Abstand darunter (14) und etwas Luft, dann derselbe Faktor 1.2
-     wie beim Band. Der Inhalt bleibt so unter der Mindesthoehe, die dann
-     die Hoehe bestimmt -- sonst waere das Band ein paar Pixel zu hoch. */
-  .marquee-section.bilderband .imgband-group img{height:calc((var(--header-hoehe, 139px) - 38px) * 1.2);}
+  .marquee-section.bilderband{min-height:var(--band-bilder-hoehe);}
+  /* Beide Baender: derselbe schmale Abstand unter der Schrift wie oben
+     und unten. Die frueheren Rechnungen mit einem Drittel des
+     Ueberschusses entfallen -- es gibt keinen Ueberschuss mehr. */
+  .marquee-section.markenband .marquee-head,
+  .marquee-section.bilderband .marquee-head{margin-bottom:var(--band-luft);}
+  .marquee-section.bilderband .imgband-group img{height:var(--band-bildhoehe);}
   .marquee-group{display:flex;align-items:center;gap:64px;padding-right:64px;}
   .brand-name{font-family:var(--font-heading);font-weight:700;font-size:21px;color:var(--grey-600);white-space:nowrap;}
   /* Logos im Markenband. Alle Dateien sind 120 Pixel hoch; das Motiv sitzt
@@ -682,7 +682,7 @@
      Nur ab 901 px -- auf dem Handy ist der Abschnitt ohnehin hoeher und
      die Seiteneinteilung waere dort sinnlos. */
   @media(min-width:901px){
-    #ablauf{min-height:calc(100vh - var(--header-klein, 46px) - var(--header-hoehe, 139px));
+    #ablauf{min-height:calc(100vh - var(--header-klein, 46px) - var(--band-marken-hoehe));
       display:flex;flex-direction:column;justify-content:center;
       /* Der Inhalt sitzt einen Tick ueber der Mitte: mehr Abstand nach
          unten, die senkrechte Mitte rueckt dadurch nach oben. box-sizing
@@ -718,7 +718,7 @@
      auf dem 1,2-fachen der vollen Kopfhoehe. Nur ab 901 px, auf dem Handy
      gibt es keine Seiteneinteilung. */
   @media(min-width:901px){
-    #kontakt{min-height:calc(100vh - var(--header-klein, 46px) - var(--header-hoehe, 139px) * 1.2);
+    #kontakt{min-height:calc(100vh - var(--header-klein, 46px) - var(--band-bilder-hoehe));
       display:flex;flex-direction:column;justify-content:center;}
   }
   #kontakt > .wrap{position:relative;z-index:1;}
