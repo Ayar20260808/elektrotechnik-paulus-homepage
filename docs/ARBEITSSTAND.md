@@ -599,10 +599,9 @@ Offene Punkte zuerst, danach das Erledigte zum Nachschlagen.
 | 1 | **Automatische Verlaengerung einschalten** | steht auf AUS, Ablauf **01.10.2027**. Danach ist die Firmendomain fuer jeden frei. Der teuerste Punkt der Liste |
 | 2 | **Testmail an `info@elektrotechnik-paulus.de`** | DNS ist nur die Wegbeschreibung, die Mail ist der Beweis |
 | 3 | Wix kuendigen | **erst wenn 2 gruen ist** |
-| 4 | `pub.html` loeschen | Von Irfan am 11.09. aus `public.html` umbenannt. Liegt ausserhalb des Webverzeichnisses, von aussen nicht erreichbar — reine Ordnung |
-| 5 | `.gitignore` in `public_html` entfernen | 90 Bytes Ballast aus einem alten Upload. **Ungeprueft**, ob noch vorhanden: die Liste zeigte zuletzt keine Dateien mit fuehrendem Punkt, das kann Loeschung sein oder eine Anzeigeeinstellung |
-| 6 | Zertifikatswarnung im Browser pruefen | seit dem CDN nicht geprueft. Auf dem Dashboard stehen *SSL* und *CDN* gruen — das ist Hostingers eigene Anzeige, kein Beweis im Browser |
-| 7 | Untermenue *Leistungen* ragt rechts aus dem Fenster | gemessen 38 px bei 1024 und 1440, 24 px bei 1200, 12 px bei 1366. Am Handy nicht. Gefunden beim Messen, nicht beauftragt, deshalb nicht angefasst |
+| 4 | `.gitignore` in `public_html` entfernen | 90 Bytes Ballast aus einem alten Upload. **Ungeprueft**, ob noch vorhanden: die Liste zeigte zuletzt keine Dateien mit fuehrendem Punkt, das kann Loeschung sein oder eine Anzeigeeinstellung |
+| 5 | Zertifikatswarnung im Browser pruefen | seit dem CDN nicht geprueft. Auf dem Dashboard stehen *SSL* und *CDN* gruen — das ist Hostingers eigene Anzeige, kein Beweis im Browser |
+| 6 | Untermenue *Leistungen* ragt rechts aus dem Fenster | gemessen 38 px bei 1024 und 1440, 24 px bei 1200, 12 px bei 1366. Am Handy nicht. Gefunden beim Messen, nicht beauftragt, deshalb nicht angefasst |
 
 Erledigt:
 
@@ -616,6 +615,7 @@ Erledigt:
 | — | ~~ZIP aus `public_html` loeschen~~ **11.09.2026** | |
 | — | ~~Inneren `public_html` entfernen~~ **11.09.2026** — im Dateimanager stehen nur noch `elektrosymbole`, `png`, `schriften` und die Seitendateien | |
 | — | ~~Cache leeren~~ **11.09.2026**, von Irfan bestaetigt. Damit ist `9420917` fuer Besucher ausgeliefert, nicht nur auf dem Server | |
+| — | ~~`pub.html` loeschen~~ **11.09.2026** — damit ist die Ebene ueber `public_html` wieder aufgeraeumt | |
 
 ### Paket `seite-10-09.zip` gebaut (10.09.2026)
 
