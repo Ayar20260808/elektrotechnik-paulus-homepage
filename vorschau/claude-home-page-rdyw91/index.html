@@ -354,6 +354,32 @@
        an. Hier liegt der Verlauf ohnehin ueber der ganzen Breite, deshalb
        ist die Bildebene voll deckend. */
     .hero-plan-img.an{opacity:1;}
+    /* Der deckende Streifen wandert mit. Stehengeblieben haette er die
+       dunkle Flaeche genau ueber dem Ladestecker gelassen -- gemessen
+       reichte sie bis 78 Prozent der Hoehe, also bis 437 von 560 px,
+       waehrend der Stecker bei rund 460 bis 520 px sitzt.
+
+       Der Zuschlag von 0,06 auf die Deckung ist noetig, weil der Text
+       jetzt in einem helleren Teil des Fotos steht. Die Werte in
+       data-deckung waren fuer die alte, tiefere Lage gemessen. Ohne den
+       Zuschlag fiel die gelbe Vorzeile auf 3,91:1. Abgetastet:
+
+         Zuschlag  360x800  390x844  600x900  768x1024
+           +0        3,92     3,91     4,79     3,95
+           +0,06     4,83     4,83     5,70     4,84
+           +0,10     5,55     5,55     6,38     5,55
+           +0,14     6,39     6,39     7,14     6,39
+
+       0,06 ist der kleinste Wert, der ueberall ueber 4,5:1 bleibt -- das
+       Foto bleibt damit so hell wie moeglich. */
+    .hero-overlay{
+      background:linear-gradient(180deg,
+        rgba(26,34,42, .30) 0%,
+        rgba(26,34,42, .34) 8%,
+        rgba(26,34,42, calc(var(--hero-deckung) + .06)) 16%,
+        rgba(26,34,42, calc(var(--hero-deckung) + .06)) 56%,
+        rgba(26,34,42, .34) 74%,
+        rgba(26,34,42, .28) 100%);}
   }
   .hero-content{position:relative;z-index:2;padding:clamp(18px,calc(var(--sh) * 5.6),64px) clamp(20px,5vw,72px);width:100%;}
   .hero-eyebrow{display:flex;align-items:center;gap:10px;font-family:var(--font-heading);font-weight:600;font-size:13.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--yellow);margin-bottom:clamp(7px,calc(var(--sh) * 1.7),16px);}
@@ -365,6 +391,18 @@
      oben schieben. Die Regel fuer .hero-lead bleibt stehen, falls der Satz
      zurueckkommt. */
   .hero-content > :last-child{margin-bottom:0;}
+  /* Auf dem Handy rueckt der Text hoeher, damit der Ladevorgang im
+     E-Auto-Bild frei bleibt. Der Hero zentriert seinen Inhalt senkrecht;
+     ein hoeherer Kasten schiebt den Text deshalb nach oben, ohne die
+     Zentrierung aufzugeben. 140 px mehr unten heben ihn um 70 px.
+     Der Selektor traegt bewusst das #hero davor. Der Kasten hat zwei
+     Klassen, hero-content und wrap. Unter 600 px setzt .wrap{padding:0 24px}
+     mit seiner Kurzschreibweise auch oben und unten auf null, und diese
+     Regel steht spaeter in der Datei. Mit #hero davor gewinnt sie hier
+     ueber die groessere Gewichtung statt ueber die Reihenfolge. */
+  @media(max-width:1000px){
+    #hero .hero-content{padding-bottom:calc(clamp(18px,calc(var(--sh) * 5.6),64px) + 140px);}
+  }
   .hero-lead{font-family:var(--font-body);font-size:clamp(15.5px,calc(var(--sh) * 2.15),20px);line-height:1.6;color:rgba(255,255,255,.82);max-width:56ch;margin-bottom:clamp(9px,calc(var(--sh) * 2.1),20px);}
   /* Foto ganz links, Schrift direkt daneben. Der Textblock beginnt bei 38
      Prozent der Inhaltsbreite -- dort endet das Foto (gemessen bei 1024,
