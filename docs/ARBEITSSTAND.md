@@ -1050,11 +1050,23 @@ kostenlose Paketbestandteile. Die Wix-Seite war also zu niedrig angesetzt.
 
 | Posten | Betrag | Stand |
 |---|---|---|
-| Premiumpaket | 178,50 €/Jahr | belegt |
-| Brand Maker | 71,40 €/Jahr | belegt |
-| Domain-Abo `elektrotechnik-paulus.de` | **?** | **fehlt** |
-| Domain-Abo `elektropersonal-ayar.de` | **?** | **fehlt** |
-| belegte Summe | **249,90 €/Jahr** | Untergrenze |
+| Premiumpaket *Core* | **357,00 €/Jahr** | 11.09.2026 am Bildschirm, naechste Zahlung 22.03.2027 |
+| Brand Maker *Brand Plus* | 71,40 €/Jahr | 11.09.2026 bestaetigt, naechste Zahlung 12.04.2027 |
+| Domain-Abos | entfallen | in `Premium-Abonnements` stehen am 11.09. **nur noch diese zwei Eintraege** |
+| Summe | **428,40 €/Jahr** | |
+
+**Korrektur gegenueber dem 09.09.:** Dort stand das Premiumpaket mit
+178,50 €/Jahr, also **genau der Haelfte**. Ein Faktor zwei ist selten Zufall --
+wahrscheinlich war der alte Wert ein Halbjahres- oder Einfuehrungspreis. Die
+71,40 € des Brand Maker stimmen dagegen auf den Cent mit dem alten Eintrag
+ueberein; dieselbe Ablesung liefert also einmal denselben und einmal den
+doppelten Wert, was gegen einen Lesefehler spricht.
+
+**Die zwei Domain-Abos sind verschwunden.** Am 09.09. war von vier Eintraegen
+die Rede, am 11.09. stehen nur noch zwei in der Liste. Passt zum
+Domain-Umzug am 04.09.: die `.de` liegt jetzt bei Hostinger, die
+`elektropersonal-ayar.de` laeuft vereinbarungsgemaess aus. Die beiden bis dahin
+fehlenden Zahlen sind damit **gegenstandslos**, nicht verloren.
 
 **Hostinger -- kommt dafuer**
 
@@ -1066,22 +1078,29 @@ kostenlose Paketbestandteile. Die Wix-Seite war also zu niedrig angesetzt.
 | Domain ab 01.10.2027 | **?** | **fehlt** |
 | zweite Domain | 0,00 € | entfaellt, laeuft aus |
 
-**Ersparnis im ersten Jahr, nur mit belegten Zahlen:**
+**Ersparnis im ersten Jahr:**
 
-    249,90 - (21,28 + 4,99) = 223,63 €/Jahr
+    428,40 - (21,28 + 4,99) = 402,13 €/Jahr
 
-Das sind **12,80 € mehr** als die alte Zahl, und es ist eine **Untergrenze**:
-die zwei Wix-Domain-Abos kommen noch obendrauf. Ab 01.09.2030 bleiben
-249,90 - 99,82 = 150,08 €/Jahr, davon geht der Domain-Verlaengerungspreis ab.
+Ab 01.09.2030, wenn die guenstige Hostinger-Miete auslaeuft:
 
-**Die drei fehlenden Zahlen und wo sie stehen:**
+    428,40 - 99,82 = 328,58 €/Jahr
 
-1. + 2. die zwei Wix-Domain-Abos -- Wix, `Premium-Abonnements`, dort stehen
-   vier Eintraege: Brand Maker, Premiumpaket und **zwei Domain-Abos**. Vor der
-   Kuendigung ablesen, danach ist die Seite weg.
-3. der Domain-Verlaengerungspreis bei Hostinger -- hPanel,
-   `Domains → Portfolio`, Zeile `elektrotechnik-paulus.de`. Dieselbe Seite, auf
-   der die automatische Verlaengerung eingeschaltet werden muss.
+davon geht noch der Domain-Verlaengerungspreis ab -- die einzige Zahl, die
+jetzt noch fehlt.
+
+Die frueheren Werte 210,83 € (vor dem 09.09.) und 223,63 € (09.09.) waren zu
+niedrig, weil das Premiumpaket nur zur Haelfte angesetzt war.
+
+**Was noch fehlt:**
+
+Nur noch eine Zahl. Die zwei Wix-Domain-Abos stehen am 11.09. nicht mehr in
+der Liste und sind damit gegenstandslos.
+
+- der Domain-Verlaengerungspreis bei Hostinger -- hPanel,
+  `Domains → Portfolio`, Zeile `elektrotechnik-paulus.de`. Auf der
+  *Domain-Uebersicht* hinter *Verwalten* steht er **nicht** -- am 11.09.
+  nachgesehen.
 
 ### Zwei Sitzungen am selben Branch (10.09.2026)
 
