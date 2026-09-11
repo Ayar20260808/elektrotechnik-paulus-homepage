@@ -590,6 +590,27 @@ Ablauf, der funktioniert hat: ZIP nach `public_html`, Extract **mit**
 *Overwrite existing files*, F5, ZIP loeschen, *Vorschau ohne Cache* zur
 Kontrolle, dann *Cache leeren*.
 
+### Suchmaschinen (11.09.2026)
+
+Bei Wix hat die Plattform `robots.txt` und `sitemap.xml` selbst erzeugt. Nach
+dem Umzug zu Hostinger fehlten beide. Am 11.09. angelegt, Commit `9a885eb`.
+
+**Adressform: mit `www.`** Alle zehn HTML-Dateien nennen in ihrer
+canonical-Zeile `https://www.elektrotechnik-paulus.de/` -- 32 Vorkommen mit
+`www.`, null ohne. `sitemap.xml` und `robots.txt` folgen dieser Form.
+
+Von Irfan am 11.09. geprueft: **beide Adressformen funktionieren**, mit und
+ohne `www.` Ob die eine auf die andere umleitet oder beide unabhaengig
+ausliefern, ist **nicht geprueft**. Fuer Google ist das unkritisch, solange
+die canonical-Zeilen einheitlich sind -- und das sind sie. Eine Umleitung
+waere sauberer, ist aber kein offener Fehler.
+
+**Search Console fehlt noch.** Ohne sie sieht niemand, ob Google etwas nicht
+lesen kann. Zur Bestaetigung der Inhaberschaft **die HTML-Tag-Methode nehmen,
+nicht die DNS-Methode.** Die DNS-Methode verlangt einen zusaetzlichen
+TXT-Eintrag in derselben Zone, in der der SPF-Eintrag der Geschaeftsmail
+steht -- und an MX und TXT wird nicht gearbeitet.
+
 ### Noch offen — kurz und konkret
 
 Offene Punkte zuerst, danach das Erledigte zum Nachschlagen.
