@@ -593,7 +593,16 @@ Kontrolle, dann *Cache leeren*.
 ### Suchmaschinen (11.09.2026)
 
 Bei Wix hat die Plattform `robots.txt` und `sitemap.xml` selbst erzeugt. Nach
-dem Umzug zu Hostinger fehlten beide. Am 11.09. angelegt, Commit `9a885eb`.
+dem Umzug zu Hostinger fehlten beide. Am 11.09. angelegt, Commit `9a885eb`,
+mit Paket `seite-11-09-dc9a801.zip` hochgeladen und Cache geleert. **Beide
+Adressen liefern Text**, von Irfan im Browser geprueft:
+
+    https://www.elektrotechnik-paulus.de/robots.txt
+    https://www.elektrotechnik-paulus.de/sitemap.xml
+
+Damit ist der Live-Stand `dc9a801`. An `index.html` hat sich gegenueber
+`9420917` nichts geaendert, die Datei ist bytegleich -- der Upload brachte nur
+die zwei neuen Dateien.
 
 **Adressform: mit `www.`** Alle zehn HTML-Dateien nennen in ihrer
 canonical-Zeile `https://www.elektrotechnik-paulus.de/` -- 32 Vorkommen mit
