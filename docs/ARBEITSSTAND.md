@@ -365,15 +365,15 @@ nach der Domain-Uebernahme ein gueltiges Zertifikat ausgestellt, und das CDN
 laeuft tatsaechlich. Hostingers Doku nennt CDN erst ab „Premium", der Tarif
 hier ist **Einzel** — die Doku ist also veraltet, nicht die Messung.
 
-**Beschriftung geaendert (Stand 11.09.2026).** Der Menuepunkt heisst im
-hPanel jetzt **Dashboard**, nicht mehr *Armaturenbrett*. Die beiden
-Cache-Knoepfe wurden am 11.09. **nicht wiedergefunden** -- die Sitzung endete,
-bevor ein Screenshot der Dashboard-Seite vorlag. Ob der Kasten noch
-*Grundausstattung* heisst, ist damit offen. Naechster Schritt: Screenshot von
-*Dashboard* anfordern, dann erst zeigen.
+**Nachgeprueft am 11.09.2026 auf einem Screenshot der Seite.** Geaendert hat
+sich nur der Name des Menuepunktes: er heisst jetzt **Dashboard**, nicht mehr
+*Armaturenbrett*. Alles andere steht unveraendert -- Kasten
+**Grundausstattung**, Abschnitt **Cache**, beide Knopfnamen gleich.
 
-Stand 04.09.2026, damals bestaetigt -- im Kasten **Grundausstattung**,
-Abschnitt **Cache**, zwei Knoepfe:
+Der Weg vollstaendig: linkes Menue **Dashboard** (erster Eintrag unter dem
+Suchfeld, ueber *Hosting-Plan*), dann im Kasten **Grundausstattung** der
+vierte Abschnitt **Cache**, zwischen *Dateimanager* und *Hosting-Plan*. Dort
+zwei Knoepfe:
 
 - **„Cache leeren"** — wirft die Kopien auf den CDN-Zwischenservern weg
 - **„Vorschau ohne Cache"** — zeigt die Seite direkt vom Server, am
