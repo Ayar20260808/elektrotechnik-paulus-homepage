@@ -622,6 +622,15 @@
      1,2*(Kopf-38) = 26,6 px, unabhaengig von der Kopfhoehe. Ein Drittel
      davon als Abstand macht oben und unten gleich breit. */
   .marquee-section.bilderband .marquee-head{margin-bottom:9px;}
+  /* Dasselbe fuers Markenband, nur mit anderer Rechnung: Dort ist die
+     Bandhoehe genau die Kopfhoehe, die Logos sind mit 34 px fest. Der
+     Ueberschuss ist also Kopfhoehe minus Schrift 19 minus Logos 34, und
+     er waechst mit dem Kopf mit -- 29 px bei Kopf 82, 50 px bei Kopf 103.
+     Deshalb keine feste Zahl wie beim Bilderband, sondern ein Drittel des
+     gemessenen Ueberschusses. max() faengt sehr flache Koepfe ab, bei
+     denen die Rechnung sonst negativ wuerde. */
+  .marquee-section.markenband .marquee-head{
+    margin-bottom:max(4px, calc((var(--header-hoehe, 139px) - 53px) / 3));}
   /* Die Bildhoehe richtet sich nach dem Header: abzueglich Ueberschrift
      (19), Abstand darunter (14) und etwas Luft, dann derselbe Faktor 1.2
      wie beim Band. Der Inhalt bleibt so unter der Mindesthoehe, die dann
