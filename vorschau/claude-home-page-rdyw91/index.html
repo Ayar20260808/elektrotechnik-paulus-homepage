@@ -371,12 +371,20 @@
            +0,14     6,39     6,39     7,14     6,39
 
        0,06 ist der kleinste Wert, der ueberall ueber 4,5:1 bleibt -- das
-       Foto bleibt damit so hell wie moeglich. */
+       Foto bleibt damit so hell wie moeglich.
+
+       Der obere Halt des deckenden Streifens steht bei 12 statt 16
+       Prozent, seit der Text noch hoeher rueckt (siehe unten). Bei 16
+       Prozent ragte die Vorzeile auf manchen Fenstern in die Rampe
+       darueber, wo die Deckung schon abfaellt. Gemessen bei 414x896:
+
+         Halt 16 %   4,55:1
+         Halt 12 %   4,83:1 */
     .hero-overlay{
       background:linear-gradient(180deg,
         rgba(26,34,42, .30) 0%,
         rgba(26,34,42, .34) 8%,
-        rgba(26,34,42, calc(var(--hero-deckung) + .06)) 16%,
+        rgba(26,34,42, calc(var(--hero-deckung) + .06)) 12%,
         rgba(26,34,42, calc(var(--hero-deckung) + .06)) 56%,
         rgba(26,34,42, .34) 74%,
         rgba(26,34,42, .28) 100%);}
@@ -392,16 +400,45 @@
      zurueckkommt. */
   .hero-content > :last-child{margin-bottom:0;}
   /* Auf dem Handy rueckt der Text hoeher, damit der Ladevorgang im
-     E-Auto-Bild frei bleibt. Der Hero zentriert seinen Inhalt senkrecht;
-     ein hoeherer Kasten schiebt den Text deshalb nach oben, ohne die
-     Zentrierung aufzugeben. 140 px mehr unten heben ihn um 70 px.
+     E-Auto-Bild und der Schriftzug E-CHECK im Pruefplaketten-Bild frei
+     bleiben. Der Hero zentriert seinen Inhalt senkrecht; ein hoeherer
+     Kasten schiebt den Text deshalb nach oben, ohne die Zentrierung
+     aufzugeben. Der Zuschlag wirkt halb: 200 px heben um 100 px.
+
+     E-CHECK steht gemessen bei 45 Prozent der Hero-Hoehe -- bei 390x844
+     also 335 bis 387 px. Mit dem frueheren Zuschlag von 140 px endete die
+     Ueberschrift bei 348 px und lag damit 12 px in den Buchstaben. 200 px
+     lassen 17 px Luft.
+
+     Der Zuschlag ist an die Fensterhoehe gekoppelt, nicht fest. Auf
+     niedrigen Fenstern faellt er mit. Das ist noetig: dort ist der Hero
+     kuerzer, der Text wegen des Umbruchs aber hoeher, und ein fester
+     Zuschlag schoebe die Vorzeile in den hellen Streifen am oberen Rand
+     des Verlaufs. Abgetastet, Kontrast der gelben Vorzeile:
+
+       Zuschlag   320x568   360x640   375x667
+         +140      4,83      4,83      4,83
+         +170      4,91      4,83      4,83
+         +180      4,06      4,83      4,83
+         +200      3,19      4,92      4,83
+
+     Nur das niedrigste Fenster setzt also eine Grenze, und zwar bei rund
+     170 px. 30vh liefert dort 170 px und erreicht ab 667 px Fensterhoehe
+     die vollen 200 px. Gemessen mit dieser Formel:
+
+       Fenster    Kontrast   Luft bis E-CHECK
+       320x568     4,70          2 px
+       360x640     4,90         12 px
+       375x667     4,83         15 px
+       390x844     4,83         17 px
+
      Der Selektor traegt bewusst das #hero davor. Der Kasten hat zwei
      Klassen, hero-content und wrap. Unter 600 px setzt .wrap{padding:0 24px}
      mit seiner Kurzschreibweise auch oben und unten auf null, und diese
      Regel steht spaeter in der Datei. Mit #hero davor gewinnt sie hier
      ueber die groessere Gewichtung statt ueber die Reihenfolge. */
   @media(max-width:1000px){
-    #hero .hero-content{padding-bottom:calc(clamp(18px,calc(var(--sh) * 5.6),64px) + 140px);}
+    #hero .hero-content{padding-bottom:calc(clamp(18px,calc(var(--sh) * 5.6),64px) + min(30vh, 200px));}
   }
   .hero-lead{font-family:var(--font-body);font-size:clamp(15.5px,calc(var(--sh) * 2.15),20px);line-height:1.6;color:rgba(255,255,255,.82);max-width:56ch;margin-bottom:clamp(9px,calc(var(--sh) * 2.1),20px);}
   /* Foto ganz links, Schrift direkt daneben. Der Textblock beginnt bei 38
