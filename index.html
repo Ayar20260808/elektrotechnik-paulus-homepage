@@ -103,7 +103,7 @@
   :focus-visible{outline:2px solid var(--tech-blue);outline-offset:2px;}
   ::selection{background:var(--yellow-tint-2);color:var(--dark);}
   h1,h2,h3,h4{font-family:var(--font-heading);color:var(--ink);}
-  .wrap{max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,72px);}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 clamp(24px,5vw,72px);}
   .eyebrow{font-family:var(--font-heading);font-weight:600;font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--yellow-text);}
   .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 26px;font-family:var(--font-heading);font-weight:600;font-size:15px;border:2px solid transparent;cursor:pointer;transition:.22s ease;text-decoration:none;}
   .btn:hover{text-decoration:none;}
@@ -654,7 +654,11 @@
      geschrumpfte Kopf und das Markenband, das auf der vollen Kopfhoehe
      steht. */
   #ablauf{min-height:calc(100vh - var(--header-klein, 46px) - var(--header-hoehe, 139px));
-    display:flex;flex-direction:column;justify-content:center;}
+    display:flex;flex-direction:column;justify-content:center;
+    /* Der Inhalt sitzt einen Tick ueber der Mitte: mehr Abstand nach unten,
+       die senkrechte Mitte rueckt dadurch nach oben. box-sizing ist
+       border-box, die Gesamthoehe des Abschnitts bleibt also gleich. */
+    padding-bottom:calc(84px + 7vh);}
   .ablauf-grid{display:grid;grid-template-columns:repeat(4, minmax(0,1fr));gap:28px;}
   @media(max-width:1020px){.ablauf-grid{grid-template-columns:repeat(2, minmax(0,1fr));}}
   @media(max-width:560px){.ablauf-grid{grid-template-columns:1fr;}}
@@ -881,7 +885,15 @@
     .nav-links{display:none;}
     .burger{display:flex;}
     .services-grid{grid-template-columns:1fr 1fr;}
-    .kontakt-grid{grid-template-columns:1fr;}
+    .kontakt-grid{grid-template-columns:1fr;gap:32px;}
+    /* Auf dem Handy soll erst der Text kommen, dann das Formular und erst
+       danach Telefon, E-Mail und Standort. display:contents nimmt die
+       Huelle .kontakt-info aus dem Raster heraus, sodass ihre beiden
+       Haelften einzeln einsortiert werden koennen. */
+    .kontakt-grid .kontakt-info{display:contents;}
+    .kontakt-grid .kontakt-text{order:1;}
+    .kontakt-grid > div[data-reveal]{order:2;}
+    .kontakt-grid .kontakt-daten{order:3;}
   }
   /* Schmalere Fenster: das zentrierte Band waere dort breiter als das
      Fenster. Ab hier wieder volle Breite mit seitlichem Rand. */
@@ -922,7 +934,7 @@
   @media(max-width:600px){
     .services-grid{grid-template-columns:1fr;}
     .form-row{grid-template-columns:1fr;}
-    .wrap{padding:0 20px;}
+    .wrap{padding:0 24px;}
   }
 
   .nav-links.mobile-open{
@@ -1292,13 +1304,16 @@
   </div>
   <div class="wrap kontakt-grid">
     <div class="kontakt-info">
-      <span class="eyebrow" data-reveal>Kontakt</span>
-      <h2 data-reveal>Lassen Sie uns über Ihr Projekt sprechen.</h2>
-      <p data-reveal>Ob Neubau, Sanierung oder einzelne Komponente — schreiben Sie uns oder rufen Sie an. Wir melden uns schnellstmöglich zurück.</p>
-
-      <div class="kontakt-block" data-reveal><div class="label">Telefon</div><a href="tel:+4922129894083">0221 2989 4083</a></div>
-      <div class="kontakt-block" data-reveal><div class="label">E-Mail</div><a href="mailto:info@elektrotechnik-paulus.de">info@elektrotechnik-paulus.de</a></div>
-      <div class="kontakt-block" data-reveal><div class="label">Standort</div><span>Köln</span></div>
+      <div class="kontakt-text">
+        <span class="eyebrow" data-reveal>Kontakt</span>
+        <h2 data-reveal>Lassen Sie uns über Ihr Projekt sprechen.</h2>
+        <p data-reveal>Ob Neubau, Sanierung oder einzelne Komponente — schreiben Sie uns oder rufen Sie an. Wir melden uns schnellstmöglich zurück.</p>
+      </div>
+      <div class="kontakt-daten">
+        <div class="kontakt-block" data-reveal><div class="label">Telefon</div><a href="tel:+4922129894083">0221 2989 4083</a></div>
+        <div class="kontakt-block" data-reveal><div class="label">E-Mail</div><a href="mailto:info@elektrotechnik-paulus.de">info@elektrotechnik-paulus.de</a></div>
+        <div class="kontakt-block" data-reveal><div class="label">Standort</div><span>Köln</span></div>
+      </div>
     </div>
 
     <div data-reveal>
