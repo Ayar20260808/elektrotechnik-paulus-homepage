@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Verzeichnis aller Seiten fuer Suchmaschinen.
+     Adressen stehen hier absolut und mit www., weil der Standard
+     fuer sitemap.xml volle Adressen verlangt und weil die
+     canonical-Zeilen der HTML-Dateien dieselbe Form verwenden.
+     Auf der Vorschau unter github.io ist diese Datei deshalb
+     gegenstandslos; sie zaehlt nur auf der echten Domain.
+     lastmod ist der Tag der letzten Aenderung laut Git. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://www.elektrotechnik-paulus.de/</loc>
+    <lastmod>2026-09-11</lastmod>
+  </url>
+  <url>
+    <loc>https://www.elektrotechnik-paulus.de/leistung-elektroinstallation.html</loc>
+    <lastmod>2026-09-11</lastmod>
+  </url>
+  <url>
+    <loc>https://www.elektrotechnik-paulus.de/leistung-netzwerk.html</loc>
+    <lastmod>2026-09-11</lastmod>
+  </url>
+  <url>
+    <loc>https://www.elektrotechnik-paulus.de/leistung-photovoltaik.html</loc>
+    <lastmod>2026-09-11</lastmod>
+  </url>
+  <url>
+    <loc>https://www.elektrotechnik-paulus.de/leistung-planung.html</loc>
+    <lastmod>2026-09-11</lastmod>
+  </url>
+  <url>
+    <loc>https://www.elektrotechnik-paulus.de/leistung-smarthome.html</loc>
+    <lastmod>2026-09-11</lastmod>
+  </url>
+  <url>
+    <loc>https://www.elektrotechnik-paulus.de/leistung-tuersprechanlage.html</loc>
+    <lastmod>2026-09-11</lastmod>
+  </url>
+  <url>
+    <loc>https://www.elektrotechnik-paulus.de/leistung-vde.html</loc>
+    <lastmod>2026-09-11</lastmod>
+  </url>
+  <url>
+    <loc>https://www.elektrotechnik-paulus.de/leistung-waermepumpe.html</loc>
+    <lastmod>2026-09-11</lastmod>
+  </url>
+  <url>
+    <loc>https://www.elektrotechnik-paulus.de/leistung-wallbox.html</loc>
+    <lastmod>2026-09-11</lastmod>
+  </url>
+</urlset>
