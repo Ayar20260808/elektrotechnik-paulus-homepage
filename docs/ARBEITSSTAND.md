@@ -391,10 +391,26 @@ sich nur der Name des Menuepunktes: er heisst jetzt **Dashboard**, nicht mehr
 *Armaturenbrett*. Alles andere steht unveraendert -- Kasten
 **Grundausstattung**, Abschnitt **Cache**, beide Knopfnamen gleich.
 
-Der Weg vollstaendig: linkes Menue **Dashboard** (erster Eintrag unter dem
-Suchfeld, ueber *Hosting-Plan*), dann im Kasten **Grundausstattung** der
-vierte Abschnitt **Cache**, zwischen *Dateimanager* und *Hosting-Plan*. Dort
-zwei Knoepfe:
+**Korrektur vom 12.09.2026 -- die folgende Wegangabe war irrefuehrend.**
+Sie beschreibt das Menue **innerhalb einer Website**, nicht das der
+Kontoebene. Am 12.09. wurde die Kontoebene auf einem Screenshot gesehen;
+dort gibt es **keinen** Eintrag *Dashboard* und auch kein *Hosting-Plan*.
+Die linke Leiste enthaelt dort:
+
+    Home · Agent · Websites · Domains · E-Mails · Weitere Dienste
+    Hostinger Apps:  KI Builder · E-Mail-Marketing · Ecommerce
+    KI-Agenten:      OpenClaw · Hermes Agent · n8n · Paperclip
+    Entwickler-Tools: VPS · GPU · API · ai-router (nexos.ai)
+
+**Es braucht also zuerst einen Schritt tiefer: `Websites` anklicken, dann
+die Zeile der Domain.** Erst dort erscheint das Menue mit *Dashboard*.
+Wer die Angabe unten auf der Kontoebene sucht, findet sie nie -- genau das
+ist am 12.09. passiert.
+
+Der Weg **innerhalb der Website**: linkes Menue **Dashboard** (erster
+Eintrag unter dem Suchfeld, ueber *Hosting-Plan*), dann im Kasten
+**Grundausstattung** der vierte Abschnitt **Cache**, zwischen
+*Dateimanager* und *Hosting-Plan*. Dort zwei Knoepfe:
 
 - **„Cache leeren"** — wirft die Kopien auf den CDN-Zwischenservern weg
 - **„Vorschau ohne Cache"** — zeigt die Seite direkt vom Server, am
