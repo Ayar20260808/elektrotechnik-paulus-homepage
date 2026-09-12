@@ -713,11 +713,11 @@ Offene Punkte zuerst, danach das Erledigte zum Nachschlagen.
 | | Was | Warum es zaehlt |
 |---|---|---|
 | — | ~~**`.htaccess` hochladen**~~ | **Erledigt am 12.09.2026.** Beim zweiten Anlauf richtig entpackt. Irfan meldet: *"kontaktseite funtioniert"* -- `/kontakt/` leitet also um, die Datei ist im Webverzeichnis und aktiv. Siehe *Weiterleitungen sind live* |
-| 2 | **Sitemap in der Search Console eintragen** | *Indexierung → Sitemaps*, dort nur `sitemap.xml` eintragen, ohne Adresse davor. Am 11.09. **nicht mehr gemacht** |
+| — | ~~**Sitemap in der Search Console eintragen**~~ | **Erledigt 12.09.2026.** Status *Erfolgreich*, 10 erkannte Seiten, gelesen am 12.09. |
 | 3 | Welche Seite ist *Gecrawlt - zurzeit nicht indexiert*? | Google hat sie gelesen und abgelehnt. Erst wenn man weiss, welche es ist, laesst sich etwas tun |
 | 4 | Alte Wix-Seite: ist sie noch oeffentlich erreichbar? | Sie laeuft bis Fruehjahr 2027 weiter, nur ohne die Domain. Steht derselbe Text unter einer Wix-Adresse im Netz, sieht Google ihn doppelt. **Ungeprueft** -- die Adresse ist in dieser Sitzung nicht bekannt |
 | 5 | ~~`.gitignore` in `public_html` entfernen~~ | **Erledigt bzw. gegenstandslos, 12.09.2026.** Die vollstaendige Liste von oben bis unten zeigt keine Datei mit fuehrendem Punkt. Dass der Dateimanager solche anzeigt, ist zweifach belegt: am 11.09. wurde `.gitignore` **mit Groesse (90 B)** abgelesen, und im Extract-Fenster steht `.trash`. Die Datei ist also weg |
-| 6 | Zertifikatswarnung im Browser pruefen | seit dem CDN nicht geprueft. Auf dem Dashboard stehen *SSL* und *CDN* gruen — das ist Hostingers eigene Anzeige, kein Beweis im Browser |
+| — | ~~Zertifikatswarnung pruefen~~ | **Beantwortet 12.09.2026 ohne Browsertest.** Google hat die Sitemap ueber `https://www.` erfolgreich geholt. Googlebot bricht bei einer Zertifikatswarnung ab, statt sie wegzuklicken -- der erfolgreiche Abruf belegt also ein gueltiges Zertifikat auf dem `www.`-Weg hinter dem CDN |
 | 8 | **`leistungvde.html` vom Server loeschen** | Ohne Bindestrich, 63,68 KiB, 9 Tage alt -- der Rest des Namensfehlers vom 03.09. Sie steht **im Webverzeichnis und ist oeffentlich abrufbar** unter `/leistungvde.html`, als veraltete Zweitfassung der VDE-Seite. `robots.txt` sperrt nichts (`Allow: /`). Genau der doppelte Inhalt, der unter Punkt 4 als Risiko benannt ist -- nur nicht bei Wix, sondern auf dem eigenen Server. Im Projekt gibt es die Datei nicht, sie kann also ersatzlos weg |
 | 7 | Untermenue *Leistungen* ragt rechts aus dem Fenster | gemessen 38 px bei 1024 und 1440, 24 px bei 1200, 12 px bei 1366. Am Handy nicht. Gefunden beim Messen, nicht beauftragt, deshalb nicht angefasst |
 
@@ -809,7 +809,14 @@ Ablauf wie am 04.09.: ZIP nach `public_html`, Extract **mit** *Overwrite
 existing files*, F5, Groessen vergleichen, ZIP loeschen, *Vorschau ohne Cache*,
 dann *Cache leeren*.
 
-### Sitemap eingereicht -- Status rot, aber die Werte sind von Wix (12.09.2026)
+### Sitemap eingereicht und erfolgreich gelesen (12.09.2026)
+
+**Ergebnis zuerst: Status *Erfolgreich*, 10 erkannte Seiten, zuletzt
+gelesen 12.09.2026, Typ *Sitemap*.** Alle vier Werte decken sich mit
+unserer Datei. Offen-Punkt 2 ist damit erledigt.
+
+Der Weg dahin ist trotzdem festgehalten, weil der Zwischenstand jede
+kuenftige Sitzung in die Irre fuehren wuerde.
 
 Eingereicht am 12.09. Die Zeile *Eingereichte Sitemaps* zeigt:
 
@@ -896,8 +903,31 @@ funktionieren. Dagegen steht, dass das die Startseite betraf, nicht die
 Sitemap, und dass es vor der `.htaccess` war. Es ist die einzige
 ungepruefte Stelle auf Googles Weg, deshalb wird sie geprueft.
 
-Danach ein, zwei Tage abwarten und den Status erneut ansehen. Steht er
-dann immer noch rot, ist es kein Timing und wir suchen weiter.
+**Aufgeloest noch am selben Tag: es war Timing.** Der Status sprang ohne
+weiteres Zutun von *Konnte nicht abgerufen werden* auf *Erfolgreich*:
+
+    vorher                         nachher
+    Typ    Sitemap-Index           Typ    Sitemap
+    gelesen 31.08.2026             gelesen 12.09.2026
+    Seiten  7                      Seiten  10
+
+**Die Lehre, die bleibt: Ein rotes *Konnte nicht abgerufen werden* direkt
+nach dem Einreichen ist kein Befund.** Der verlaessliche Messwert ist
+*Zuletzt gelesen*. Liegt dieses Datum **vor** dem Entstehen der Datei, hat
+Google sie schlicht noch nicht geholt -- dann ist alles andere in der
+Zeile Altbestand und sagt nichts ueber den heutigen Zustand. **Nicht
+erneut einreichen, nicht suchen, abwarten.**
+
+**Inhalt gegengeprueft.** Irfan hat den vom Server ausgelieferten Text
+geschickt; Adressen und `lastmod` wurden gegen `sitemap.xml` im
+Repository gehalten: **10 zu 10, gleiche Reihenfolge, keine Abweichung.**
+
+**Nebenbefund, der Offen-Punkt 6 beantwortet:** Google hat die Datei
+ueber `https://www.elektrotechnik-paulus.de/` erfolgreich geholt.
+Googlebot klickt keine Zertifikatswarnung weg, sondern bricht ab. Der
+erfolgreiche Abruf belegt damit **ein gueltiges Zertifikat auf dem
+`www.`-Weg**, also hinter Hostingers CDN. Genau das war seit der
+CDN-Umstellung am 04.09. offen.
 
 Nebenbefund: Die Liste zeigt *1 bis 1 von 1*. Es haengen also **keine
 alten Wix-Unterdateien** mehr als eigene Eintraege darin.
