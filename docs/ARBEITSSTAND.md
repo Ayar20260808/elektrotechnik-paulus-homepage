@@ -350,6 +350,27 @@ Ebenfalls am 04.09.2026 gemessen:
 CNAME auf die Domain selbst) sind ersetzt. Unklar, ob Irfan den CDN-Schalter
 umgelegt hat oder Hostinger es selbst tat.
 
+**Nachgemessen am 12.09.2026 mit `dnsfrage.py`, sechs uebereinstimmende
+Antworten:**
+
+    NS    aurora.dns-parking.com | nebula.dns-parking.com
+    MX    Prio 10 aspmx.l.google.com
+    TXT   v=spf1 include:_spf.google.com ~all
+    A     191.101.104.10 | 212.1.212.187
+
+**MX, TXT und NS stehen unveraendert -- die Geschaeftsmail ist unberuehrt.**
+
+**Die A-Adressen sind aber andere als am 04.09.** Damals `89.116.213.50`
+und `91.108.127.221`, jetzt `191.101.104.10` und `212.1.212.187`. **Das
+ist kein Fehler:** Hinter einem CDN wechseln die Ausliefer-Adressen, das
+ist sein Normalbetrieb. Belegt dadurch, dass die Seite am selben Tag
+nachweislich ausliefert -- Google hat die Sitemap erfolgreich geholt.
+
+**Wichtig fuer kuenftige Sitzungen: die Zahlen vom 04.09. nicht als
+Sollwert behandeln und nicht "wiederherstellen".** Ein A-Eintrag, der von
+der Dokumentation abweicht, ist hier erwartbar. Verlaesslich sind MX, TXT
+und NS -- die muessen stehen.
+
 **Praktische Folge:** Geaenderte Dateien kommen verzoegert bei Besuchern an,
 der Zwischenspeicher liefert erst die alte Fassung. Vor jedem Sichttest nach
 einem Upload den CDN-Zwischenspeicher im hPanel leeren.
@@ -1062,7 +1083,7 @@ mehr offen, das hochgeladen werden muesste.** Zum ersten Mal seit dem
 
 | Was | Wo | Warum |
 |---|---|---|
-| `htaccess-12-09-e199422.zip` loeschen | `public_html` | Merkregel: das Upload-ZIP nach dem Entpacken sofort loeschen, es liegt sonst offen im Netz |
+| ~~`htaccess-12-09-e199422.zip` loeschen~~ | `public_html` | **Erledigt 12.09.2026**, von Irfan gemeldet |
 | `public_html` loeschen | in `/files/public_html/` | Der Fehlversuch vom Vormittag, enthaelt nur die wirkungslose `.htaccess` |
 | `leistungvde.html` loeschen | `public_html` | Offen-Punkt 8, veraltete Zweitfassung der VDE-Seite |
 
