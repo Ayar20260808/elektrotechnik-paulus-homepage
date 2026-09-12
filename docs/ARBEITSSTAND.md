@@ -970,12 +970,22 @@ Irfans eigenem Screenshot:
 Richtig waere also gewesen: Ziel `/files/domains/elektrotechnik-paulus.de/`,
 Ordnername `public_html`.
 
-**Geschaetzt grob drei von vier, dass die `.htaccess` nicht im
-Webverzeichnis liegt** und damit wirkungslos ist. Grundlage ist allein die
-Regel von 02.09. gegen die abgelesenen Feldwerte. Die Unbekannte: Der
-Zielwaehler war im Bild nur teilweise zu sehen -- `domains` fehlte in der
-Liste, obwohl es das gibt. Was der Wähler unter `/files/` tatsaechlich
-anbietet, ist **nicht geklaert**.
+~~Geschaetzt grob drei von vier, dass die `.htaccess` nicht im
+Webverzeichnis liegt.~~ **Von Irfan bestaetigt: sie liegt in
+`/files/public_html/public_html/`.** Genau der vorausgesagte Pfad. Die
+Regel von 02.09. gilt also unveraendert, und die Schaetzung ist
+eingetreten.
+
+**Folge: die Datei hat keine Wirkung.** Sie liegt nicht im
+Webverzeichnis, die Weiterleitungen laufen nicht. Kaputt ist nichts.
+
+**Nicht geklaert bleibt, was `/files/public_html` ueberhaupt ist** -- ein
+eigenes, ungenutztes Verzeichnis oder ein Verweis auf das echte
+Webverzeichnis. Der Unterschied zaehlt: im zweiten Fall waere der neue
+Ordner **innerhalb** des Webverzeichnisses und unter
+`elektrotechnik-paulus.de/public_html/` abrufbar -- dieselbe Sorte
+Ballast wie am 11.09. Erkennbar daran, was in `/files/public_html/` sonst
+noch liegt: die ganze Website oder fast nichts.
 
 **Schaden ist unwahrscheinlich, grob einer von zwanzig.** Im ZIP ist
 ausschliesslich die `.htaccess`, sie kann keine andere Datei
@@ -991,6 +1001,20 @@ bleibt die nie gemessene Serversoftware von Hostinger.
 
 Zur Kontrolle im Dateimanager: **`.htaccess` muss 1.461 Bytes = 1,43 KiB
 zeigen.** Weicht die Zahl ab, ist beim Uebertragen etwas veraendert worden.
+
+**Konsequenz: das Extract-Fenster wird fuer diese eine Datei nicht noch
+einmal benutzt.** Zweimal hat der Zielwaehler dieses Projekt Ballast
+gekostet -- am 11.09. den Punkt-Ordner, am 12.09. den verschachtelten
+`public_html`. Stattdessen die Datei ueber *New file* direkt im richtigen
+Ordner anlegen und den Inhalt einfuegen. Das umgeht den Zielwaehler
+vollstaendig.
+
+**Einfuegen ist hier unkritisch, gemessen am 12.09.:** die Datei ist
+reines ASCII (kein einziges Zeichen ausserhalb 0x20-0x7E), 26 Zeilen,
+1.461 Bytes, reine Unix-Zeilenenden. Es gibt also keine Umlaute, an denen
+sich eine Zeichensatz-Umwandlung stoeren koennte. Weicht die Groesse
+hinterher leicht ab, sind es die Zeilenenden des Editors -- fuer die
+Funktion egal, fuer den Groessenvergleich kuenftig mitzudenken.
 
 **Netzsperre in diesem Container erneut gemessen (12.09.2026), sie gilt
 weiter.** Nicht angenommen, sondern nachgeprueft, weil der Container jeder
