@@ -809,6 +809,39 @@ Ablauf wie am 04.09.: ZIP nach `public_html`, Extract **mit** *Overwrite
 existing files*, F5, Groessen vergleichen, ZIP loeschen, *Vorschau ohne Cache*,
 dann *Cache leeren*.
 
+### sitemap.xml vor dem Eintragen geprueft (12.09.2026)
+
+Damit niemand sie erneut durchsieht -- **sieben Pruefungen, null Befunde:**
+
+| Pruefung | Ergebnis |
+|---|---|
+| XML gueltig | ja, fehlerfrei geparst |
+| Eintraege | 10 |
+| Seiten im Projekt | 10 -- **deckungsgleich** |
+| Eintrag ohne zugehoerige Datei | keiner |
+| Seite ohne Eintrag | keine |
+| Doppelte Adressen | keine |
+| Alle mit `www.` | ja |
+
+Dazu die `canonical`-Zeile **jeder** der zehn Seiten gegen ihren
+Sitemap-Eintrag gehalten: **null Abweichungen.** Das ist der Punkt, an dem
+Google sonst doppelten Inhalt sieht -- wenn Sitemap und canonical
+verschiedene Adressformen nennen.
+
+`lastmod` steht ueberall auf `2026-09-11`. Das stimmt: Der letzte Commit,
+der eine HTML-Datei angefasst hat, ist `9420917` vom 11.09. Seither hat
+sich an den Seiten nichts geaendert, nur die `.htaccess` kam dazu.
+
+Die Datei auf dem Server ist nachweislich **diese**: 1.789 Bytes =
+1,75 KiB, genau der Wert aus dem Screenshot vom 12.09.
+
+**Einzutragen ist `sitemap.xml`** -- nur das, ohne Domain davor. Die
+Property steht auf `https://www.elektrotechnik-paulus.de/`, die Adresse
+ist im Feld also schon vorgegeben.
+
+**`leistungvde.html` steht bewusst NICHT in der Sitemap** und soll auch
+nicht hinein -- sie wird geloescht, siehe Offen-Punkt 8.
+
 ### Weiterleitungen sind live -- Server und Branch deckungsgleich (12.09.2026)
 
 Zweiter Anlauf am Extract-Fenster, diesmal richtig eingestellt: Ziel
