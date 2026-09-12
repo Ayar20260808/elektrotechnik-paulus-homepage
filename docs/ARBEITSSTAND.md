@@ -809,6 +809,64 @@ Ablauf wie am 04.09.: ZIP nach `public_html`, Extract **mit** *Overwrite
 existing files*, F5, Groessen vergleichen, ZIP loeschen, *Vorschau ohne Cache*,
 dann *Cache leeren*.
 
+### Sitemap eingereicht -- Status rot, aber die Werte sind von Wix (12.09.2026)
+
+Eingereicht am 12.09. Die Zeile *Eingereichte Sitemaps* zeigt:
+
+    Sitemap          /sitemap.xml
+    Typ              Sitemap-Index
+    Eingereicht      12.09.2026
+    Zuletzt gelesen  31.08.2026
+    Status           Konnte nicht abgerufen werden
+    Erkannte Seiten  7
+
+**Drei dieser Werte passen nicht zu unserer Datei -- und zwar unabhaengig
+voneinander:**
+
+| Anzeige | Unsere Datei | gemessen |
+|---|---|---|
+| Typ *Sitemap-Index* | `<urlset>`, **kein** `<sitemapindex>` | ja |
+| 7 erkannte Seiten | **10** `<loc>`-Eintraege | ja |
+| Zuletzt gelesen 31.08.2026 | existiert erst seit **11.09.2026** | ja |
+
+**Schlussfolgerung: Google hat unsere Sitemap noch nie gelesen.** Die
+angezeigten Werte stammen aus der letzten erfolgreichen Abholung am
+31.08. -- da lieferte noch **Wix** die Domain. Wix erzeugt an dieser
+Adresse typischerweise einen Sitemap-*Index*, der auf Unterdateien zeigt;
+das erklaert sowohl den Typ als auch die 7.
+
+Das ist kein Widerspruch zum roten Status, sondern seine Erklaerung:
+Google zeigt die Kopfdaten der letzten **erfolgreichen** Abholung und
+daneben den Ausgang des **aktuellen** Versuchs.
+
+**Unsere Seite ist gemessen fehlerfrei.** Gegen den lokalen Apache mit
+aktiver `.htaccess`:
+
+    /sitemap.xml   HTTP 200   application/xml
+    /robots.txt    HTTP 200   text/plain
+    /              HTTP 200   text/html
+
+`robots.txt` sperrt nichts und nennt die Sitemap ausdruecklich. Die
+`.htaccess` fasst `/sitemap.xml` nicht an -- ihre Ausdruecke sind mit `^`
+und `$` auf genau vier Adressen begrenzt.
+
+**Warum der Abruf scheiterte, ist von hier aus nicht feststellbar.** Zwei
+Erklaerungen kommen in Frage: blosses Timing (der Abruf ist eingereiht und
+noch nicht ausgefuehrt) oder ein echtes Abrufproblem, etwa am CDN.
+
+**Eine Zahl dazu gibt es nicht -- es fehlt die Messgrundlage fuer Googles
+Verhalten.** Belegbar ist nur die andere Haelfte: **Auf unserer Seite ist
+kein Fehler messbar**, dreifach geprueft, und Irfan hat die Adresse am
+11.09. im Browser als lesbar bestaetigt.
+
+**Naechster Schritt:** Die Adresse unter den heutigen Bedingungen erneut im
+Browser oeffnen -- das schliesst eine Wechselwirkung mit der `.htaccess`
+aus. Danach ein, zwei Tage abwarten und den Status erneut ansehen. Steht er
+dann immer noch rot, ist es kein Timing und wir suchen weiter.
+
+Nebenbefund: Die Liste zeigt *1 bis 1 von 1*. Es haengen also **keine
+alten Wix-Unterdateien** mehr als eigene Eintraege darin.
+
 ### Search Console am 12.09.2026 -- unveraendert, aber eine Spalte zaehlt
 
 Screenshot der Seite *Warum Seiten nicht indexiert werden*. Die vier
