@@ -842,6 +842,41 @@ verknuepft.
 `htaccess-*.zip` waere als unversionierte Datei liegengeblieben und
 irgendwann versehentlich mitcommittet worden. Jetzt greift es fuer beide.
 
+### Screenshot public_html (12.09.2026) -- was er zeigt und was nicht
+
+Screenshot vom Dateimanager, Pfadzeile
+`domains > elektrotechnik-paulus.de > public_html`. Unten links steht
+**File Browser v2.63.2-h2**; das ist die Kennung des Hostinger-Dateimanagers,
+nicht irgendein fremdes Werkzeug.
+
+**Belegt:**
+
+| Beobachtung | Bedeutung |
+|---|---|
+| `htaccess-12-09-e199422.zip`, **833 B**, *in a few seconds* | Das Mini-Paket ist angekommen. Groesse stimmt auf das Byte mit dem gebauten Paket, **und der Name hat seine Bindestriche behalten** -- die Namensfalle ist diesmal nicht eingetreten |
+| `index.html` **142,57 KiB** | Exakt der dokumentierte Sollwert (145.992 Bytes). Der Live-Stand `dc9a801` liegt unversehrt auf dem Server |
+| Alle uebrigen Dateien *18 hours ago* | Passt zum Upload vom 11.09. Nichts wurde seither veraendert |
+| Speicher 6,29 MiB / 10 GiB, Inodes 451 / 200000 | Nur zur Kenntnis. **Nicht als Beweis verwenden**, die Speicheranzeige hat sich hier schon als unzuverlaessig gezeigt, und der Inode-Zaehler enthaelt auch den Papierkorb |
+
+**Nicht belegt -- und das war die eigentliche Frage:** Ob eine `.htaccess`
+auf dem Server liegt. Die Liste im Bild ist **nach unten gescrollt**, sie
+beginnt bei `bildmarke-farbe.svg`. Abgeschnitten ist damit genau der obere
+Teil: die Ordner, die vierzehn `band-*.jpg`, die zwei uebrigen
+`bildmarke-*` -- und die Dateien mit fuehrendem Punkt.
+
+**Genau dort stuende sie.** Der Punkt wird im Zeichensatz vor allen
+Buchstaben einsortiert, `.htaccess` und `.gitignore` stehen also **ganz
+oben**. Ein Screenshot, der erst bei `b` beginnt, kann ueber sie nichts
+aussagen -- weder dafuer noch dagegen.
+
+**Was fehlt, ist ein Bild vom Anfang der Liste.** Damit waeren zwei offene
+Punkte auf einmal beantwortet: die `.htaccess`-Frage und Punkt 5 der
+Offen-Liste (`.gitignore` noch vorhanden?).
+
+**Das ZIP ist hochgeladen, aber noch NICHT entpackt.** Hochladen ist
+folgenlos und umkehrbar. Das Entpacken ist der Schritt, der eine
+vorhandene `.htaccess` ueberschreiben wuerde.
+
 ### Paket `seite-11-09-9420917.zip` gebaut (11.09.2026)
 
 246 Dateien, 3.615.507 Bytes = 3,45 MiB. Gebaut mit
