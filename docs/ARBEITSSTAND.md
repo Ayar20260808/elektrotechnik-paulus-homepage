@@ -718,13 +718,14 @@ Offene Punkte zuerst, danach das Erledigte zum Nachschlagen.
 | 4 | Alte Wix-Seite: ist sie noch oeffentlich erreichbar? | Sie laeuft bis Fruehjahr 2027 weiter, nur ohne die Domain. Steht derselbe Text unter einer Wix-Adresse im Netz, sieht Google ihn doppelt. **Ungeprueft** -- die Adresse ist in dieser Sitzung nicht bekannt |
 | 5 | `.gitignore` in `public_html` entfernen | 90 Bytes Ballast aus einem alten Upload. **Ungeprueft**, ob noch vorhanden: die Liste zeigte zuletzt keine Dateien mit fuehrendem Punkt, das kann Loeschung sein oder eine Anzeigeeinstellung |
 | 6 | Zertifikatswarnung im Browser pruefen | seit dem CDN nicht geprueft. Auf dem Dashboard stehen *SSL* und *CDN* gruen — das ist Hostingers eigene Anzeige, kein Beweis im Browser |
+| 8 | **`leistungvde.html` vom Server loeschen** | Ohne Bindestrich, 63,68 KiB, 9 Tage alt -- der Rest des Namensfehlers vom 03.09. Sie steht **im Webverzeichnis und ist oeffentlich abrufbar** unter `/leistungvde.html`, als veraltete Zweitfassung der VDE-Seite. `robots.txt` sperrt nichts (`Allow: /`). Genau der doppelte Inhalt, der unter Punkt 4 als Risiko benannt ist -- nur nicht bei Wix, sondern auf dem eigenen Server. Im Projekt gibt es die Datei nicht, sie kann also ersatzlos weg |
 | 7 | Untermenue *Leistungen* ragt rechts aus dem Fenster | gemessen 38 px bei 1024 und 1440, 24 px bei 1200, 12 px bei 1366. Am Handy nicht. Gefunden beim Messen, nicht beauftragt, deshalb nicht angefasst |
 
 Erledigt:
 
 | | Was | |
 |---|---|---|
-| — | ~~Paket hochladen~~ **04.09.2026** — Commit `04487d7` live. Die verirrte `leistungvde.html` wurde beim Ueberschreiben gegenstandslos | |
+| — | ~~Paket hochladen~~ **04.09.2026** — Commit `04487d7` live. ~~Die verirrte `leistungvde.html` wurde beim Ueberschreiben gegenstandslos~~ **Falsch, widerlegt am 12.09.2026:** die Datei liegt weiterhin auf dem Server. Siehe Offen-Punkt 8 | |
 | — | ~~`elektropersonal-ayar.de` mitnehmen?~~ **04.09.2026: auslaufen lassen** | siehe unten |
 | — | ~~Ersparnis neu rechnen~~ **09.09.2026: mindestens 223,63 €/Jahr** | drei Zahlen fehlen noch, siehe Kostenkapitel — **zwei davon nur bis zur Wix-Kuendigung ablesbar** |
 | — | ~~`seite-10-09.zip` hochladen~~ **ueberholt 11.09.2026** — hochgeladen wurde `seite-11-09-9420917.zip` mit demselben Inhalt und allem Spaeteren | |
@@ -869,13 +870,84 @@ Buchstaben einsortiert, `.htaccess` und `.gitignore` stehen also **ganz
 oben**. Ein Screenshot, der erst bei `b` beginnt, kann ueber sie nichts
 aussagen -- weder dafuer noch dagegen.
 
-**Was fehlt, ist ein Bild vom Anfang der Liste.** Damit waeren zwei offene
-Punkte auf einmal beantwortet: die `.htaccess`-Frage und Punkt 5 der
-Offen-Liste (`.gitignore` noch vorhanden?).
+**Nachgereicht am selben Tag: die vollstaendige Liste**, in vier Bildern
+von den Ordnern ganz oben bis `waermepumpe-hero.jpg` ganz unten, sortiert
+nach Name aufsteigend. Adresse aus dem vierten Bild:
+`srv1689-files.hstgr.io/.../files/domains/elektrotechnik-paulus.de/public_html/`
+
+**Keine einzige Datei mit fuehrendem Punkt** -- weder `.htaccess` noch
+`.gitignore`. Die Liste beginnt mit den drei Ordnern `elektrosymbole`,
+`png`, `schriften` (alle *11 days ago*) und geht dann direkt zu
+`band-01-steckdose.jpg`.
+
+**Sieben Groessen gegen das Projekt gerechnet, alle exakt:**
+
+    index.html         142,57 KiB      marke.css            3,75 KiB
+    leistung-vde.html   63,70 KiB      skyline-koeln.svg    7,05 KiB
+    marke-hager.png     21,45 KiB      robots.txt            409 B
+    sitemap.xml          1,75 KiB
+
+Damit ist der Live-Stand nicht nur an einer Datei belegt, sondern an
+sieben. Auch die 13 `band-*.jpg` stimmen genau -- die Luecken in der
+Nummerierung (03, 04, 07, 12) sind normal, das Projekt hat genau diese
+dreizehn.
+
+**Zur `.htaccess`-Frage: geschaetzt grob neun von zehn, dass keine da
+ist.** Grundlage: Am 11.09. wurde in derselben Ansicht eine `.gitignore`
+**mit Groessenangabe (90 B)** abgelesen -- eine Datei mit fuehrendem
+Punkt. Der Dateimanager zeigt solche Dateien also an. Heute zeigt die
+vollstaendige Liste keine. Die verbleibende Unbekannte: ob sich zwischen
+dem 11.09. und heute eine Anzeigeeinstellung geaendert hat. Das ist die
+einzige Luecke, und sie laesst sich schliessen (siehe unten).
+
+**Sackgasse, gemessen und damit erledigt: `/.htaccess` im Browser
+aufrufen beweist nichts.** Gegen den lokalen Apache geprueft, einmal mit
+und einmal ohne die Datei:
+
+    .htaccess vorhanden     ->  HTTP 403
+    .htaccess nicht da      ->  HTTP 403
+    beliebige fehlende Datei->  HTTP 404
+
+Beide Male 403. Ursache ist die Standardregel `<Files ".ht*">
+Require all denied`, die greift, **bevor** der Server nachsieht, ob es die
+Datei ueberhaupt gibt. Wer aus einer 403 auf "ist vorhanden" schliesst,
+liegt falsch. **Diesen Test nicht vorschlagen.**
+
+**Der Test, der stattdessen entscheidet:** Ueber *New file* in der linken
+Leiste eine Datei mit fuehrendem Punkt anlegen, etwa `.testdatei`, und
+sehen, ob sie in der Liste erscheint.
+
+- **Erscheint sie** -> der Dateimanager zeigt Punkt-Dateien an -> da heute
+  keine `.htaccess` in der Liste steht, gibt es auch keine. Frage
+  beantwortet, entpacken ist gefahrlos.
+- **Erscheint sie nicht** -> Punkt-Dateien sind ausgeblendet -> die neun
+  von zehn faellt in sich zusammen, und es braucht einen anderen Weg.
+
+Danach die Testdatei wieder loeschen. Der Versuch ist umkehrbar und
+beruehrt keine echte Datei.
 
 **Das ZIP ist hochgeladen, aber noch NICHT entpackt.** Hochladen ist
 folgenlos und umkehrbar. Das Entpacken ist der Schritt, der eine
 vorhandene `.htaccess` ueberschreiben wuerde.
+
+**Zweiter Befund aus denselben Bildern: `leistungvde.html` liegt noch da**
+-- ohne Bindestrich, 63,68 KiB, *9 days ago*. Der Arbeitsstand hat sie am
+04.09. als "gegenstandslos" abgehakt; **das war falsch.** Ueberschrieben
+wurde sie nie, denn sie kollidiert ja mit keinem Namen aus dem Paket --
+genau das war der urspruengliche Fehler. Sie steht im Webverzeichnis und
+ist unter `/leistungvde.html` oeffentlich abrufbar, als veraltete
+Zweitfassung der VDE-Seite (die echte hat 63,70 KiB). Aufgenommen als
+Offen-Punkt 8.
+
+**Ob Google sie kennt, ist offen -- geschaetzt eher nicht, grob einer von
+vier.** Sie steht nicht in der `sitemap.xml`, und verlinkt ist sie
+nirgends; ohne Link oder Sitemap-Eintrag findet Google eine Adresse
+selten. Dagegen spricht: `robots.txt` sperrt nichts (`Allow: /`), und in
+der Search Console steht genau **eine** Seite unter *Gecrawlt - zurzeit
+nicht indexiert* -- eine fast identische Zweitfassung waere dafuer eine
+plausible Erklaerung. **Nicht geprueft.** Offen-Punkt 3 verlangt ohnehin,
+diese eine Seite in der Search Console nachzuschlagen; dabei faellt die
+Antwort mit ab.
 
 ### Paket `seite-11-09-9420917.zip` gebaut (11.09.2026)
 
