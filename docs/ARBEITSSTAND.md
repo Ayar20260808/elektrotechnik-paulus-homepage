@@ -1209,6 +1209,30 @@ sie dort.
 `index.html` waechst um 301 Bytes -- das ist der neue Kommentar ueber der
 `.submenu`-Regel plus die geaenderte Zahl.
 
+**Wichtig beim Nachmessen: nur die zehn HTML-Dateien aendern sich.**
+`robots.txt`, `sitemap.xml`, `.htaccess`, `kontakt.php` und `marke.css`
+sind gegenueber dem Live-Stand **unveraendert** und taugen deshalb
+**nicht** als Nachweis -- sie zeigen vor und nach dem Upload denselben
+Wert. Am 12.09. wurde genau das gemeldet ("robots.txt ist 409 B"): richtig
+abgelesen, aber ohne Aussagekraft.
+
+**Der Nachweis sind die zehn Seiten, jede waechst um rund 300 Bytes:**
+
+    index.html                        142,57  ->  142,86 KiB
+    leistung-elektroinstallation       62,38  ->   62,67
+    leistung-netzwerk                  62,53  ->   62,82
+    leistung-photovoltaik              62,80  ->   63,09
+    leistung-planung                   61,80  ->   62,09
+    leistung-smarthome                 62,43  ->   62,73
+    leistung-tuersprechanlage          62,36  ->   62,66
+    leistung-vde                       63,70  ->   64,00
+    leistung-waermepumpe               63,44  ->   63,74
+    leistung-wallbox                   62,68  ->   62,97
+
+**Merkregel fuer kuenftige Uploads: als Kontrollwert immer eine Datei
+waehlen, die sich tatsaechlich geaendert hat.** Sonst bestaetigt die
+Messung nur, dass die alte Datei noch da ist.
+
 Ablauf wie gehabt: ZIP nach `public_html`, Extract **mit** *Overwrite
 existing files*, **Ziel `/files/domains/elektrotechnik-paulus.de/`,
 Ordnername `public_html`** -- siehe die Falle mit den zwei gleichnamigen
