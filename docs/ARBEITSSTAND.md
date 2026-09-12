@@ -949,6 +949,61 @@ plausible Erklaerung. **Nicht geprueft.** Offen-Punkt 3 verlangt ohnehin,
 diese eine Seite in der Search Console nachzuschlagen; dabei faellt die
 Antwort mit ab.
 
+### Entpackt am 12.09.2026 -- Ziel unklar, Ergebnis ungeprueft
+
+Irfan hat das Mini-Paket entpackt. Aus dem Screenshot des *Extract*-Fensters
+unmittelbar davor:
+
+    Choose folder name        public_html
+    Select the destination    public_html   (ausgewaehlt)
+    Currently navigating on   /files/
+    Overwrite existing files  angehakt
+
+**Nach der am 02.09. gemessenen Regel** -- Ziel = *Select the destination*
++ *Choose folder name* -- ergibt das `/files/public_html/public_html/`.
+
+Das Webverzeichnis liegt aber woanders. Belegt durch die Adresszeile aus
+Irfans eigenem Screenshot:
+
+    srv1689-files.hstgr.io/.../files/domains/elektrotechnik-paulus.de/public_html/
+
+Richtig waere also gewesen: Ziel `/files/domains/elektrotechnik-paulus.de/`,
+Ordnername `public_html`.
+
+**Geschaetzt grob drei von vier, dass die `.htaccess` nicht im
+Webverzeichnis liegt** und damit wirkungslos ist. Grundlage ist allein die
+Regel von 02.09. gegen die abgelesenen Feldwerte. Die Unbekannte: Der
+Zielwaehler war im Bild nur teilweise zu sehen -- `domains` fehlte in der
+Liste, obwohl es das gibt. Was der Wähler unter `/files/` tatsaechlich
+anbietet, ist **nicht geklaert**.
+
+**Schaden ist unwahrscheinlich, grob einer von zwanzig.** Im ZIP ist
+ausschliesslich die `.htaccess`, sie kann keine andere Datei
+ueberschreiben; ihre Syntax ist am 11.09. gegen Apache gemessen. Offen
+bleibt die nie gemessene Serversoftware von Hostinger.
+
+**Was das klaert -- muss Irfan im Browser tun:**
+
+| Aufruf | Bedeutung |
+|---|---|
+| `https://www.elektrotechnik-paulus.de/` | Zuerst, vor allem anderen. Kommt die Seite normal, ist nichts kaputt |
+| `https://www.elektrotechnik-paulus.de/kontakt/` | Landet man beim Kontaktbereich, ist die Datei am richtigen Platz und aktiv. Fehlerseite: liegt woanders -- aber erst den CDN-Cache leeren, vorher ist das kein endgueltiges Nein |
+
+Zur Kontrolle im Dateimanager: **`.htaccess` muss 1.461 Bytes = 1,43 KiB
+zeigen.** Weicht die Zahl ab, ist beim Uebertragen etwas veraendert worden.
+
+**Netzsperre in diesem Container erneut gemessen (12.09.2026), sie gilt
+weiter.** Nicht angenommen, sondern nachgeprueft, weil der Container jeder
+Sitzung neu ist:
+
+    https://www.elektrotechnik-paulus.de/    curl: (56) CONNECT tunnel failed, response 403
+    https://elektrotechnik-paulus.de/        dasselbe
+
+Der Agent-Proxy meldet dazu `connect_rejected`, "gateway answered 403 to
+CONNECT (policy denial)". **Eine KI-Sitzung kann die Seite also weiterhin
+nicht selbst aufrufen.** Nicht erneut versuchen; der Sichttest laeuft ueber
+Irfans Browser.
+
 ### Paket `seite-11-09-9420917.zip` gebaut (11.09.2026)
 
 246 Dateien, 3.615.507 Bytes = 3,45 MiB. Gebaut mit
