@@ -153,7 +153,11 @@
     border-top:5px solid currentColor;opacity:.7;transition:transform .2s ease;}
   .nav-item{position:relative;}
   .nav-item:hover .caret{transform:rotate(180deg);}
-  .submenu{position:absolute;top:100%;left:-18px;min-width:262px;background:var(--grey-0);
+  /* left:-74px statt -18px: Das Untermenue ist 320 px breit, der Eintrag
+     Leistungen aber nur 89 px. Bei -18px ragte es zwischen 1024 und 1440 px
+     um 12 bis 38 px rechts aus dem Fenster. Gemessen am 12.09.2026, mit
+     -74px bleiben an der engsten Stelle 18 px Luft. Nicht zurueckdrehen. */
+  .submenu{position:absolute;top:100%;left:-74px;min-width:262px;background:var(--grey-0);
     border:1px solid var(--grey-300);box-shadow:0 14px 30px rgba(18,24,30,.14);padding:24px 0;
     display:none;z-index:120;}
   .nav-item:hover .submenu, .nav-item:focus-within .submenu{display:block;}

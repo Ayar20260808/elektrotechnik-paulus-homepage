@@ -740,7 +740,7 @@ Offene Punkte zuerst, danach das Erledigte zum Nachschlagen.
 | 5 | ~~`.gitignore` in `public_html` entfernen~~ | **Erledigt bzw. gegenstandslos, 12.09.2026.** Die vollstaendige Liste von oben bis unten zeigt keine Datei mit fuehrendem Punkt. Dass der Dateimanager solche anzeigt, ist zweifach belegt: am 11.09. wurde `.gitignore` **mit Groesse (90 B)** abgelesen, und im Extract-Fenster steht `.trash`. Die Datei ist also weg |
 | — | ~~Zertifikatswarnung pruefen~~ | **Beantwortet 12.09.2026 ohne Browsertest.** Google hat die Sitemap ueber `https://www.` erfolgreich geholt. Googlebot bricht bei einer Zertifikatswarnung ab, statt sie wegzuklicken -- der erfolgreiche Abruf belegt also ein gueltiges Zertifikat auf dem `www.`-Weg hinter dem CDN |
 | 8 | **`leistungvde.html` vom Server loeschen** | Ohne Bindestrich, 63,68 KiB, 9 Tage alt -- der Rest des Namensfehlers vom 03.09. Sie steht **im Webverzeichnis und ist oeffentlich abrufbar** unter `/leistungvde.html`, als veraltete Zweitfassung der VDE-Seite. `robots.txt` sperrt nichts (`Allow: /`). Genau der doppelte Inhalt, der unter Punkt 4 als Risiko benannt ist -- nur nicht bei Wix, sondern auf dem eigenen Server. Im Projekt gibt es die Datei nicht, sie kann also ersatzlos weg |
-| 7 | Untermenue *Leistungen* ragt rechts aus dem Fenster | **Am 12.09. nachgemessen, Ursache gefunden, zwei Loesungen im Browser erprobt -- siehe *Untermenue-Ueberstand*. Wartet auf eine Entscheidung von Irfan**, weil jede Loesung das Aussehen aendert |
+| — | ~~Untermenue *Leistungen* ragt rechts aus dem Fenster~~ | **Erledigt 12.09.2026.** Irfan hat Variante B gewaehlt, `left:-18px` → `-74px` in allen zehn Dateien. 320 Pruefungen, null Befunde |
 
 Erledigt:
 
@@ -1057,9 +1057,29 @@ genug Reserve. A ist strukturell sauberer, sieht aber deutlich anders aus.
 **Umfang: die Regel steht in allen zehn HTML-Dateien.** Eine Aenderung
 muss also zehnmal hinein und danach als bytegleich nachgewiesen werden.
 
-**Nicht angefasst, wartet auf Irfans Entscheidung** -- jede der beiden
-Loesungen aendert das Aussehen, und in diesem Projekt wurde schon einmal
-eine ungefragte Verbesserung eingebaut, die niemand wollte.
+**Irfan hat B gewaehlt. Eingebaut am 12.09.2026.**
+
+Geaendert wurde genau eine Zahl, `left:-18px` → `left:-74px`, dazu ein
+vierzeiliger Kommentar darueber, damit sie niemand spaeter
+"aufraeumt". Vorher gepruft: `-18px` kommt in jeder Datei **genau einmal**
+vor und sonst nirgends, eine Verwechslung war also ausgeschlossen.
+
+**Bytegleich in allen zehn Dateien nachgewiesen** mit dem Pruefgriff aus
+Abschnitt 8: eine einzige Pruefsumme mit Zaehler 10.
+
+**Gegenprobe: 320 Laeufe, null Befunde.** 10 Seiten x 8 Breiten x 2
+Kopfzustaende x 2 Bewegungsmodi. Geprueft wurde der Ueberstand, die
+Sichtbarkeit des Untermenues und JS-Fehler. **Engste Stelle: 18 px Luft**,
+auf `index.html` bei 1024 px -- exakt der vorhergesagte Wert.
+
+**Burger-Menue eigens geprueft**, weil die Regeln es verlangen: Unter
+768 px steht das Untermenue auf `position:static`, die Zahl ist dort also
+**wirkungslos**. Gemessen bei 390, 600 und 767 px -- der Kasten sitzt
+unveraendert bei 24 px und passt.
+
+**Folge fuer die Veroeffentlichung: Server und Branch sind nicht mehr
+deckungsgleich.** Alle zehn HTML-Dateien haben sich geaendert. Fuer den
+Live-Stand braucht es ein neues Paket.
 
 ### sitemap.xml vor dem Eintragen geprueft (12.09.2026)
 
