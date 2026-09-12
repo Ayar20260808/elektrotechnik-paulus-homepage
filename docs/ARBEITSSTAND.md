@@ -212,6 +212,28 @@ Damit sie nicht in jeder Sitzung neu erfragt werden.
 6. **Jimdo pruefen** (die alte Domain lag frueher dort).
 7. **Formspree-Konto abschalten** — wird nicht mehr benutzt.
 
+   **Am 12.09.2026 gemessen: Es haengt nachweislich nichts mehr daran.**
+   Das Formular sendet an `action="kontakt.php"`, und `kontakt.php`
+   verschickt ueber einen eigenen SMTP-Client. Das Wort "formspree" kommt
+   im gesamten ausgelieferten Stand **genau einmal** vor -- als Kommentar
+   in `kontakt.php`, der die Geschichte erklaert ("Ersetzt den Umweg ueber
+   Formspree -- die Daten verlassen das Haus nicht mehr"). **Keine
+   Abhaengigkeit.** Abschalten ist gefahrlos.
+
+   **Reihenfolge, weil Loeschen dort endgueltig ist:**
+
+   1. Anmelden
+   2. **Zuerst die alten Anfragen sichern** -- es sind Kundendaten. Ob sie
+      aufbewahrt werden muessen, ist eine kaufmaennische Frage; sichern
+      kostet nichts, also sichern. Moeglicherweise liegen sie ohnehin
+      im Postfach, weil Formspree sie weitergeleitet hat -- das aber
+      **pruefen**, nicht annehmen.
+   3. Erst danach Formular bzw. Konto loeschen
+   4. Bestaetigung aufbewahren
+
+   **Die Oberflaeche von Formspree hat diese Sitzung nie gesehen.** Keine
+   Klickwege aus dem Gedaechtnis nennen -- Screenshot anfordern.
+
 ---
 
 ## 6. Umzug nach Hostinger
