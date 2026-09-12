@@ -34,6 +34,31 @@ Entschuldigungen, keine Selbstkommentare. Fakten, Messwerte, klare Aussagen.
 7. **Einen eigenen Befund erst melden, wenn er bestätigt ist.** Ein Messwert
    aus einem fehlerhaften Test ist kein Befund. Erst den Test prüfen, dann das
    Ergebnis.
+8. **Bei allem Ungeprüften die Wahrscheinlichkeit nennen — mit ihrer
+   Grundlage.** Punkt 4 verlangt, Ungeprüftes zu kennzeichnen. Das allein
+   reicht nicht: „ungeprüft" sagt dem Nutzer nicht, ob er mit 5 oder mit 80
+   Prozent mit etwas rechnen muss, und beides führt zu völlig verschiedenen
+   Entscheidungen. Deshalb gehört zu jeder ungeprüften Aussage eine
+   Einschätzung **und woraus sie stammt**.
+
+   Verbindlich dabei:
+
+   - **Gemessen und geschätzt werden nie vermischt.** Ein Messwert ist ein
+     Messwert, eine Schätzung ist eine Schätzung. Beides im selben Satz ohne
+     Kennzeichnung ist ein Verstoß.
+   - **Die Grundlage wird mitgeliefert.** Worauf beruht die Zahl — auf einer
+     Beobachtung aus diesem Projekt, auf einem Gegenbeleg, auf gar nichts?
+     Eine Zahl ohne Grundlage ist geraten und damit wertlos.
+   - **Die größte Unbekannte wird benannt.** Was genau würde die Schätzung
+     kippen, wenn man es wüsste?
+   - **Keine Scheingenauigkeit.** „Grob zwei von drei" ist ehrlicher als
+     „67 Prozent", wenn die Grundlage dünn ist.
+   - **Eine Wahrscheinlichkeit ersetzt nie eine mögliche Messung.** Ist etwas
+     messbar, wird gemessen (Punkt 4). Geschätzt wird nur, was hier und jetzt
+     nicht messbar ist — etwa alles auf fremden Servern und Oberflächen.
+   - **Auch gegen das eigene Ergebnis schätzen.** Wenn eine Arbeit
+     wahrscheinlich richtig ist, aber nicht sicher, wird genau das gesagt.
+     Nicht beschönigen, wenn der Nutzer darauf aufbaut.
 
 Diese Regel steht über allem anderen in dieser Datei.
 
