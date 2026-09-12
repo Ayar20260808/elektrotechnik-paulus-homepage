@@ -712,7 +712,7 @@ Offene Punkte zuerst, danach das Erledigte zum Nachschlagen.
 
 | | Was | Warum es zaehlt |
 |---|---|---|
-| 1 | **`.htaccess` hochladen** | Punkt 2 aus dem Kapitel *Weiterleitungen* ist am 11.09. gemessen und erledigt, die Umleitungen stimmen. Das Paket ist am 12.09. gebaut: `htaccess-12-09-e199422.zip`, 833 Bytes, **nur diese eine Datei** -- siehe *Mini-Paket*. **Offen bleibt allein Punkt 1:** liegt in `public_html` schon eine `.htaccess`? Das kann nur Irfan nachsehen, diese Sitzung kommt nicht an den Server. Danach hochladen, Cache leeren, **zuerst die Startseite pruefen**, dann die vier alten Adressen einzeln aufrufen. Als Termin gesetzt: 12.09.2026, 9 Uhr, in `ayar@elektrotechnik-paulus.de`, mit der vollstaendigen Anleitung im Text |
+| — | ~~**`.htaccess` hochladen**~~ | **Erledigt am 12.09.2026.** Beim zweiten Anlauf richtig entpackt. Irfan meldet: *"kontaktseite funtioniert"* -- `/kontakt/` leitet also um, die Datei ist im Webverzeichnis und aktiv. Siehe *Weiterleitungen sind live* |
 | 2 | **Sitemap in der Search Console eintragen** | *Indexierung → Sitemaps*, dort nur `sitemap.xml` eintragen, ohne Adresse davor. Am 11.09. **nicht mehr gemacht** |
 | 3 | Welche Seite ist *Gecrawlt - zurzeit nicht indexiert*? | Google hat sie gelesen und abgelehnt. Erst wenn man weiss, welche es ist, laesst sich etwas tun |
 | 4 | Alte Wix-Seite: ist sie noch oeffentlich erreichbar? | Sie laeuft bis Fruehjahr 2027 weiter, nur ohne die Domain. Steht derselbe Text unter einer Wix-Adresse im Netz, sieht Google ihn doppelt. **Ungeprueft** -- die Adresse ist in dieser Sitzung nicht bekannt |
@@ -808,6 +808,52 @@ die Speicheranzeige unzuverlaessig ist):
 Ablauf wie am 04.09.: ZIP nach `public_html`, Extract **mit** *Overwrite
 existing files*, F5, Groessen vergleichen, ZIP loeschen, *Vorschau ohne Cache*,
 dann *Cache leeren*.
+
+### Weiterleitungen sind live -- Server und Branch deckungsgleich (12.09.2026)
+
+Zweiter Anlauf am Extract-Fenster, diesmal richtig eingestellt: Ziel
+`/files/domains/elektrotechnik-paulus.de/`, Ordnername `public_html`,
+Overwrite an. Der Screenshot davor wurde gegengelesen, bevor gedrueckt
+wurde -- **das ist der Handgriff, der den Fehler verhindert hat.**
+
+**Von Irfan gemeldet: die Kontaktseite funktioniert.** Damit leitet
+`/kontakt/` um, die `.htaccess` liegt im Webverzeichnis und wird vom Server
+gelesen.
+
+Das ist beweiskraeftig, weil `/kontakt/` vorher **404** war -- so stand es
+am 11.09. in der Search Console. Geaendert wurde seither nichts ausser
+dieser einen Datei.
+
+**Die uebrigen drei Adressen sind live noch nicht geprueft.** Lokal sind
+alle vier am 11.09. gegen Apache gemessen worden, mit und ohne
+Schraegstrich, acht von acht richtig -- dieselbe Datei, dieselbe Art
+Anweisung. **Geschaetzt neunzehn von zwanzig, dass sie ebenfalls laufen.**
+Die einzige denkbare Abweichung waere ein Tippfehler in einer der drei
+Zeilen, und genau das schliesst die lokale Messung aus. Ein Nachsehen bei
+Gelegenheit genuegt, es blockiert nichts:
+
+    https://www.elektrotechnik-paulus.de/unsere-leistungen/
+    https://www.elektrotechnik-paulus.de/cookie-einstellungen/
+    https://www.elektrotechnik-paulus.de/ueber-uns/
+
+**Der wichtigste Nebeneffekt: Server und Arbeitsbranch sind jetzt
+deckungsgleich.** Gemessen:
+
+    git diff --name-status dc9a801..HEAD   (ohne docs/, .github/, *.md, .gitignore)
+    -> A  .htaccess     und sonst nichts
+
+Der Live-Stand war `dc9a801`; die einzige ausgelieferte Datei, die seither
+dazukam, ist die `.htaccess` -- und die liegt jetzt dort. **Es ist nichts
+mehr offen, das hochgeladen werden muesste.** Zum ersten Mal seit dem
+04.09. haengt kein unveroeffentlichter Stand mehr.
+
+**Noch aufzuraeumen, alles im Dateimanager, nichts davon eilig:**
+
+| Was | Wo | Warum |
+|---|---|---|
+| `htaccess-12-09-e199422.zip` loeschen | `public_html` | Merkregel: das Upload-ZIP nach dem Entpacken sofort loeschen, es liegt sonst offen im Netz |
+| `public_html` loeschen | in `/files/public_html/` | Der Fehlversuch vom Vormittag, enthaelt nur die wirkungslose `.htaccess` |
+| `leistungvde.html` loeschen | `public_html` | Offen-Punkt 8, veraltete Zweitfassung der VDE-Seite |
 
 ### Mini-Paket statt Vollpaket (12.09.2026)
 
