@@ -1005,10 +1005,29 @@ zwei Jahren.
 und ohne abschliessenden Schraegstrich. `/kontakt/` ist live bestaetigt,
 die anderen drei sind lokal gegen Apache gemessen.
 
-**Erwartung zur Validierung, ungeprueft:** Sie sollte durchgehen, weil die
-vier Adressen keine 404 mehr liefern, sondern 301. **Wie Google eine 301
-bei diesem Fehlertyp genau wertet, ist hier nicht gemessen** -- also keine
-Zahl dazu. Scheitert sie, ist das folgenlos und wiederholbar.
+**Am 12.09.2026 gestartet.** Die Kopfzeile der Detailansicht lautet seither
+nicht mehr *Fehlerbehebung fertig?*, sondern:
+
+    Ueberpruefung gestartet    Startdatum: 12.09.26    [DETAILS ANZEIGEN]
+
+Damit prueft Google die vier Adressen erneut, statt auf den naechsten
+regulaeren Besuch zu warten. Das war noetig: Die letzten Besuche lagen
+laut *Zuletzt gecrawlt* im **April und Mai 2026**, also vier Monate
+zurueck.
+
+**Erwartung, ungeprueft:** Sie sollte durchgehen, weil die vier Adressen
+keine 404 mehr liefern, sondern 301. **Wie Google eine 301 bei diesem
+Fehlertyp genau wertet, ist hier nicht gemessen** -- also keine Zahl dazu.
+Scheitert sie, ist das folgenlos und wiederholbar.
+
+**Was jetzt passiert:** Die Pruefung laeuft einige Tage. Google meldet das
+Ergebnis per Mail an das Konto der Property. Danach wandern die vier
+Adressen voraussichtlich aus *Nicht gefunden (404)* in *Seite mit
+Weiterleitung* -- diese Zeile waechst also von 1 auf 5, und **das ist das
+gewuenschte Ergebnis**, keine Verschlechterung.
+
+**Nichts weiter tun, solange sie laeuft.** Ein zweiter Start bringt
+nichts.
 
 **Wichtige Erwartung, damit sie niemanden erschreckt:** Die vier Adressen
 liefern jetzt **301**, nicht mehr 404. Google wird sie deshalb aus
