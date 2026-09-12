@@ -1002,6 +1002,42 @@ bleibt die nie gemessene Serversoftware von Hostinger.
 Zur Kontrolle im Dateimanager: **`.htaccess` muss 1.461 Bytes = 1,43 KiB
 zeigen.** Weicht die Zahl ab, ist beim Uebertragen etwas veraendert worden.
 
+### Es gibt ZWEI Ordner namens `public_html` -- die Wurzel des Problems
+
+Das ist die eigentliche Ursache der Verwechslung vom 12.09. und gehoert
+vor jeden weiteren Handgriff im Dateimanager gelesen:
+
+    /files/public_html/                              <- der FALSCHE
+    /files/domains/elektrotechnik-paulus.de/public_html/   <- der ECHTE
+
+Beide heissen gleich. Im Zielwaehler des Extract-Fensters stand der
+falsche direkt sichtbar unter `/files/`, der echte liegt zwei Ebenen
+tiefer. Wer den erstbesten nimmt, nimmt den falschen.
+
+**Unterscheidungsmerkmal: der Weg, nicht der Name.** Der echte ist nur
+ueber `domains` → `elektrotechnik-paulus.de` → `public_html` zu
+erreichen. Der Name allein sagt nichts. Dieselbe Lehre wie am 11.09. beim
+Punkt-Ordner: verlaesslich ist die **Position**, nicht die Beschriftung.
+
+**Zweite Probe, unabhaengig vom Weg:** Im echten liegen rund 246 Dateien,
+darunter `index.html` mit 142,57 KiB. Steht das nicht drin, ist es der
+falsche Ordner.
+
+### Kopieren oder verschieben statt neu tippen (12.09.2026)
+
+Von Irfan vorgeschlagen und richtig: Die Datei liegt bereits
+**bytegenau** auf dem Server. Sie von dort an die richtige Stelle zu
+kopieren ist besser als den Inhalt neu einzufuegen -- beim Kopieren kann
+am Inhalt nichts verlorengehen, kein Zeichensatz, keine Zeilenenden.
+
+**Aber:** Ein Kopier- oder Verschiebe-Fenster hat ebenfalls einen
+Zielwaehler, und genau der hat den Fehler verursacht. Der Unterschied:
+Dort gibt es voraussichtlich **kein zusaetzliches Feld fuer einen
+Ordnernamen**, das sich mit dem Ziel zusammensetzt -- das war die Falle
+beim Extract. **Ungeprueft**, diese Sitzung hat das Fenster nie gesehen.
+
+**Deshalb: vor dem Bestaetigen einen Screenshot des Zielwaehlers.**
+
 **Konsequenz: das Extract-Fenster wird fuer diese eine Datei nicht noch
 einmal benutzt.** Zweimal hat der Zielwaehler dieses Projekt Ballast
 gekostet -- am 11.09. den Punkt-Ordner, am 12.09. den verschachtelten
