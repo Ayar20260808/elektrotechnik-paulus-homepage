@@ -712,7 +712,7 @@ Offene Punkte zuerst, danach das Erledigte zum Nachschlagen.
 
 | | Was | Warum es zaehlt |
 |---|---|---|
-| 1 | **`.htaccess` hochladen** | Punkt 2 aus dem Kapitel *Weiterleitungen* ist am 11.09. gemessen und erledigt, die Umleitungen stimmen. **Offen bleibt nur Punkt 1:** liegt in `public_html` schon eine `.htaccess`? Das kann nur Irfan nachsehen. Danach Paket bauen, hochladen, Cache leeren, **zuerst die Startseite pruefen**, dann die vier alten Adressen einzeln aufrufen. Als Termin gesetzt: 12.09.2026, 9 Uhr, in `ayar@elektrotechnik-paulus.de`, mit der vollstaendigen Anleitung im Text |
+| 1 | **`.htaccess` hochladen** | Punkt 2 aus dem Kapitel *Weiterleitungen* ist am 11.09. gemessen und erledigt, die Umleitungen stimmen. Das Paket ist am 12.09. gebaut: `htaccess-12-09-e199422.zip`, 833 Bytes, **nur diese eine Datei** -- siehe *Mini-Paket*. **Offen bleibt allein Punkt 1:** liegt in `public_html` schon eine `.htaccess`? Das kann nur Irfan nachsehen, diese Sitzung kommt nicht an den Server. Danach hochladen, Cache leeren, **zuerst die Startseite pruefen**, dann die vier alten Adressen einzeln aufrufen. Als Termin gesetzt: 12.09.2026, 9 Uhr, in `ayar@elektrotechnik-paulus.de`, mit der vollstaendigen Anleitung im Text |
 | 2 | **Sitemap in der Search Console eintragen** | *Indexierung → Sitemaps*, dort nur `sitemap.xml` eintragen, ohne Adresse davor. Am 11.09. **nicht mehr gemacht** |
 | 3 | Welche Seite ist *Gecrawlt - zurzeit nicht indexiert*? | Google hat sie gelesen und abgelehnt. Erst wenn man weiss, welche es ist, laesst sich etwas tun |
 | 4 | Alte Wix-Seite: ist sie noch oeffentlich erreichbar? | Sie laeuft bis Fruehjahr 2027 weiter, nur ohne die Domain. Steht derselbe Text unter einer Wix-Adresse im Netz, sieht Google ihn doppelt. **Ungeprueft** -- die Adresse ist in dieser Sitzung nicht bekannt |
@@ -807,6 +807,40 @@ die Speicheranzeige unzuverlaessig ist):
 Ablauf wie am 04.09.: ZIP nach `public_html`, Extract **mit** *Overwrite
 existing files*, F5, Groessen vergleichen, ZIP loeschen, *Vorschau ohne Cache*,
 dann *Cache leeren*.
+
+### Mini-Paket statt Vollpaket (12.09.2026)
+
+**Gemessen:** Zwischen dem Live-Stand `dc9a801` und dem Arbeitsbranch
+unterscheidet sich **genau eine ausgelieferte Datei** -- die neue
+`.htaccess`. Alle uebrigen 245 sind bytegleich, `index.html` eingeschlossen
+(`sha256 455ce2fd...`). Geprueft wurde nicht stichprobenartig, sondern jede
+vom Paket erfasste Datei einzeln gegen `dc9a801`: eine Abweichung, sonst
+keine.
+
+**Folge:** Ein Vollpaket wuerde 245 bereits richtige Dateien neu schreiben,
+um eine neue zu liefern. Deshalb diesmal ein Mini-Paket:
+
+    htaccess-12-09-e199422.zip    833 Bytes    Inhalt: nur .htaccess
+    .htaccess selbst            1.461 Bytes    sha256 062d5ec2c4e9fe3e...
+
+Gegengeprueft: Archiv lesbar, enthaelt genau einen Eintrag, und der ist
+bytegleich mit der Arbeitskopie.
+
+**Warum ueberhaupt ein ZIP fuer eine einzige Datei.** Zwei Gruende, beide
+schon einmal teuer gewesen. Erstens verliert der Browser beim Herunterladen
+einzelner Dateien Zeichen im Namen -- so wurde aus `leistung-vde.html`
+einmal `leistungvde.html`. Zweitens ist `.htaccess` ein Name, der mit einem
+Punkt beginnt; solche Dateien behandeln Browser und Windows uneinheitlich.
+Im Archiv bleibt der Name unversehrt.
+
+**Was das Mini-Paket NICHT loest:** Liegt auf dem Server schon eine
+`.htaccess`, ueberschreibt auch dieses Paket sie. Die Frage bleibt also vor
+dem Hochladen zu klaeren -- sie ist nur nicht mehr mit 245 weiteren Dateien
+verknuepft.
+
+**`.gitignore` erweitert.** Das Muster kannte nur `seite-*.zip`; ein
+`htaccess-*.zip` waere als unversionierte Datei liegengeblieben und
+irgendwann versehentlich mitcommittet worden. Jetzt greift es fuer beide.
 
 ### Paket `seite-11-09-9420917.zip` gebaut (11.09.2026)
 
