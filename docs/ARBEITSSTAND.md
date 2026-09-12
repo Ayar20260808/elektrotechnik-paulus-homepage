@@ -1160,6 +1160,61 @@ mehr offen, das hochgeladen werden muesste.** Zum ersten Mal seit dem
 | `public_html` loeschen | in `/files/public_html/` | Der Fehlversuch vom Vormittag, enthaelt nur die wirkungslose `.htaccess` |
 | `leistungvde.html` loeschen | `public_html` | Offen-Punkt 8, veraltete Zweitfassung der VDE-Seite |
 
+### Paket `seite-12-09-0372489.zip` gebaut (12.09.2026)
+
+**249 Dateien, 3.618.502 Bytes = 3,45 MiB.** Gebaut mit
+`docs/werkzeuge/paket.py`, Commit-Kurzhash von Hand angehaengt.
+
+**Warum 249 und nicht mehr 246:** Genau drei Dateien sind seit dem
+11.09.-Paket dazugekommen -- `.htaccess`, `robots.txt`, `sitemap.xml`.
+Nachgerechnet: 246 + 3 = 249, stimmt.
+
+Gegengeprueft, unabhaengig von der Selbstpruefung des Werkzeugs:
+
+| Pruefung | Ergebnis |
+|---|---|
+| HTML-Seiten | 10 |
+| `docs/`, `.github/`, `CLAUDE.md`, Markdown im Paket | keins |
+| `index.html` gegen Arbeitskopie | bytegleich |
+| `left:-74px` | in **allen 10** Seiten |
+| `left:-18px` | **0** -- die alte Zahl ist ueberall weg |
+| "Meisterbetrieb" | 0 Treffer |
+| Dateiverweise | 73 geprueft, **null fehlend** |
+
+**Vorher standen drei Geisterbefunde in der Liste. Alle drei waren Fehler
+im Test, nicht im Paket** -- schon die dritte Wiederholung dieser Falle in
+diesem Projekt:
+
+    ' + e.dataset.bild + '    JavaScript-Verkettung, kein Pfad
+    ' + icon.src + '          dasselbe
+    og:image-Adresse          absolute https-Adresse; der content=-Zweig
+                              des Tests hatte den http-Filter nicht
+
+**Merke: Ein Verweis mit `' +` darin ist zusammengesetztes JavaScript, und
+der `content=`-Zweig braucht denselben http-Filter wie alle anderen.**
+
+**Der belastbarere Vollstaendigkeitsbeweis ist ohnehin ein anderer:** die
+Standardpruefung im Browser, 60 Laeufe ueber 10 Seiten x 3 Breiten x 2
+Bewegungsmodi, **null fehlgeschlagene Anfragen, null kaputte Bilder, null
+fehlende Sprungziele, null JS-Fehler.** Wenn eine Datei fehlte, faende man
+sie dort.
+
+**Erwartete Groessen nach dem Upload** (zur Kontrolle im Dateimanager):
+
+    index.html     146.293 Bytes = 142,86 KiB   <- vorher 142,57 KiB
+    .htaccess        1.461 Bytes =   1,43 KiB
+    sitemap.xml      1.789 Bytes =   1,75 KiB
+    robots.txt         409 Bytes =   0,40 KiB
+
+`index.html` waechst um 301 Bytes -- das ist der neue Kommentar ueber der
+`.submenu`-Regel plus die geaenderte Zahl.
+
+Ablauf wie gehabt: ZIP nach `public_html`, Extract **mit** *Overwrite
+existing files*, **Ziel `/files/domains/elektrotechnik-paulus.de/`,
+Ordnername `public_html`** -- siehe die Falle mit den zwei gleichnamigen
+Ordnern --, F5, Groessen vergleichen, ZIP loeschen, *Vorschau ohne Cache*,
+dann *Cache leeren*.
+
 ### Mini-Paket statt Vollpaket (12.09.2026)
 
 **Gemessen:** Zwischen dem Live-Stand `dc9a801` und dem Arbeitsbranch
