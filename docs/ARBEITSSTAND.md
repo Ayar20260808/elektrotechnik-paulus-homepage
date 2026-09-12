@@ -716,7 +716,7 @@ Offene Punkte zuerst, danach das Erledigte zum Nachschlagen.
 | 2 | **Sitemap in der Search Console eintragen** | *Indexierung → Sitemaps*, dort nur `sitemap.xml` eintragen, ohne Adresse davor. Am 11.09. **nicht mehr gemacht** |
 | 3 | Welche Seite ist *Gecrawlt - zurzeit nicht indexiert*? | Google hat sie gelesen und abgelehnt. Erst wenn man weiss, welche es ist, laesst sich etwas tun |
 | 4 | Alte Wix-Seite: ist sie noch oeffentlich erreichbar? | Sie laeuft bis Fruehjahr 2027 weiter, nur ohne die Domain. Steht derselbe Text unter einer Wix-Adresse im Netz, sieht Google ihn doppelt. **Ungeprueft** -- die Adresse ist in dieser Sitzung nicht bekannt |
-| 5 | `.gitignore` in `public_html` entfernen | 90 Bytes Ballast aus einem alten Upload. **Ungeprueft**, ob noch vorhanden: die Liste zeigte zuletzt keine Dateien mit fuehrendem Punkt, das kann Loeschung sein oder eine Anzeigeeinstellung |
+| 5 | ~~`.gitignore` in `public_html` entfernen~~ | **Erledigt bzw. gegenstandslos, 12.09.2026.** Die vollstaendige Liste von oben bis unten zeigt keine Datei mit fuehrendem Punkt. Dass der Dateimanager solche anzeigt, ist zweifach belegt: am 11.09. wurde `.gitignore` **mit Groesse (90 B)** abgelesen, und im Extract-Fenster steht `.trash`. Die Datei ist also weg |
 | 6 | Zertifikatswarnung im Browser pruefen | seit dem CDN nicht geprueft. Auf dem Dashboard stehen *SSL* und *CDN* gruen — das ist Hostingers eigene Anzeige, kein Beweis im Browser |
 | 8 | **`leistungvde.html` vom Server loeschen** | Ohne Bindestrich, 63,68 KiB, 9 Tage alt -- der Rest des Namensfehlers vom 03.09. Sie steht **im Webverzeichnis und ist oeffentlich abrufbar** unter `/leistungvde.html`, als veraltete Zweitfassung der VDE-Seite. `robots.txt` sperrt nichts (`Allow: /`). Genau der doppelte Inhalt, der unter Punkt 4 als Risiko benannt ist -- nur nicht bei Wix, sondern auf dem eigenen Server. Im Projekt gibt es die Datei nicht, sie kann also ersatzlos weg |
 | 7 | Untermenue *Leistungen* ragt rechts aus dem Fenster | gemessen 38 px bei 1024 und 1440, 24 px bei 1200, 12 px bei 1366. Am Handy nicht. Gefunden beim Messen, nicht beauftragt, deshalb nicht angefasst |
@@ -1681,26 +1681,9 @@ Pfad gegen das Paket halten — dabei `src`, `href`, `srcset`, `content`,
 
 ## 9. Prompt zum Kopieren
 
-```text
-Homepage von Elektrotechnik Paulus.
+Steht in **[`docs/UEBERGABE.md`](UEBERGABE.md)** und **nur dort**.
 
-Repository: ayar20260808/elektrotechnik-paulus-homepage
-Branch:     claude/home-page-rdyw91
-            (gleichwertig: claude/gracious-einstein-kd9y44 -- selber Commit)
-
-Falls die Sitzung in einem anderen Repository geoeffnet wurde: dieses hier
-zuerst dazuholen. Es gibt ein zweites Projekt (elektrotechnik-hub, die
-Betriebs-App) -- das ist ein anderes System und hat mit der Homepage nichts
-zu tun. Beim letzten Mal war die Sitzung versehentlich dort geoeffnet.
-
-Lies zuerst, in dieser Reihenfolge:
-  1. CLAUDE.md            -- die Arbeitsregeln, sie gelten uneingeschraenkt
-  2. docs/ARBEITSSTAND.md -- Stand, Entscheidungen, Offenes, Sackgassen,
-                             Pruefgriffe
-
-Dann sag mir in ein paar Zeilen, wo wir stehen und was du als naechstes
-vorschlaegst. Fang noch nichts an.
-
-Ich bin Programmier-Anfaenger und will mitlernen: erklaere kurz, was du
-tust und warum.
-```
+Hier stand bis zum 12.09.2026 eine zweite Fassung desselben Prompts. Sie ist
+entfernt: Zwei Kopien laufen zwangslaeufig auseinander, und die in
+`UEBERGABE.md` trug am 12.09. bereits einen Live-Commit, der seit dem 11.09.
+ueberholt war. Dieselbe Regel wie in der ersten Zeile von `CLAUDE.md`.

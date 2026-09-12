@@ -6,135 +6,111 @@ Erklaerung fuer dich, nicht fuer das Modell.
 
 **Wozu das gut ist.** Ein Chat endet, und mit ihm das Gedaechtnis. Das
 eigentliche Wissen liegt deshalb im Repository -- in `CLAUDE.md` und in
-`docs/ARBEITSSTAND.md`. Dieser Prompt ist nur der Einstieg: Er sagt der neuen
-Sitzung, wo sie steht, was sie nicht anfassen darf, und wohin sie zum Nachlesen
-gehen muss.
+`docs/ARBEITSSTAND.md`. Dieser Prompt ist nur der Einstieg.
 
-**Pflege.** Nach groesseren Schritten die Abschnitte *Wo die Arbeit liegt*,
-*Was zuletzt passiert ist* und *Offen* nachziehen. Der Rest bleibt meist
-gleich. Wer das vergisst, schickt die naechste Sitzung mit veralteten Zahlen
-los -- das faellt oft erst auf, wenn schon etwas Falsches gebaut wurde.
+**Warum hier keine Staende mehr stehen (geaendert am 12.09.2026).** Die
+frueheren Fassungen trugen den Live-Commit, eine eigene Offen-Liste und eigene
+Zahlen. Das ging schief: Am 12.09. behauptete diese Datei noch, live sei
+`04487d7` und "hochgeladen ist immer noch nichts" -- beides war seit dem 11.09.
+falsch. Genau davor warnt `CLAUDE.md` in der ersten Zeile: zwei Dateien, die
+denselben Stand behaupten, widersprechen sich frueher oder spaeter.
+
+**Diese Datei enthaelt deshalb nur noch, was sich nicht aendert:** Regeln,
+Grenzen der Umgebung, und den Verweis auf `docs/ARBEITSSTAND.md`. Nur dort
+steht der Stand. **Beim Pflegen nichts hinzufuegen, was veralten kann.**
 
 ---
 
-# Homepage Elektrotechnik Paulus -- Uebergabe, Stand 10.09.2026
+Homepage von Elektrotechnik Paulus.
 
 Ich bin Irfan Ayar, Elektrotechnik Paulus GmbH, Koeln. **Ich bin
-Programmier-Anfaenger und will mitlernen** -- erklaer mir kurz, was du tust und
-warum, nicht nur das Ergebnis.
+Programmier-Anfaenger und will alles lernen** -- erklaer mir kurz, was du tust
+und warum, nicht nur das Ergebnis.
 
-## Zuerst pruefen: arbeitet noch jemand am selben Branch?
+Repository: `Ayar20260808/elektrotechnik-paulus-homepage`
+Arbeitsbranch: `claude/home-page-rdyw91`
 
-**An diesem Branch arbeitet mehr als eine Sitzung.** Am 10.09.2026 lagen zwei
-fremde Commits bei `origin`, die lokal fehlten -- und ein daraus gebautes Paket
-war bereits veraltet, bevor es verschickt wurde.
+**Arbeite nur auf diesem Branch -- auch dann nicht auf einem anderen, wenn die
+Sitzung dir einen zuweist.** Das ist kein Versehen, sondern der haeufigste
+Fehler in diesem Projekt.
 
-**Deshalb als Allererstes, vor jeder Aussage ueber den Stand:**
+## Bevor du irgendetwas tust
 
-    git fetch origin claude/home-page-rdyw91
-    git status -sb        # steht da [behind N], fehlt dir etwas
+1. Lies `CLAUDE.md`. Das sind die Arbeitsregeln, sie gelten ueber allem.
+2. Lies `docs/ARBEITSSTAND.md` vollstaendig. Dort steht der gesamte Stand:
+   was live ist, was offen ist, welche Fallen und Sackgassen es gibt.
+3. Pruefe, dass du nicht hinterherhinkst:
 
-Bei `[behind N]`: `git merge --ff-only origin/claude/home-page-rdyw91`.
-Das ist ein Nachziehen, kein Zuruecksetzen -- erlaubt. Was **nicht** erlaubt
-ist: `reset --hard` und `push --force`.
+       git fetch origin claude/home-page-rdyw91
+       git rev-list --count HEAD..origin/claude/home-page-rdyw91
 
-## Zuerst lesen, bevor du irgendetwas anfasst
+   **Das muss 0 sein.** Ist es eine kleine Zahl, hat eine andere Sitzung
+   gepusht: `git merge --ff-only origin/claude/home-page-rdyw91`. Ist es eine
+   dreistellige Zahl, bist du auf dem falschen Branch -- dann wechseln, nicht
+   weiterarbeiten.
 
-1. `CLAUDE.md` -- die verbindlichen Regeln
-2. `docs/ARBEITSSTAND.md` -- das Gedaechtnis des Projekts: Stand,
-   Entscheidungen, Offenes, **Sackgassen** (dort steht, was schon vergeblich
-   versucht wurde), Pruefgriffe
+**`git status -sb` erkennt diesen Fehler NICHT.** Es vergleicht nur mit dem
+eigenen Upstream, und der ist auf einem fremden Branch in Ordnung. Gemessen am
+12.09.2026: Die Sitzung startete auf `claude/stoic-bell-0ins33`, `git status
+-sb` meldete sauber -- der Rueckstand zum Arbeitsbranch betrug **252 Commits**.
+Dasselbe am 11.09. (`cool-curie-ypqas8`, 201 Commits, drei Commits umsonst) und
+am 10.09. (`gracious-einstein-kd9y44`, 198 Commits).
 
-Sag mir danach in ein paar Zeilen, wo wir stehen und was du vorschlaegst.
-**Fang noch nichts an.**
+**Zweites Erkennungsmerkmal, noch schneller:** Fehlt `CLAUDE.md` im
+Arbeitsverzeichnis, ist es der falsche Branch -- keine geloeschte Datei.
 
-## Wo die Arbeit liegt
-
-- Verzeichnis: `/home/user/elektrotechnik-paulus-homepage`
-  (**Achtung:** Das Arbeitsverzeichnis der Sitzung zeigt evtl. auf
-  `/home/user/elektrotechnik-hub` -- das ist ein **anderes** Projekt.)
-- Repo: `Ayar20260808/elektrotechnik-paulus-homepage`
-- Branch: `claude/home-page-rdyw91` -- **nicht zuruecksetzen, nicht force-pushen**
-- Repo-Stand: `git log --oneline -1` fragen, nicht raten
-- **Live auf dem Server: `04487d7`** vom 04.09.2026. Am 10.09. von mir
-  bestaetigt: `seite-06-09.zip` wurde **nie hochgeladen**. Diese Zeile ist die
-  wichtigste der Datei: Wenn ich einen Fehler melde, ist die erste Frage immer,
-  **welchen Stand ich vor mir hatte**.
-- An **ausgelieferten** Dateien unterscheiden sich vom Live-Stand nur zwei
-  Dinge: das reparierte `marke-hager.png` und der aus `index.html` entfernte
-  Urlaubshinweis. Nachpruefbar mit
-  `git diff --stat 04487d7 HEAD -- . ':(exclude)docs' ':(exclude)*.md'`.
-
-Statische Seite, kein Framework, kein Build. CSS und JS stehen **inline und
-mehrfach** in `index.html` plus neun `leistung-*.html`. Aenderungen an
-Rechtstexten, Hero und Kontaktformular betreffen nur `index.html`.
+**Und pruef auch das Verzeichnis:** Es gibt ein zweites Projekt,
+`elektrotechnik-hub` (die Betriebs-App). Das ist ein anderes System und hat mit
+der Homepage nichts zu tun. Eine Sitzung war dort schon versehentlich geoeffnet.
 
 ## Harte Regeln
 
 - **MX und TXT nicht anfassen.** Daran haengt die Geschaeftsmail
   (Google Workspace, `aspmx.l.google.com` Prio 10).
+- **Den Arbeitsbranch nie zuruecksetzen und nie force-pushen.** Kein
+  `reset --hard`, kein `push --force`. Nachziehen mit `--ff-only` ist erlaubt.
 - Passwoerter und der AuthInfo-Code gehen **nie** durch den Chat und **nie**
   ins Repository.
 - **Nie IDs, Schluessel oder Adressen aus Screenshots ablesen** -- immer als
   Text erfragen.
-- **Nie eine Oberflaeche beschreiben, die du nicht siehst.**
+- **Nie eine Oberflaeche beschreiben, die du nicht siehst.** Bei hPanel,
+  Dateimanager, Wix und Google gibt es keine Messung, nur meinen Screenshot.
 - "Meisterbetrieb" ist verboten, es heisst **Elektrofachbetrieb**.
 - Alles auf Deutsch. Commit-Nachrichten ohne Umlaute.
 - Nach jeder Aenderung die Vorschau-Adresse ungefragt als **erste Zeile** in
   einem Codeblock ausgeben.
 
-## Umgebungsgrenzen dieser Sitzung
+## Grenzen dieser Umgebung
 
-- `elektrotechnik-paulus.de` ist **von der Maschine aus nicht erreichbar**
-  (Ausgangssperre, `curl` liefert 000). Nur mein Browser sieht die Live-Seite.
-- Normale Webseiten sind gesperrt, Paketquellen wie PyPI nicht.
-- DNS geht trotzdem: `python3 docs/werkzeuge/dnsfrage.py`
-- Paket bauen: `python3 docs/werkzeuge/paket.py` -> `seite-TT-MM.zip`
+Alle am 12.09.2026 nachgemessen, nicht uebernommen -- der Container ist jede
+Sitzung neu:
+
+- `elektrotechnik-paulus.de` ist **von der Maschine aus nicht erreichbar**:
+  `curl: (56) CONNECT tunnel failed, response 403`, der Proxy meldet
+  `connect_rejected` (Richtliniensperre). Dasselbe gilt fuer
+  `ayar20260808.github.io`. **Nur mein Browser sieht die Live-Seite.**
+  Nicht erneut versuchen.
+- Paketquellen wie PyPI und apt sind erlaubt. Apache laesst sich mit
+  `apt-get update && apt-get install -y apache2` nachinstallieren -- damit
+  wurde am 11.09. die `.htaccess` geprueft.
+- DNS geht: `python3 docs/werkzeuge/dnsfrage.py`
+- Paket bauen: `python3 docs/werkzeuge/paket.py` -> `seite-TT-MM.zip`.
+  **Den Commit-Kurzhash von Hand an den Namen haengen**, sonst kollidieren
+  zwei Sitzungen am selben Tag.
+- Playwright: `/opt/node22/lib/node_modules/playwright`, Chromium unter
+  `/opt/pw-browsers/chromium-1194/chrome-linux/chrome`, immer `--no-sandbox`.
 - Von mir eingefuegte Bilder landen **nicht** als Datei auf der Maschine. Sie
   stecken aber als base64 im Protokoll unter `/root/.claude/projects/`.
 
-## Was zuletzt passiert ist
-
-- **Hager-Logo repariert** (`cdf19d0`). Die alte Datei hatte drei Fehler:
-  fehlendes "r", orange Fremdfragmente, undurchsichtiger weisser Grund.
-  Ersatz aus meiner Vorlage freigestellt, 303 x 120.
-- **`docs/werkzeuge/paket.py`** gebaut (`0278f16`).
-- **Ersparnis neu gerechnet** (`93a031f`): mindestens **223,63 EUR/Jahr**.
-  Die alte Zahl 210,83 EUR enthielt einen unbelegten Posten von 17,79 EUR/Jahr.
-- **Urlaubshinweis** hat sich am 09.09. selbst entfernt, Formular unversehrt
-  geprueft. Am 10.09. dann ganz aus `index.html` genommen (`2127879`), damit
-  kein veralteter Text mehr mitgeladen wird. CSS und JS bleiben stehen, der
-  Mechanismus ist fuer den naechsten Urlaub wiederverwendbar.
-- **Namenskollision beim Paket, 10.09.** Zwei Sitzungen bauten am selben Tag
-  je ein `seite-10-09.zip` aus verschiedenen Staenden. Unterschied: 177 Bytes.
-  Im Explorer stehen beide als "3,4 MB" -- nicht unterscheidbar. Aufgeloest
-  durch ein Paket mit eindeutigem Namen. **Merke: den Paketnamen nicht nur
-  nach dem Datum bilden, wenn mehrere Sitzungen laufen.**
-- **Hochgeladen ist immer noch nichts.** Ob ich es inzwischen getan habe,
-  weisst du nicht -- frag mich.
-
-## Offen
-
-**Bei mir:**
-0. **Paket hochladen** -- haengt seit dem 06.09., nichts davon ist live
-1. Testmail an `info@elektrotechnik-paulus.de` -- der Beweis, der die
-   Wix-Kuendigung freigibt
-2. Automatische Verlaengerung einschalten (steht auf **AUS**, Ablauf
-   **01.10.2027**)
-3. Seite im Browser pruefen, auch auf Zertifikatswarnung
-4. **Zeitkritisch: die zwei Wix-Domain-Abo-Betraege ablesen, BEVOR ich
-   kuendige** -- danach ist die Seite weg und die Zahlen unwiederbringlich
-5. Erst danach Wix kuendigen
-
-**Spaeter:** Datenschutz-Entwurf (`docs/entwurf-datenschutz.md`) pruefen lassen,
-fuenf Luecken fuellen, vor allem die beiden Auftragsverarbeitungsvertraege ·
-Jimdo-Vertrag pruefen · Formspree-Konto stilllegen (haelt noch Kundenanfragen) ·
-`master` liegt 197 Commits zurueck (Stand 09.09.2026).
-
 ## Wie ich arbeiten moechte
 
-Miss, statt zu schaetzen -- der Browser ist zum Nachmessen da (Playwright liegt
-unter `/opt/node22/lib/node_modules/playwright`, Chromium unter
-`/opt/pw-browsers/chromium-1194/`, immer `--no-sandbox`). Wenn du dich geirrt
-hast, sag es klar und korrigier es. Schreib neue Erkenntnisse und Sackgassen in
-`docs/ARBEITSSTAND.md`, damit sie die Sitzung ueberleben.
+**Nichts erfinden, nichts annehmen, ehrlich bleiben, und bei allem Ungepruefte
+die Wahrscheinlichkeit nennen** -- mit ihrer Grundlage. Das steht als Grundregel
+8 in `CLAUDE.md`.
+
+Miss, statt zu schaetzen. Wenn du dich geirrt hast, sag es klar und korrigier
+es. Schreib neue Erkenntnisse und Sackgassen sofort in `docs/ARBEITSSTAND.md`
+und committe sie -- nicht erst am Ende der Sitzung, die endet oft abrupt.
+
+Sag mir zum Schluss in ein paar Zeilen, wo wir stehen und was du als naechstes
+vorschlaegst. **Fang noch nichts an.**
