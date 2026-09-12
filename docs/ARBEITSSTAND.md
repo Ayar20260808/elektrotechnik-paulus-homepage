@@ -729,11 +729,58 @@ einer Fehlerseite.
 
     RedirectMatch 301 ^/impressum/?$   https://www.elektrotechnik-paulus.de/#impressum
 
-**Zu `/datenschutz/` bewusst kein Vorschlag.** Die Adresse liefert
-ebenfalls 404, aber **es gibt keinen Beleg, dass sie je existiert hat** --
-Google fuehrt sie nicht, und die Datenschutz-Inhalte lagen bei Wix
-offenbar unter `/cookie-einstellungen/`, das bereits umgeleitet wird. Eine
-Regel dafuer waere harmlos, aber geraten.
+**Korrektur am selben Tag: `/datenschutz` hat es sehr wohl gegeben.** Die
+Zeile *Gefunden - zurzeit nicht indexiert* nennt sie ausdruecklich. Die
+Aussage "kein Beleg" war falsch -- ich hatte nur die 404- und die
+Weiterleitungs-Zeile angesehen, nicht diese dritte.
+
+### Vier weitere alte Wix-Adressen (12.09.2026)
+
+Aus der Zeile *Gefunden - zurzeit nicht indexiert*, vier Seiten:
+
+    /book-online                          Zuletzt gecrawlt: Nicht zutreffend
+    /datenschutz                          Nicht zutreffend
+    /service-page/anlagenmodernisierung   Nicht zutreffend
+    /service-page/elektroinstallation     Nicht zutreffend
+
+**"Nicht zutreffend" heisst: Google kennt die Adresse, hat sie aber nie
+abgerufen.** Vermutlich aus der alten Wix-Sitemap. Ueber Google kommt dort
+also derzeit niemand an -- ueber Lesezeichen, Druckerzeugnisse oder
+fremde Verlinkungen schon.
+
+**Alle fuenf gemessen gegen den lokalen Apache, alle 404:**
+
+    /book-online                           404
+    /datenschutz                           404
+    /service-page/anlagenmodernisierung    404
+    /service-page/elektroinstallation      404
+    /impressum/                            404
+
+**Alle noetigen Sprungziele sind da:** `id="impressum"`, `id="datenschutz"`,
+`id="kontakt"`, `id="leistungen"` -- je genau einmal in `index.html`.
+"Anlagenmodernisierung" kommt im Projekt **nirgends** vor, dafuer gibt es
+also kein Gegenstueck.
+
+**Das eigentliche Argument fuer die Ergaenzung:** Diese vier stehen heute
+nicht unter *404*, weil Google sie noch nie geholt hat. **Holt es sie
+irgendwann, werden sie zu 404** und wandern in die Fehlerzeile. Eine
+Weiterleitung jetzt verhindert das, bevor es passiert.
+
+**Vollstaendiger Vorschlag, noch nicht eingebaut:**
+
+    ^/impressum/?$                        -> /#impressum
+    ^/datenschutz/?$                      -> /#datenschutz
+    ^/book-online/?$                      -> /#kontakt
+    ^/service-page/elektroinstallation/?$ -> /leistung-elektroinstallation.html
+    ^/service-page/                       -> /#leistungen
+
+**Die letzte Zeile ist bewusst eine Verallgemeinerung**, kein geratener
+Einzelfall: Jede Adresse unter `/service-page/` war bei Wix eine
+Leistungsseite, und der Leistungsbereich ist dafuer das richtige Ziel.
+Sie faengt damit auch `anlagenmodernisierung` und alles, was Google noch
+nicht aufgelistet hat.
+
+
 
 ### Weiterleitungen, `.htaccess` (11.09.2026)
 
