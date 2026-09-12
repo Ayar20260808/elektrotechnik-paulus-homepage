@@ -780,6 +780,41 @@ Leistungsseite, und der Leistungsbereich ist dafuer das richtige Ziel.
 Sie faengt damit auch `anlagenmodernisierung` und alles, was Google noch
 nicht aufgelistet hat.
 
+### Die vollstaendige Liste der alten Wix-Adressen (12.09.2026)
+
+Aus allen vier Zeilen der Search Console zusammengetragen. **Zehn
+Adressen, davon sind vier erledigt und sechs offen:**
+
+| Alte Adresse | Zeile | Zuletzt gecrawlt | heute | Regel vorhanden |
+|---|---|---|---|---|
+| `/cookie-einstellungen/` | 404 | 27.05.2026 | 301 | ja |
+| `/unsere-leistungen/` | 404 | 13.05.2026 | 301 | ja |
+| `/kontakt/` | 404 | 12.05.2026 | 301 | ja |
+| `/ueber-uns/` | 404 | 28.04.2026 | 301 | ja |
+| `/impressum/` | Weiterleitung | 22.07.2026 | **404** | **nein** |
+| `/datenschutz/` | Gecrawlt | 17.05.2026 | **404** | **nein** |
+| `/datenschutz` | Gefunden | nie | **404** | **nein** |
+| `/book-online` | Gefunden | nie | **404** | **nein** |
+| `/service-page/elektroinstallation` | Gefunden | nie | **404** | **nein** |
+| `/service-page/anlagenmodernisierung` | Gefunden | nie | **404** | **nein** |
+
+**Damit ist Offen-Punkt 3 beantwortet: die Seite unter *Gecrawlt -
+zurzeit nicht indexiert* ist `/datenschutz/`.** Sie wurde am 17.05.2026
+gelesen und nicht aufgenommen -- **kein Inhaltsproblem einer echten
+Seite**, sondern eine alte Adresse, die heute ins Leere fuehrt.
+
+**Widerlegt:** Der Verdacht, es koenne `leistungvde.html` sein
+(geschaetzt einer von vier), war falsch. Google fuehrt die Datei in
+keiner der vier Zeilen -- sie ist ihm offenbar unbekannt, weil sie
+nirgends verlinkt ist und nicht in der Sitemap steht. Sie soll trotzdem
+weg (Offen-Punkt 8), aber sie schadet der Suchmaschine derzeit nicht.
+
+**`^/datenschutz/?$` deckt beide Schreibweisen ab**, mit und ohne
+Schraegstrich -- die Search Console fuehrt sie als zwei getrennte
+Eintraege.
+
+
+
 
 
 ### Weiterleitungen, `.htaccess` (11.09.2026)
@@ -842,7 +877,7 @@ Offene Punkte zuerst, danach das Erledigte zum Nachschlagen.
 |---|---|---|
 | — | ~~**`.htaccess` hochladen**~~ | **Erledigt am 12.09.2026.** Beim zweiten Anlauf richtig entpackt. Irfan meldet: *"kontaktseite funtioniert"* -- `/kontakt/` leitet also um, die Datei ist im Webverzeichnis und aktiv. Siehe *Weiterleitungen sind live* |
 | — | ~~**Sitemap in der Search Console eintragen**~~ | **Erledigt 12.09.2026.** Status *Erfolgreich*, 10 erkannte Seiten, gelesen am 12.09. |
-| 3 | Welche Seite ist *Gecrawlt - zurzeit nicht indexiert*? | Google hat sie gelesen und abgelehnt. Erst wenn man weiss, welche es ist, laesst sich etwas tun |
+| — | ~~Welche Seite ist *Gecrawlt - zurzeit nicht indexiert*?~~ | **Beantwortet 12.09.2026: `/datenschutz/`**, zuletzt gecrawlt 17.05.2026. Eine alte Wix-Adresse, die heute 404 liefert -- kein Inhaltsproblem einer echten Seite |
 | 4 | Alte Wix-Seite: ist sie noch oeffentlich erreichbar? | Sie laeuft bis Fruehjahr 2027 weiter, nur ohne die Domain. Steht derselbe Text unter einer Wix-Adresse im Netz, sieht Google ihn doppelt. **Ungeprueft** -- die Adresse ist in dieser Sitzung nicht bekannt |
 | 5 | ~~`.gitignore` in `public_html` entfernen~~ | **Erledigt bzw. gegenstandslos, 12.09.2026.** Die vollstaendige Liste von oben bis unten zeigt keine Datei mit fuehrendem Punkt. Dass der Dateimanager solche anzeigt, ist zweifach belegt: am 11.09. wurde `.gitignore` **mit Groesse (90 B)** abgelesen, und im Extract-Fenster steht `.trash`. Die Datei ist also weg |
 | — | ~~Zertifikatswarnung pruefen~~ | **Beantwortet 12.09.2026 ohne Browsertest.** Google hat die Sitemap ueber `https://www.` erfolgreich geholt. Googlebot bricht bei einer Zertifikatswarnung ab, statt sie wegzuklicken -- der erfolgreiche Abruf belegt also ein gueltiges Zertifikat auf dem `www.`-Weg hinter dem CDN |
