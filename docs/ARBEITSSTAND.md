@@ -859,9 +859,44 @@ Verhalten.** Belegbar ist nur die andere Haelfte: **Auf unserer Seite ist
 kein Fehler messbar**, dreifach geprueft, und Irfan hat die Adresse am
 11.09. im Browser als lesbar bestaetigt.
 
-**Naechster Schritt:** Die Adresse unter den heutigen Bedingungen erneut im
-Browser oeffnen -- das schliesst eine Wechselwirkung mit der `.htaccess`
-aus. Danach ein, zwei Tage abwarten und den Status erneut ansehen. Steht er
+**Browsertest am 12.09. -- Datei einwandfrei, aber die falsche
+Adressform geprueft.** Der Screenshot zeigt die vollstaendige Datei: alle
+zehn `<loc>`, das `<urlset>`, der Kommentarkopf. In der Adresszeile steht
+jedoch
+
+    elektrotechnik-paulus.de/sitemap.xml        <- OHNE www.
+
+**Google holt aber die Form MIT `www.`**, denn die Property lautet
+`https://www.elektrotechnik-paulus.de/` und eingereicht wurde der relative
+Pfad `sitemap.xml`.
+
+**Das ist kein Haarspalten: die beiden Formen nehmen gemessen
+verschiedene Wege.** Stand 04.09.2026:
+
+    elektrotechnik-paulus.de       A      89.116.213.50 , 91.108.127.221
+    www.elektrotechnik-paulus.de   CNAME  www...cdn.hstgr.net
+
+Ohne `www.` geht es direkt auf die A-Adressen, mit `www.` ueber Hostingers
+CDN. Ein Fehler koennte also auf genau einem der beiden Wege sitzen -- und
+geprueft ist bisher der, den Google **nicht** benutzt.
+
+**Naechster Schritt, zehn Sekunden:** dieselbe Datei einmal mit `www.`
+aufrufen.
+
+    https://www.elektrotechnik-paulus.de/sitemap.xml
+
+Kommt auch dort der XML-Text, ist unsere Seite auf **beiden** Wegen
+belegt und die Ursache liegt sicher bei Google. Kommt eine Warnung oder
+ein Fehler, haben wir sie gefunden -- und zugleich Offen-Punkt 6
+beantwortet (Zertifikat seit dem CDN nie geprueft).
+
+**Einschaetzung: eher unwahrscheinlich, dass es am `www.`-Weg liegt.**
+Grundlage: Irfan hat am 11.09. bestaetigt, dass **beide** Adressformen
+funktionieren. Dagegen steht, dass das die Startseite betraf, nicht die
+Sitemap, und dass es vor der `.htaccess` war. Es ist die einzige
+ungepruefte Stelle auf Googles Weg, deshalb wird sie geprueft.
+
+Danach ein, zwei Tage abwarten und den Status erneut ansehen. Steht er
 dann immer noch rot, ist es kein Timing und wir suchen weiter.
 
 Nebenbefund: Die Liste zeigt *1 bis 1 von 1*. Es haengen also **keine
