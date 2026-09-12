@@ -809,6 +809,44 @@ Ablauf wie am 04.09.: ZIP nach `public_html`, Extract **mit** *Overwrite
 existing files*, F5, Groessen vergleichen, ZIP loeschen, *Vorschau ohne Cache*,
 dann *Cache leeren*.
 
+### Search Console am 12.09.2026 -- unveraendert, aber eine Spalte zaehlt
+
+Screenshot der Seite *Warum Seiten nicht indexiert werden*. Die vier
+Gruende stehen **unveraendert** wie am 11.09.:
+
+    Nicht gefunden (404)                Website          4
+    Seite mit Weiterleitung             Website          1
+    Gefunden - zurzeit nicht indexiert  Google-Systeme   4
+    Gecrawlt - zurzeit nicht indexiert  Google-Systeme   1
+
+Das ist erwartbar: Die `.htaccess` ist erst seit heute aktiv, Google war
+seither nicht wieder da. **Keine Sorge, wenn die Zahlen noch stehen.**
+
+**Neu abgelesen: die Spalte *Validierung* steht bei allen vier Zeilen auf
+*Nicht gestartet*.** Das ist der Hebel. Eine Validierung sagt Google, es
+soll die betroffenen Adressen erneut pruefen, statt auf den naechsten
+Besuch zu warten. Fuer die vier 404 ist genau das jetzt sinnvoll -- es
+sind exakt die vier alten Wix-Adressen, die seit heute umleiten.
+
+**Ungeprueft ist, wie die Validierung gestartet wird.** Die Spalte ist auf
+dem Screenshot zu sehen, ein Knopf dafuer nicht -- der liegt vermutlich in
+der Detailansicht hinter der Zeile. **Nicht raten, erst hineinklicken und
+nachsehen.**
+
+**Wichtige Erwartung, damit sie niemanden erschreckt:** Die vier Adressen
+liefern jetzt **301**, nicht mehr 404. Google wird sie deshalb aus
+*Nicht gefunden (404)* heraus- und in *Seite mit Weiterleitung*
+hineinnehmen. Diese Zeile waechst also voraussichtlich **von 1 auf 5**.
+
+**Das ist kein Fehler, sondern das gewuenschte Ergebnis.** *Seite mit
+Weiterleitung* ist eine Zustandsmeldung, keine Beanstandung: Die alte
+Adresse soll gar nicht im Index stehen, sondern auf die neue zeigen. Wer
+die wachsende Zahl fuer eine Verschlechterung haelt, liegt falsch.
+
+Das ist keine Vermutung ueber Googles Urteil, sondern die mechanische
+Folge des geaenderten Antwortcodes. **Wann** es sich zeigt, ist dagegen
+offen -- dafuer gibt es hier keine Messgrundlage, also auch keine Zahl.
+
 ### sitemap.xml vor dem Eintragen geprueft (12.09.2026)
 
 Damit niemand sie erneut durchsieht -- **sieben Pruefungen, null Befunde:**
