@@ -210,9 +210,19 @@ Damit sie nicht in jeder Sitzung neu erfragt werden.
 5. **Zweite Domain** `elektropersonal-aya…` haengt am selben Wix-Konto —
    Entscheidung ueber ihr Schicksal offen.
 6. **Jimdo pruefen** (die alte Domain lag frueher dort).
-7. **Formspree-Konto abschalten** — wird nicht mehr benutzt.
+7. ~~**Formspree-Konto abschalten**~~ **Erledigt am 12.09.2026 -- Konto
+   geloescht, von Irfan gemeldet.** Damit haelt kein Drittanbieter mehr
+   Kontaktdaten dieses Betriebs; der Weg laeuft vollstaendig ueber
+   `kontakt.php` und Google Workspace.
 
-   **Am 12.09.2026 gemessen: Es haengt nachweislich nichts mehr daran.**
+   **Offen und nachzufragen: Wurden die alten Anfragen vorher gesichert?**
+   Es waren Kundendaten, und das Loeschen ist endgueltig. **Falls nicht:**
+   Formspree hat die Anfragen damals per Mail weitergeleitet -- sie
+   liegen also mit hoher Wahrscheinlichkeit noch im Postfach. Dort nach
+   alten Formspree-Mails suchen. **Ungeprueft**, aber die naheliegende
+   Rettung.
+
+   **Vor dem Abschalten gemessen: Es hing nachweislich nichts mehr daran.**
    Das Formular sendet an `action="kontakt.php"`, und `kontakt.php`
    verschickt ueber einen eigenen SMTP-Client. Das Wort "formspree" kommt
    im gesamten ausgelieferten Stand **genau einmal** vor -- als Kommentar
