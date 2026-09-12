@@ -828,10 +828,27 @@ soll die betroffenen Adressen erneut pruefen, statt auf den naechsten
 Besuch zu warten. Fuer die vier 404 ist genau das jetzt sinnvoll -- es
 sind exakt die vier alten Wix-Adressen, die seit heute umleiten.
 
-**Ungeprueft ist, wie die Validierung gestartet wird.** Die Spalte ist auf
-dem Screenshot zu sehen, ein Knopf dafuer nicht -- der liegt vermutlich in
-der Detailansicht hinter der Zeile. **Nicht raten, erst hineinklicken und
-nachsehen.**
+**Der Knopf, am 12.09. in der Detailansicht gesehen:** Hinter der Zeile
+*Nicht gefunden (404)* steht oben *Fehlerbehebung fertig?* und daneben
+**FEHLERBEHEBUNG UEBERPRUEFEN**. Das ist die Validierung. Darueber:
+*Erstmals erkannt am: 12.05.24* -- diese vier 404 bestehen also seit ueber
+zwei Jahren.
+
+**Die vier Beispieladressen, abgelesen mit Datum des letzten Besuchs:**
+
+    https://www.elektrotechnik-paulus.de/cookie-einstellungen/   27.05.2026
+    https://www.elektrotechnik-paulus.de/unsere-leistungen/      13.05.2026
+    https://www.elektrotechnik-paulus.de/kontakt/                12.05.2026
+    https://www.elektrotechnik-paulus.de/ueber-uns/              28.04.2026
+
+**Gegengeprueft: alle vier sind in der `.htaccess` abgedeckt**, jede mit
+und ohne abschliessenden Schraegstrich. `/kontakt/` ist live bestaetigt,
+die anderen drei sind lokal gegen Apache gemessen.
+
+**Erwartung zur Validierung, ungeprueft:** Sie sollte durchgehen, weil die
+vier Adressen keine 404 mehr liefern, sondern 301. **Wie Google eine 301
+bei diesem Fehlertyp genau wertet, ist hier nicht gemessen** -- also keine
+Zahl dazu. Scheitert sie, ist das folgenlos und wiederholbar.
 
 **Wichtige Erwartung, damit sie niemanden erschreckt:** Die vier Adressen
 liefern jetzt **301**, nicht mehr 404. Google wird sie deshalb aus
