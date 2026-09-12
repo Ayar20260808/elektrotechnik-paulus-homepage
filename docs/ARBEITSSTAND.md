@@ -1191,12 +1191,31 @@ vollstaendig im Fenster, sind Upload, Entpacken und Cache-Leeren in einem
 Zug belegt -- eine Bytezahl kann das nicht, sie sagt nichts ueber den
 Cache.
 
-**Geschaetzt: hoch, dass alles geklappt hat.** Grundlage: Die drei
-Schritte wurden nacheinander ohne Rueckfrage durchlaufen, und beim
-Entpacken war die Zielangabe diesmal von Anfang an bekannt. Dagegen
-steht, dass genau dieser Schritt am Vormittag schon einmal danebenging und
-es damals **so aussah**, als sei nichts passiert. Deshalb keine
-Abhak-Meldung ohne die Sichtpruefung.
+**Sichtpruefung am 12.09. erfolgt, Screenshot der Live-Seite mit offenem
+Untermenue.** Abgelesen:
+
+    Untermenue vollstaendig im Fenster, rechts nichts abgeschnitten
+    Neun Eintraege -- passt zu den neun leistung-*.html
+    Vorspann "ELEKTROFACHBETRIEB IN KOELN", nicht "Meisterbetrieb"
+
+**Die Seite ist damit live und unversehrt.**
+
+**Was der Screenshot NICHT belegt, ehrlich benannt:** Er zeigt ein sehr
+breites Fenster, rund 1780 px. Bei dieser Breite hat das Untermenue
+**auch vorher schon** gepasst -- der Ueberstand trat nur zwischen 1024 und
+1440 px auf. Die Aufnahme prueft die Korrektur also nicht dort, wo sie
+gebraucht wird.
+
+Der sichtbare Abstand des Untermenues zum Wort *Leistungen* wirkt
+allerdings eher nach den neuen 74 px als nach den alten 18 px. **Das ist
+aus einem Bild abgelesen und damit schwach** -- in diesem Projekt ist das
+Ablesen aus Screenshots ausdruecklich als unzuverlaessig vermerkt.
+
+**Belastbar ist der lokale Befund: 320 Messungen, null Ueberstand.** Ob
+die neue Fassung live ist, liesse sich mit einem einzigen Handgriff
+schliessen -- Fenster auf Laptop-Breite ziehen und dasselbe nochmal
+ansehen. **Offen, aber ohne Risiko:** Traefe die alte Fassung noch zu,
+waere der Zustand genau der von gestern, also kein Schaden.
 
 ### Paket `seite-12-09-0372489.zip` gebaut (12.09.2026)
 
