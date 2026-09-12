@@ -1176,6 +1176,28 @@ mehr offen, das hochgeladen werden muesste.** Zum ersten Mal seit dem
 | `public_html` loeschen | in `/files/public_html/` | Der Fehlversuch vom Vormittag, enthaelt nur die wirkungslose `.htaccess` |
 | `leistungvde.html` loeschen | `public_html` | Offen-Punkt 8, veraltete Zweitfassung der VDE-Seite |
 
+### Stand der Veroeffentlichung am Abend des 12.09.2026
+
+**Irfan meldet: hochgeladen, entpackt, Cache geleert -- "erledigt".**
+
+**Die Zahl von `index.html` wurde nicht durchgegeben.** Der Sollwert waere
+**142,86 KiB** gewesen (146.293 Bytes). Dass sie nicht abgelesen wurde,
+heisst nicht, dass etwas schiefging -- es heisst nur, dass der Nachweis
+fehlt. **Als ungeprueft gefuehrt.**
+
+**Die belastbarere Probe ist ohnehin funktional statt numerisch:** Seite
+auf Laptop-Breite aufrufen, auf *Leistungen* gehen. Steht die Liste
+vollstaendig im Fenster, sind Upload, Entpacken und Cache-Leeren in einem
+Zug belegt -- eine Bytezahl kann das nicht, sie sagt nichts ueber den
+Cache.
+
+**Geschaetzt: hoch, dass alles geklappt hat.** Grundlage: Die drei
+Schritte wurden nacheinander ohne Rueckfrage durchlaufen, und beim
+Entpacken war die Zielangabe diesmal von Anfang an bekannt. Dagegen
+steht, dass genau dieser Schritt am Vormittag schon einmal danebenging und
+es damals **so aussah**, als sei nichts passiert. Deshalb keine
+Abhak-Meldung ohne die Sichtpruefung.
+
 ### Paket `seite-12-09-0372489.zip` gebaut (12.09.2026)
 
 **249 Dateien, 3.618.502 Bytes = 3,45 MiB.** Gebaut mit
