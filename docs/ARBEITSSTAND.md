@@ -740,7 +740,7 @@ Offene Punkte zuerst, danach das Erledigte zum Nachschlagen.
 | 5 | ~~`.gitignore` in `public_html` entfernen~~ | **Erledigt bzw. gegenstandslos, 12.09.2026.** Die vollstaendige Liste von oben bis unten zeigt keine Datei mit fuehrendem Punkt. Dass der Dateimanager solche anzeigt, ist zweifach belegt: am 11.09. wurde `.gitignore` **mit Groesse (90 B)** abgelesen, und im Extract-Fenster steht `.trash`. Die Datei ist also weg |
 | — | ~~Zertifikatswarnung pruefen~~ | **Beantwortet 12.09.2026 ohne Browsertest.** Google hat die Sitemap ueber `https://www.` erfolgreich geholt. Googlebot bricht bei einer Zertifikatswarnung ab, statt sie wegzuklicken -- der erfolgreiche Abruf belegt also ein gueltiges Zertifikat auf dem `www.`-Weg hinter dem CDN |
 | 8 | **`leistungvde.html` vom Server loeschen** | Ohne Bindestrich, 63,68 KiB, 9 Tage alt -- der Rest des Namensfehlers vom 03.09. Sie steht **im Webverzeichnis und ist oeffentlich abrufbar** unter `/leistungvde.html`, als veraltete Zweitfassung der VDE-Seite. `robots.txt` sperrt nichts (`Allow: /`). Genau der doppelte Inhalt, der unter Punkt 4 als Risiko benannt ist -- nur nicht bei Wix, sondern auf dem eigenen Server. Im Projekt gibt es die Datei nicht, sie kann also ersatzlos weg |
-| 7 | Untermenue *Leistungen* ragt rechts aus dem Fenster | gemessen 38 px bei 1024 und 1440, 24 px bei 1200, 12 px bei 1366. Am Handy nicht. Gefunden beim Messen, nicht beauftragt, deshalb nicht angefasst |
+| 7 | Untermenue *Leistungen* ragt rechts aus dem Fenster | **Am 12.09. nachgemessen, Ursache gefunden, zwei Loesungen im Browser erprobt -- siehe *Untermenue-Ueberstand*. Wartet auf eine Entscheidung von Irfan**, weil jede Loesung das Aussehen aendert |
 
 Erledigt:
 
@@ -1007,6 +1007,59 @@ die wachsende Zahl fuer eine Verschlechterung haelt, liegt falsch.
 Das ist keine Vermutung ueber Googles Urteil, sondern die mechanische
 Folge des geaenderten Antwortcodes. **Wann** es sich zeigt, ist dagegen
 offen -- dafuer gibt es hier keine Messgrundlage, also auch keine Zahl.
+
+### Untermenue-Ueberstand: Ursache und zwei erprobte Loesungen (12.09.2026)
+
+**Nachgemessen ueber acht Breiten und beide Kopfzustaende.** Die Zahlen der
+frueheren Sitzung sind bestaetigt, zwei Breiten kamen dazu:
+
+    Breite   Ueberstand nach rechts
+    1024      38 px        1366      12 px
+    1100      32 px        1440      38 px
+    1200      24 px        1600       0
+    1280      18 px        1920       0
+
+**Der Kopfzustand spielt keine Rolle** -- normal und geschrumpft liefern
+dieselben Werte. Das unterscheidet diesen Fall vom Einzugs-Fehler, bei dem
+genau das der Ausloeser war.
+
+**Ursache, gemessen bei 1024 px:**
+
+    Leistungen-Eintrag   760 .. 849     nur  89 px breit
+    Untermenue           742 .. 1062        320 px breit
+    Menueleiste endet bei 973, Fenster 1024
+
+Das Untermenue haengt mit `left:-18px` am linken Rand des Eintrags und ist
+mit **320 px dreieinhalbmal so breit wie der Eintrag selbst**. Da
+*Leistungen* der zweite von vier Eintraegen ist (Start, Leistungen,
+Ablauf, Kontakt), reicht es nach rechts weit ueber die Leiste hinaus. Die
+`min-width:262px` im CSS ist nicht der wirksame Wert -- die tatsaechliche
+Breite kommt aus dem laengsten Eintragstext plus `padding:10px 36px`.
+
+**Zwei Loesungen, beide im Browser durchgemessen, keine davon eingebaut:**
+
+| | Aenderung | Ergebnis |
+|---|---|---|
+| **A** | `left:auto; right:-18px` | Ueberstand ueberall weg. **Aber** das Menue rutscht 133-166 px nach links aus der Leiste heraus und haengt sichtbar neben dem Menue statt darunter |
+| **B** | nur die eine Zahl: `left:-18px` → `left:-74px` | Ueberstand ueberall weg, **18 px Luft an der engsten Stelle** (1024 px). Das Menue steht 27 px weiter links als heute, bleibt aber unter dem Eintrag |
+
+Sicherheitsabstand von B, je nach gewaehlter Zahl gemessen:
+
+    left:-58px    2 px Luft     zu knapp
+    left:-66px   10 px Luft
+    left:-74px   18 px Luft     empfohlen
+    left:-82px   26 px Luft
+
+**Empfehlung: B mit `-74px`.** Es ist die kleinstmoegliche Aenderung --
+eine einzige Zahl --, behaelt das heutige Aussehen weitgehend bei und hat
+genug Reserve. A ist strukturell sauberer, sieht aber deutlich anders aus.
+
+**Umfang: die Regel steht in allen zehn HTML-Dateien.** Eine Aenderung
+muss also zehnmal hinein und danach als bytegleich nachgewiesen werden.
+
+**Nicht angefasst, wartet auf Irfans Entscheidung** -- jede der beiden
+Loesungen aendert das Aussehen, und in diesem Projekt wurde schon einmal
+eine ungefragte Verbesserung eingebaut, die niemand wollte.
 
 ### sitemap.xml vor dem Eintragen geprueft (12.09.2026)
 
