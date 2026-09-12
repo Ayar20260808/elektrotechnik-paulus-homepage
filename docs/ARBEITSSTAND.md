@@ -691,6 +691,50 @@ selbst; dafuer ist die Sitemap da. *Gecrawlt - zurzeit nicht indexiert*
 heisst, dass Google die Seite gelesen und abgelehnt hat -- welche das ist,
 wurde **nicht nachgesehen**.
 
+### LUECKE: `/impressum/` liefert 404 (gefunden 12.09.2026)
+
+**Befund aus der Search Console, Zeile *Seite mit Weiterleitung*:**
+
+    https://www.elektrotechnik-paulus.de/impressum/     zuletzt gecrawlt 22.07.2026
+    Erstmals erkannt am 17.08.24                        Betroffene Seiten: 1
+
+**Gemessen gegen den lokalen Apache mit der heutigen `.htaccess`:**
+
+    /impressum/      HTTP 404
+    /impressum       HTTP 404
+    /datenschutz/    HTTP 404
+    /kontakt/        HTTP 301  (zum Vergleich: funktioniert)
+
+**Auf der Startseite gibt es `id="impressum"`**, das Sprungziel ist also
+da -- nur die alte Adresse fuehrt nicht mehr hin.
+
+**Wie die Luecke entstand.** Am 11.09. wurde die Offen-Liste aus der
+Search Console gebaut und dabei vermerkt: *"Die vier 404 waren die
+einzige Zeile, bei der Besucher verloren gingen."* Das stimmte **zu jenem
+Zeitpunkt** -- `/impressum/` stand in der Zeile *Seite mit Weiterleitung*,
+und eine Weiterleitung ist kein Verlust. Uebersehen wurde, dass diese
+Weiterleitung von **Wix** stammte. Mit dem Umzug ist sie verschwunden;
+Googles Eintrag ist seit dem 22.07. nur nicht nachgefuehrt.
+
+**Die Lehre: Nach einem Plattformwechsel ist auch die Zeile *Seite mit
+Weiterleitung* zu pruefen, nicht nur die 404er.** Was dort steht, hat die
+alte Plattform geleistet -- und die gibt es nicht mehr.
+
+**Warum es zaehlt:** Das Impressum ist in Deutschland Pflicht und muss
+leicht auffindbar sein. Wer einem alten Google-Treffer, einem Lesezeichen
+oder einem Branchenbucheintrag auf `/impressum/` folgt, landet derzeit auf
+einer Fehlerseite.
+
+**Vorgeschlagene Ergaenzung der `.htaccess`, noch nicht eingebaut:**
+
+    RedirectMatch 301 ^/impressum/?$   https://www.elektrotechnik-paulus.de/#impressum
+
+**Zu `/datenschutz/` bewusst kein Vorschlag.** Die Adresse liefert
+ebenfalls 404, aber **es gibt keinen Beleg, dass sie je existiert hat** --
+Google fuehrt sie nicht, und die Datenschutz-Inhalte lagen bei Wix
+offenbar unter `/cookie-einstellungen/`, das bereits umgeleitet wird. Eine
+Regel dafuer waere harmlos, aber geraten.
+
 ### Weiterleitungen, `.htaccess` (11.09.2026)
 
 Zuordnung der vier alten Adressen:
