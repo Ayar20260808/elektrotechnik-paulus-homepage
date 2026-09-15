@@ -27,20 +27,28 @@ const FELDER_ALLE    = ['Vorname', 'Nachname', 'E-Mail', 'Telefon', 'Anliegen', 
 const MAX_LAENGE     = 5000;
 
 // Anhaenge: Ein Foto der Verteilung sagt mehr als drei Absaetze Text.
-// Die Grenzen sind keine Geschmacksfrage, sondern gerechnet:
-// Google Workspace nimmt Nachrichten bis 25 MB an, und die
-// Base64-Kodierung blaeht jeden Anhang um gut ein Drittel auf.
-// 15 MB Rohdaten werden damit zu rund 20,5 MB Nachricht -- das passt,
-// mit Reserve fuer Text und Kopfzeilen.
 //
-// Kurze Handyvideos passen damit oft, lange nicht. Wer darueber liegt,
-// bekommt eine eigene Meldung mit dem Hinweis, das Video direkt per
-// Mail zu schicken -- eine stumme Fehlermeldung waere schlimmer als
-// gar kein Upload, weil die Anfrage dann kommentarlos verlorengeht.
+// Die Grenzen richten sich nach den Werkseinstellungen von PHP:
+// upload_max_filesize 2 MB je Datei, post_max_size 8 MB je Absendung.
+// Was der Webhoster wirklich erlaubt, ist nicht bekannt und war ohne
+// groesseren Aufwand nicht zu erfahren. Deshalb bewusst der unguenstigste
+// Fall: Was hierunter passt, passt auf jedem Server. Erlaubt Hostinger
+// mehr, lassen sich diese beiden Zahlen jederzeit anheben -- die
+// Obergrenze ist dann Googles Nachrichtengrenze von 25 MB, bei rund
+// 37 Prozent Aufschlag durch die Kodierung also etwa 18 MB Rohdaten.
+//
+// Damit die 2 MB kein Hindernis sind, verkleinert die Seite Fotos schon
+// im Browser, bevor sie abgeschickt werden. Ein Handyfoto von 4 MB wird
+// dabei zu wenigen hundert Kilobyte, ohne dass man auf dem Bild etwas
+// vermisst. Der Server sieht also nur noch kleine Dateien.
+//
+// Diese Grenzen bleiben trotzdem stehen: Sie greifen, wenn jemand das
+// JavaScript abgeschaltet hat oder eine Datei schickt, die sich nicht
+// verkleinern laesst.
 const ANHANG_FELD       = 'Anhang';
 const ANHANG_MAX_ANZAHL = 5;
-const ANHANG_MAX_EINZEL = 10485760;   // 10 MB je Datei
-const ANHANG_MAX_GESAMT = 15728640;   // 15 MB zusammen
+const ANHANG_MAX_EINZEL = 2097152;    // 2 MB je Datei
+const ANHANG_MAX_GESAMT = 6291456;    // 6 MB zusammen
 
 // Geprueft wird der tatsaechliche Inhalt, nicht die Endung und nicht
 // das, was der Browser behauptet. Beides laesst sich faelschen.
