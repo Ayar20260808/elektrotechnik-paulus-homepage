@@ -1815,13 +1815,16 @@ auflistet. Der Dateimanager ist damit nicht erreichbar.
 
 - *Hosting-Details* reagiert nicht -- nichts passiert beim Anklicken.
 - Im privaten Fenster (frische Anmeldung, keine Erweiterungen): **dasselbe**.
+- In **Firefox**: ebenfalls dasselbe. Damit drei Messungen ueber zwei
+  Browser-Kerne und zwei Profile -- alle gleich.
 - **Die Seite selbst laeuft normal.**
 
 **Daraus folgt sicher:** Hosting und Dateien sind unversehrt. Eine
 PHP-Seite kann nicht ausgeliefert werden, wenn das Hosting weg waere. Es
 ist ein Fehler in der Oberflaeche, kein Datenverlust. Dass es im privaten
-Fenster genauso ist, schliesst Sitzung, Zwischenspeicher und
-Browser-Erweiterungen als Ursache aus.
+Fenster **und in einem zweiten Browser** genauso ist, schliesst Sitzung,
+Zwischenspeicher, Erweiterungen und den Browser selbst als Ursache aus.
+Auf Irfans Rechner bleibt damit nichts mehr uebrig, was es sein koennte.
 
 **Warum das hier steht:** Damit die naechste Sitzung nicht wieder bei
 null anfaengt zu suchen -- und vor allem, damit niemand auf *Website
