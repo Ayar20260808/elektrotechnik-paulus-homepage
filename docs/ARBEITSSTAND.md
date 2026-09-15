@@ -1502,22 +1502,33 @@ Neues Feld *Fotos oder Video (freiwillig)* mit Mehrfachauswahl, dazu ein
 Hinweistext, der den Nutzen erklaert. Das Formular traegt jetzt
 `enctype="multipart/form-data"`.
 
-**Grenzen, gerechnet statt geraten:**
+**Grenzen (Stand 15.09.2026, nachmittags gesenkt -- siehe den Abschnitt
+„Fotos werden im Browser verkleinert" weiter unten):**
 
     hoechstens 5 Dateien
-    je Datei   10 MB
-    zusammen   15 MB
+    je Datei    2 MB
+    zusammen    6 MB
 
-Google Workspace nimmt Nachrichten bis 25 MB an, und Base64 blaeht jeden
-Anhang auf. **Gemessen:** 15 MB Rohdaten ergeben eine Nachricht von
-20,53 MB, Aufschlag 36,9 %. Reserve zur Grenze: 4,47 MB.
+Das sind genau PHPs Werkseinstellungen (`upload_max_filesize` 2 MB,
+`post_max_size` 8 MB). Was der Webhoster wirklich erlaubt, ist unbekannt;
+darunter passt es auf **jedem** Server. **Gemessen:** 6 MB Rohdaten
+ergeben eine Nachricht von 8,22 MB, Aufschlag 36,9 %. Reserve zu Googles
+25-MB-Grenze: 16,78 MB.
+
+Vormittags standen hier 10 MB je Datei und 15 MB zusammen. Diese Zahlen
+waren gerechnet, aber ungedeckt: Sie setzten voraus, dass der Server so
+viel durchlaesst. Das war nie gemessen.
 
 **Angenommen werden** JPG, PNG, WebP, HEIC/HEIF, PDF sowie MP4 und MOV.
 **Geprueft wird der Inhalt, nicht die Endung** -- eine HTML-Datei, die in
 `.jpg` umbenannt wurde, wird abgewiesen (nachgestellt und bestaetigt).
 
-**Zu Videos, ehrlich:** Kurze Handyvideos passen, lange nicht. Deshalb
-bekommt jede Abweisung einen eigenen Grund und eine eigene Meldung. Eine
+**Zu Videos, ehrlich:** Bei 2 MB je Datei passt **so gut wie kein
+Video**. Ein Handyvideo in 1080p braucht rund 1,3 MB je Sekunde -- zwei
+Sekunden, dann ist Schluss. Fotos dagegen passen immer, weil der Browser
+sie verkleinert. Der Hinweistext auf der Seite sagt genau das und nennt
+fuer laengere Videos die Mailadresse. Deshalb bekommt jede Abweisung
+einen eigenen Grund und eine eigene Meldung. Eine
 stumme Fehlermeldung waere schlimmer als gar kein Upload gewesen: Wer ein
 zu grosses Video schickt, haette nur "konnte nicht gesendet werden"
 gesehen, es erneut versucht und die Anfrage schliesslich aufgegeben.
@@ -1560,50 +1571,152 @@ Grenzvorkommen, die fuer zwei statt drei Anhaenge galt; ein Trennmuster,
 das nach der Schlussgrenze einen Umbruch verlangte, den es dort nicht
 gibt. Erst den Test pruefen, dann das Ergebnis.
 
-#### Was NICHT geprueft ist -- und wie man es erfaehrt
+#### Fotos werden im Browser verkleinert (15.09.2026, nachmittags)
 
-**Die PHP-Grenzen des Webhosters sind unbekannt.** `post_max_size` und
-`upload_max_filesize` stehen bei Hostinger ueblicherweise niedriger als
-unsere 15 MB. Ist das so, weist **PHP** die Absendung ab, bevor unser
-Code sie sieht -- `$_POST` und `$_FILES` sind dann leer.
+**Das Problem:** Die PHP-Grenzen des Webhosters sind unbekannt. Liegen sie
+unter dem, was der Hinweistext verspricht, weist **PHP** die Absendung ab,
+bevor unser Code sie sieht -- `$_POST` und `$_FILES` sind dann leer.
+Gemessen werden koennte das nur am Server selbst.
 
-**Dieser Fall ist abgefangen:** `kontakt.php` erkennt ihn an
-`CONTENT_LENGTH` bei leerem `$_POST` und leitet auf `grund=gross`. Der
-Besucher bekommt also die richtige Meldung, auch wenn die Grenze eine
-andere ist als angekuendigt.
+**Die Entscheidung:** Irfan wollte die einfachste Loesung, weil Hostinger
+an diesem Tag haengt. Also wurde das Problem nicht gemessen, sondern
+beseitigt: **Die Seite verkleinert Fotos schon im Browser**, bevor sie
+abgeschickt werden. Was danach beim Server ankommt, ist so klein, dass
+jede denkbare Grenze passt. Die Servergrenzen wurden gleichzeitig auf
+PHPs Werkseinstellung gesenkt -- den unguenstigsten Fall, der ueberall
+gilt.
 
-**Und er ist diagnostizierbar:** Das Fehlerprotokoll schreibt in diesem
-Fall `post_max_size`, `upload_max_filesize`, die gesendete Groesse und
-unsere eigene Grenze in eine Zeile.
+**Wie es arbeitet** (neuer Skriptblock in `index.html`, unter dem
+Formularskript):
 
-**Offen bleibt damit die Zahl im Hinweistext.** Dort stehen 15 MB. Liegt
-der Server darunter, verspricht die Seite mehr, als sie halten kann.
+    Bild auf eine Leinwand zeichnen, laengste Kante 1600 Pixel
+    als JPEG mit Guete 0,82 ausgeben
+    nur uebernehmen, wenn es wirklich kleiner geworden ist
+    der Reihe nach, nicht gleichzeitig
 
-**Werkzeug dafuer: `docs/werkzeuge/php-grenzen.php`** (angelegt
-15.09.2026). Nach `public_html` hochladen, im Browser aufrufen, Zahlen
-ablesen, **wieder loeschen**. Es zeigt `upload_max_filesize`,
-`post_max_size`, `max_file_uploads`, vergleicht sie mit den Grenzen des
-Formulars und nennt den wirklich moeglichen Wert.
+Der Reihe nach deshalb, weil fuenf 12-Megapixel-Bilder gleichzeitig zu
+entpacken aeltere Handys an die Speichergrenze bringt.
 
-**Warum ein Werkzeug und keine Wegbeschreibung:** Die
-PHP-Einstellungsseite im hPanel hat diese Sitzung nie gesehen. Eine
-erfundene Klickfolge waere genau der Fehler, der in diesem Projekt schon
-vier falsche Wegbeschreibungen erzeugt hat. Gemessen wird stattdessen
-direkt am Server.
+**Gemessen (Chromium, 15.09.2026):**
+
+| Probe | vorher | nachher | Dauer |
+|---|---|---|---|
+| Handyfoto 4032x3024 | 11,80 MB | **0,68 MB** (1600x1200) | 268 ms |
+| fuenf davon auf einmal | 59,0 MB | **3,40 MB** | 1225 ms |
+| PNG 2000x1500 | 9,84 MB | **1,04 MB** | -- |
+| Bild 400x300 | 47 KB | unveraendert | -- |
+
+Die Proben waren **Rauschen**, der unguenstigste Fall fuer JPEG. Ein
+echtes Foto komprimiert besser; 0,68 MB ist also eine Obergrenze, kein
+Mittelwert. **Ungeprueft, geschaetzt: ein gewoehnliches Handyfoto landet
+eher bei 0,2 bis 0,4 MB.** Grundlage dafuer sind die Hero-Bilder dieser
+Seite (1600 px breit, 80 bis 250 KB). Groesste Unbekannte: wie stark das
+Motiv strukturiert ist.
+
+**Faellt das Verkleinern aus, bleibt die Originaldatei stehen.** Das gilt
+fuer HEIC in einem Browser, der es nicht lesen kann, fuer fehlendes
+`canvas.toBlob` und fuer alles, was laenger als 15 Sekunden braucht. Die
+Auswahl geht nie verloren -- dann entscheidet der Server.
+
+**Nichtbilder werden nicht angefasst.** PDF und Video gehen unveraendert
+durch und stossen bei 2 MB an die Servergrenze. Genau das sagt der
+Hinweistext.
+
+**Neue Statuszeile unter dem Feld.** Sie meldet sofort, was ausgewaehlt
+ist ("2 Dateien ausgewaehlt, zusammen 1,2 MB. Passt."), faerbt sich rot,
+wenn es nicht durchgeht, nennt dann die Mailadresse und **unterbindet das
+Abschicken**. Ohne sie wuerde jemand mit einem zu grossen Video erst nach
+dem Hochladen erfahren, dass es nicht geht.
+
+#### Wie das geprueft wurde
+
+| Pruefung | Umfang | Ergebnis |
+|---|---|---|
+| Verkleinern im Browser | 24 Einzelpruefungen | alle bestanden |
+| Ende zu Ende ueber `kontakt.php` | 9 Laeufe gegen eine SMTP-Senke | alle richtig |
+| Anhang in der Mail | sha256 gegen die Browserausgabe | **bytegleich** |
+| Statuszeile bei 390/768/1440 px | 15 Messungen | kein Ueberlauf |
+| Standardpruefung | 60 Laeufe ueber 10 Seiten | keine Befunde |
+| MIME- und Formularpruefung | aus der Vormittagssitzung | bestanden |
+
+Die Ende-zu-Ende-Laeufe liefen **zweimal**: einmal mit einem
+grosszuegigen Server (20M/25M), einmal mit PHPs Werkseinstellung
+(2M/8M). In beiden Faellen kam das verkleinerte Foto an, und in beiden
+Faellen wurde das Originalfoto mit `grund=gross` abgewiesen statt
+kommentarlos zu verschwinden.
+
+**Messfalle, wieder mein Test und nicht der Code:** Der erste Anlauf des
+Ende-zu-Ende-Skripts meldete zwei Fehler. Ursache war das Skript selbst
+-- eine SMTP-Senke, die zwischen den Faellen neu gestartet wurde und
+dabei mit sich selbst kollidierte, und eine gemeinsam benutzte Kopfdatei.
+Dazu: `pkill -f "php -S …"` trifft auch die Shell, in deren Befehlszeile
+das Muster steht, und beendet damit den eigenen Testlauf. Mit einer
+einmal gestarteten Senke und je einer Kopfdatei pro Fall waren alle neun
+Faelle richtig. **Erst den Test pruefen, dann das Ergebnis.**
+
+#### Falls die Grenze spaeter doch angehoben werden soll
+
+Nur noetig, wenn Videos hochladbar sein sollen. Fotos brauchen es nicht.
+
+**Werkzeug: `docs/werkzeuge/php-grenzen.php`** (angelegt 15.09.2026).
+Nach `public_html` hochladen, im Browser aufrufen, Zahlen ablesen,
+**wieder loeschen**. Es zeigt `upload_max_filesize`, `post_max_size`,
+`max_file_uploads`, vergleicht sie mit den Grenzen des Formulars und
+nennt den wirklich moeglichen Wert. Kein `phpinfo`.
 
 Die Datei liegt bewusst in `docs/werkzeuge/` und **nicht** im
 Projektstamm: `paket.py` nimmt `docs/` nicht auf, sie kann also nicht
 versehentlich mit einem Paket auf den Server wandern und dort
-liegenbleiben. Sie zeigt nur diese wenigen Werte, kein `phpinfo`.
+liegenbleiben.
 
-**Hinweis aus dem Probelauf:** In diesem Container steht PHP auf 2 MB je
-Datei und 8 MB je Absendung -- das sind PHPs Werkseinstellungen. Wenn
-Hostinger nichts angehoben hat, liegt es dort aehnlich. **Dann ist die
-Zahl 15 MB im Hinweistext zu hoch und muss angepasst werden.**
+**Warum ein Werkzeug und keine Wegbeschreibung:** Die
+PHP-Einstellungsseite im hPanel hat keine Sitzung je gesehen. Eine
+erfundene Klickfolge waere genau der Fehler, der in diesem Projekt schon
+vier falsche Wegbeschreibungen erzeugt hat.
 
-**Zweiter Weg, falls das Werkzeug zu umstaendlich ist:** eine
-Testanfrage mit einem Foto von rund 8 MB. Kommt sie an, passt die Zahl.
-Kommt "zu gross", steht die wirkliche Grenze im Fehlerprotokoll.
+**Drei Stellen muessen dann zusammenpassen** -- eine allein zu aendern
+bringt nichts:
+
+    kontakt.php   ANHANG_MAX_EINZEL und ANHANG_MAX_GESAMT
+    index.html    MAX_EINZEL und MAX_GESAMT im Verkleinerungsskript
+    index.html    Hinweistext am Feld und die Meldung "gross"
+
+Obergrenze ist Googles Nachrichtengrenze von 25 MB: bei 36,9 % Aufschlag
+also rund 18 MB Rohdaten -- und nur, wenn der Server so viel durchlaesst.
+
+#### Was noch nicht auf dem Server liegt (Stand 15.09.2026)
+
+**Gemessen gegen den Live-Stand `0372489`** (das zuletzt hochgeladene
+Paket), jede ausgelieferte Datei einzeln, nicht stichprobenartig:
+
+    249 ausgelieferte Dateien
+     11 geaendert
+    238 bytegleich
+      0 neu dazugekommen
+
+Geaendert sind `index.html`, `kontakt.php` und die neun Leistungsseiten --
+die Telefonnummer und das Kontaktformular. Alles andere ist unveraendert.
+
+**Deshalb wieder ein Teilpaket statt eines Vollpakets:**
+
+    seite-teil-15-09-c287cfd.zip    212,1 KiB    11 Dateien
+    darin unkomprimiert            739,0 KiB
+
+Ein Vollpaket waere 3,6 MiB und wuerde 238 bereits richtige Dateien neu
+schreiben. Bei einem haengenden Dateimanager ist das der Unterschied
+zwischen einer halben Minute und einer Viertelstunde.
+
+Gegengeprueft: Archiv lesbar, genau elf Eintraege, nichts Fremdes darin,
+jeder Eintrag bytegleich mit der Arbeitskopie.
+
+**Entpackt wird nach `/files/domains/elektrotechnik-paulus.de/public_html/`**
+-- dieselbe Stelle wie am 12.09. Es ueberschreibt die elf Dateien und
+laesst die uebrigen 238 in Ruhe. **Danach den CDN-Cache leeren**, sonst
+zeigt die Seite tagelang die alte Telefonnummer.
+
+**Nicht vergessen: `kontakt-konfig.php` liegt nur auf dem Server** und ist
+nicht im Paket (sie steht in `.gitignore`, weil das App-Passwort darin
+steht). Das Entpacken fasst sie nicht an.
 
 ### Mini-Paket statt Vollpaket (12.09.2026)
 
