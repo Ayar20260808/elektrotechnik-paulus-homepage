@@ -834,6 +834,21 @@
   .field input:focus, .field select:focus, .field textarea:focus{outline:none;border-color:var(--tech-blue);}
   .field.full{grid-column:1/-1;}
   form .form-note{font-size:12.5px;color:var(--grey-600);}
+  /* Kamera-Knoepfe ueber dem Dateifeld. Gleiche Bauart wie die uebrigen
+     Knoepfe der Seite, aber hell -- sie sind ein Angebot, nicht der
+     Hauptweg. Nebeneinander, solange Platz ist; sonst untereinander. */
+  .kamera-reihe{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:2px;}
+  /* Ohne diese Zeile bleibt die Reihe sichtbar: display:flex aus der
+     Klasse schlaegt das display:none, das der Browser dem
+     hidden-Attribut mitgibt. Gemessen -- die Knoepfe standen auch
+     am Rechner da, wo capture keine Kamera oeffnet. */
+  .kamera-reihe[hidden]{display:none;}
+  .btn-kamera{flex:1 1 150px;display:inline-flex;align-items:center;justify-content:center;gap:9px;
+    background:var(--grey-0);color:var(--ink);border:2px solid var(--ink);
+    font-family:var(--font-heading);font-size:12px;text-transform:uppercase;letter-spacing:.05em;
+    padding:13px 14px;cursor:pointer;transition:background .15s,color .15s;}
+  .btn-kamera:hover, .btn-kamera:focus-visible{background:var(--ink);color:var(--grey-0);}
+  .btn-kamera svg{width:17px;height:17px;flex:none;}
   /* Dateifeld. Rahmen und Abstaende erbt es von .field input; hier nur
      der native Knopf, den jeder Browser anders setzt, und der
      Erklaertext darunter. */
@@ -1444,13 +1459,35 @@
         <div class="field full"><label for="nachricht">Nachricht</label><textarea id="nachricht" name="Nachricht" rows="4"></textarea></div>
         <div class="field full">
           <label for="anhang">Fotos oder Video <span class="feld-zusatz">(freiwillig)</span></label>
+          <!-- Direkt aufnehmen statt in der Galerie suchen. Die Reihe ist
+               versteckt und wird nur auf Geraeten mit Fingerbedienung
+               eingeblendet -- am Rechner oeffnet `capture` keine Kamera,
+               der Knopf waere dort eine leere Zusage. -->
+          <div class="kamera-reihe" id="kameraReihe" hidden>
+            <button class="btn-kamera" id="kameraFoto" type="button">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              Foto aufnehmen
+            </button>
+            <button class="btn-kamera" id="kameraVideo" type="button">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+              Video aufnehmen
+            </button>
+          </div>
           <input id="anhang" name="Anhang[]" type="file" multiple
                  accept="image/jpeg,image/png,image/webp,image/heic,image/heif,application/pdf,video/mp4,video/quicktime">
+          <!-- Die beiden Aufnahmefelder tragen bewusst KEIN name-Attribut:
+               sie sollen nicht selbst mitgeschickt werden. Was sie liefern,
+               wandert per JavaScript in das Feld darueber. -->
+          <input id="kameraFotoEingabe" type="file" accept="image/*" capture="environment" hidden>
+          <input id="kameraVideoEingabe" type="file" accept="video/*" capture="environment" hidden>
           <p class="feld-hinweis">Ein Bild sagt oft mehr als eine lange Beschreibung: Verteilung,
             Zählerschrank oder einfach die Stelle, um die es geht. So können wir Ihr Anliegen
-            gleich richtig einschätzen. Bis zu 5 Dateien. Fotos verkleinert Ihr Browser vor dem
-            Senden automatisch, die passen also immer. Ein Video geht nur, wenn es unter 2 MB
-            liegt — längere senden Sie am besten an
+            gleich richtig einschätzen. Fotos verkleinert Ihr Browser vor dem Senden automatisch.
+            Bis zu <span id="grenzeAnzahl">5</span> Dateien, je höchstens
+            <span id="grenzeEinzel">2&nbsp;MB</span>, zusammen
+            <span id="grenzeGesamt">6&nbsp;MB</span> — Größeres senden Sie am besten an
             <a href="mailto:info@elektrotechnik-paulus.de">info@elektrotechnik-paulus.de</a>.</p>
           <p class="feld-status" id="anhangStatus" aria-live="polite"></p>
         </div>
@@ -2014,10 +2051,10 @@
     // schliesslich aufgeben -- die Anfrage waere verloren, ohne dass
     // jemand davon erfaehrt.
     var gruende = {
-      gross:  'Die Dateien sind zusammen zu groß. Möglich sind bis zu 5 Dateien, je höchstens 2 MB '
-            + 'und zusammen 6 MB. Fotos werden beim Auswählen automatisch verkleinert; ein Video ist '
-            + 'dafür meist zu groß — schicken Sie es uns am besten direkt per E-Mail.',
-      anzahl: 'Bitte höchstens 5 Dateien auswählen.',
+      gross:  'Die Dateien waren zu groß. Wie viel möglich ist, steht beim Dateifeld — '
+            + 'Fotos werden dort automatisch verkleinert, ein Video ist dafür meist zu groß. '
+            + 'Schicken Sie es uns am besten direkt per E-Mail.',
+      anzahl: 'Es waren zu viele Dateien. Die mögliche Anzahl steht beim Dateifeld.',
       typ:    'Dieses Dateiformat können wir nicht annehmen. Möglich sind Fotos (JPG, PNG, HEIC, WebP), '
             + 'PDF sowie Videos als MP4 oder MOV.',
       datei:  'Eine der Dateien konnte nicht gelesen werden. Bitte wählen Sie sie erneut aus.'
@@ -2046,30 +2083,42 @@
 </script>
 
 <script>
-  /* Fotos schon im Browser verkleinern, bevor sie abgeschickt werden.
+  /* Anhaenge am Kontaktformular: Kamera, Verkleinern, Rueckmeldung.
    *
-   * Grund: Wie viel der Webserver annimmt, ist nicht bekannt. PHP laesst
-   * ab Werk nur 2 MB je Datei und 8 MB je Absendung durch; ein Handyfoto
-   * ist heute oft groesser. Statt auf dem Server nachzumessen -- was
-   * einen Zugriff auf Einstellungen braucht, die wir nicht haben --
-   * schrumpfen wir das Foto hier: laengste Kante 1600 Pixel, als JPEG.
-   * Aus 4 MB werden so rund 300 KB. Auf dem Bild ist danach immer noch
-   * jede Klemme zu erkennen -- die Datei passt aber sicher durch.
+   * Drei Dinge passieren hier, alle vor dem Abschicken:
    *
-   * Schlaegt das Verkleinern fehl (HEIC in einem Browser, der es nicht
-   * lesen kann; Speicher zu knapp; altes Geraet ohne canvas.toBlob),
-   * bleibt die Originaldatei stehen. Die Auswahl geht nie verloren.
-   * kontakt.php prueft die Grenzen danach noch einmal selbst -- hier
-   * laeuft nur die Bequemlichkeit, die Kontrolle liegt auf dem Server. */
+   * 1. KAMERA. Auf dem Handy zwei Knoepfe, die direkt die Kamera oeffnen
+   *    (`capture`). Was aufgenommen wird, wandert in das Dateifeld --
+   *    zusaetzlich zu dem, was schon ausgewaehlt war. Am Rechner bleiben
+   *    die Knoepfe verborgen, dort oeffnet `capture` keine Kamera.
+   *
+   * 2. VERKLEINERN. Jedes Bild auf laengste Kante 1600 Pixel, als JPEG.
+   *    Aus 12 MB werden so unter 1 MB, ohne dass man auf dem Bild etwas
+   *    vermisst. Schlaegt es fehl (HEIC in einem Browser, der es nicht
+   *    lesen kann; Speicher zu knapp; kein canvas.toBlob), bleibt die
+   *    Originaldatei stehen -- die Auswahl geht nie verloren.
+   *    Nichtbilder, also PDF und Video, werden nicht angefasst.
+   *
+   * 3. RUECKMELDUNG. Eine Zeile unter dem Feld sagt sofort, ob die
+   *    Auswahl durchgeht, und sperrt sonst den Sendeknopf. Ohne sie
+   *    erfuehre jemand mit einem zu grossen Video das erst nach dem
+   *    Hochladen.
+   *
+   * Die Grenzen kommen vom Server: kontakt.php rechnet aus, was PHP dort
+   * wirklich durchlaesst, und gibt sie unter ?grenzen=1 heraus. Bleibt
+   * die Antwort aus -- Vorschau ohne PHP, kein fetch --, gelten die
+   * vorsichtigen Werte unten, die auf jedem Server durchgehen.
+   *
+   * kontakt.php prueft alles noch einmal selbst. Hier laeuft nur die
+   * Bequemlichkeit, die Kontrolle liegt auf dem Server. */
   (function () {
-    var feld   = document.getElementById('anhang');
-    var form   = document.getElementById('kontaktform');
-    var status = document.getElementById('anhangStatus');
+    var feld    = document.getElementById('anhang');
+    var form    = document.getElementById('kontaktform');
+    var status  = document.getElementById('anhangStatus');
     if (!feld || !form || !status) return;
 
-    // Dieselben Grenzen wie in kontakt.php. Sie stehen hier ein zweites
-    // Mal, weil eine statische HTML-Seite den Server nicht fragen kann.
-    // Werden sie dort geaendert, muessen sie hier mitgeaendert werden.
+    // Rueckfallwerte: PHPs Werkseinstellungen. Sie stehen auch im
+    // Hinweistext, damit ohne JavaScript nichts Falsches dort steht.
     var MAX_ANZAHL = 5;
     var MAX_EINZEL = 2 * 1024 * 1024;
     var MAX_GESAMT = 6 * 1024 * 1024;
@@ -2081,14 +2130,23 @@
     var arbeitet = false;
     var knopf = form.querySelector('button[type=submit]');
 
+    // "2 MB" statt "2,0 MB", aber "0,7 MB" bleibt. Sonst stuende im
+    // Hinweistext erst 2 MB und nach der Antwort des Servers 2,0 MB --
+    // dieselbe Zahl in zwei Schreibweisen, direkt untereinander.
     function mb(bytes) {
-      return (bytes / 1048576).toFixed(1).replace('.', ',') + ' MB';
+      var wert = (bytes / 1048576).toFixed(1);
+      if (wert.slice(-2) === '.0') wert = wert.slice(0, -2);
+      // Geschuetztes Leerzeichen: sonst bricht die Zeile zwischen Zahl
+      // und Einheit um, auf einem schmalen Handy passiert das oft.
+      return wert.replace('.', ',') + '\u00A0MB';
     }
 
     function melden(text, schlimm) {
       status.textContent = text;
       status.classList.toggle('zuviel', !!schlimm);
     }
+
+    /* ---------- Verkleinern ---------- */
 
     /* Eine Datei verkleinern. Ruft fertig() immer auf -- im Zweifel mit
        der unveraenderten Datei. */
@@ -2159,9 +2217,11 @@
       })(0);
     }
 
-    /* Die verkleinerten Dateien zurueck in das Eingabefeld legen. Geht
-       nur ueber DataTransfer; kann der Browser das nicht, bleibt die
-       Originalauswahl stehen und der Server entscheidet. */
+    /* ---------- Dateiliste fuehren ---------- */
+
+    /* Die Dateien in das Eingabefeld legen. Geht nur ueber DataTransfer;
+       kann der Browser das nicht, bleibt die Auswahl so, wie sie war,
+       und der Server entscheidet. */
     function uebernehmen(dateien) {
       if (typeof DataTransfer === 'undefined') return false;
       try {
@@ -2205,21 +2265,100 @@
       return true;
     }
 
-    feld.addEventListener('change', function () {
-      var liste = Array.prototype.slice.call(feld.files || []);
-      if (!liste.length) { melden('', false); return; }
-
+    /* Dateien verkleinern und danach ins Feld legen. `anhaengen` sagt,
+       ob die bisherige Auswahl erhalten bleibt (Kamera) oder ersetzt
+       wird (neue Auswahl im Dateifeld). */
+    function verarbeiten(liste, anhaengen) {
+      if (!liste.length) { pruefen(); return; }
       arbeitet = true;
       if (knopf) knopf.disabled = true;
       melden(liste.length === 1 ? 'Bild wird verkleinert …' : 'Bilder werden verkleinert …', false);
 
       alleVerkleinern(liste, function (neue) {
+        if (anhaengen) {
+          neue = Array.prototype.slice.call(feld.files || []).concat(neue);
+        }
         uebernehmen(neue);
         arbeitet = false;
         if (knopf) knopf.disabled = false;
         pruefen();
       });
+    }
+
+    feld.addEventListener('change', function () {
+      verarbeiten(Array.prototype.slice.call(feld.files || []), false);
     });
+
+    /* ---------- Kamera ---------- */
+
+    var reihe = document.getElementById('kameraReihe');
+    var aufnahmeZaehler = 0;
+
+    /* Eine Aufnahme heisst je nach Geraet "image.jpg", "IMG_0001.HEIC"
+       oder gar nichts. Im Postfach sind drei Anhaenge namens image.jpg
+       nicht auseinanderzuhalten -- deshalb eine laufende Nummer. */
+    function umbenennen(datei) {
+      aufnahmeZaehler++;
+      var treffer = datei.name && datei.name.match(/\.[^.\/]+$/);
+      var endung = treffer ? treffer[0] : (/^video\//.test(datei.type) ? '.mp4' : '.jpg');
+      try {
+        return new File([datei], 'aufnahme-' + aufnahmeZaehler + endung,
+                        { type: datei.type, lastModified: datei.lastModified || Date.now() });
+      } catch (e) { return datei; }
+    }
+
+    function kameraVerbinden(knopfId, eingabeId) {
+      var k = document.getElementById(knopfId);
+      var e = document.getElementById(eingabeId);
+      if (!k || !e) return;
+      k.addEventListener('click', function () {
+        // Leeren, damit zweimal dieselbe Aufnahme auch zweimal ankommt:
+        // bei gleichem Wert bliebe das change-Ereignis sonst aus.
+        e.value = '';
+        e.click();
+      });
+      e.addEventListener('change', function () {
+        var liste = Array.prototype.slice.call(e.files || []).map(umbenennen);
+        e.value = '';
+        verarbeiten(liste, true);
+      });
+    }
+
+    // Nur zeigen, wo `capture` wirklich eine Kamera oeffnet. Ein grober
+    // Zeiger ist dafuer der ehrlichste Anhaltspunkt: Finger statt Maus.
+    if (reihe && window.matchMedia && window.matchMedia('(pointer: coarse)').matches
+        && typeof DataTransfer !== 'undefined') {
+      reihe.hidden = false;
+      kameraVerbinden('kameraFoto', 'kameraFotoEingabe');
+      kameraVerbinden('kameraVideo', 'kameraVideoEingabe');
+    }
+
+    /* ---------- Grenzen beim Server erfragen ---------- */
+
+    function grenzenSchreiben() {
+      var a = document.getElementById('grenzeEinzel');
+      var b = document.getElementById('grenzeGesamt');
+      var c = document.getElementById('grenzeAnzahl');
+      if (a) a.textContent = mb(MAX_EINZEL);
+      if (b) b.textContent = mb(MAX_GESAMT);
+      if (c) c.textContent = String(MAX_ANZAHL);
+    }
+
+    if (window.fetch) {
+      fetch('kontakt.php?grenzen=1', { cache: 'no-store' })
+        .then(function (antwort) { return antwort.ok ? antwort.json() : null; })
+        .then(function (g) {
+          if (!g || !g.einzel || !g.gesamt) return;
+          MAX_EINZEL = g.einzel;
+          MAX_GESAMT = g.gesamt;
+          if (g.anzahl) MAX_ANZAHL = g.anzahl;
+          grenzenSchreiben();
+          if (feld.files && feld.files.length) pruefen();
+        })
+        .catch(function () { /* ohne PHP bleibt es bei den Rueckfallwerten */ });
+    }
+
+    /* ---------- Abschicken ---------- */
 
     form.addEventListener('submit', function (e) {
       if (arbeitet) {
