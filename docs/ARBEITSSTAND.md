@@ -1796,6 +1796,46 @@ zeigt die Seite tagelang die alte Telefonnummer.
 nicht im Paket (sie steht in `.gitignore`, weil das App-Passwort darin
 steht). Das Entpacken fasst sie nicht an.
 
+#### BLOCKIERT: hPanel zeigt die Website nicht mehr an (15.09.2026, abends)
+
+**Das Hochladen geht derzeit nicht** -- nicht weil etwas kaputt waere,
+sondern weil Hostingers Verwaltungsoberflaeche die Website nicht mehr
+auflistet. Der Dateimanager ist damit nicht erreichbar.
+
+**Was auf Irfans Screenshots zu sehen war, in dieser Reihenfolge:**
+
+| Seite | Was dort stand |
+|---|---|
+| Domain-Portfolio | `elektrotechnik-paulus.de` -- **Aktiv**, Ablauf 2027-10-01, automatische Verlaengerung an |
+| Websites | *Nichts gefunden. Versuchen Sie, nach etwas anderem zu suchen.* |
+| Websites, Plan-Karte | **Single**, *Plan laeuft am 2030-08-31 ab*, dazu nur *Website importieren* und *Website erstellen* |
+| Menue der Plan-Karte | Verlaengern · Upgraden · Ressourcennutzung · Hosting-Details · Hosting umbenennen · Hosting boosten (grau) · Zugriff gewaehren |
+
+**Gemessen bzw. von Irfan gemeldet:**
+
+- *Hosting-Details* reagiert nicht -- nichts passiert beim Anklicken.
+- Im privaten Fenster (frische Anmeldung, keine Erweiterungen): **dasselbe**.
+- **Die Seite selbst laeuft normal.**
+
+**Daraus folgt sicher:** Hosting und Dateien sind unversehrt. Eine
+PHP-Seite kann nicht ausgeliefert werden, wenn das Hosting weg waere. Es
+ist ein Fehler in der Oberflaeche, kein Datenverlust. Dass es im privaten
+Fenster genauso ist, schliesst Sitzung, Zwischenspeicher und
+Browser-Erweiterungen als Ursache aus.
+
+**Warum das hier steht:** Damit die naechste Sitzung nicht wieder bei
+null anfaengt zu suchen -- und vor allem, damit niemand auf *Website
+erstellen* oder *Website importieren* klickt. Beides legt eine **neue**
+Website an und koennte die laufende ueberschreiben. **Diese beiden
+Knoepfe sind tabu, solange die Ursache nicht geklaert ist.**
+
+**Naechster Schritt:** Hostinger-Support. Der Text dazu wurde am
+15.09.2026 geschrieben und Irfan zum Kopieren gegeben.
+
+**Nichts davon ist eilig.** Die Seite laeuft mit dem Stand vom 12.09.
+weiter -- mit der alten Telefonnummer und ohne Datei-Upload. Das
+Teilpaket wartet, bis der Dateimanager wieder erreichbar ist.
+
 ### Mini-Paket statt Vollpaket (12.09.2026)
 
 **Gemessen:** Zwischen dem Live-Stand `dc9a801` und dem Arbeitsbranch
