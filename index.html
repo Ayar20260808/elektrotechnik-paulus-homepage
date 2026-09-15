@@ -844,6 +844,11 @@
   .field input[type=file]:hover::file-selector-button{background:var(--tech-blue);}
   .feld-zusatz{text-transform:none;letter-spacing:0;color:var(--grey-600);}
   .feld-hinweis{font-size:12.5px;line-height:1.5;color:var(--grey-600);margin:2px 0 0;}
+  /* Rueckmeldung zur Auswahl: leer, solange nichts gewaehlt ist. Rot nur,
+     wenn die Auswahl so nicht abgeschickt werden kann. */
+  .feld-status{font-size:12.5px;line-height:1.5;color:var(--grey-600);margin:0;}
+  .feld-status:empty{display:none;}
+  .feld-status.zuviel{color:var(--red);font-weight:600;}
   .form-success{background:var(--green-tint);border-left:4px solid var(--green);padding:24px 26px;display:none;flex-direction:column;gap:10px;}
   .form-success.show{display:flex;}
   form.hidden{display:none;}
@@ -1443,8 +1448,11 @@
                  accept="image/jpeg,image/png,image/webp,image/heic,image/heif,application/pdf,video/mp4,video/quicktime">
           <p class="feld-hinweis">Ein Bild sagt oft mehr als eine lange Beschreibung: Verteilung,
             Zählerschrank oder einfach die Stelle, um die es geht. So können wir Ihr Anliegen
-            gleich richtig einschätzen. Bis zu 5 Dateien, zusammen höchstens 15 MB —
-            kurze Handyvideos passen meist, längere schicken Sie uns am besten per E-Mail.</p>
+            gleich richtig einschätzen. Bis zu 5 Dateien. Fotos verkleinert Ihr Browser vor dem
+            Senden automatisch, die passen also immer. Ein Video geht nur, wenn es unter 2 MB
+            liegt — längere senden Sie am besten an
+            <a href="mailto:info@elektrotechnik-paulus.de">info@elektrotechnik-paulus.de</a>.</p>
+          <p class="feld-status" id="anhangStatus" aria-live="polite"></p>
         </div>
         <button class="btn btn-primary" type="submit">Angebot anfragen</button>
         <p class="form-note">* Pflichtfeld.</p>
@@ -2006,8 +2014,9 @@
     // schliesslich aufgeben -- die Anfrage waere verloren, ohne dass
     // jemand davon erfaehrt.
     var gruende = {
-      gross:  'Die Dateien sind zusammen zu groß. Möglich sind bis zu 5 Dateien mit zusammen 15 MB. '
-            + 'Bitte kleinere Dateien wählen — ein längeres Video schicken Sie uns am besten direkt per E-Mail.',
+      gross:  'Die Dateien sind zusammen zu groß. Möglich sind bis zu 5 Dateien, je höchstens 2 MB '
+            + 'und zusammen 6 MB. Fotos werden beim Auswählen automatisch verkleinert; ein Video ist '
+            + 'dafür meist zu groß — schicken Sie es uns am besten direkt per E-Mail.',
       anzahl: 'Bitte höchstens 5 Dateien auswählen.',
       typ:    'Dieses Dateiformat können wir nicht annehmen. Möglich sind Fotos (JPG, PNG, HEIC, WebP), '
             + 'PDF sowie Videos als MP4 oder MOV.',
@@ -2031,7 +2040,196 @@
     form.classList.remove('hidden');
     success.classList.remove('show');
     errorBox.classList.remove('show');
+    var status = document.getElementById('anhangStatus');
+    if (status) { status.textContent = ''; status.classList.remove('zuviel'); }
   });
+</script>
+
+<script>
+  /* Fotos schon im Browser verkleinern, bevor sie abgeschickt werden.
+   *
+   * Grund: Wie viel der Webserver annimmt, ist nicht bekannt. PHP laesst
+   * ab Werk nur 2 MB je Datei und 8 MB je Absendung durch; ein Handyfoto
+   * ist heute oft groesser. Statt auf dem Server nachzumessen -- was
+   * einen Zugriff auf Einstellungen braucht, die wir nicht haben --
+   * schrumpfen wir das Foto hier: laengste Kante 1600 Pixel, als JPEG.
+   * Aus 4 MB werden so rund 300 KB. Auf dem Bild ist danach immer noch
+   * jede Klemme zu erkennen -- die Datei passt aber sicher durch.
+   *
+   * Schlaegt das Verkleinern fehl (HEIC in einem Browser, der es nicht
+   * lesen kann; Speicher zu knapp; altes Geraet ohne canvas.toBlob),
+   * bleibt die Originaldatei stehen. Die Auswahl geht nie verloren.
+   * kontakt.php prueft die Grenzen danach noch einmal selbst -- hier
+   * laeuft nur die Bequemlichkeit, die Kontrolle liegt auf dem Server. */
+  (function () {
+    var feld   = document.getElementById('anhang');
+    var form   = document.getElementById('kontaktform');
+    var status = document.getElementById('anhangStatus');
+    if (!feld || !form || !status) return;
+
+    // Dieselben Grenzen wie in kontakt.php. Sie stehen hier ein zweites
+    // Mal, weil eine statische HTML-Seite den Server nicht fragen kann.
+    // Werden sie dort geaendert, muessen sie hier mitgeaendert werden.
+    var MAX_ANZAHL = 5;
+    var MAX_EINZEL = 2 * 1024 * 1024;
+    var MAX_GESAMT = 6 * 1024 * 1024;
+
+    var KANTE = 1600;   // laengste Bildkante nach dem Verkleinern
+    var GUETE = 0.82;   // JPEG-Qualitaet; darunter werden Kanten sichtbar
+    var GEDULD = 15000; // ms, dann gilt das Bild als nicht verkleinerbar
+
+    var arbeitet = false;
+    var knopf = form.querySelector('button[type=submit]');
+
+    function mb(bytes) {
+      return (bytes / 1048576).toFixed(1).replace('.', ',') + ' MB';
+    }
+
+    function melden(text, schlimm) {
+      status.textContent = text;
+      status.classList.toggle('zuviel', !!schlimm);
+    }
+
+    /* Eine Datei verkleinern. Ruft fertig() immer auf -- im Zweifel mit
+       der unveraenderten Datei. */
+    function verkleinern(datei, fertig) {
+      if (!/^image\//.test(datei.type) || datei.type === 'image/svg+xml') { fertig(datei); return; }
+      if (!window.URL || !URL.createObjectURL || !window.File) { fertig(datei); return; }
+
+      var url = URL.createObjectURL(datei);
+      var bild = new Image();
+      var raus_ist_durch = false;
+
+      function raus(ergebnis) {
+        if (raus_ist_durch) return;
+        raus_ist_durch = true;
+        URL.revokeObjectURL(url);
+        fertig(ergebnis);
+      }
+
+      var wecker = setTimeout(function () { raus(datei); }, GEDULD);
+
+      bild.onerror = function () { clearTimeout(wecker); raus(datei); };
+      bild.onload = function () {
+        clearTimeout(wecker);
+        var breit = bild.naturalWidth, hoch = bild.naturalHeight;
+        if (!breit || !hoch) { raus(datei); return; }
+
+        var faktor = Math.min(1, KANTE / Math.max(breit, hoch));
+        var zielB = Math.max(1, Math.round(breit * faktor));
+        var zielH = Math.max(1, Math.round(hoch * faktor));
+
+        var leinwand = document.createElement('canvas');
+        if (!leinwand.toBlob) { raus(datei); return; }
+        leinwand.width = zielB;
+        leinwand.height = zielH;
+        var stift = leinwand.getContext('2d');
+        if (!stift) { raus(datei); return; }
+        try {
+          stift.drawImage(bild, 0, 0, zielB, zielH);
+        } catch (e) { raus(datei); return; }
+
+        leinwand.toBlob(function (brocken) {
+          // Nur uebernehmen, wenn es wirklich kleiner geworden ist. Ein
+          // bereits stark komprimiertes Foto kann als JPEG groesser
+          // herauskommen als es hineinging.
+          if (!brocken || brocken.size >= datei.size) { raus(datei); return; }
+          var name = datei.name.replace(/\.[^.\/]+$/, '') + '.jpg';
+          var neue;
+          try {
+            neue = new File([brocken], name, { type: 'image/jpeg', lastModified: Date.now() });
+          } catch (e) { raus(datei); return; }
+          raus(neue);
+        }, 'image/jpeg', GUETE);
+      };
+
+      bild.src = url;
+    }
+
+    /* Der Reihe nach, nicht alle gleichzeitig: fuenf 12-Megapixel-Bilder
+       auf einmal zu entpacken bringt aeltere Handys an die Speichergrenze. */
+    function alleVerkleinern(liste, fertig) {
+      var ergebnis = [];
+      (function naechste(i) {
+        if (i >= liste.length) { fertig(ergebnis); return; }
+        verkleinern(liste[i], function (datei) {
+          ergebnis.push(datei);
+          naechste(i + 1);
+        });
+      })(0);
+    }
+
+    /* Die verkleinerten Dateien zurueck in das Eingabefeld legen. Geht
+       nur ueber DataTransfer; kann der Browser das nicht, bleibt die
+       Originalauswahl stehen und der Server entscheidet. */
+    function uebernehmen(dateien) {
+      if (typeof DataTransfer === 'undefined') return false;
+      try {
+        var koffer = new DataTransfer();
+        for (var i = 0; i < dateien.length; i++) koffer.items.add(dateien[i]);
+        feld.files = koffer.files;
+        return feld.files.length === dateien.length;
+      } catch (e) { return false; }
+    }
+
+    /* Auswahl gegen die Grenzen pruefen und die Statuszeile schreiben.
+       Gibt zurueck, ob abgeschickt werden darf. */
+    function pruefen() {
+      var dateien = feld.files;
+      if (!dateien || !dateien.length) { melden('', false); return true; }
+
+      var gesamt = 0, zuGross = null;
+      for (var i = 0; i < dateien.length; i++) {
+        gesamt += dateien[i].size;
+        if (dateien[i].size > MAX_EINZEL && !zuGross) zuGross = dateien[i];
+      }
+      var anzahl = dateien.length + (dateien.length === 1 ? ' Datei' : ' Dateien');
+
+      if (dateien.length > MAX_ANZAHL) {
+        melden(anzahl + ': Das sind zu viele. Möglich sind höchstens ' + MAX_ANZAHL + '.', true);
+        return false;
+      }
+      if (zuGross) {
+        melden('„' + zuGross.name + '“ ist ' + mb(zuGross.size) + ' groß. Je Datei sind ' +
+               mb(MAX_EINZEL) + ' möglich. Größeres — etwa ein längeres Video — senden Sie bitte ' +
+               'an info@elektrotechnik-paulus.de.', true);
+        return false;
+      }
+      if (gesamt > MAX_GESAMT) {
+        melden(anzahl + ', zusammen ' + mb(gesamt) + '. Zusammen sind ' + mb(MAX_GESAMT) +
+               ' möglich. Bitte eine Datei weglassen oder alles direkt an ' +
+               'info@elektrotechnik-paulus.de senden.', true);
+        return false;
+      }
+      melden(anzahl + ' ausgewählt, zusammen ' + mb(gesamt) + '. Passt.', false);
+      return true;
+    }
+
+    feld.addEventListener('change', function () {
+      var liste = Array.prototype.slice.call(feld.files || []);
+      if (!liste.length) { melden('', false); return; }
+
+      arbeitet = true;
+      if (knopf) knopf.disabled = true;
+      melden(liste.length === 1 ? 'Bild wird verkleinert …' : 'Bilder werden verkleinert …', false);
+
+      alleVerkleinern(liste, function (neue) {
+        uebernehmen(neue);
+        arbeitet = false;
+        if (knopf) knopf.disabled = false;
+        pruefen();
+      });
+    });
+
+    form.addEventListener('submit', function (e) {
+      if (arbeitet) {
+        e.preventDefault();
+        melden('Einen Moment – die Bilder werden noch verkleinert.', false);
+        return;
+      }
+      if (!pruefen()) e.preventDefault();
+    });
+  })();
 </script>
 
 <script>
