@@ -26,6 +26,35 @@ const FELDER_PFLICHT = ['Vorname', 'Nachname'];
 const FELDER_ALLE    = ['Vorname', 'Nachname', 'E-Mail', 'Telefon', 'Anliegen', 'Nachricht'];
 const MAX_LAENGE     = 5000;
 
+// Anhaenge: Ein Foto der Verteilung sagt mehr als drei Absaetze Text.
+// Die Grenzen sind keine Geschmacksfrage, sondern gerechnet:
+// Google Workspace nimmt Nachrichten bis 25 MB an, und die
+// Base64-Kodierung blaeht jeden Anhang um gut ein Drittel auf.
+// 15 MB Rohdaten werden damit zu rund 20,5 MB Nachricht -- das passt,
+// mit Reserve fuer Text und Kopfzeilen.
+//
+// Kurze Handyvideos passen damit oft, lange nicht. Wer darueber liegt,
+// bekommt eine eigene Meldung mit dem Hinweis, das Video direkt per
+// Mail zu schicken -- eine stumme Fehlermeldung waere schlimmer als
+// gar kein Upload, weil die Anfrage dann kommentarlos verlorengeht.
+const ANHANG_FELD       = 'Anhang';
+const ANHANG_MAX_ANZAHL = 5;
+const ANHANG_MAX_EINZEL = 10485760;   // 10 MB je Datei
+const ANHANG_MAX_GESAMT = 15728640;   // 15 MB zusammen
+
+// Geprueft wird der tatsaechliche Inhalt, nicht die Endung und nicht
+// das, was der Browser behauptet. Beides laesst sich faelschen.
+const ANHANG_TYPEN = [
+    'image/jpeg'      => 'jpg',
+    'image/png'       => 'png',
+    'image/webp'      => 'webp',
+    'image/heic'      => 'heic',
+    'image/heif'      => 'heif',
+    'application/pdf' => 'pdf',
+    'video/mp4'       => 'mp4',
+    'video/quicktime' => 'mov',
+];
+
 /* ---------- Hilfsmittel ---------- */
 
 /** Zeilenumbrueche raus. Ohne das koennte jemand ueber ein Eingabefeld
@@ -50,6 +79,74 @@ function adresse_mit_namen(string $adresse, string $name): string {
 
 function ist_mail(string $wert): bool {
     return (bool) filter_var($wert, FILTER_VALIDATE_EMAIL);
+}
+
+/* ---------- Anhaenge ---------- */
+
+/** Dateiname auf etwas reduzieren, das in einer Kopfzeile unfallfrei
+ *  steht: keine Pfade, keine Anfuehrungszeichen, keine Umlaute. Ein
+ *  fremder Dateiname darf nie ungeprueft in die Mail wandern. */
+function dateiname_saeubern(string $name, string $endung, int $nummer): string {
+    $name = basename(str_replace('\\', '/', $name));
+    $name = preg_replace('/\.[^.]*$/', '', $name) ?? '';
+    // Umlaute umschreiben statt wegwerfen: aus "Kueche" wird sonst
+    // "K-che", und der Empfaenger raetselt, was gemeint war.
+    $name = strtr($name, ['ä'=>'ae','ö'=>'oe','ü'=>'ue','Ä'=>'Ae','Ö'=>'Oe','Ü'=>'Ue','ß'=>'ss']);
+    $name = preg_replace('/[^A-Za-z0-9._-]+/', '-', $name) ?? '';
+    $name = trim($name, '-.');
+    if ($name === '') $name = 'anhang-' . $nummer;
+    return mb_substr($name, 0, 60) . '.' . $endung;
+}
+
+/**
+ * Hochgeladene Dateien einsammeln und pruefen.
+ * Rueckgabe: [Liste der Anhaenge, Grund fuer eine Ablehnung oder '']
+ */
+function anhaenge_einsammeln(array $dateien): array {
+    if (!isset($dateien[ANHANG_FELD]['tmp_name'])) return [[], ''];
+
+    $roh = $dateien[ANHANG_FELD];
+    $anzahl = is_array($roh['tmp_name']) ? count($roh['tmp_name']) : 0;
+    if ($anzahl === 0) return [[], ''];
+
+    $anhaenge = [];
+    $gesamt = 0;
+    $pruefer = class_exists('finfo') ? new finfo(FILEINFO_MIME_TYPE) : null;
+
+    for ($i = 0; $i < $anzahl; $i++) {
+        $fehlercode = (int) ($roh['error'][$i] ?? UPLOAD_ERR_NO_FILE);
+        if ($fehlercode === UPLOAD_ERR_NO_FILE) continue;
+
+        // Der Server hat die Datei selbst abgewiesen, meist wegen
+        // upload_max_filesize. Das ist derselbe Fall wie "zu gross".
+        if ($fehlercode === UPLOAD_ERR_INI_SIZE || $fehlercode === UPLOAD_ERR_FORM_SIZE) {
+            return [[], 'gross'];
+        }
+        if ($fehlercode !== UPLOAD_ERR_OK) return [[], 'datei'];
+
+        if (count($anhaenge) >= ANHANG_MAX_ANZAHL) return [[], 'anzahl'];
+
+        $tmp = (string) ($roh['tmp_name'][$i] ?? '');
+        if ($tmp === '' || !is_uploaded_file($tmp)) return [[], 'datei'];
+
+        $groesse = (int) filesize($tmp);
+        if ($groesse <= 0 || $groesse > ANHANG_MAX_EINZEL) return [[], 'gross'];
+        $gesamt += $groesse;
+        if ($gesamt > ANHANG_MAX_GESAMT) return [[], 'gross'];
+
+        $typ = $pruefer ? (string) $pruefer->file($tmp) : '';
+        if (!isset(ANHANG_TYPEN[$typ])) return [[], 'typ'];
+
+        $inhalt = file_get_contents($tmp);
+        if ($inhalt === false) return [[], 'datei'];
+
+        $anhaenge[] = [
+            'name'   => dateiname_saeubern((string) ($roh['name'][$i] ?? ''), ANHANG_TYPEN[$typ], count($anhaenge) + 1),
+            'typ'    => $typ,
+            'inhalt' => $inhalt,
+        ];
+    }
+    return [$anhaenge, ''];
 }
 
 /* ---------- SMTP ---------- */
@@ -154,7 +251,7 @@ final class Smtp {
 
 /* ---------- Nachricht bauen ---------- */
 
-function nachricht_bauen(array $eingaben, array $k): array {
+function nachricht_bauen(array $eingaben, array $k, array $anhaenge = []): array {
     $absender  = adresse_mit_namen($k['absender'], $k['absender_name'] ?? '');
     $kundenmail = eine_zeile($eingaben['E-Mail']);
     $kundenname = eine_zeile($eingaben['Vorname'] . ' ' . $eingaben['Nachname']);
@@ -172,6 +269,15 @@ function nachricht_bauen(array $eingaben, array $k): array {
         if ($feld !== 'Nachricht') $wert = eine_zeile($wert);
         $zeilen[] = $feld . ': ' . $wert;
     }
+    if ($anhaenge !== []) {
+        // Die Namen auch im Text nennen: Manche Mailprogramme zeigen
+        // Anhaenge erst nach dem Aufklappen an.
+        $zeilen[] = '';
+        $zeilen[] = 'Angehaengte Dateien (' . count($anhaenge) . '):';
+        foreach ($anhaenge as $a) {
+            $zeilen[] = '  ' . $a['name'] . ' (' . ceil(strlen($a['inhalt']) / 1024) . ' KB)';
+        }
+    }
     $zeilen[] = '';
     $zeilen[] = '-- ';
     $zeilen[] = 'Gesendet ueber das Kontaktformular der Homepage';
@@ -188,19 +294,67 @@ function nachricht_bauen(array $eingaben, array $k): array {
     if ($kundenmail !== '') {
         $kopfzeilen[] = 'Reply-To: ' . adresse_mit_namen($kundenmail, $kundenname);
     }
-    $kopf = implode("\r\n", array_merge($kopfzeilen, [
+    $gemeinsam = [
         'Subject: ' . kopf_kodieren($betreff),
         'Date: ' . date('r'),
         'Message-ID: <' . bin2hex(random_bytes(12)) . '@' . substr(strrchr($k['absender'], '@') ?: '@localhost', 1) . '>',
         'MIME-Version: 1.0',
-        'Content-Type: text/plain; charset=UTF-8',
-        'Content-Transfer-Encoding: 8bit',
+    ];
+
+    // Ohne Anhang bleibt alles wie zuvor: eine schlichte Textmail.
+    // Das ist der Fall, der seit dem 02.09.2026 nachweislich laeuft --
+    // er wird durch diese Erweiterung nicht angefasst.
+    if ($anhaenge === []) {
+        $kopf = implode("\r\n", array_merge($kopfzeilen, $gemeinsam, [
+            'Content-Type: text/plain; charset=UTF-8',
+            'Content-Transfer-Encoding: 8bit',
+        ]));
+        return [$kopf, $koerper];
+    }
+
+    // Mit Anhang wird daraus eine mehrteilige Nachricht: erst der Text,
+    // dann je Datei ein Abschnitt. Die Trennzeichenfolge darf im Inhalt
+    // nicht vorkommen -- deshalb Zufall, nicht etwas Ausgedachtes.
+    $grenze = 'ep-' . bin2hex(random_bytes(16));
+
+    $teile = [];
+    $teile[] = '--' . $grenze;
+    $teile[] = 'Content-Type: text/plain; charset=UTF-8';
+    $teile[] = 'Content-Transfer-Encoding: 8bit';
+    $teile[] = '';
+    $teile[] = $koerper;
+
+    foreach ($anhaenge as $a) {
+        $teile[] = '--' . $grenze;
+        $teile[] = 'Content-Type: ' . $a['typ'] . '; name="' . $a['name'] . '"';
+        $teile[] = 'Content-Disposition: attachment; filename="' . $a['name'] . '"';
+        $teile[] = 'Content-Transfer-Encoding: base64';
+        $teile[] = '';
+        // Auf 76 Zeichen umbrechen: laengere Zeilen sind laut Norm
+        // unzulaessig, und manche Server schneiden sie hart ab.
+        $teile[] = rtrim(chunk_split(base64_encode($a['inhalt']), 76, "\r\n"));
+    }
+    $teile[] = '--' . $grenze . '--';
+
+    $kopf = implode("\r\n", array_merge($kopfzeilen, $gemeinsam, [
+        'Content-Type: multipart/mixed; boundary="' . $grenze . '"',
     ]));
 
-    return [$kopf, $koerper];
+    return [$kopf, implode("\r\n", $teile)];
 }
 
 /* ---------- Ablauf ---------- */
+
+/** Fehlerziel um einen Grund ergaenzen, damit die Seite eine passende
+ *  Meldung zeigen kann statt der allgemeinen. Der Anker muss hinten
+ *  bleiben, sonst springt die Seite nicht mehr zum Formular. */
+function ziel_mit_grund(string $ziel, string $grund): string {
+    if ($grund === '') return $ziel;
+    [$pfad, $anker] = array_pad(explode('#', $ziel, 2), 2, null);
+    $trenner = str_contains((string) $pfad, '?') ? '&' : '?';
+    return $pfad . $trenner . 'grund=' . rawurlencode($grund) . ($anker === null ? '' : '#' . $anker);
+}
+
 
 function pruefen(array $post): array {
     $fehler = [];
@@ -243,6 +397,27 @@ if (PHP_SAPI !== 'cli' || !empty($_SERVER['KONTAKT_ECHT'])) {
         exit;
     }
 
+    // Ueberschreitet die Absendung post_max_size, verwirft PHP sie
+    // vollstaendig: $_POST und $_FILES sind dann leer, obwohl Daten
+    // geschickt wurden. Ohne diese Abfrage sieht das Skript nur
+    // fehlende Pflichtfelder und meldet etwas Falsches -- der Besucher
+    // sucht den Fehler dann bei sich im Namensfeld.
+    if ($_POST === [] && $_FILES === [] && (int) ($_SERVER['CONTENT_LENGTH'] ?? 0) > 0) {
+        // Die Grenzen des Servers gleich mitschreiben. Sonst steht im
+        // Protokoll nur "war zu gross", und es bleibt offen, ob unsere
+        // eigene Grenze gegriffen hat oder eine engere des Webhosters.
+        error_log(sprintf(
+            'Kontaktformular: Absendung groesser als post_max_size. Gesendet %s Bytes, '
+            . 'post_max_size=%s, upload_max_filesize=%s, eigene Grenze=%d Bytes.',
+            $_SERVER['CONTENT_LENGTH'] ?? '?',
+            ini_get('post_max_size') ?: '?',
+            ini_get('upload_max_filesize') ?: '?',
+            ANHANG_MAX_GESAMT
+        ));
+        header('Location: ' . ziel_mit_grund($k['ziel_fehler'], 'gross'), true, 303);
+        exit;
+    }
+
     [$eingaben, $fehler] = pruefen($_POST);
 
     if ($fehler !== []) {
@@ -250,8 +425,15 @@ if (PHP_SAPI !== 'cli' || !empty($_SERVER['KONTAKT_ECHT'])) {
         exit;
     }
 
+    [$anhaenge, $anhangFehler] = anhaenge_einsammeln($_FILES);
+    if ($anhangFehler !== '') {
+        error_log('Kontaktformular: Anhang abgewiesen (' . $anhangFehler . ').');
+        header('Location: ' . ziel_mit_grund($k['ziel_fehler'], $anhangFehler), true, 303);
+        exit;
+    }
+
     try {
-        [$kopf, $koerper] = nachricht_bauen($eingaben, $k);
+        [$kopf, $koerper] = nachricht_bauen($eingaben, $k, $anhaenge);
         (new Smtp($k))->senden($k['absender'], $k['empfaenger'], $kopf, $koerper);
         header('Location: ' . $k['ziel_erfolg'], true, 303);
     } catch (Throwable $e) {

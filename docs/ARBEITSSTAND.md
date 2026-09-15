@@ -1473,6 +1473,115 @@ Ordnername `public_html`** -- siehe die Falle mit den zwei gleichnamigen
 Ordnern --, F5, Groessen vergleichen, ZIP loeschen, *Vorschau ohne Cache*,
 dann *Cache leeren*.
 
+### Telefonnummer geaendert und Datei-Upload eingebaut (15.09.2026)
+
+**Zwei Auftraege von Irfan:** neue Telefonnummer, und Fotos bzw. Videos
+sollen sich ans Kontaktformular anhaengen lassen.
+
+#### Telefonnummer
+
+    alt   0221 2989 4083   /   +4922129894083
+    neu   0157 7544 0510   /   +4915775440510
+
+**71 Vorkommen ersetzt**, gezaehlt und nachgeprueft: 40-mal die sichtbare
+Schreibweise, 31-mal die `tel:`-Form. Verteilung: `index.html` 4 + 4 (die
+zusaetzliche `tel:`-Form sind die strukturierten Daten, `"telephone"`),
+jede Leistungsseite 4 + 3. Danach: **kein Treffer der alten Nummer mehr**
+im ganzen ausgelieferten Stand.
+
+**Die Pruefsummen-Gegenprobe aus Abschnitt 8 liefert hier zehn
+verschiedene Werte -- das ist richtig, kein Befund.** Sie vergleicht
+Diff-Bloecke; um die Nummer herum steht auf jeder Seite die eigene
+Meta-Beschreibung, also unterscheiden sich die Bloecke zwangslaeufig. Der
+Griff taugt nur fuer gemeinsame Bloecke wie Kopf und Fusszeile. Gezaehlt
+wurde stattdessen pro Datei.
+
+#### Datei-Upload am Kontaktformular
+
+Neues Feld *Fotos oder Video (freiwillig)* mit Mehrfachauswahl, dazu ein
+Hinweistext, der den Nutzen erklaert. Das Formular traegt jetzt
+`enctype="multipart/form-data"`.
+
+**Grenzen, gerechnet statt geraten:**
+
+    hoechstens 5 Dateien
+    je Datei   10 MB
+    zusammen   15 MB
+
+Google Workspace nimmt Nachrichten bis 25 MB an, und Base64 blaeht jeden
+Anhang auf. **Gemessen:** 15 MB Rohdaten ergeben eine Nachricht von
+20,53 MB, Aufschlag 36,9 %. Reserve zur Grenze: 4,47 MB.
+
+**Angenommen werden** JPG, PNG, WebP, HEIC/HEIF, PDF sowie MP4 und MOV.
+**Geprueft wird der Inhalt, nicht die Endung** -- eine HTML-Datei, die in
+`.jpg` umbenannt wurde, wird abgewiesen (nachgestellt und bestaetigt).
+
+**Zu Videos, ehrlich:** Kurze Handyvideos passen, lange nicht. Deshalb
+bekommt jede Abweisung einen eigenen Grund und eine eigene Meldung. Eine
+stumme Fehlermeldung waere schlimmer als gar kein Upload gewesen: Wer ein
+zu grosses Video schickt, haette nur "konnte nicht gesendet werden"
+gesehen, es erneut versucht und die Anfrage schliesslich aufgegeben.
+
+    grund=gross    zu gross, mit Hinweis auf den Mailweg
+    grund=anzahl   mehr als fuenf Dateien
+    grund=typ      Format wird nicht angenommen
+    grund=datei    Datei nicht lesbar
+    (ohne grund)   wie bisher, z. B. fehlendes Pflichtfeld
+
+**Ohne Anhang bleibt die Mail unveraendert eine schlichte Textmail.** Der
+seit dem 02.09.2026 laufende Weg wird nicht angefasst; die mehrteilige
+Nachricht entsteht nur, wenn wirklich Dateien dabei sind.
+
+#### Wie geprueft wurde
+
+PHP 8.4 liegt im Container -- der Ablauf liess sich also **echt testen**,
+nicht nur lesen. Aufgebaut: ein Python-Auffangserver auf Port 2525, der
+SMTP spricht und die Nachricht wegschreibt, dazu `php -S` und eine
+Testkonfiguration (danach geloescht, sie steht ohnehin in `.gitignore`).
+
+| Pruefung | Ergebnis |
+|---|---|
+| Zwei Fotos abgeschickt | HTTP 303 auf `?gesendet=1`, Mail kam an |
+| Anhaenge nach dem ganzen Weg | **bytegleich** (sha256 gegen die Quelldateien) |
+| Umlaut im Dateinamen | `Küche Verteilung.jpg` → `Kueche-Verteilung.jpg` |
+| Textdatei als Anhang | abgewiesen, `grund=typ` |
+| HTML mit `.jpg`-Endung | abgewiesen, `grund=typ` |
+| 11 MB | abgewiesen, `grund=gross` |
+| sechs Dateien | abgewiesen, `grund=anzahl` |
+| ohne Anhang | `?gesendet=1`, unveraendert |
+| ohne Nachnamen | `?fehler=1` ohne Grund, wie bisher |
+| Normtreue | keine Zeile ueber 998, keine Base64-Zeile ueber 76 |
+| Browser, 3 Breiten | Feld passt ins Fenster, alle fuenf Meldungen richtig |
+| Standardpruefung | **60 Laeufe, null Befunde** |
+
+**Messfalle, dreimal aufgetreten und jedes Mal mein Test, nicht der
+Code:** ein `$`-Anker, der am `\r` scheiterte; eine erwartete Anzahl
+Grenzvorkommen, die fuer zwei statt drei Anhaenge galt; ein Trennmuster,
+das nach der Schlussgrenze einen Umbruch verlangte, den es dort nicht
+gibt. Erst den Test pruefen, dann das Ergebnis.
+
+#### Was NICHT geprueft ist -- und wie man es erfaehrt
+
+**Die PHP-Grenzen des Webhosters sind unbekannt.** `post_max_size` und
+`upload_max_filesize` stehen bei Hostinger ueblicherweise niedriger als
+unsere 15 MB. Ist das so, weist **PHP** die Absendung ab, bevor unser
+Code sie sieht -- `$_POST` und `$_FILES` sind dann leer.
+
+**Dieser Fall ist abgefangen:** `kontakt.php` erkennt ihn an
+`CONTENT_LENGTH` bei leerem `$_POST` und leitet auf `grund=gross`. Der
+Besucher bekommt also die richtige Meldung, auch wenn die Grenze eine
+andere ist als angekuendigt.
+
+**Und er ist diagnostizierbar:** Das Fehlerprotokoll schreibt in diesem
+Fall `post_max_size`, `upload_max_filesize`, die gesendete Groesse und
+unsere eigene Grenze in eine Zeile.
+
+**Offen bleibt damit die Zahl im Hinweistext.** Dort stehen 15 MB. Liegt
+der Server darunter, verspricht die Seite mehr, als sie halten kann.
+**Zu tun nach dem Hochladen: eine Testanfrage mit einem Foto von rund
+8 MB.** Kommt sie an, passt die Zahl. Kommt "zu gross", steht die
+wirkliche Grenze im Fehlerprotokoll und der Text wird angepasst.
+
 ### Mini-Paket statt Vollpaket (12.09.2026)
 
 **Gemessen:** Zwischen dem Live-Stand `dc9a801` und dem Arbeitsbranch

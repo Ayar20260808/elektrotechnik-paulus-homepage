@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Elektriker Köln | Elektrotechnik Paulus – Elektroinstallation, Wallbox &amp; Photovoltaik</title>
-<meta name="description" content="Ihr Elektrobetrieb in Köln: Elektroinstallation, Wallbox, Photovoltaik, Smart Home und Netzwerktechnik. Mitglied der Elektroinnung Köln. Jetzt kostenlos beraten lassen: 0221 2989 4083.">
+<meta name="description" content="Ihr Elektrobetrieb in Köln: Elektroinstallation, Wallbox, Photovoltaik, Smart Home und Netzwerktechnik. Mitglied der Elektroinnung Köln. Jetzt kostenlos beraten lassen: 0157 7544 0510.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://www.elektrotechnik-paulus.de/">
 <link rel="icon" href="favicon.ico" sizes="any">
@@ -25,7 +25,7 @@
   "foundingDate":"2018",
   "image":"https://www.elektrotechnik-paulus.de/png/logo-quer-farbe-2000.png",
   "url":"https://www.elektrotechnik-paulus.de/",
-  "telephone":"+4922129894083",
+  "telephone":"+4915775440510",
   "email":"info@elektrotechnik-paulus.de",
   "address":{
     "@type":"PostalAddress",
@@ -834,6 +834,16 @@
   .field input:focus, .field select:focus, .field textarea:focus{outline:none;border-color:var(--tech-blue);}
   .field.full{grid-column:1/-1;}
   form .form-note{font-size:12.5px;color:var(--grey-600);}
+  /* Dateifeld. Rahmen und Abstaende erbt es von .field input; hier nur
+     der native Knopf, den jeder Browser anders setzt, und der
+     Erklaertext darunter. */
+  .field input[type=file]{padding:10px 12px;font-size:13.5px;cursor:pointer;}
+  .field input[type=file]::file-selector-button{font-family:var(--font-heading);font-size:12px;
+    text-transform:uppercase;letter-spacing:.05em;background:var(--ink);color:var(--grey-0);
+    border:none;padding:8px 14px;margin-right:12px;cursor:pointer;}
+  .field input[type=file]:hover::file-selector-button{background:var(--tech-blue);}
+  .feld-zusatz{text-transform:none;letter-spacing:0;color:var(--grey-600);}
+  .feld-hinweis{font-size:12.5px;line-height:1.5;color:var(--grey-600);margin:2px 0 0;}
   .form-success{background:var(--green-tint);border-left:4px solid var(--green);padding:24px 26px;display:none;flex-direction:column;gap:10px;}
   .form-success.show{display:flex;}
   form.hidden{display:none;}
@@ -1382,14 +1392,14 @@
         <p data-reveal>Ob Neubau, Sanierung oder einzelne Komponente — schreiben Sie uns oder rufen Sie an. Wir melden uns schnellstmöglich zurück.</p>
       </div>
       <div class="kontakt-daten">
-        <div class="kontakt-block" data-reveal><div class="label">Telefon</div><a href="tel:+4922129894083">0221 2989 4083</a></div>
+        <div class="kontakt-block" data-reveal><div class="label">Telefon</div><a href="tel:+4915775440510">0157 7544 0510</a></div>
         <div class="kontakt-block" data-reveal><div class="label">E-Mail</div><a href="mailto:info@elektrotechnik-paulus.de">info@elektrotechnik-paulus.de</a></div>
         <div class="kontakt-block" data-reveal><div class="label">Standort</div><span>Köln Nippes</span></div>
       </div>
     </div>
 
     <div data-reveal>
-      <form id="kontaktform" action="kontakt.php" method="POST">
+      <form id="kontaktform" action="kontakt.php" method="POST" enctype="multipart/form-data">
         <!-- Honigtopf gegen Maschinen: unsichtbar und aus der Tastaturfolge
              genommen. Ein Mensch fuellt das nie aus, viele Spam-Programme
              fuellen jedes Feld. Ist es ausgefuellt, weist kontakt.php ab. -->
@@ -1427,6 +1437,15 @@
           </select>
         </div>
         <div class="field full"><label for="nachricht">Nachricht</label><textarea id="nachricht" name="Nachricht" rows="4"></textarea></div>
+        <div class="field full">
+          <label for="anhang">Fotos oder Video <span class="feld-zusatz">(freiwillig)</span></label>
+          <input id="anhang" name="Anhang[]" type="file" multiple
+                 accept="image/jpeg,image/png,image/webp,image/heic,image/heif,application/pdf,video/mp4,video/quicktime">
+          <p class="feld-hinweis">Ein Bild sagt oft mehr als eine lange Beschreibung: Verteilung,
+            Zählerschrank oder einfach die Stelle, um die es geht. So können wir Ihr Anliegen
+            gleich richtig einschätzen. Bis zu 5 Dateien, zusammen höchstens 15 MB —
+            kurze Handyvideos passen meist, längere schicken Sie uns am besten per E-Mail.</p>
+        </div>
         <button class="btn btn-primary" type="submit">Angebot anfragen</button>
         <p class="form-note">* Pflichtfeld.</p>
         <div class="form-error" id="formError">
@@ -1491,7 +1510,7 @@
       <p>Elektrotechnik Paulus GmbH<br>Wartburgstr. 12<br>50733 Köln</p>
 
       <h3 style="color:var(--yellow-text);margin-top:30px;margin-bottom:15px;">Kontakt</h3>
-      <p>Telefon: <a href="tel:+4922129894083">0221 2989 4083</a><br>E-Mail: <a href="mailto:info@elektrotechnik-paulus.de">info@elektrotechnik-paulus.de</a></p>
+      <p>Telefon: <a href="tel:+4915775440510">0157 7544 0510</a><br>E-Mail: <a href="mailto:info@elektrotechnik-paulus.de">info@elektrotechnik-paulus.de</a></p>
 
       <h3 style="color:var(--yellow-text);margin-top:30px;margin-bottom:15px;">Vertreten durch</h3>
       <p>Irfan Ayar</p>
@@ -1578,7 +1597,7 @@
       </a>
       <address>
         <strong>Elektrotechnik Paulus GmbH</strong>
-        Wartburgstr. 12 · 50733 Köln · <a href="tel:+4922129894083">0221 2989 4083</a> · <a href="mailto:info@elektrotechnik-paulus.de">info@elektrotechnik-paulus.de</a>
+        Wartburgstr. 12 · 50733 Köln · <a href="tel:+4915775440510">0157 7544 0510</a> · <a href="mailto:info@elektrotechnik-paulus.de">info@elektrotechnik-paulus.de</a>
       </address>
     </div>
     <nav class="footer-links footer-nav">
@@ -1980,6 +1999,29 @@
   } else if (parameter.get('fehler') === '1') {
     // kontakt.php konnte nicht verschicken oder hat die Eingabe abgewiesen.
     // Das Formular bleibt stehen, damit nichts noch einmal getippt werden muss.
+    //
+    // Bei abgewiesenen Dateien haengt kontakt.php einen Grund an. Ohne
+    // diese Unterscheidung bekaeme jemand mit einem zu grossen Video nur
+    // "konnte nicht gesendet werden", wuerde es erneut versuchen und
+    // schliesslich aufgeben -- die Anfrage waere verloren, ohne dass
+    // jemand davon erfaehrt.
+    var gruende = {
+      gross:  'Die Dateien sind zusammen zu groß. Möglich sind bis zu 5 Dateien mit zusammen 15 MB. '
+            + 'Bitte kleinere Dateien wählen — ein längeres Video schicken Sie uns am besten direkt per E-Mail.',
+      anzahl: 'Bitte höchstens 5 Dateien auswählen.',
+      typ:    'Dieses Dateiformat können wir nicht annehmen. Möglich sind Fotos (JPG, PNG, HEIC, WebP), '
+            + 'PDF sowie Videos als MP4 oder MOV.',
+      datei:  'Eine der Dateien konnte nicht gelesen werden. Bitte wählen Sie sie erneut aus.'
+    };
+    var grund = gruende[parameter.get('grund')];
+    if (grund) {
+      var absatz = errorBox.querySelector('p');
+      absatz.textContent = grund + ' ';
+      var link = document.createElement('a');
+      link.href = 'mailto:info@elektrotechnik-paulus.de';
+      link.textContent = 'info@elektrotechnik-paulus.de';
+      absatz.appendChild(link);
+    }
     errorBox.classList.add('show');
     adresseSaeubern();
   }
