@@ -1502,33 +1502,41 @@ Neues Feld *Fotos oder Video (freiwillig)* mit Mehrfachauswahl, dazu ein
 Hinweistext, der den Nutzen erklaert. Das Formular traegt jetzt
 `enctype="multipart/form-data"`.
 
-**Grenzen (Stand 15.09.2026, nachmittags gesenkt -- siehe den Abschnitt
-„Fotos werden im Browser verkleinert" weiter unten):**
+**Grenzen: nicht festgeschrieben, sondern beim Server erfragt**
+(Stand 15.09.2026 abends -- die Zahlen haben sich an diesem Tag zweimal
+geaendert, die Geschichte steht weiter unten).
 
     hoechstens 5 Dateien
-    je Datei    2 MB
-    zusammen    6 MB
+    je Datei    upload_max_filesize des Servers, hoechstens 16 MiB
+    zusammen    post_max_size minus 512 KB, hoechstens 16 MiB
 
-Das sind genau PHPs Werkseinstellungen (`upload_max_filesize` 2 MB,
-`post_max_size` 8 MB). Was der Webhoster wirklich erlaubt, ist unbekannt;
-darunter passt es auf **jedem** Server. **Gemessen:** 6 MB Rohdaten
-ergeben eine Nachricht von 8,22 MB, Aufschlag 36,9 %. Reserve zu Googles
-25-MB-Grenze: 16,78 MB.
+`kontakt.php` liest die eigenen PHP-Einstellungen und rechnet daraus aus,
+was wirklich durchgeht. `index.html` holt diese Zahlen beim Laden von
+`kontakt.php?grenzen=1` und schreibt sie in den Hinweistext. Bleibt die
+Antwort aus -- Vorschau ohne PHP, kein `fetch` --, gelten 2 MB je Datei
+und 6 MB zusammen, also PHPs Werkseinstellungen.
 
-Vormittags standen hier 10 MB je Datei und 15 MB zusammen. Diese Zahlen
-waren gerechnet, aber ungedeckt: Sie setzten voraus, dass der Server so
-viel durchlaesst. Das war nie gemessen.
+**Warum 16 MiB und nicht 18, gemessen:**
+
+    16 MiB Rohdaten -> Nachricht 21,90 MiB = 23,0 Millionen Bytes   passt
+    18 MiB Rohdaten -> Nachricht 24,64 MiB = 25,8 Millionen Bytes   riskant
+
+Googles Grenze heisst „25 MB". Ob damit 25 MiB (26.214.400 Bytes) oder
+25 Millionen Bytes gemeint sind, ist von hier aus **nicht pruefbar**.
+Deshalb die strengere Lesart: 16 MiB halten beide aus. Eine von Google
+abgewiesene Mail waere eine verlorene Anfrage ohne jede Meldung.
 
 **Angenommen werden** JPG, PNG, WebP, HEIC/HEIF, PDF sowie MP4 und MOV.
 **Geprueft wird der Inhalt, nicht die Endung** -- eine HTML-Datei, die in
 `.jpg` umbenannt wurde, wird abgewiesen (nachgestellt und bestaetigt).
 
-**Zu Videos, ehrlich:** Bei 2 MB je Datei passt **so gut wie kein
-Video**. Ein Handyvideo in 1080p braucht rund 1,3 MB je Sekunde -- zwei
-Sekunden, dann ist Schluss. Fotos dagegen passen immer, weil der Browser
-sie verkleinert. Der Hinweistext auf der Seite sagt genau das und nennt
-fuer laengere Videos die Mailadresse. Deshalb bekommt jede Abweisung
-einen eigenen Grund und eine eigene Meldung. Eine
+**Zu Videos, ehrlich:** Ein Handyvideo in 1080p braucht rund 1,3 MB je
+Sekunde. Bei 2 MB je Datei passen davon zwei Sekunden, bei 16 MiB rund
+zwoelf. Was wirklich geht, haengt also allein daran, was der Server
+durchlaesst -- und genau das steht jetzt im Hinweistext, statt geraten zu
+werden. Fotos passen ohnehin immer, weil der Browser sie verkleinert.
+Deshalb bekommt jede Abweisung einen eigenen Grund und eine eigene
+Meldung. Eine
 stumme Fehlermeldung waere schlimmer als gar kein Upload gewesen: Wer ein
 zu grosses Video schickt, haette nur "konnte nicht gesendet werden"
 gesehen, es erneut versucht und die Anfrage schliesslich aufgegeben.
@@ -1654,35 +1662,105 @@ das Muster steht, und beendet damit den eigenen Testlauf. Mit einer
 einmal gestarteten Senke und je einer Kopfdatei pro Fall waren alle neun
 Faelle richtig. **Erst den Test pruefen, dann das Ergebnis.**
 
-#### Falls die Grenze spaeter doch angehoben werden soll
+#### Kamera-Knoepfe am Handy (15.09.2026, abends)
 
-Nur noetig, wenn Videos hochladbar sein sollen. Fotos brauchen es nicht.
+**Auftrag von Irfan:** „in der handyversion ein butto zur kamera womit man
+fotos und vodeos aufnehmen und hochladen kann waere super".
 
-**Werkzeug: `docs/werkzeuge/php-grenzen.php`** (angelegt 15.09.2026).
-Nach `public_html` hochladen, im Browser aufrufen, Zahlen ablesen,
-**wieder loeschen**. Es zeigt `upload_max_filesize`, `post_max_size`,
-`max_file_uploads`, vergleicht sie mit den Grenzen des Formulars und
-nennt den wirklich moeglichen Wert. Kein `phpinfo`.
+Zwei Knoepfe ueber dem Dateifeld: **Foto aufnehmen** und **Video
+aufnehmen**. Dahinter steht je ein eigenes, verstecktes Dateifeld mit
+`capture="environment"` -- das oeffnet auf dem Handy direkt die
+Rueckkamera, statt in der Galerie suchen zu lassen.
 
-Die Datei liegt bewusst in `docs/werkzeuge/` und **nicht** im
-Projektstamm: `paket.py` nimmt `docs/` nicht auf, sie kann also nicht
-versehentlich mit einem Paket auf den Server wandern und dort
-liegenbleiben.
+**Drei Entscheidungen, die nicht offensichtlich sind:**
 
-**Warum ein Werkzeug und keine Wegbeschreibung:** Die
-PHP-Einstellungsseite im hPanel hat keine Sitzung je gesehen. Eine
-erfundene Klickfolge waere genau der Fehler, der in diesem Projekt schon
-vier falsche Wegbeschreibungen erzeugt hat.
+1. **Die Aufnahmefelder tragen kein `name`-Attribut.** Sonst wuerden sie
+   selbst mitgeschickt und die Aufnahme kaeme doppelt an.
+2. **Eine Aufnahme ersetzt die Auswahl nicht, sie kommt dazu.** Wer zwei
+   Fotos macht, hat danach zwei -- nicht das zweite allein. Umgesetzt
+   ueber `DataTransfer`, wie beim Verkleinern.
+3. **Umbenannt auf `aufnahme-1`, `aufnahme-2`, …** Die Kamera liefert je
+   nach Geraet `image.jpg` oder `IMG_0001.HEIC`; drei Anhaenge namens
+   `image.jpg` sind im Postfach nicht auseinanderzuhalten.
 
-**Drei Stellen muessen dann zusammenpassen** -- eine allein zu aendern
-bringt nichts:
+**Sichtbar nur bei Fingerbedienung** (`(pointer: coarse)`). Am Rechner
+oeffnet `capture` keine Kamera, dort waere der Knopf eine leere Zusage.
 
-    kontakt.php   ANHANG_MAX_EINZEL und ANHANG_MAX_GESAMT
-    index.html    MAX_EINZEL und MAX_GESAMT im Verkleinerungsskript
-    index.html    Hinweistext am Feld und die Meldung "gross"
+**Dabei gefunden und behoben -- genau der Fehler, vor dem CLAUDE.md
+warnt:** `.kamera-reihe{display:flex}` schlaegt das `display:none`, das
+der Browser dem `hidden`-Attribut mitgibt. Die Knoepfe standen damit
+**auch am Rechner** da. Im ersten Zustand (Handy) sah alles richtig aus;
+erst die Messung im zweiten Zustand hat es gezeigt. Behoben mit
+`.kamera-reihe[hidden]{display:none}`.
 
-Obergrenze ist Googles Nachrichtengrenze von 25 MB: bei 36,9 % Aufschlag
-also rund 18 MB Rohdaten -- und nur, wenn der Server so viel durchlaesst.
+#### Warum die Grenze jetzt vom Server kommt
+
+Die Kamera hat das alte Problem zurueckgebracht: Ein aufgenommenes Video
+ist schnell groesser als 2 MB. Mit einer festen Zahl in der Seite gaebe
+es nur zwei Moeglichkeiten, und beide waren hier schon:
+
+    zu klein  ->  die Seite weist ab, was durchginge
+    zu gross  ->  die Seite verspricht mehr, als sie halten kann
+
+**PHP kennt seine Einstellungen selbst.** `kontakt.php` liest sie
+(`upload_max_filesize`, `post_max_size`, `max_file_uploads`), rechnet
+daraus die wirkliche Grenze und gibt sie unter `?grenzen=1` als JSON
+heraus. Die Seite holt sie beim Laden.
+
+**Damit ist die Frage „was erlaubt Hostinger" endgueltig erledigt** --
+sie beantwortet sich bei jedem Seitenaufruf von selbst. Wer sie von Hand
+sehen will, ruft im Browser auf:
+
+```
+https://www.elektrotechnik-paulus.de/kontakt.php?grenzen=1
+```
+
+Antwort zum Beispiel: `{"einzel":2097152,"gesamt":7864320,"anzahl":5}`.
+Kein Werkzeug hochladen, nichts wieder loeschen.
+
+**`docs/werkzeuge/php-grenzen.php` bleibt trotzdem liegen.** Es zeigt
+mehr als die drei Zahlen (`memory_limit`, `max_execution_time`) und kann
+nuetzlich sein, wenn einmal etwas anderes klemmt. Gebraucht wird es fuer
+die Upload-Grenze nicht mehr.
+
+**Gemessen ueber zwoelf Servereinstellungen** -- in allen richtig:
+
+| upload_max_filesize | post_max_size | je Datei | zusammen |
+|---|---|---|---|
+| 2M | 8M | 2,00 MiB | 7,50 MiB |
+| 2M | 64M | 2,00 MiB | 16,00 MiB |
+| 8M | 8M | 7,50 MiB | 7,50 MiB |
+| 64M | 128M | 16,00 MiB | 16,00 MiB |
+| 0 (ohne Grenze) | 8M | 7,50 MiB | 7,50 MiB |
+
+Die 512 KB Abzug bei `gesamt` sind Platz fuer Textfelder, Kopfzeilen und
+Trennzeilen: `post_max_size` deckt die ganze Absendung ab, nicht nur die
+Dateien.
+
+#### Wie das geprueft wurde (abends)
+
+| Pruefung | Umfang | Ergebnis |
+|---|---|---|
+| Kamera-Knoepfe | 17 Einzelpruefungen | alle bestanden |
+| Ende zu Ende ueber `kontakt.php` | 11 Laeufe, zwei Servereinstellungen | alle richtig |
+| Rueckfaelle (HEIC, defektes JPEG, gemischt) | 9 Pruefungen | alle bestanden |
+| Ohne JavaScript | 4 Pruefungen | Server faengt alles ab |
+| Standardpruefung | 60 Laeufe ueber 10 Seiten | keine Befunde |
+
+**Ohne JavaScript, gemessen und wichtig zu wissen:** Der Server weist
+richtig ab und leitet richtig weiter -- aber **auf der Zielseite ist
+weder die Erfolgs- noch die Fehlermeldung sichtbar**, beide Kaesten haengen
+an JavaScript (`display:none`, eingeblendet per Klasse). Das ist seit dem
+02.09.2026 so und wurde heute nicht verursacht. **Offen, nicht behoben** --
+es war nicht Teil des Auftrags.
+
+**Messfallen an diesem Abend, alle im eigenen Testskript:** Ein
+`php -S`, das schon lief, blockierte den Port; der neu gestartete
+scheiterte still am Binden, und der alte antwortete mit den alten
+Einstellungen weiter. Zweimal fuehrte das zu einem Geisterbefund.
+Behoben, indem das Skript wartet, bis der Port wirklich frei ist.
+Dazu: Playwright laesst Pfade und Puffer nicht mischen. **Erst den Test
+pruefen, dann das Ergebnis.**
 
 #### Was noch nicht auf dem Server liegt (Stand 15.09.2026)
 
@@ -1699,8 +1777,8 @@ die Telefonnummer und das Kontaktformular. Alles andere ist unveraendert.
 
 **Deshalb wieder ein Teilpaket statt eines Vollpakets:**
 
-    seite-teil-15-09-c287cfd.zip    212,1 KiB    11 Dateien
-    darin unkomprimiert            739,0 KiB
+    seite-teil-15-09-4f62d82.zip    215,4 KiB    11 Dateien
+    darin unkomprimiert            749,3 KiB
 
 Ein Vollpaket waere 3,6 MiB und wuerde 238 bereits richtige Dateien neu
 schreiben. Bei einem haengenden Dateimanager ist das der Unterschied
