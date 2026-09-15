@@ -1884,6 +1884,20 @@ geschrieben und Irfan zum Kopieren gegeben worden -- **bevor** die
 Statusseite bekannt war. Ein Ticket fuer eine gemeldete Stoerung mit
 laufendem Fix bringt nichts. **Neuer naechster Schritt: warten.**
 
+**Aus dem Agentenchat mitgenommen (15.09.2026, 16:54 Ortszeit).** Irfan
+hatte die Klarstellung abgeschickt, bevor die Statusseite bekannt war.
+Umsonst war es nicht -- zwei brauchbare Ergebnisse:
+
+1. Der Agent sagt ausdruecklich zu: *„Ich werde weder eine neue Website
+   anlegen noch etwas importieren."* Die Schutzanweisung ist angekommen.
+2. **Der Weg zum FTP-Zugang, fuer spaeter:** *Websites →
+   elektrotechnik-paulus.de → FTP*, Zielverzeichnis
+   `domains/elektrotechnik-paulus.de/public_html`. Einrichten geht
+   derzeit nicht -- *„administrative Aenderungen sind momentan
+   voruebergehend nicht verfuegbar"*. **Ungeprueft**, weil das Panel
+   nicht erreichbar ist; als Wegbeschreibung fuer danach notiert, nicht
+   als gemessener Befund.
+
 **Nach 16:00 UTC (18:00 deutscher Zeit)** noch einmal ins hPanel sehen.
 Dann sind Registry-Wartung und, der Meldungslage nach, auch der
 hPanel-Fix durch. Erscheint die Website wieder unter *Websites*, geht
