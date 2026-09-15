@@ -1578,9 +1578,32 @@ unsere eigene Grenze in eine Zeile.
 
 **Offen bleibt damit die Zahl im Hinweistext.** Dort stehen 15 MB. Liegt
 der Server darunter, verspricht die Seite mehr, als sie halten kann.
-**Zu tun nach dem Hochladen: eine Testanfrage mit einem Foto von rund
-8 MB.** Kommt sie an, passt die Zahl. Kommt "zu gross", steht die
-wirkliche Grenze im Fehlerprotokoll und der Text wird angepasst.
+
+**Werkzeug dafuer: `docs/werkzeuge/php-grenzen.php`** (angelegt
+15.09.2026). Nach `public_html` hochladen, im Browser aufrufen, Zahlen
+ablesen, **wieder loeschen**. Es zeigt `upload_max_filesize`,
+`post_max_size`, `max_file_uploads`, vergleicht sie mit den Grenzen des
+Formulars und nennt den wirklich moeglichen Wert.
+
+**Warum ein Werkzeug und keine Wegbeschreibung:** Die
+PHP-Einstellungsseite im hPanel hat diese Sitzung nie gesehen. Eine
+erfundene Klickfolge waere genau der Fehler, der in diesem Projekt schon
+vier falsche Wegbeschreibungen erzeugt hat. Gemessen wird stattdessen
+direkt am Server.
+
+Die Datei liegt bewusst in `docs/werkzeuge/` und **nicht** im
+Projektstamm: `paket.py` nimmt `docs/` nicht auf, sie kann also nicht
+versehentlich mit einem Paket auf den Server wandern und dort
+liegenbleiben. Sie zeigt nur diese wenigen Werte, kein `phpinfo`.
+
+**Hinweis aus dem Probelauf:** In diesem Container steht PHP auf 2 MB je
+Datei und 8 MB je Absendung -- das sind PHPs Werkseinstellungen. Wenn
+Hostinger nichts angehoben hat, liegt es dort aehnlich. **Dann ist die
+Zahl 15 MB im Hinweistext zu hoch und muss angepasst werden.**
+
+**Zweiter Weg, falls das Werkzeug zu umstaendlich ist:** eine
+Testanfrage mit einem Foto von rund 8 MB. Kommt sie an, passt die Zahl.
+Kommt "zu gross", steht die wirkliche Grenze im Fehlerprotokoll.
 
 ### Mini-Paket statt Vollpaket (12.09.2026)
 
