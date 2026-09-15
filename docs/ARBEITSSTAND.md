@@ -1898,6 +1898,14 @@ Umsonst war es nicht -- zwei brauchbare Ergebnisse:
    nicht erreichbar ist; als Wegbeschreibung fuer danach notiert, nicht
    als gemessener Befund.
 
+**Auch der direkte Link scheitert.** Der Agent hat um 16:59 Ortszeit
+einen Knopf *Dateimanager* erzeugt, der die kaputte Websites-Liste
+umgehen sollte. Er funktioniert nicht. Damit ist jeder Weg zu den
+Dateien zu, solange die Stoerung laeuft -- Panel, Liste, direkter Link
+und FTP-Einrichtung gleichermassen. **Es gibt nichts mehr zu probieren.**
+
+(Geschaetzt war das eins zu drei. Es war das Drittel, das nicht klappt.)
+
 **Nach 16:00 UTC (18:00 deutscher Zeit)** noch einmal ins hPanel sehen.
 Dann sind Registry-Wartung und, der Meldungslage nach, auch der
 hPanel-Fix durch. Erscheint die Website wieder unter *Websites*, geht
