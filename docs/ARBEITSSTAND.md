@@ -1832,8 +1832,30 @@ erstellen* oder *Website importieren* klickt. Beides legt eine **neue**
 Website an und koennte die laufende ueberschreiben. **Diese beiden
 Knoepfe sind tabu, solange die Ursache nicht geklaert ist.**
 
-**Naechster Schritt:** Hostinger-Support. Der Text dazu wurde am
-15.09.2026 geschrieben und Irfan zum Kopieren gegeben.
+**Hostinger bestaetigt eine Stoerung.** Irfan hat am 15.09.2026 den
+*Hostinger Agent* im Panel gefragt. Antwort im Wortlaut:
+
+> Hostinger untersucht derzeit **intermittierende Website- und
+> File-Manager-Fehler auf einigen Hosting-Servern**; dabei koennen
+> Websites voruebergehend nicht laden oder Fehler wie 508/503 anzeigen.
+> **Du musst momentan nichts aendern** -- bitte versuche es spaeter
+> erneut und pruefe die aktuellen Informationen auf
+> statuspage.hostinger.com.
+
+**Das ist eine Aussage einer KI, kein Ticketbescheid** -- unter dem
+Eingabefeld steht ausdruecklich *„KI kann Fehler machen"*. Sie deckt sich
+aber genau mit dem, was hier gemessen wurde: Dateimanager nicht
+erreichbar, Website im Panel nicht gelistet. Als Bestaetigung
+brauchbar, als Beweis nicht.
+
+**Zu berichtigen ist die Annahme des Agenten:** Er ging davon aus, die
+Website sei nicht erreichbar. Sie ist erreichbar. Nur das Panel zeigt
+sie nicht.
+
+**Naechster Schritt:** Im Agenten die Schnell-Aktion *„Die Website wird
+auch im hPanel nicht angezeigt."* waehlen und die Klarstellung
+nachschieben. Der Text dazu wurde am 15.09.2026 geschrieben und Irfan
+zum Kopieren gegeben.
 
 **Nichts davon ist eilig.** Die Seite laeuft mit dem Stand vom 12.09.
 weiter -- mit der alten Telefonnummer und ohne Datei-Upload. Das
