@@ -28,27 +28,41 @@ const MAX_LAENGE     = 5000;
 
 // Anhaenge: Ein Foto der Verteilung sagt mehr als drei Absaetze Text.
 //
-// Die Grenzen richten sich nach den Werkseinstellungen von PHP:
-// upload_max_filesize 2 MB je Datei, post_max_size 8 MB je Absendung.
-// Was der Webhoster wirklich erlaubt, ist nicht bekannt und war ohne
-// groesseren Aufwand nicht zu erfahren. Deshalb bewusst der unguenstigste
-// Fall: Was hierunter passt, passt auf jedem Server. Erlaubt Hostinger
-// mehr, lassen sich diese beiden Zahlen jederzeit anheben -- die
-// Obergrenze ist dann Googles Nachrichtengrenze von 25 MB, bei rund
-// 37 Prozent Aufschlag durch die Kodierung also etwa 18 MB Rohdaten.
+// Die Grenze wird nicht festgeschrieben, sondern beim Server erfragt.
+// Grund: Wie viel dieser Webhoster durchlaesst, war nie zu erfahren --
+// und geraten wird in diesem Projekt nicht. PHP kennt seine eigenen
+// Einstellungen aber jederzeit: `upload_max_filesize` je Datei und
+// `post_max_size` je Absendung. Daraus rechnet grenzen() den wirklich
+// moeglichen Wert aus.
 //
-// Damit die 2 MB kein Hindernis sind, verkleinert die Seite Fotos schon
-// im Browser, bevor sie abgeschickt werden. Ein Handyfoto von 4 MB wird
-// dabei zu wenigen hundert Kilobyte, ohne dass man auf dem Bild etwas
-// vermisst. Der Server sieht also nur noch kleine Dateien.
+// Nach oben begrenzen zwei Dinge:
+//   Deckel   Googles Nachrichtengrenze von 25 MB. Base64 blaeht jeden
+//            Anhang um gemessene 36,9 Prozent auf. Gerechnet mit der
+//            strengeren Lesart -- 25 Millionen Bytes, nicht 25 MiB --,
+//            weil sich nicht pruefen laesst, welche Google meint: bei
+//            16 MiB Rohdaten wird die Nachricht 21,9 MiB = 23,0
+//            Millionen Bytes. Das haelt beide Lesarten aus, mit rund
+//            2 Millionen Bytes Reserve. Eine Nachricht, die Google
+//            abweist, waere eine verlorene Anfrage ohne jede Meldung.
+//   Rueckfall  Was die Seite verspricht, solange sie den Server noch
+//            nicht gefragt hat oder die Antwort ausbleibt (Vorschau
+//            ohne PHP, abgeschaltetes JavaScript). Es sind PHPs
+//            Werkseinstellungen -- der unguenstigste Fall, der ueberall
+//            durchgeht. Diese Zahlen stehen in index.html, nicht hier:
+//            sie sind eine Aussage der Seite, keine Regel des Servers.
 //
-// Diese Grenzen bleiben trotzdem stehen: Sie greifen, wenn jemand das
-// JavaScript abgeschaltet hat oder eine Datei schickt, die sich nicht
-// verkleinern laesst.
-const ANHANG_FELD       = 'Anhang';
-const ANHANG_MAX_ANZAHL = 5;
-const ANHANG_MAX_EINZEL = 2097152;    // 2 MB je Datei
-const ANHANG_MAX_GESAMT = 6291456;    // 6 MB zusammen
+// Fotos verkleinert die Seite ohnehin schon im Browser, bevor sie
+// abgeschickt werden; ein Handyfoto von 12 MB wird dabei zu unter
+// 1 MB. Die Grenze zaehlt deshalb vor allem fuer Videos, die sich nicht
+// verkleinern lassen.
+const ANHANG_FELD          = 'Anhang';
+const ANHANG_MAX_ANZAHL    = 5;
+const ANHANG_DECKEL_EINZEL = 16777216;   // 16 MiB, aus Googles 25-MB-Grenze
+const ANHANG_DECKEL_GESAMT = 16777216;   // 16 MiB
+// Platz fuer Textfelder, Kopfzeilen und die Trennzeilen der Absendung.
+// Ohne diesen Abzug koennte eine Absendung genau an post_max_size
+// scheitern, obwohl die Dateien allein hineinpassen.
+const ANHANG_RESERVE       = 524288;     // 512 KB
 
 // Geprueft wird der tatsaechliche Inhalt, nicht die Endung und nicht
 // das, was der Browser behauptet. Beides laesst sich faelschen.
@@ -91,6 +105,50 @@ function ist_mail(string $wert): bool {
 
 /* ---------- Anhaenge ---------- */
 
+/** Eine PHP-Groessenangabe in Bytes umrechnen. PHP schreibt sie als
+ *  "2M", "8M", "128M" oder auch nur als Zahl. 0 und -1 heissen "ohne
+ *  Grenze" -- dann gilt nur unser eigener Deckel. */
+function ini_groesse(string $wert): int {
+    $wert = trim($wert);
+    if ($wert === '') return 0;
+    $zahl = (int) $wert;
+    if ($zahl <= 0) return 0;                       // 0 und -1: ohne Grenze
+    return match (strtolower(substr($wert, -1))) {
+        'g'     => $zahl * 1024 * 1024 * 1024,
+        'm'     => $zahl * 1024 * 1024,
+        'k'     => $zahl * 1024,
+        default => $zahl,
+    };
+}
+
+/**
+ * Was dieser Server wirklich annimmt. Gerechnet, nicht angenommen.
+ *
+ * Der kleinere von zwei Werten gewinnt jeweils: unser Deckel (Googles
+ * 25-MB-Grenze) und die Einstellung des Servers. Ist beim Server nichts
+ * gesetzt, bleibt der Deckel stehen.
+ *
+ * Rueckgabe: ['einzel' => Bytes, 'gesamt' => Bytes, 'anzahl' => Stueck]
+ */
+function grenzen(): array {
+    $einzelServer = ini_groesse((string) ini_get('upload_max_filesize'));
+    $postServer   = ini_groesse((string) ini_get('post_max_size'));
+
+    // post_max_size deckt die ganze Absendung ab, nicht nur die Dateien.
+    // Deshalb der Abzug fuer Textfelder und Trennzeilen.
+    $gesamtServer = $postServer > 0 ? max(0, $postServer - ANHANG_RESERVE) : 0;
+
+    $gesamt = $gesamtServer > 0 ? min(ANHANG_DECKEL_GESAMT, $gesamtServer) : ANHANG_DECKEL_GESAMT;
+    $einzel = $einzelServer > 0 ? min(ANHANG_DECKEL_EINZEL, $einzelServer) : ANHANG_DECKEL_EINZEL;
+    // Eine einzelne Datei kann nie groesser sein als alles zusammen.
+    $einzel = min($einzel, $gesamt);
+
+    $anzahlServer = (int) ini_get('max_file_uploads');
+    $anzahl = $anzahlServer > 0 ? min(ANHANG_MAX_ANZAHL, $anzahlServer) : ANHANG_MAX_ANZAHL;
+
+    return ['einzel' => $einzel, 'gesamt' => $gesamt, 'anzahl' => $anzahl];
+}
+
 /** Dateiname auf etwas reduzieren, das in einer Kopfzeile unfallfrei
  *  steht: keine Pfade, keine Anfuehrungszeichen, keine Umlaute. Ein
  *  fremder Dateiname darf nie ungeprueft in die Mail wandern. */
@@ -110,7 +168,8 @@ function dateiname_saeubern(string $name, string $endung, int $nummer): string {
  * Hochgeladene Dateien einsammeln und pruefen.
  * Rueckgabe: [Liste der Anhaenge, Grund fuer eine Ablehnung oder '']
  */
-function anhaenge_einsammeln(array $dateien): array {
+function anhaenge_einsammeln(array $dateien, ?array $grenzen = null): array {
+    $grenzen ??= grenzen();
     if (!isset($dateien[ANHANG_FELD]['tmp_name'])) return [[], ''];
 
     $roh = $dateien[ANHANG_FELD];
@@ -132,15 +191,15 @@ function anhaenge_einsammeln(array $dateien): array {
         }
         if ($fehlercode !== UPLOAD_ERR_OK) return [[], 'datei'];
 
-        if (count($anhaenge) >= ANHANG_MAX_ANZAHL) return [[], 'anzahl'];
+        if (count($anhaenge) >= $grenzen['anzahl']) return [[], 'anzahl'];
 
         $tmp = (string) ($roh['tmp_name'][$i] ?? '');
         if ($tmp === '' || !is_uploaded_file($tmp)) return [[], 'datei'];
 
         $groesse = (int) filesize($tmp);
-        if ($groesse <= 0 || $groesse > ANHANG_MAX_EINZEL) return [[], 'gross'];
+        if ($groesse <= 0 || $groesse > $grenzen['einzel']) return [[], 'gross'];
         $gesamt += $groesse;
-        if ($gesamt > ANHANG_MAX_GESAMT) return [[], 'gross'];
+        if ($gesamt > $grenzen['gesamt']) return [[], 'gross'];
 
         $typ = $pruefer ? (string) $pruefer->file($tmp) : '';
         if (!isset(ANHANG_TYPEN[$typ])) return [[], 'typ'];
@@ -385,6 +444,24 @@ function pruefen(array $post): array {
 
 // Beim direkten Einbinden aus einem Test wird hier nichts ausgefuehrt.
 if (PHP_SAPI !== 'cli' || !empty($_SERVER['KONTAKT_ECHT'])) {
+    // Auskunft ueber die Grenzen dieses Servers. Die Seite fragt sie beim
+    // Laden ab und schreibt die richtigen Zahlen in den Hinweistext.
+    //
+    // Warum das noetig ist: index.html ist eine einfache HTML-Datei und
+    // kann nicht wissen, was PHP durchlaesst. Ohne diese Auskunft muesste
+    // dort eine geratene Zahl stehen -- entweder zu klein (dann wird
+    // abgewiesen, was durchginge) oder zu gross (dann verspricht die
+    // Seite mehr, als sie halten kann). Beides ist hier schon passiert.
+    //
+    // Es sind keine schutzwuerdigen Angaben: dass ein Formular Dateien
+    // bis zu einer bestimmten Groesse annimmt, sieht man ihm ohnehin an.
+    if (($_GET['grenzen'] ?? '') === '1') {
+        header('Content-Type: application/json; charset=UTF-8');
+        header('Cache-Control: no-store');
+        echo json_encode(grenzen(), JSON_UNESCAPED_SLASHES);
+        exit;
+    }
+
     // Die Zugangsdaten am liebsten eine Ebene ueber dem Web-Ordner:
     // was dort liegt, kann der Browser nicht abrufen. Faellt PHP auf dem
     // Server einmal aus, wuerde eine Datei im Web-Ordner sonst als
@@ -420,7 +497,7 @@ if (PHP_SAPI !== 'cli' || !empty($_SERVER['KONTAKT_ECHT'])) {
             $_SERVER['CONTENT_LENGTH'] ?? '?',
             ini_get('post_max_size') ?: '?',
             ini_get('upload_max_filesize') ?: '?',
-            ANHANG_MAX_GESAMT
+            grenzen()['gesamt']
         ));
         header('Location: ' . ziel_mit_grund($k['ziel_fehler'], 'gross'), true, 303);
         exit;
