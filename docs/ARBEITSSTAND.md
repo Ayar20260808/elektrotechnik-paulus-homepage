@@ -1852,10 +1852,43 @@ brauchbar, als Beweis nicht.
 Website sei nicht erreichbar. Sie ist erreichbar. Nur das Panel zeigt
 sie nicht.
 
-**Naechster Schritt:** Im Agenten die Schnell-Aktion *„Die Website wird
-auch im hPanel nicht angezeigt."* waehlen und die Klarstellung
-nachschieben. Der Text dazu wurde am 15.09.2026 geschrieben und Irfan
-zum Kopieren gegeben.
+**Amtlich bestaetigt auf `statuspage.hostinger.com`** (Screenshot vom
+15.09.2026). Zwei Eintraege, beide passen:
+
+**1. hPanel Accessibility Issues** -- laufende Stoerung:
+
+    12:36 UTC  Investigating  "You may not be able to reach or see
+               continuous loading on the hPanel. We have noticed an
+               increased load in our backend infrastructure and are
+               already working on a solution. Please note, that no data
+               will be lost and Your websites will not be affected."
+    13:13 UTC  Identified     "The problem has been identified and a fix
+               is being deployed."
+    13:52 UTC  Update         "We are continuing to work on implementing
+               a fix ..."
+
+**2. Realtime Register maintenance** -- geplante Wartung, 14:00 bis
+16:00 UTC (16:00 bis 18:00 deutscher Sommerzeit). *„Affected TLDs: .de.
+Domain management, registration and search services might be affected."*
+Das erklaert, warum auch der Domain-Bereich sich seltsam verhaelt.
+
+Alle *Core Services* stehen dabei auf **Operational** -- Client Portal,
+Billing, Support Portal, Hostinger Websites, Payment.
+
+**Der entscheidende Satz ist Hostingers eigener:** *„no data will be
+lost and Your websites will not be affected."* Das deckt sich mit der
+eigenen Messung und macht die Sache eindeutig.
+
+**Damit ist der Support-Text hinfaellig.** Er war am 15.09.2026
+geschrieben und Irfan zum Kopieren gegeben worden -- **bevor** die
+Statusseite bekannt war. Ein Ticket fuer eine gemeldete Stoerung mit
+laufendem Fix bringt nichts. **Neuer naechster Schritt: warten.**
+
+**Nach 16:00 UTC (18:00 deutscher Zeit)** noch einmal ins hPanel sehen.
+Dann sind Registry-Wartung und, der Meldungslage nach, auch der
+hPanel-Fix durch. Erscheint die Website wieder unter *Websites*, geht
+es wie geplant weiter: Teilpaket in den Dateimanager, entpacken,
+CDN-Cache leeren.
 
 **Nichts davon ist eilig.** Die Seite laeuft mit dem Stand vom 12.09.
 weiter -- mit der alten Telefonnummer und ohne Datei-Upload. Das
