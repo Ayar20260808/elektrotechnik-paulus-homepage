@@ -1832,6 +1832,48 @@ zeigt die Seite tagelang die alte Telefonnummer.
 nicht im Paket (sie steht in `.gitignore`, weil das App-Passwort darin
 steht). Das Entpacken fasst sie nicht an.
 
+#### Teilpaket `seite-teil-19-09-dbaee4a.zip` gebaut (19.09.2026)
+
+    seite-teil-19-09-dbaee4a.zip    875,9 KiB    16 Dateien
+    darin unkomprimiert           1.466,9 KiB
+
+Zusammengestellt aus `git diff --name-only 0372489..HEAD`, also allem, was
+sich seit dem letzten Vollpaket geaendert hat, abzueglich `docs/`,
+`.github/`, `CLAUDE.md`, `AGENTS.md` und `.gitignore`. Das ist bewusst ein
+Ueberschuss: liegt auf dem Server schon ein spaeterer Teilstand, schreibt das
+Paket ein paar bereits richtige Dateien neu -- schaden kann es nicht,
+vergessen kann es dagegen nichts.
+
+    band-kabel.jpg                        22.640 B
+    band-tiefenerder.jpg                  20.847 B
+    hero-kabel.jpg                       305.924 B
+    hero-montage.jpg                     135.156 B   <- neu
+    hero-tiefenerder.jpg                 193.041 B   <- neue Fassung
+    index.html                           165.090 B
+    kontakt.php                           22.827 B
+    leistung-elektroinstallation.html     64.173 B
+    leistung-netzwerk.html                64.330 B
+    leistung-photovoltaik.html            64.604 B
+    leistung-planung.html                 63.580 B
+    leistung-smarthome.html               64.232 B
+    leistung-tuersprechanlage.html        64.160 B
+    leistung-vde.html                     65.531 B
+    leistung-waermepumpe.html             65.267 B
+    leistung-wallbox.html                 64.483 B
+
+Gegengeprueft: Archiv lesbar, genau sechzehn Eintraege, nichts Fremdes darin,
+jeder Eintrag per SHA-256 bytegleich mit der Arbeitskopie. Geloescht werden
+muss auf dem Server nichts -- seit `0372489` ist keine ausgelieferte Datei
+weggefallen (`git diff --diff-filter=D` leer).
+
+Entpackt wird nach `/files/domains/elektrotechnik-paulus.de/public_html/`,
+danach den CDN-Cache leeren. `kontakt-konfig.php` liegt nur auf dem Server,
+steht in `.gitignore` und ist nicht im Paket; das Entpacken fasst sie nicht an.
+
+**Vorgaenger `seite-teil-19-09-bb3a940.zip` (15 Dateien, 702 KiB) ist damit
+ueberholt** -- ihm fehlt `hero-montage.jpg`, und sein `hero-tiefenerder.jpg`
+ist die alte Montage aus dem Hochformat.
+
 #### BLOCKIERT: hPanel zeigt die Website nicht mehr an (15.09.2026, abends)
 
 **Das Hochladen geht derzeit nicht** -- nicht weil etwas kaputt waere,
