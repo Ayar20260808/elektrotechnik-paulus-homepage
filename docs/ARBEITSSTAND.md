@@ -199,6 +199,7 @@ Damit sie nicht in jeder Sitzung neu erfragt werden.
 
 | Datum | Entscheidung | Begruendung |
 |---|---|---|
+| 19.09.2026 | Der Header faehrt am Seitenende **nicht mehr** nach oben aus dem Bild, dafuer sind Logo und die Menuepunkte Start/Leistungen/Ablauf/Kontakt aus der Fusszeile entfernt | Auf Wunsch. Beides haengt zusammen: die Menuepunkte standen nur deshalb in der Fusszeile, weil der Header dort verschwand. Er bleibt jetzt bis zum Kontaktabschnitt sichtbar, also braucht die Fusszeile sie nicht mehr. Sie traegt jetzt nur noch Anschrift, Impressum, Datenschutz und Copyright |
 | 19.09.2026 | `hero-montage.jpg` (zwei Mitarbeiter, Rohbau) als siebte Ebene hinter `hero-solar` in die Hero-Folge | Auf Wunsch. Das Motiv war am 19.09.2026 schon einmal aus dem Hero genommen worden, weil im damaligen Hochformat nur ein Mitarbeiter zu sehen war; die jetzt gelieferte breite Fassung 1562x749 zeigt beide |
 | 19.09.2026 | `hero-tiefenerder.jpg` durch die breite Fassung ersetzt, die Irfan geliefert hat | Auf Wunsch. Die Quelle ist 1562x749 und bringt die Unschaerfe-Fuellung schon mit; die vorherige Fassung war eine hier gebaute Montage aus dem Hochformat 462x749 |
 | 02.09.2026 | Bei „Bewegung reduzieren" verschwinden die Hintergrundsymbole **vollstaendig** (nicht: ruhig stehenbleiben) | Barrierefreiheit — wer Bewegung abschaltet, will die dekorative Ebene nicht. Umgesetzt in `67a8b97` |
