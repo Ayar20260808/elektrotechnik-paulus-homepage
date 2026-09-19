@@ -1834,6 +1834,20 @@ zeigt die Seite tagelang die alte Telefonnummer.
 nicht im Paket (sie steht in `.gitignore`, weil das App-Passwort darin
 steht). Das Entpacken fasst sie nicht an.
 
+#### Teilpaket `seite-teil-19-09-ee8378d.zip` gebaut (19.09.2026, spaeter)
+
+    seite-teil-19-09-ee8378d.zip    873,9 KiB    16 Dateien
+    darin unkomprimiert           1.397,1 KiB
+
+Dieselben sechzehn Dateien wie im Paket darunter, nur mit dem Stand nach den
+Header- und Fusszeilenaenderungen. Die zehn HTML-Dateien sind dadurch je rund
+1,5 KiB kleiner geworden, weil Logo, Menuepunkte und die Engstellen-Regeln aus
+der Fusszeile entfallen sind. Gegengeprueft: Archiv lesbar, genau sechzehn
+Eintraege, nichts Fremdes darin, jeder Eintrag per SHA-256 bytegleich mit der
+Arbeitskopie, Arbeitsverzeichnis sauber.
+
+**`seite-teil-19-09-dbaee4a.zip` ist damit ueberholt.**
+
 #### Teilpaket `seite-teil-19-09-dbaee4a.zip` gebaut (19.09.2026)
 
     seite-teil-19-09-dbaee4a.zip    875,9 KiB    16 Dateien
