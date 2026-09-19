@@ -73,13 +73,38 @@ Ansprechpartner (weiss) · Kontakt (hellgrau).
 
 ### 3.1 Hero-Bilderfolge
 
-**Sechs** Bildebenen uebereinander, sichtbar ist immer genau eine. Alle vier
-Sekunden wechselt die aktive Ebene, Ueberblendung 1,1 s, dazu ein sehr
-langsamer Zoom ueber 90 s. Bildebene Deckkraft `.78`. Ein voller Umlauf dauert
-damit 24 Sekunden.
+**Acht** Bildebenen uebereinander, sichtbar ist immer genau eine. Alle vier
+Sekunden wechselt die aktive Ebene, Ueberblendung 1,1 s, dazu ein Zoom ueber
+3,5 s. Bildebene Deckkraft `.86` auf dem Rechner, `1` unter 1000 px. Ein voller
+Umlauf dauert damit 32 Sekunden.
 
-Reihenfolge (Stand 04.09.2026): `hero-0` · `hero-echeck` · `hero-eauto` ·
-`hero-solar` · `waermepumpe-hero` · `hero-4`.
+Reihenfolge (Stand 19.09.2026), dahinter `data-deckung / data-quer` und eine
+abweichende Bildlage, wo eine gesetzt ist:
+
+    0  hero-0.jpg             0.68 / 0.66    Lage 20% center
+    1  hero-echeck.jpg        0.74 / 0.74
+    2  hero-kabel.jpg         0.70 / 0.66    Lage center top
+    3  hero-eauto.jpg         0.71 / 0.66
+    4  hero-tiefenerder.jpg   0.65 / 0.62    Lage 12% center
+    5  hero-solar.jpg         0.68 / 0.66
+    6  waermepumpe-hero.jpg   0.74 / 0.70
+    7  hero-4.jpg             0.74 / 0.70
+
+**Wozu die Bildlage gut ist.** Der Hero schneidet zu (`background-size:cover`).
+Auf breiten Schirmen ist das Bild breitenbegrenzt -- dort aendert eine
+waagerechte Lage **nichts**, es wird oben und unten geschnitten. Am Handy ist
+es hoehenbegrenzt, dort schneidet der Browser links und rechts ab, und erst
+dort wirkt die Lage. Gemessen am 19.09.2026 bei 390 px Fensterbreite, welcher
+Ausschnitt der 1600 px breiten `hero-tiefenerder.jpg` ankommt:
+
+    50 % (Voreinstellung)   x  548 .. 1053
+    12 %                    x  178 ..  682
+    19 %                    x  246 ..  751
+    25 %                    x  304 ..  809
+
+Der scharfe Kern des Bildes liegt bei x 180 bis 735. Mit der Voreinstellung
+kamen davon nur 187 von 555 Pixeln an -- der Mann stand am linken Rand und war
+fast weggeschnitten. Mit 12 % sind es 502 von 555.
 
 **`data-deckung` und `data-quer` sind keine Geschmackswerte.** Sie steuern, wie
 stark der dunkle Verlauf ueber dem Textband deckt -- je heller das Motiv, desto
@@ -165,6 +190,7 @@ Damit sie nicht in jeder Sitzung neu erfragt werden.
 
 | Datum | Entscheidung | Begruendung |
 |---|---|---|
+| 19.09.2026 | `hero-tiefenerder.jpg` durch die breite Fassung ersetzt, die Irfan geliefert hat | Auf Wunsch. Die Quelle ist 1562x749 und bringt die Unschaerfe-Fuellung schon mit; die vorherige Fassung war eine hier gebaute Montage aus dem Hochformat 462x749 |
 | 02.09.2026 | Bei „Bewegung reduzieren" verschwinden die Hintergrundsymbole **vollstaendig** (nicht: ruhig stehenbleiben) | Barrierefreiheit — wer Bewegung abschaltet, will die dekorative Ebene nicht. Umgesetzt in `67a8b97` |
 | 02.09.2026 | Bei der Geraetepruefung faellt der Zusatz „auf Wunsch" **ueberall** weg | Entscheidung Irfan. `index.html` (Leistungskarte) und `leistung-vde.html` (Checkliste) in `feb59a3`, die FAQ derselben Seite nachgezogen. Die uebrigen acht „auf Wunsch" im Projekt betreffen andere Themen (PV-Kopplung, App, Tueroeffner, Foerderhinweis) und bleiben |
 | 02.09.2026 | Homepage wird **nicht** nach `master` gemergt, solange nicht ausdruecklich gewuenscht | Entscheidung Irfan, offen gelassen |
