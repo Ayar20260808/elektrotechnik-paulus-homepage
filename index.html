@@ -234,13 +234,23 @@
 
   .nav-inner{transition:min-height .18s ease,padding .18s ease;}
   .logo img{transition:width .18s ease;}
-  header.geschrumpft .nav-inner{min-height:0;padding:5px 0;}
-  header.geschrumpft .logo img{width:160px;}
-  /* Nur die Links der obersten Zeile schrumpfen mit. Ohne den
-     Kindselektor trifft die Regel auch die Links im Untermenue und
-     nimmt ihnen den Einzug vor den Buchstaben. */
-  header.geschrumpft .nav-links > a,
-  header.geschrumpft .nav-links > .nav-item > a{padding:5px 0;}
+  /* Am Rechner bleibt der Kopf durchgehend gross. Nur unter 901 px
+     schrumpft er beim Scrollen noch -- dort zaehlt jeder Pixel Hoehe, und
+     dort steht ohnehin nur Logo und Burger-Knopf im Kopf.
+     Der Waechter im Skript setzt .geschrumpft weiterhin auf jeder Breite;
+     ueber 900 px bewirkt die Klasse jetzt einfach nichts mehr. Das ist
+     Absicht: so misst das Skript ueber --header-klein dort die wirklich
+     sichtbare Kopfhoehe, und die Seiteneinteilung von Ablauf und Kontakt
+     rechnet weiter mit dem, was tatsaechlich oben steht. */
+  @media(max-width:900px){
+    header.geschrumpft .nav-inner{min-height:0;padding:5px 0;}
+    header.geschrumpft .logo img{width:160px;}
+    /* Nur die Links der obersten Zeile schrumpfen mit. Ohne den
+       Kindselektor trifft die Regel auch die Links im Untermenue und
+       nimmt ihnen den Einzug vor den Buchstaben. */
+    header.geschrumpft .nav-links > a,
+    header.geschrumpft .nav-links > .nav-item > a{padding:5px 0;}
+  }
   header.ohne-uebergang .nav-inner,header.ohne-uebergang .logo img{transition:none!important;}
 
   /* HERO */
@@ -954,6 +964,13 @@
      Ersatzwert greift nur, bevor das Skript gelaufen ist. */
   .float-cta{position:fixed;right:clamp(16px,3vw,28px);bottom:clamp(16px,3vw,28px);z-index:200;background:var(--yellow);color:var(--dark);font-family:var(--font-heading);font-weight:700;font-size:15.5px;height:var(--header-klein, 48px);padding:0 22px;border:2px solid var(--dark);box-shadow:0 12px 32px rgba(18,24,30,.28);display:inline-flex;align-items:center;gap:10px;}
   .float-cta:hover{background:var(--yellow-hover);text-decoration:none;}
+  /* Der Knopf hing an --header-klein, der Hoehe des geschrumpften Kopfes.
+     Seit der Kopf ab 901 px nicht mehr schrumpft, misst die Variable dort
+     die volle Hoehe -- gemessen wurde der Knopf damit 103 px hoch statt 46.
+     Deshalb oberhalb von 900 px ein fester Wert. Es ist derselbe, den die
+     Variable dort vorher geliefert hat, der Knopf sieht also aus wie
+     bisher. Am Handy schrumpft der Kopf weiter, dort bleibt die Bindung. */
+  @media(min-width:901px){ .float-cta{height:46px;} }
   .float-cta.hide,.float-cta.aus{opacity:0;pointer-events:none;transform:translateY(8px);}
   /* Ueber der Fusszeile rutscht der Knopf nach oben. Sonst liegt er auf
      Impressum und Datenschutz -- die waeren dann nicht mehr anklickbar. */
