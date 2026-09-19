@@ -21,6 +21,7 @@ Abhängigkeiten — HTML, CSS und JavaScript stehen direkt in den Dateien.
 | `elektrosymbole/` | 169 PNG-Symbole aus der Jetplan-Bibliothek plus `manifest.json`. |
 | `*.jpg` | 43 Fotos: Hero, Leistungskarten, Kunden, Bilderband, Porträts. |
 | `marke.css`, `schriften/`, `logo-*.svg` | Markenmittel. |
+| `kundenportal.html`, `portal-verwaltung.html`, `supabase/functions/kundenportal/` | Kundenportal. Eigenes Kapitel in `KUNDENPORTAL.md`. |
 
 Veröffentlicht über GitHub Pages:
 <https://ayar20260808.github.io/elektrotechnik-paulus-homepage/>
@@ -181,6 +182,7 @@ Kopieren.
 | **Hosting und Domain** | Läuft auf GitHub Pages. Eigene Domain noch nicht aufgeschaltet. |
 | **Ungenutzte Dateien** | 11 Stück: `hero-5.jpg`, `leistung-waermepumpe.jpg`, `portrait-irfan-2.jpg`, `portrait-irfan-3.jpg` und die sieben alten `icon-*.png`. |
 | **Beschädigte Symbole** | Vier Symbole liegen in Supabase selbst unvollständig gespeichert vor und lassen sich nur durch Neu-Upload reparieren. |
+| **Selbstregistrierung offen** | In Supabase kann sich jeder ein Konto anlegen. Weil die Leseregeln der Tabellen `true` lauten, darf ein solches Konto anschließend alle Kontakte, Aufträge und Dokumente lesen. Siehe `KUNDENPORTAL.md`, Abschnitt 6. |
 
 ---
 

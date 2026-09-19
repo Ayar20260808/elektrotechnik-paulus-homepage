@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal-Freigaben | Elektrotechnik Paulus</title>
+<meta name="robots" content="noindex, nofollow, noarchive">
+<link rel="icon" href="favicon.ico" sizes="any">
+<meta name="theme-color" content="#232F3B">
+<link rel="stylesheet" href="marke.css">
+<style>
+  :root{
+    --ink:var(--farbe-anthrazit); --dark:var(--farbe-anthrazit); --yellow:var(--farbe-gelb);
+    --grey-0:var(--farbe-weiss); --grey-100:var(--farbe-grau-hell); --grey-300:#DDE0E3;
+    --grey-600:var(--farbe-grau); --link-blue:#1F6FB2; --tech-blue:#00A3D9;
+    --green:#2F7A4F; --green-bg:#E7F4EC; --red:#A32B2B; --red-bg:#FBE3E3;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--grey-100);color:var(--ink);font-family:var(--schrift);line-height:1.55;font-size:15px;}
+  a{color:var(--link-blue);text-decoration:none;} a:hover{text-decoration:underline;}
+  h1,h2,h3{font-family:var(--schrift);}
+  :focus-visible{outline:2px solid var(--tech-blue);outline-offset:2px;}
+  input,select,textarea,button{font-family:inherit;font-size:inherit;}
+
+  header{background:var(--dark);color:var(--grey-0);padding:16px 0;}
+  .kopf{max-width:1080px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;
+    align-items:center;gap:16px;flex-wrap:wrap;}
+  .kopf strong{font-size:17px;font-weight:700;}
+  .kopf .wer{font-size:13.5px;color:#AEB8C2;}
+  .wrap{max-width:1080px;margin:0 auto;padding:24px 20px 60px;}
+
+  .karte{background:var(--grey-0);border:1px solid var(--grey-300);border-radius:10px;padding:22px;margin-bottom:18px;}
+  .karte h2{font-size:16px;font-weight:700;margin-bottom:14px;padding-bottom:9px;border-bottom:2px solid var(--grey-300);}
+
+  label{display:block;font-size:13px;font-weight:600;color:var(--grey-600);margin-bottom:5px;}
+  .feld{width:100%;padding:10px 12px;border:1px solid var(--grey-300);border-radius:6px;background:var(--grey-0);}
+  .feld:focus{border-color:var(--tech-blue);outline:none;}
+
+  .btn{display:inline-flex;align-items:center;gap:7px;padding:10px 18px;font-weight:600;font-size:14px;
+    border:2px solid transparent;border-radius:6px;cursor:pointer;background:var(--dark);color:var(--grey-0);}
+  .btn:hover{background:var(--farbe-anthrazit-hell);}
+  .btn-gelb{background:var(--yellow);color:var(--dark);border-color:var(--yellow);}
+  .btn-gelb:hover{background:var(--farbe-gelb-dunkel);}
+  .btn-rand{background:transparent;color:var(--ink);border-color:var(--grey-300);}
+  .btn-rand:hover{background:var(--grey-100);}
+  .btn-klein{padding:6px 12px;font-size:13px;border-radius:5px;}
+  .btn:disabled{opacity:.5;cursor:not-allowed;}
+
+  .meldung{padding:11px 14px;border-radius:6px;font-size:14px;margin-bottom:14px;}
+  .meldung.gut{background:var(--green-bg);color:var(--green);}
+  .meldung.schlecht{background:var(--red-bg);color:var(--red);}
+
+  .suchreihe{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-bottom:6px;}
+  .suchreihe > div{flex:1;min-width:200px;}
+
+  .auftrag{border-top:1px solid var(--grey-300);padding:14px 0;}
+  .auftrag:first-of-type{border-top:none;}
+  .auftrag-kopf{display:flex;gap:14px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;}
+  .auftrag-titel{font-weight:600;}
+  .auftrag-meta{font-size:13px;color:var(--grey-600);margin-top:2px;}
+  .pille{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap;}
+  .pille.frei{background:var(--green-bg);color:var(--green);}
+  .pille.aus{background:var(--red-bg);color:var(--red);}
+  .pille.keine{background:var(--grey-100);color:var(--grey-600);}
+
+  .schalter{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:9px;margin:14px 0;}
+  .schalter label{display:flex;gap:9px;align-items:flex-start;font-weight:400;font-size:14px;
+    color:var(--ink);margin:0;padding:10px 12px;border:1px solid var(--grey-300);border-radius:6px;cursor:pointer;}
+  .schalter label:hover{background:var(--grey-100);}
+  .schalter input{margin-top:3px;flex-shrink:0;}
+  .schalter .warn{color:var(--red);font-weight:600;}
+  .schalter small{display:block;color:var(--grey-600);font-size:12.5px;line-height:1.4;}
+
+  .linkkasten{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
+  .linkkasten input{flex:1;min-width:240px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;}
+
+  .aufklapp{margin-top:12px;padding-top:14px;border-top:1px dashed var(--grey-300);}
+  .leer{color:var(--grey-600);font-style:italic;padding:16px 0;}
+  .laedt{color:var(--grey-600);padding:16px 0;}
+  @media(max-width:640px){ .auftrag-kopf{flex-direction:column;gap:8px;} }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="kopf">
+    <strong>Portal-Freigaben</strong>
+    <div class="wer">
+      <span id="wer"></span>
+      <button id="abmelden" class="btn btn-klein btn-rand" style="margin-left:10px;color:#fff;border-color:#4A5865;" hidden>Abmelden</button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- Anmeldung -->
+  <section id="anmeldung" class="karte" style="max-width:420px;margin:40px auto;" hidden>
+    <h2>Anmelden</h2>
+    <div id="anmelde-meldung"></div>
+    <form id="anmelde-form">
+      <div style="margin-bottom:12px;">
+        <label for="mail">E-Mail</label>
+        <input class="feld" type="email" id="mail" autocomplete="username" required>
+      </div>
+      <div style="margin-bottom:16px;">
+        <label for="pw">Passwort</label>
+        <input class="feld" type="password" id="pw" autocomplete="current-password" required>
+      </div>
+      <button class="btn btn-gelb" type="submit" id="anmelde-knopf" style="width:100%;justify-content:center;">Anmelden</button>
+    </form>
+  </section>
+
+  <!-- Verwaltung -->
+  <section id="verwaltung" hidden>
+    <div id="meldung"></div>
+
+    <div class="karte">
+      <h2>Auftrag suchen</h2>
+      <div class="suchreihe">
+        <div>
+          <label for="suche">Nummer, Leistung, Ort oder Kunde</label>
+          <input class="feld" type="search" id="suche" placeholder="z. B. ELEK-294 oder Wallbox">
+        </div>
+        <div style="flex:0 0 190px;">
+          <label for="filter">Anzeigen</label>
+          <select class="feld" id="filter">
+            <option value="alle">Alle Aufträge</option>
+            <option value="frei">Nur freigegebene</option>
+            <option value="offen">Nur ohne Freigabe</option>
+          </select>
+        </div>
+      </div>
+      <div style="font-size:13px;color:var(--grey-600);margin-top:8px;" id="trefferzahl"></div>
+    </div>
+
+    <div class="karte">
+      <h2>Aufträge</h2>
+      <div id="liste"><div class="laedt">wird geladen …</div></div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  // Zugangsdaten des Projekts. Der oeffentliche Schluessel darf im Quelltext
+  // stehen -- er allein oeffnet nichts. Was ein Angemeldeter sehen darf,
+  // entscheiden die Zugriffsregeln in der Datenbank.
+  var BASIS   = "https://utmkqpklktbnimnyzmbx.supabase.co";
+  var SCHLUESSEL = "sb_publishable_SFvcLTnUdwvYRytHUnFrOA_YvDDHEjW";
+
+  // Das Anmeldetoken liegt in sessionStorage, nicht in localStorage:
+  // beim Schliessen des Tabs ist es weg.
+  var SPEICHER = "ep_portal_token";
+
+  var token = null, benutzer = null;
+  var auftraege = [], freigaben = {};
+
+  var $ = function (id) { return document.getElementById(id); };
+
+  function el(tag, klasse, text) {
+    var k = document.createElement(tag);
+    if (klasse) k.className = klasse;
+    if (text !== undefined && text !== null) k.textContent = text;
+    return k;
+  }
+
+  function meldung(wohin, text, gut) {
+    var ziel = $(wohin);
+    ziel.innerHTML = "";
+    if (!text) return;
+    ziel.appendChild(el("div", "meldung " + (gut ? "gut" : "schlecht"), text));
+    if (gut) setTimeout(function () { ziel.innerHTML = ""; }, 4000);
+  }
+
+  // Ein Aufruf an die Datenschnittstelle. Der Schluessel und das Anmeldetoken
+  // gehen bei jeder Anfrage mit.
+  function ruf(pfad, optionen) {
+    optionen = optionen || {};
+    var kopf = {
+      "apikey": SCHLUESSEL,
+      "Content-Type": "application/json"
+    };
+    if (token) kopf["Authorization"] = "Bearer " + token;
+    if (optionen.headers) for (var k in optionen.headers) kopf[k] = optionen.headers[k];
+
+    return fetch(BASIS + pfad, {
+      method: optionen.method || "GET",
+      headers: kopf,
+      body: optionen.body ? JSON.stringify(optionen.body) : undefined
+    }).then(function (r) {
+      if (r.status === 401 || r.status === 403) { abmelden(); throw new Error("Bitte neu anmelden."); }
+      return r.text().then(function (t) {
+        var d = t ? JSON.parse(t) : null;
+        if (!r.ok) throw new Error((d && (d.message || d.error_description || d.msg)) || ("Fehler " + r.status));
+        return d;
+      });
+    });
+  }
+
+  function datum(w) {
+    if (!w) return "–";
+    var d = new Date(w);
+    return isNaN(d.getTime()) ? "–"
+      : d.toLocaleDateString("de-DE", { day: "2-digit", month: "2-digit", year: "numeric" });
+  }
+
+  // --- Anmeldung ----------------------------------------------------------
+
+  function zeigeAnmeldung() {
+    $("anmeldung").hidden = false;
+    $("verwaltung").hidden = true;
+    $("abmelden").hidden = true;
+    $("wer").textContent = "";
+  }
+
+  function abmelden() {
+    try { sessionStorage.removeItem(SPEICHER); } catch (e) {}
+    token = null; benutzer = null;
+    zeigeAnmeldung();
+  }
+
+  $("abmelden").addEventListener("click", abmelden);
+
+  $("anmelde-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var knopf = $("anmelde-knopf");
+    knopf.disabled = true; knopf.textContent = "wird geprüft …";
+    meldung("anmelde-meldung", "");
+
+    fetch(BASIS + "/auth/v1/token?grant_type=password", {
+      method: "POST",
+      headers: { "apikey": SCHLUESSEL, "Content-Type": "application/json" },
+      body: JSON.stringify({ email: $("mail").value.trim(), password: $("pw").value })
+    })
+      .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+      .then(function (a) {
+        if (!a.ok || !a.d.access_token) {
+          throw new Error(a.d.error_description || a.d.msg || "E-Mail oder Passwort stimmt nicht.");
+        }
+        token = a.d.access_token;
+        try { sessionStorage.setItem(SPEICHER, token); } catch (e) {}
+        $("pw").value = "";
+        return start();
+      })
+      .catch(function (f) { meldung("anmelde-meldung", f.message, false); })
+      .then(function () { knopf.disabled = false; knopf.textContent = "Anmelden"; });
+  });
+
+  // --- Start nach der Anmeldung -------------------------------------------
+
+  function start() {
+    return ruf("/auth/v1/user")
+      .then(function (u) {
+        benutzer = u;
+        // Nur der Inhaber darf Freigaben verwalten. Die Datenbank setzt das
+        // ohnehin durch; diese Pruefung sorgt nur fuer eine klare Ansage,
+        // statt einer leeren Liste.
+        return ruf("/rest/v1/user_roles?select=role&user_id=eq." + u.id);
+      })
+      .then(function (rollen) {
+        var istInhaber = (rollen || []).some(function (r) { return r.role === "inhaber"; });
+        if (!istInhaber) {
+          abmelden();
+          meldung("anmelde-meldung", "Dieses Konto darf keine Freigaben verwalten.", false);
+          return;
+        }
+        $("anmeldung").hidden = true;
+        $("verwaltung").hidden = false;
+        $("abmelden").hidden = false;
+        $("wer").textContent = benutzer.email;
+        return laden();
+      });
+  }
+
+  function laden() {
+    return Promise.all([
+      ruf('/rest/v1/Auftraege?select=id,projektnr,display_id,name,status,adresse,kontakt_id,erstellt_hero,Kontakte(id,"Name der Firma","Vorname","Nachname")'
+          + '&is_deleted=not.eq.true&order=erstellt_hero.desc.nullslast&limit=500'),
+      ruf("/rest/v1/portal_freigaben?select=*&order=erstellt_am.desc")
+    ]).then(function (a) {
+      auftraege = a[0] || [];
+      freigaben = {};
+      (a[1] || []).forEach(function (f) {
+        // Falls es mehrere je Auftrag gibt, gewinnt die neueste.
+        if (!freigaben[f.auftrag_id]) freigaben[f.auftrag_id] = f;
+      });
+      zeichne();
+    }).catch(function (f) {
+      $("liste").innerHTML = "";
+      $("liste").appendChild(el("div", "meldung schlecht", f.message));
+    });
+  }
+
+  function kundenName(a) {
+    var k = a.Kontakte;
+    if (!k) return null;
+    var firma = k["Name der Firma"];
+    if (firma && firma.trim()) return firma.trim();
+    var n = ((k["Vorname"] || "") + " " + (k["Nachname"] || "")).trim();
+    return n || null;
+  }
+
+  function portalAdresse(tokenWert) {
+    var pfad = window.location.pathname.replace(/[^/]*$/, "");
+    return window.location.origin + pfad + "kundenportal.html?code=" + tokenWert;
+  }
+
+  // --- Liste --------------------------------------------------------------
+
+  function zeichne() {
+    var suchtext = $("suche").value.trim().toLowerCase();
+    var modus = $("filter").value;
+
+    var gefiltert = auftraege.filter(function (a) {
+      var f = freigaben[a.id];
+      if (modus === "frei"  && !(f && f.aktiv)) return false;
+      if (modus === "offen" && f) return false;
+      if (!suchtext) return true;
+      var heu = [a.projektnr, a.display_id, a.name, a.adresse, kundenName(a)]
+        .filter(Boolean).join(" ").toLowerCase();
+      return heu.indexOf(suchtext) !== -1;
+    });
+
+    $("trefferzahl").textContent = gefiltert.length + " von " + auftraege.length + " Aufträgen";
+
+    var liste = $("liste");
+    liste.innerHTML = "";
+    if (!gefiltert.length) {
+      liste.appendChild(el("div", "leer", "Kein Auftrag gefunden."));
+      return;
+    }
+
+    gefiltert.slice(0, 60).forEach(function (a) { liste.appendChild(zeileFuer(a)); });
+    if (gefiltert.length > 60) {
+      liste.appendChild(el("div", "leer",
+        "… und " + (gefiltert.length - 60) + " weitere. Bitte die Suche eingrenzen."));
+    }
+  }
+
+  function zeileFuer(a) {
+    var f = freigaben[a.id];
+    var reihe = el("div", "auftrag");
+
+    var kopf = el("div", "auftrag-kopf");
+    var links = el("div");
+    links.appendChild(el("div", "auftrag-titel", (a.projektnr || a.display_id || ("Nr. " + a.id))
+      + (a.name ? " · " + a.name : "")));
+    var meta = [kundenName(a), a.adresse, a.status].filter(Boolean).join(" · ");
+    links.appendChild(el("div", "auftrag-meta", meta));
+    kopf.appendChild(links);
+
+    var rechts = el("div");
+    rechts.style.display = "flex";
+    rechts.style.gap = "8px";
+    rechts.style.alignItems = "center";
+    rechts.style.flexWrap = "wrap";
+
+    if (f && f.aktiv) {
+      rechts.appendChild(el("span", "pille frei",
+        f.anzahl_aufrufe > 0 ? (f.anzahl_aufrufe + "× geöffnet") : "freigegeben, noch nicht geöffnet"));
+    } else if (f) {
+      rechts.appendChild(el("span", "pille aus", "abgeschaltet"));
+    } else {
+      rechts.appendChild(el("span", "pille keine", "keine Freigabe"));
+    }
+
+    var knopf = el("button", "btn btn-klein " + (f ? "btn-rand" : "btn-gelb"), f ? "Verwalten" : "Freigeben");
+    rechts.appendChild(knopf);
+    kopf.appendChild(rechts);
+    reihe.appendChild(kopf);
+
+    var bereich = el("div", "aufklapp");
+    bereich.hidden = true;
+    reihe.appendChild(bereich);
+
+    knopf.addEventListener("click", function () {
+      if (!bereich.hidden) { bereich.hidden = true; return; }
+      bereich.innerHTML = "";
+      bereich.appendChild(f ? bestehende(a, f, reihe) : neueFreigabe(a, reihe));
+      bereich.hidden = false;
+    });
+
+    return reihe;
+  }
+
+  // --- Neue Freigabe ------------------------------------------------------
+
+  var SCHALTER = [
+    ["zeigt_beschreibung", "Was gemacht wird",  "Die Leistungsbeschreibung des Auftrags.", true,  false],
+    ["zeigt_status",       "Stand der Arbeiten","Fortschritt in fünf Stufen.",             true,  false],
+    ["zeigt_adresse",      "Einsatzort",        "Die Adresse der Baustelle.",              true,  false],
+    ["zeigt_termine",      "Termine",           "Nur Titel und Zeit, keine Mitarbeiter.",  false, false],
+    ["zeigt_dokumente",    "Unterlagen",        "Angebote, Rechnungen, Lieferscheine. Kalkulationen und Lohnlisten nie.", false, false],
+    ["zeigt_betraege",     "Beträge",           "Zeigt Geldsummen. Nur zusammen mit Unterlagen sinnvoll.", false, true]
+  ];
+
+  function neueFreigabe(a, reihe) {
+    var box = el("div");
+    box.appendChild(el("p", null, "Was soll dieser Kunde sehen dürfen?"));
+
+    var gitter = el("div", "schalter");
+    SCHALTER.forEach(function (s) {
+      var lab = el("label");
+      var eingabe = document.createElement("input");
+      eingabe.type = "checkbox";
+      eingabe.checked = s[3];
+      eingabe.dataset.feld = s[0];
+      lab.appendChild(eingabe);
+      var txt = el("div");
+      txt.appendChild(el("span", s[4] ? "warn" : null, s[1]));
+      txt.appendChild(el("small", null, s[2]));
+      lab.appendChild(txt);
+      gitter.appendChild(lab);
+    });
+    box.appendChild(gitter);
+
+    var nf = el("div");
+    nf.style.marginBottom = "12px";
+    nf.appendChild(el("label", null, "Kurze Nachricht an den Kunden (freiwillig)"));
+    var nachricht = document.createElement("input");
+    nachricht.className = "feld";
+    nachricht.type = "text";
+    nachricht.maxLength = 300;
+    nachricht.placeholder = "z. B. Die Arbeiten starten am Montag.";
+    nf.appendChild(nachricht);
+    box.appendChild(nf);
+
+    var reihe2 = el("div");
+    var anlegen = el("button", "btn btn-gelb", "Freigabe anlegen und Link erzeugen");
+    reihe2.appendChild(anlegen);
+    box.appendChild(reihe2);
+
+    anlegen.addEventListener("click", function () {
+      anlegen.disabled = true; anlegen.textContent = "wird angelegt …";
+      var daten = { auftrag_id: a.id, kontakt_id: a.kontakt_id };
+      gitter.querySelectorAll("input[type=checkbox]").forEach(function (c) {
+        daten[c.dataset.feld] = c.checked;
+      });
+      if (nachricht.value.trim()) daten.nachricht = nachricht.value.trim();
+
+      ruf("/rest/v1/portal_freigaben", {
+        method: "POST", body: daten, headers: { "Prefer": "return=representation" }
+      })
+        .then(function (neu) {
+          freigaben[a.id] = Array.isArray(neu) ? neu[0] : neu;
+          meldung("meldung", "Freigabe angelegt. Der Link steht unten zum Kopieren bereit.", true);
+          reihe.replaceWith(zeileFuer(a));
+          // Gleich wieder aufklappen, damit der Link sichtbar ist.
+          zeichne();
+        })
+        .catch(function (f) {
+          meldung("meldung", f.message, false);
+          anlegen.disabled = false; anlegen.textContent = "Freigabe anlegen und Link erzeugen";
+        });
+    });
+
+    return box;
+  }
+
+  // --- Bestehende Freigabe ------------------------------------------------
+
+  function bestehende(a, f, reihe) {
+    var box = el("div");
+
+    var was = SCHALTER.filter(function (s) { return f[s[0]]; }).map(function (s) { return s[1]; });
+    box.appendChild(el("p", null, "Sichtbar für den Kunden: " + (was.length ? was.join(", ") : "nichts")));
+
+    var info = el("div", "auftrag-meta");
+    info.textContent = "Angelegt am " + datum(f.erstellt_am)
+      + " · " + (f.anzahl_aufrufe || 0) + "× geöffnet"
+      + (f.zuletzt_geoeffnet ? " · zuletzt am " + datum(f.zuletzt_geoeffnet) : "");
+    box.appendChild(info);
+
+    if (f.aktiv) {
+      var kasten = el("div", "linkkasten");
+      var feld = document.createElement("input");
+      feld.className = "feld";
+      feld.readOnly = true;
+      feld.value = portalAdresse(f.token);
+      feld.addEventListener("focus", function () { feld.select(); });
+      kasten.appendChild(feld);
+
+      var kopieren = el("button", "btn btn-gelb", "Link kopieren");
+      kopieren.addEventListener("click", function () {
+        feld.select();
+        var fertig = function () { kopieren.textContent = "kopiert ✓";
+          setTimeout(function () { kopieren.textContent = "Link kopieren"; }, 2000); };
+        if (navigator.clipboard) navigator.clipboard.writeText(feld.value).then(fertig, function () {
+          document.execCommand("copy"); fertig();
+        });
+        else { document.execCommand("copy"); fertig(); }
+      });
+      kasten.appendChild(kopieren);
+      box.appendChild(kasten);
+    }
+
+    var reihe3 = el("div");
+    reihe3.style.marginTop = "12px";
+    reihe3.style.display = "flex";
+    reihe3.style.gap = "8px";
+    reihe3.style.flexWrap = "wrap";
+
+    var um = el("button", "btn btn-klein " + (f.aktiv ? "btn-rand" : "btn-gelb"),
+      f.aktiv ? "Zugang abschalten" : "Wieder einschalten");
+    um.addEventListener("click", function () {
+      if (f.aktiv && !window.confirm("Der Link funktioniert danach nicht mehr. Wirklich abschalten?")) return;
+      um.disabled = true;
+      ruf("/rest/v1/portal_freigaben?id=eq." + f.id, {
+        method: "PATCH", body: { aktiv: !f.aktiv }, headers: { "Prefer": "return=representation" }
+      })
+        .then(function (neu) {
+          freigaben[a.id] = Array.isArray(neu) ? neu[0] : neu;
+          meldung("meldung", f.aktiv ? "Zugang abgeschaltet." : "Zugang wieder frei.", true);
+          zeichne();
+        })
+        .catch(function (fe) { meldung("meldung", fe.message, false); um.disabled = false; });
+    });
+    reihe3.appendChild(um);
+    box.appendChild(reihe3);
+
+    return box;
+  }
+
+  // --- Suche --------------------------------------------------------------
+
+  var warte = null;
+  $("suche").addEventListener("input", function () {
+    clearTimeout(warte);
+    warte = setTimeout(zeichne, 160);
+  });
+  $("filter").addEventListener("change", zeichne);
+
+  // --- Los ----------------------------------------------------------------
+
+  try { token = sessionStorage.getItem(SPEICHER); } catch (e) { token = null; }
+  if (token) {
+    start().catch(function () { abmelden(); });
+  } else {
+    zeigeAnmeldung();
+  }
+})();
+</script>
+
+</body>
+</html>
