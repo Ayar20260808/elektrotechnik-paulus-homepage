@@ -82,21 +82,35 @@ der Homepage nichts zu tun. Eine Sitzung war dort schon versehentlich geoeffnet.
 
 ## Grenzen dieser Umgebung
 
-Alle am 12.09.2026 nachgemessen, nicht uebernommen -- der Container ist jede
+Zuletzt am 19.09.2026 nachgemessen, nicht uebernommen -- der Container ist jede
 Sitzung neu:
 
-- `elektrotechnik-paulus.de` ist **von der Maschine aus nicht erreichbar**:
-  `curl: (56) CONNECT tunnel failed, response 403`, der Proxy meldet
-  `connect_rejected` (Richtliniensperre). Dasselbe gilt fuer
-  `ayar20260808.github.io`. **Nur mein Browser sieht die Live-Seite.**
-  Nicht erneut versuchen.
-- Paketquellen wie PyPI und apt sind erlaubt. Apache laesst sich mit
-  `apt-get update && apt-get install -y apache2` nachinstallieren -- damit
-  wurde am 11.09. die `.htaccess` geprueft.
+- **Nach draussen geht fast nichts.** Erreichbar sind nur GitHub
+  (`github.com`, `api.github.com`, `raw.githubusercontent.com`) und die
+  Paketquellen (`registry.npmjs.org`, `pypi.org`, apt). Alles andere
+  beantwortet der Proxy mit 403: `elektrotechnik-paulus.de`, die
+  Hostinger-Testadresse, `hpanel.hostinger.com`, `google.com` -- **und auch
+  `ayar20260808.github.io`, also die Vorschau-Adresse, die ich dir gebe.**
+  Die Ports 21, 22 und 65002 sind ebenfalls zu. **Du kannst also nichts
+  hochladen und die Live-Seite nie selbst ansehen. Nicht erneut versuchen,
+  sondern mich fragen oder um einen Screenshot bitten.**
+- Gepruefte wird gegen einen lokalen Server im Arbeitsverzeichnis:
+  `python3 -m http.server 8080 --bind 127.0.0.1`. Derselbe Quelltext, also
+  belastbare Messwerte -- aber alles, was nur auf dem Server schiefgehen kann,
+  bleibt unsichtbar.
+- Apache laesst sich mit `apt-get update && apt-get install -y apache2`
+  nachinstallieren -- damit wurde am 11.09. die `.htaccess` geprueft.
+  Pillow fehlt und wird mit `python3 -m pip install Pillow` nachgeladen.
 - DNS geht: `python3 docs/werkzeuge/dnsfrage.py`
-- Paket bauen: `python3 docs/werkzeuge/paket.py` -> `seite-TT-MM.zip`.
+- Vollpaket bauen: `python3 docs/werkzeuge/paket.py` -> `seite-TT-MM.zip`.
   **Den Commit-Kurzhash von Hand an den Namen haengen**, sonst kollidieren
   zwei Sitzungen am selben Tag.
+- Teilpaket bauen -- das ist seit dem 15.09.2026 der Normalfall, weil ein
+  Vollpaket 3,6 MiB hat und hunderte bereits richtige Dateien neu schreibt:
+  `git diff --name-only <Live-Commit>..HEAD`, davon `docs/`, `.github/`,
+  `CLAUDE.md`, `AGENTS.md` und `.gitignore` abziehen, den Rest zippen.
+  **Welcher Commit live ist, steht in `docs/ARBEITSSTAND.md`.** Danach jeden
+  Eintrag per SHA-256 gegen die Arbeitskopie pruefen.
 - Playwright: `/opt/node22/lib/node_modules/playwright`, Chromium unter
   `/opt/pw-browsers/chromium-1194/chrome-linux/chrome`, immer `--no-sandbox`.
 - Von mir eingefuegte Bilder landen **nicht** als Datei auf der Maschine. Sie

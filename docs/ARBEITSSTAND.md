@@ -216,6 +216,61 @@ Damit sie nicht in jeder Sitzung neu erfragt werden.
 
 ## 5. Was offen ist
 
+### Stand am Ende der Sitzung vom 19.09.2026
+
+Alles committet und gepusht, Arbeitsverzeichnis sauber. Letzter Commit
+`060caf9`. Was diese Sitzung gemacht hat, von hinten nach vorn:
+
+| Commit | Was |
+|---|---|
+| `ee8378d` | Am Rechner bleibt der Header durchgehend gross, er schrumpft nur noch unter 901 px |
+| `669b373` | Header faehrt am Seitenende nicht mehr weg; Logo und die vier Menuepunkte sind aus der Fusszeile entfernt |
+| `dbaee4a` | `hero-montage.jpg` als siebte Hero-Ebene hinter der Solaranlage |
+| `1c18058` | `hero-tiefenerder.jpg` durch die von Irfan gelieferte breite Fassung ersetzt |
+
+**Offen, und das Wichtigste zuerst:**
+
+1. **Das Teilpaket `seite-teil-19-09-ee8378d.zip` war am Ende der Sitzung noch
+   nicht auf dem Server.** Irfan hatte es bekommen und wollte es hochladen; ob
+   er es getan hat, **ist ungeprueft** -- die Maschine sieht die Live-Seite
+   nicht (siehe unten). **Erst fragen, bevor irgendetwas darauf aufbaut.**
+   Das Paket liegt nicht im Repository (`.gitignore`), laesst sich aber jederzeit
+   neu bauen: `git diff --name-only 0372489..HEAD` ohne `docs/`, `.github/`,
+   `CLAUDE.md`, `AGENTS.md`, `.gitignore`.
+2. **Eine unbeantwortete Rueckfrage:** In der Fusszeile steht noch die Koelner
+   Silhouette (`footer.legalbar::before`, Maske aus `skyline-koeln.svg`).
+   Irfan hatte „Logo und Icon loeschen" gesagt; entfernt wurde das Logo mit
+   seinem Quadrat -- beides steckt in einer einzigen SVG-Datei und laesst sich
+   nicht halbieren. Ob die Silhouette auch weg soll, ist **nicht beantwortet**.
+3. **Zwei aeltere Fragen, seit dem 15.09.2026 offen:** Ist die Testanfrage vom
+   Handy als Mail bei `info@elektrotechnik-paulus.de` angekommen? Und: ohne
+   JavaScript ist weder der Erfolgs- noch der Fehlerkasten des Formulars
+   sichtbar -- das besteht seit dem 02.09.2026 und wurde nie entschieden.
+
+**Nachgemessen am 19.09.2026, was diese Maschine erreicht** (das Ergebnis vom
+12.09. ist damit bestaetigt und praeziser):
+
+    github.com, api.github.com, raw.githubusercontent.com   erreichbar
+    registry.npmjs.org, pypi.org                            erreichbar
+    ayar20260808.github.io  (die Vorschau)                   403 gesperrt
+    elektrotechnik-paulus.de                                 403 gesperrt
+    magenta-crocodile-313036.hostingersite.com               403 gesperrt
+    hpanel.hostinger.com, statuspage.hostinger.com           403 gesperrt
+    google.com, wikipedia.org                                403 gesperrt
+
+Ports 21 (FTP), 22 und 65002 (SFTP) sind ebenfalls zu, Zugangsdaten liegen
+keine in Projekt oder Umgebung. **Hochladen kann diese Maschine also nicht,
+in keinem Protokoll.** Geprueft mit `curl` und mit dem Web-Werkzeug, gleiches
+Ergebnis. Nicht erneut versuchen.
+
+**Die Vorschau-Adresse, die der Nutzer bekommt, sieht die Maschine nie.**
+Geprueft wird gegen einen lokalen Server im Arbeitsverzeichnis
+(`python3 -m http.server 8080 --bind 127.0.0.1`). Derselbe Quelltext, also
+belastbare Messwerte -- aber alles, was nur auf dem Server schiefgehen kann
+(Dateirechte, Cache, unvollstaendig entpackt), ist von hier aus unsichtbar.
+
+---
+
 ### Braucht eine Entscheidung von Irfan
 
 1. ~~**Bilderband-Tempo.**~~ **Am 04.09.2026 ausgemessen und erledigt — es
