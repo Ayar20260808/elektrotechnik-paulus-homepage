@@ -94,7 +94,7 @@ Sitzung neu:
   Die Ports 21, 22 und 65002 sind ebenfalls zu. **Du kannst also nichts
   hochladen und die Live-Seite nie selbst ansehen. Nicht erneut versuchen,
   sondern mich fragen oder um einen Screenshot bitten.**
-- Gepruefte wird gegen einen lokalen Server im Arbeitsverzeichnis:
+- Geprueft wird gegen einen lokalen Server im Arbeitsverzeichnis:
   `python3 -m http.server 8080 --bind 127.0.0.1`. Derselbe Quelltext, also
   belastbare Messwerte -- aber alles, was nur auf dem Server schiefgehen kann,
   bleibt unsichtbar.
