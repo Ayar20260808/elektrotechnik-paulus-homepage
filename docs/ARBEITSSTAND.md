@@ -231,9 +231,14 @@ Alles committet und gepusht, Arbeitsverzeichnis sauber. Letzter Commit
 **Offen, und das Wichtigste zuerst:**
 
 1. **Das Teilpaket `seite-teil-19-09-ee8378d.zip` war am Ende der Sitzung noch
-   nicht auf dem Server.** Irfan hatte es bekommen und wollte es hochladen; ob
-   er es getan hat, **ist ungeprueft** -- die Maschine sieht die Live-Seite
-   nicht (siehe unten). **Erst fragen, bevor irgendetwas darauf aufbaut.**
+   nicht auf dem Server.** Irfan hatte es bekommen und wollte es hochladen.
+   **Am 24.09.2026 meldet er: „homepage laeuft".** Das ist eine Meldung, keine
+   Messung -- die Maschine sieht die Live-Seite nicht (siehe unten). Und es
+   sagt noch nicht, **welcher Stand** dort liegt: „laeuft" gilt auch fuer den
+   alten. Zum Unterscheiden dient ein Blick, der ohne Werkzeug auskommt: am
+   Rechner nach unten scrollen. **Bleibt der Kopf gross, ist das neue Paket
+   drauf; schrumpft er auf einen schmalen Streifen, der alte.** Solange das
+   nicht geklaert ist: **erst fragen, bevor etwas darauf aufbaut.**
    Das Paket liegt nicht im Repository (`.gitignore`), laesst sich aber jederzeit
    neu bauen: `git diff --name-only 0372489..HEAD` ohne `docs/`, `.github/`,
    `CLAUDE.md`, `AGENTS.md`, `.gitignore`.
