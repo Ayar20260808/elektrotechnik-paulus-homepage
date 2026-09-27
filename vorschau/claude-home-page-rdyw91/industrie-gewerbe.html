@@ -587,6 +587,31 @@
 </footer>
 
 <script>
+  /* Weiche fuer alle Fensteraenderungen.
+
+     Am Handy meldet der Browser beim Scrollen ein "resize": die
+     Adressleiste faehrt ein und wieder aus, die sichtbare Hoehe aendert
+     sich dabei um rund 56 Pixel, die Breite nicht. Wer darauf hin neu
+     rechnet, veraendert Groessen mitten im Scrollen. Gemessen auf der
+     Startseite bei 390 px Breite, nur ueber diese 56 Pixel: das
+     Leistungsbild wuchs von 198,6 auf 215,4 px, das Kundenbild von 140,0
+     auf 150,8 px, die ganze Seite wurde 302 px laenger. Unter dem Finger
+     sah das aus, als wuerden die Bilder flackern.
+
+     Deshalb laeuft jede Reaktion auf eine Fensteraenderung ueber diese
+     Weiche: am Rechner (Mauszeiger vorhanden) wie bisher bei jeder
+     Aenderung, auf Geraeten ohne Mauszeiger nur dann, wenn sich die
+     Breite wirklich aendert -- also beim Drehen des Geraets. */
+  function epBeiFensteraenderung(tuwas) {
+    var ohneMaus = !!(window.matchMedia && window.matchMedia('(hover: none) and (pointer: coarse)').matches);
+    var letzteBreite = window.innerWidth;
+    window.addEventListener('resize', function () {
+      var breite = window.innerWidth;
+      if (ohneMaus && breite === letzteBreite) return;
+      letzteBreite = breite;
+      tuwas();
+    });
+  }
   document.getElementById('year').textContent = new Date().getFullYear();
   // Header schrumpft, sobald die Seite ein Stueck gescrollt ist.
   (function () {
@@ -693,7 +718,7 @@
       document.documentElement.style.setProperty('--header-klein', kleineKopfHoehe() + 'px');
     }
     messen();
-    window.addEventListener('resize', messen);
+    epBeiFensteraenderung(messen);
     window.addEventListener('orientationchange', messen);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(messen);
     window.addEventListener('load', messen);
@@ -989,7 +1014,7 @@
     }
 
     var resizeTimer;
-    window.addEventListener('resize', function () {
+    epBeiFensteraenderung(function () {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(rebuild, 300);
     });
