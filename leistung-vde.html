@@ -334,11 +334,18 @@
      Muster gebaut: alles in einer Reihe, Text links, Knoepfe rechts,
      gleiche seitliche Abstaende. --header-hoehe kommt aus der gemessenen
      echten Headerhoehe. */
-  .closing{background:var(--yellow);padding:0;min-height:var(--header-hoehe, 103px);display:flex;align-items:center;}
+  /* 27.09.2026 kleiner und dezenter gemacht: das Band war so hoch wie der
+     Header (bei 1440 px 103 px) und damit ein sehr grosser gelber Block kurz
+     vor der Fusszeile. Jetzt 64 px, dazu kleinere Schrift und flachere
+     Knoepfe -- die gelbe Flaeche schrumpft damit um rund 38 Prozent, der
+     Aufruf bleibt aber der letzte Blickfang vor dem Fuss. */
+  .closing{background:var(--yellow);padding:0;min-height:64px;display:flex;align-items:center;}
+  .closing h2{font-size:clamp(16px,1.25vw,19px);}
+  .closing .btn{padding:10px 20px;font-size:14px;}
   .closing .wrap{width:var(--inhalt-breite);max-width:100%;display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap;gap:clamp(20px,2.6vw,44px);}
   /* min-width:0, damit die Ueberschrift bei langem Text umbricht statt
      die Knoepfe in eine zweite Zeile zu druecken. */
-  .closing h2{font-weight:700;font-size:clamp(19px,1.7vw,25px);margin-bottom:0;letter-spacing:-.02em;min-width:0;}
+  .closing h2{font-weight:700;margin-bottom:0;letter-spacing:-.02em;min-width:0;}
   /* Die beiden Knoepfe bleiben nebeneinander und behalten ihre Breite;
      schmaler wird die Ueberschrift, nicht der Knopf. */
   .closing-actions{display:flex;gap:16px;flex-wrap:nowrap;flex:0 0 auto;margin-left:auto;}
@@ -346,7 +353,7 @@
   /* Auf schmalen Schirmen passt das nicht in eine Reihe -- dort waechst
      das Band wieder mit seinem Inhalt, wie die Fusszeile auch. */
   @media(max-width:820px){
-    .closing{padding:22px 0;}
+    .closing{padding:16px 0;}
     .closing .wrap{flex-direction:column;align-items:flex-start;flex-wrap:wrap;}
     .closing-actions{margin-left:0;flex-wrap:wrap;}
   }
