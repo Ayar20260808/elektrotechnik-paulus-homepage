@@ -651,13 +651,12 @@
      zwei dunkle Flaechen hintereinander lassen den Wechsel verschwinden. */
   #kunden{background:var(--grey-100);border-top:2px solid var(--ink);
     padding:clamp(34px,calc(var(--sh) * 6.5),96px) 0;}
-  /* Sechs Spalten, jede Kachel ueber zwei -- das sieht aus wie drei Spalten,
-     laesst aber die beiden Kacheln der zweiten Zeile auf halben Spalten
-     einruecken und damit mittig stehen. Mit margin-left:50% ginge das nicht:
-     das verschiebt die Kachel nicht, es halbiert ihre Breite. */
+  /* Vier Kacheln, vier Spalten -- eine je Kundengruppe, in derselben
+     Reihenfolge wie im Menuepunkt "Unsere Kunden". Der fruehere
+     Sechs-Spalten-Trick ist entfallen: er war noetig, solange fuenf Kacheln
+     eine zweite Zeile mit zwei Resten erzeugten. */
   .kunden-grid{padding:0 clamp(20px,5vw,72px);display:grid;
-    grid-template-columns:repeat(6,1fr);gap:clamp(16px,calc(var(--sh) * 3.0),48px);}
-  .kunden-card{grid-column:span 2;}
+    grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(16px,calc(var(--sh) * 3.0),48px);}
   .kunden-card{background:var(--grey-0);border:1px solid var(--grey-300);
     display:flex;flex-direction:column;}
   .kunden-body{padding:clamp(14px,calc(var(--sh) * 2.0),30px) clamp(18px,2vw,34px);
@@ -666,11 +665,11 @@
   .kunden-body p{color:var(--grey-600);font-size:clamp(13.5px,calc(var(--sh) * 1.85),17.5px);line-height:1.7;}
   /* Fuenf Kacheln auf drei Spalten lassen in der zweiten Zeile zwei stehen.
      Die beiden ruecken in die Mitte, sonst klafft rechts eine Luecke. */
-  .kunden-card:nth-child(4){grid-column:2 / span 2;}
-  .kunden-card:nth-child(5){grid-column:4 / span 2;}
+  /* Der Verweis sitzt unten in der Kachel, damit er bei ungleich langen
+     Texten auf einer Linie steht. */
+  .kunden-body .service-more{margin-top:auto;padding-top:clamp(8px,1vw,14px);}
   @media(max-width:900px){
     .kunden-grid{grid-template-columns:1fr 1fr;gap:clamp(11px,calc(var(--sh) * 1.7),40px);}
-    .kunden-card,.kunden-card:nth-child(4),.kunden-card:nth-child(5){grid-column:auto;}
   }
   @media(max-width:600px){ .kunden-grid{grid-template-columns:1fr;} }
   .service-img{position:relative;height:clamp(150px,calc(var(--sh) * 30),560px);overflow:hidden;}
@@ -1149,7 +1148,15 @@
           <a href="leistung-smarthome.html">Smart Home</a>
         </div>
       </div>
-      <a href="hausverwaltungen.html">Hausverwaltungen</a>
+      <div class="nav-item">
+        <a href="#kunden" aria-haspopup="true" aria-expanded="false">Unsere Kunden<span class="caret" aria-hidden="true"></span></a>
+        <div class="submenu">
+          <a href="privatkunden.html">Privatkunden</a>
+          <a href="hausverwaltungen.html">Hausverwaltungen</a>
+          <a href="bauunternehmen.html">Bauunternehmen</a>
+          <a href="industrie-gewerbe.html">Industrie &amp; Gewerbe</a>
+        </div>
+      </div>
       <a href="#ablauf">Ablauf</a>
       <a href="#kontakt">Kontakt</a>
     </nav>
@@ -1411,16 +1418,7 @@
         <p>Von der einzelnen Steckdose bis zur neuen Elektroanlage. Wir beraten
         unkompliziert und übernehmen Installation, Ladetechnik, Photovoltaik
         und Smart Home – auch Schritt für Schritt über mehrere Jahre.</p>
-      </div>
-    </div>
-
-    <div class="kunden-card" data-reveal>
-      <div class="kunden-body">
-        <h3>Gewerbekunden</h3>
-        <p>Im Betrieb muss die Technik laufen und die Prüfung nachweisbar sein.
-        Wir übernehmen E-Check und DGUV-V3-Prüfung mit Protokoll, Wartung und
-        Instandsetzung, dazu Netzwerktechnik, Ladeinfrastruktur und
-        Gebäudetechnik.</p>
+        <a class="service-more" href="privatkunden.html">Mehr erfahren →</a>
       </div>
     </div>
 
@@ -1429,27 +1427,28 @@
         <h3>Hausverwaltungen</h3>
         <p>Viele Einheiten, wechselnde Mieter, laufende Nachweise. Wir übernehmen
         E-Check und DGUV-V3-Prüfung, Zählerplätze, Treppenhaus- und
-        Allgemeinbeleuchtung sowie Tür- und Klingelsprechanlagen – mit einem
-        festen Ansprechpartner.</p>
+        Allgemeinbeleuchtung sowie Tür- und Klingelsprechanlagen.</p>
+        <a class="service-more" href="hausverwaltungen.html">Mehr erfahren →</a>
       </div>
     </div>
 
     <div class="kunden-card" data-reveal>
       <div class="kunden-body">
-        <h3>Architekten &amp; Planer</h3>
-        <p>In der Planung zählt, dass die Elektrotechnik früh mitgedacht ist.
-        Wir stimmen Leitungswege, Zählerplätze und Anschlussleistungen ab und
-        führen die Elektrofacharbeiten bis zur Abnahme aus.</p>
+        <h3>Bauunternehmen</h3>
+        <p>Elektroinstallation im Neubau und bei Sanierungen, abgestimmt auf
+        Ihren Bauzeitenplan und die anderen Gewerke. Dazu Baustrom, Abnahme
+        und die vollständigen Unterlagen zur Übergabe.</p>
+        <a class="service-more" href="bauunternehmen.html">Mehr erfahren →</a>
       </div>
     </div>
 
     <div class="kunden-card" data-reveal>
       <div class="kunden-body">
-        <h3>Private Bauherren</h3>
-        <p>Beim eigenen Haus fällt vieles gleichzeitig an. Wir planen die
-        Elektroinstallation mit Ihnen, führen sie aus und bereiten Wallbox,
-        Photovoltaik und Smart Home so vor, dass sie später ohne Aufbruch
-        dazukommen.</p>
+        <h3>Industrie &amp; Gewerbe</h3>
+        <p>DGUV-V3-Prüfung, Instandhaltung, Netzwerktechnik und Beleuchtung.
+        Umbauten und Erweiterungen legen wir in Zeiten, die den Betrieb nicht
+        aufhalten.</p>
+        <a class="service-more" href="industrie-gewerbe.html">Mehr erfahren →</a>
       </div>
     </div>
 
@@ -1945,31 +1944,47 @@
     });
   })();
 
-  /* Klick auf Leistungen haelt die Liste offen, solange die Maus auf dem
-     Punkt oder der Liste liegt. Der Sprung zum Abschnitt bleibt erhalten,
-     der Klick nimmt ihn nicht weg. Auf dem Handy klappt die Liste ohnehin
-     im Menue mit auf, dort greift die Klasse nicht stoerend ein. */
+  /* Klick auf einen Menuepunkt mit Liste haelt sie offen, solange die Maus
+     auf dem Punkt oder der Liste liegt. Der Sprung zum Abschnitt bleibt
+     erhalten, der Klick nimmt ihn nicht weg. Auf dem Handy klappt die Liste
+     ohnehin im Menue mit auf, dort greift die Klasse nicht stoerend ein.
+
+     Seit es zwei Punkte mit Liste gibt -- Leistungen und Unsere Kunden --
+     laeuft das ueber querySelectorAll. Vorher stand hier querySelector: das
+     verdrahtete nur den ersten. Der zweite waere am Rechner per CSS zwar
+     aufgegangen, haette sich nach einem Klick aber nicht mehr geschlossen. */
   (function () {
-    var punkt = document.querySelector('.nav-item');
-    if (!punkt) return;
-    var knopf = punkt.querySelector('a');
-    function auf() { punkt.classList.add('offen'); knopf.setAttribute('aria-expanded', 'true'); }
-    function zu()  {
-      punkt.classList.remove('offen');
-      knopf.setAttribute('aria-expanded', 'false');
-      // Nach einem Klick behaelt der Link den Fokus. Die Regel
-      // .nav-item:focus-within haelt die Liste dann offen, obwohl die Maus
-      // laengst weg ist. Also den Fokus abgeben -- aber nur, wenn er
-      // wirklich in diesem Punkt sitzt, damit die Tastaturbedienung
-      // unberuehrt bleibt.
-      if (punkt.contains(document.activeElement)) document.activeElement.blur();
-    }
-    knopf.addEventListener('click', auf);
-    punkt.addEventListener('mouseleave', zu);
-    // Sicherheitsnetz fuer Geraete ohne Maus: ein Klick irgendwo sonst
-    // schliesst die Liste, sonst bliebe sie nach einem Fingertipp stehen.
-    document.addEventListener('click', function (e) {
-      if (!punkt.contains(e.target)) zu();
+    var punkte = Array.prototype.slice.call(document.querySelectorAll('.nav-item'));
+    if (!punkte.length) return;
+    punkte.forEach(function (punkt) {
+      var knopf = punkt.querySelector('a');
+      function auf() { punkt.classList.add('offen'); knopf.setAttribute('aria-expanded', 'true'); }
+      function zu()  {
+        punkt.classList.remove('offen');
+        knopf.setAttribute('aria-expanded', 'false');
+        // Nach einem Klick behaelt der Link den Fokus. Die Regel
+        // .nav-item:focus-within haelt die Liste dann offen, obwohl die Maus
+        // laengst weg ist. Also den Fokus abgeben -- aber nur, wenn er
+        // wirklich in diesem Punkt sitzt, damit die Tastaturbedienung
+        // unberuehrt bleibt.
+        if (punkt.contains(document.activeElement)) document.activeElement.blur();
+      }
+      knopf.addEventListener('click', function () {
+        // Die andere Liste geht zu -- zwei offene wuerden sich ueberlappen.
+        punkte.forEach(function (p) {
+          if (p !== punkt) {
+            p.classList.remove('offen');
+            p.querySelector('a').setAttribute('aria-expanded', 'false');
+          }
+        });
+        auf();
+      });
+      punkt.addEventListener('mouseleave', zu);
+      // Sicherheitsnetz fuer Geraete ohne Maus: ein Klick irgendwo sonst
+      // schliesst die Liste, sonst bliebe sie nach einem Fingertipp stehen.
+      document.addEventListener('click', function (e) {
+        if (!punkt.contains(e.target)) zu();
+      });
     });
   })();
 
