@@ -80,18 +80,24 @@ Ueberblendung 1,1 s, dazu ein Zoom ueber dieselben 3,5 s. Bildebene Deckkraft
 `.86` auf dem Rechner, `1` unter 1000 px. Ein voller Umlauf dauert damit
 31,5 Sekunden.
 
-Reihenfolge (Stand 19.09.2026), dahinter `data-deckung / data-quer` und eine
-abweichende Bildlage, wo eine gesetzt ist:
+**Regel fuer die Reihenfolge: nie zwei Mitarbeiterfotos hintereinander.**
+Zwischen jedem Foto mit Menschen steht eines ohne -- Sachfoto, Mitarbeiter,
+Sachfoto. Vier der neun Bilder zeigen Menschen, sie stehen deshalb auf den
+Plaetzen 1, 3, 5 und 7; auch der Umlauf von Platz 8 auf Platz 0 trifft kein
+zweites Menschenfoto.
 
-    0  hero-0.jpg             0.68 / 0.66    Lage 20% center
-    1  hero-echeck.jpg        0.74 / 0.74
-    2  hero-kabel.jpg         0.70 / 0.66    Lage center top
-    3  hero-eauto.jpg         0.71 / 0.66
-    4  hero-tiefenerder.jpg   0.65 / 0.62    Lage 12% center
-    5  hero-solar.jpg         0.68 / 0.66
-    6  hero-montage.jpg       0.62 / 0.66    Lage 12% top
-    7  waermepumpe-hero.jpg   0.74 / 0.70
-    8  hero-4.jpg             0.74 / 0.70
+Reihenfolge (Stand 27.09.2026), dahinter `data-deckung / data-quer`, eine
+abweichende Bildlage, wo eine gesetzt ist, und das Motiv:
+
+    0  hero-echeck.jpg        0.74 / 0.74                      E-Check-Zeichen
+    1  hero-0.jpg             0.68 / 0.66    Lage 20% center   Irfan
+    2  hero-eauto.jpg         0.71 / 0.66                      Wallbox am Auto
+    3  hero-kabel.jpg         0.70 / 0.66    Lage center top   Leon
+    4  hero-solar.jpg         0.68 / 0.66                      Solaranlage
+    5  hero-tiefenerder.jpg   0.65 / 0.62    Lage 12% center   Paulus
+    6  waermepumpe-hero.jpg   0.74 / 0.70                      Waermepumpe
+    7  hero-montage.jpg       0.62 / 0.66    Lage 12% top      zwei Mitarbeiter
+    8  hero-4.jpg             0.74 / 0.70                      Lampen
 
 **Am Handy deckt seit 27.09.2026 nur noch der Textkasten ab.** Vorher lag ein
 Verlauf ueber dem halben Bild; das Foto kam mit 63 bis 121 von 255 an und sah
@@ -224,6 +230,9 @@ Damit sie nicht in jeder Sitzung neu erfragt werden.
 
 | Datum | Entscheidung | Begruendung |
 |---|---|---|
+| 27.09.2026 | Im Hero steht die **Waermepumpe zwischen Tiefenerder und Montage**; Regel dahinter: nie zwei Mitarbeiterfotos hintereinander | Auf Wunsch: „Jeweils ein anderes Foto, und dann Mitarbeiter.“ Die vier Fotos mit Menschen (`hero-0`, `hero-kabel`, `hero-tiefenerder`, `hero-montage`) liegen jetzt auf den Plaetzen 1, 3, 5, 7. Die Tabelle in 3.1 war dabei veraltet -- sie zeigte noch den Stand vor der Umsortierung vom selben Tag; jetzt steht dort die wirkliche Reihenfolge samt Motiv |
+| 27.09.2026 | **Jede Reaktion auf `resize` laeuft ueber `epBeiFensteraenderung`.** Auf Geraeten ohne Mauszeiger wird nur noch neu gerechnet, wenn sich die **Breite** aendert | Auf Wunsch: „beim Scrollen auf dem Handy flackern die Bilder“. Ursache gemessen: die Adressleiste faehrt beim Scrollen ein und aus, der Browser meldet das als `resize`, obwohl sich nur die Hoehe aendert. `--sh` haengt an `window.innerHeight`, und 37 Groessen haengen an `--sh`. Gemessen bei 390 px allein ueber diese 56 Pixel: Leistungsbild 198,6 -> 215,4 px, Kundenbild 140,0 -> 150,8 px, Seite 302 px laenger. Danach: alle drei Werte unveraendert, Breitenwechsel rechnet weiter neu, am Rechner alles wie bisher (53 Pruefungen gruen). **Beim Einbau entstand zuerst eine Endlosschleife**, weil die Weiche ihren eigenen `addEventListener` ersetzt bekam -- auf allen 14 Seiten, gefunden vom Test, nicht vom Auge |
+| 27.09.2026 | **Freie Stockfotos aus dem Netz sind aus dieser Umgebung nicht erreichbar** -- die Netzregel der Umgebung lehnt sie ab: `CONNECT tunnel failed, response 403` | Erneut gemessen am 27.09.2026 fuer alle acht Quellen (unsplash.com, images.unsplash.com, pexels.com, images.pexels.com, pixabay.com, commons.wikimedia.org, upload.wikimedia.org, openverse.org). **Was stattdessen hilft:** die Netzregel der Umgebung erweitern (Menue der Cloud-Umgebung in der Kopfzeile der Sitzung, *Edit*, *Network access*), oder die Fotos selbst herunterladen und in den Chat legen. Offen bleiben dadurch das Mehrfamilienhaus fuer Hausverwaltungen und die Fabrikhalle mit Foerderband fuer Industrie/Gewerbe |
 | 27.09.2026 | **Korrektur an einer eigenen Messung:** die am selben Tag gemeldeten „mindestens 7,02:1" fuer die gelbe Vorzeile am Handy waren mitten in der 1,1-s-Ueberblendung abgelesen. Eingeschwungen waren es 5,8:1 | Aufgefallen, weil zwei Messungen derselben Einstellung 5,78 und 7,13 ergaben. Nachgestellt: die CSS-Variable stand beim Ablesen noch bei 0,748 statt 0,68. **Lehre: bei allem, was ueber `transition` laeuft, im Test `transition:none` setzen -- nicht nur warten.** Die Schlussfolgerung von damals bleibt richtig, nur die Zahl war zu guenstig |
 | 27.09.2026 | **Im Git-Verlauf liegen 79 freie Stockfotos**, die einmal im Projekt lagen und als unbenutzt entfernt wurden (Unsplash, Pexels, Pixabay) | Gefunden beim Suchen nach Kundenfotos. Sie sind der Ersatz dafuer, dass diese Umgebung keine Fotoseite erreicht. Herausholen: `git log --all --pretty=format: --name-only -- '*.jpg' \| sort -u`, dann je Datei `git show <commit>^:<datei>`. **Was darin fehlt:** ein deutsches Mehrfamilienhaus und eine Produktionslinie oder Lagerhalle mit Foerderband |
 | 27.09.2026 | Die Fotos der Kundenkacheln kommen aus den alten, eigens dafuer gemachten Bildern von August 2026 -- sie lagen noch im Git-Verlauf | Auf Wunsch, die Behelfsfotos aus den Leistungsseiten passten nicht. Wiederhergestellt aus `14b5949^`: Wohnzimmer, Buerogebaeude, Baustelle mit Kraenen, Industriehalle. Bei Privatkunden blieb es auf Wunsch bei der Wallbox, nur enger geschnitten, aufgehellt und geschaerft. **Freie Fotos aus dem Netz gehen nicht:** Unsplash, Pexels, Pixabay, Wikimedia Commons und Openverse sind aus dieser Umgebung alle gesperrt (gemessen am 27.09.2026) |
