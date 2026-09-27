@@ -93,6 +93,31 @@ abweichende Bildlage, wo eine gesetzt ist:
     7  waermepumpe-hero.jpg   0.74 / 0.70
     8  hero-4.jpg             0.74 / 0.70
 
+**Am Handy deckt seit 27.09.2026 nur noch der Textkasten ab.** Vorher lag ein
+Verlauf ueber dem halben Bild; das Foto kam mit 63 bis 121 von 255 an und sah
+ausgewaschen aus. Der Grund war nie der Verlauf, sondern die gelbe Vorzeile:
+sie braucht 4,5:1, und das bekommt man ueber einem hellen Foto nur mit viel
+Deckung. Jetzt liegt die Deckung auf `.hero-text`, einer Huelle um Vorzeile
+und Ueberschrift; das uebrige Bild bekommt nur noch einen leichten Schleier
+von 0,16 bis 0,34 gegen Blendung. Gemessen bei 390 px, je Bild:
+
+    hero-echeck        121 -> 147        hero-tiefenerder    64 ->  70
+    hero-0              87 -> 105        hero-montage        89 -> 103
+    hero-eauto          69 ->  76        waermepumpe-hero    93 -> 111
+    hero-kabel          63 ->  72        hero-4              84 -> 103
+    hero-solar          75 ->  85
+
+Jedes Bild wurde heller, im Mittel um 17 Prozent. Der Kontrast stieg dabei
+mit: mindestens 7,02:1 statt der frueher gemessenen 4,83:1. Beides zugleich
+geht, weil die dunkle Flaeche jetzt genau dort sitzt, wo sie gebraucht wird.
+
+**Dabei musste zweierlei umziehen:** Das Skript setzt `--hero-deckung` und
+`--hero-quer` jetzt auf `.hero` statt auf `.hero-overlay` -- nur von dort
+erben sie beide Kinder. Und die weiche Ueberblendung der beiden Werte musste
+mit umziehen: an einem Kind deklariert liefe sie ins Leere, weil sich dort
+nur der geerbte Wert aendert. Nachgemessen waehrend eines Wechsels:
+0,624 0,636 0,659 0,686 0,712 0,731 0,739 -- es blendet, es springt nicht.
+
 **Wozu die Bildlage gut ist.** Der Hero schneidet zu (`background-size:cover`).
 Auf breiten Schirmen ist das Bild breitenbegrenzt -- dort aendert eine
 waagerechte Lage **nichts**, es wird oben und unten geschnitten. Am Handy ist
@@ -199,6 +224,7 @@ Damit sie nicht in jeder Sitzung neu erfragt werden.
 
 | Datum | Entscheidung | Begruendung |
 |---|---|---|
+| 27.09.2026 | Am Handy deckt nicht mehr ein Verlauf das halbe Hero-Bild ab, sondern nur noch eine Flaeche direkt hinter dem Text (`.hero-text`) | Auf Wunsch: die Fotos waren am Handy zu dunkel. Gemessen kamen vorher 63 bis 121 von 255 an, jetzt 70 bis 147 -- jedes der neun Bilder wurde heller, im Mittel um 17 Prozent. Der Kontrast der gelben Vorzeile stieg dabei mit, von gemessenen 4,83:1 auf mindestens 7,02:1, weil die Flaeche direkt hinter der Schrift sitzt statt ueber dem ganzen Bild. Die Werte in `data-deckung` bleiben gueltig und gelten jetzt fuer diese Flaeche |
 | 27.09.2026 | Aus dem Menuepunkt "Hausverwaltungen" wird ein Aufklappmenue "Unsere Kunden" mit vier Kundengruppen, jede mit eigener Seite | Auf Wunsch. Neue Seiten: `privatkunden.html`, `bauunternehmen.html`, `industrie-gewerbe.html`; `hausverwaltungen.html` bleibt unveraendert. Die vier Kacheln im Abschnitt `#kunden` der Startseite tragen dieselben Namen und verlinken auf dieselben Seiten. Dafuer sind die frueheren Kacheln "Gewerbekunden", "Architekten & Planer" und "Private Bauherren" entfallen -- vier Gruppen im Menue und fuenf auf der Seite waeren zwei verschiedene Antworten auf dieselbe Frage |
 | 19.09.2026 | Ab 901 px bleibt der Header durchgehend gross, er schrumpft beim Scrollen nur noch am Handy | Auf Wunsch. Die Schrumpfregeln stehen jetzt in `@media(max-width:900px)`. Der Waechter im Skript setzt `.geschrumpft` weiterhin auf jeder Breite -- darueber misst `--header-klein` am Rechner jetzt die wirklich sichtbare Kopfhoehe, und die Seiteneinteilung von Ablauf und Kontakt rechnet ohne Zutun richtig weiter. Nur der schwebende Knopf hing an derselben Variablen und waere auf 103 px gewachsen; er steht ab 901 px auf festen 46 px, dem Wert von vorher |
 | 19.09.2026 | Der Header faehrt am Seitenende **nicht mehr** nach oben aus dem Bild, dafuer sind Logo und die Menuepunkte Start/Leistungen/Ablauf/Kontakt aus der Fusszeile entfernt | Auf Wunsch. Beides haengt zusammen: die Menuepunkte standen nur deshalb in der Fusszeile, weil der Header dort verschwand. Er bleibt jetzt bis zum Kontaktabschnitt sichtbar, also braucht die Fusszeile sie nicht mehr. Sie traegt jetzt nur noch Anschrift, Impressum, Datenschutz und Copyright |
