@@ -440,7 +440,15 @@
           <a href="leistung-smarthome.html">Smart Home</a>
         </div>
       </div>
-      <a href="hausverwaltungen.html">Hausverwaltungen</a>
+      <div class="nav-item">
+        <a href="index.html#kunden" aria-haspopup="true" aria-expanded="false">Unsere Kunden<span class="caret" aria-hidden="true"></span></a>
+        <div class="submenu">
+          <a href="privatkunden.html">Privatkunden</a>
+          <a href="hausverwaltungen.html">Hausverwaltungen</a>
+          <a href="bauunternehmen.html">Bauunternehmen</a>
+          <a href="industrie-gewerbe.html">Industrie &amp; Gewerbe</a>
+        </div>
+      </div>
       <a href="index.html#ablauf">Ablauf</a>
       <a href="index.html#kontakt">Kontakt</a>
     </nav>
@@ -594,21 +602,48 @@
   var navLinks = document.querySelector('.nav-links');
   burger.addEventListener('click', function () { navLinks.classList.toggle('mobile-open'); });
 
-  // Klick auf "Leistungen" haelt die Liste offen, bis die Maus den Punkt
-  // samt Liste verlaesst -- genau wie auf der Startseite.
+  /* Klick auf einen Menuepunkt mit Liste haelt sie offen, solange die Maus
+     auf dem Punkt oder der Liste liegt. Der Sprung zum Abschnitt bleibt
+     erhalten, der Klick nimmt ihn nicht weg. Auf dem Handy klappt die Liste
+     ohnehin im Menue mit auf, dort greift die Klasse nicht stoerend ein.
+
+     Seit es zwei Punkte mit Liste gibt -- Leistungen und Unsere Kunden --
+     laeuft das ueber querySelectorAll. Vorher stand hier querySelector: das
+     verdrahtete nur den ersten. Der zweite waere am Rechner per CSS zwar
+     aufgegangen, haette sich nach einem Klick aber nicht mehr geschlossen. */
   (function () {
-    var punkt = document.querySelector('.nav-item');
-    if (!punkt) return;
-    var knopf = punkt.querySelector('a');
-    function auf() { punkt.classList.add('offen'); knopf.setAttribute('aria-expanded', 'true'); }
-    function zu()  {
-      punkt.classList.remove('offen');
-      knopf.setAttribute('aria-expanded', 'false');
-      if (punkt.contains(document.activeElement)) document.activeElement.blur();
-    }
-    knopf.addEventListener('click', auf);
-    punkt.addEventListener('mouseleave', zu);
-    document.addEventListener('click', function (e) { if (!punkt.contains(e.target)) zu(); });
+    var punkte = Array.prototype.slice.call(document.querySelectorAll('.nav-item'));
+    if (!punkte.length) return;
+    punkte.forEach(function (punkt) {
+      var knopf = punkt.querySelector('a');
+      function auf() { punkt.classList.add('offen'); knopf.setAttribute('aria-expanded', 'true'); }
+      function zu()  {
+        punkt.classList.remove('offen');
+        knopf.setAttribute('aria-expanded', 'false');
+        // Nach einem Klick behaelt der Link den Fokus. Die Regel
+        // .nav-item:focus-within haelt die Liste dann offen, obwohl die Maus
+        // laengst weg ist. Also den Fokus abgeben -- aber nur, wenn er
+        // wirklich in diesem Punkt sitzt, damit die Tastaturbedienung
+        // unberuehrt bleibt.
+        if (punkt.contains(document.activeElement)) document.activeElement.blur();
+      }
+      knopf.addEventListener('click', function () {
+        // Die andere Liste geht zu -- zwei offene wuerden sich ueberlappen.
+        punkte.forEach(function (p) {
+          if (p !== punkt) {
+            p.classList.remove('offen');
+            p.querySelector('a').setAttribute('aria-expanded', 'false');
+          }
+        });
+        auf();
+      });
+      punkt.addEventListener('mouseleave', zu);
+      // Sicherheitsnetz fuer Geraete ohne Maus: ein Klick irgendwo sonst
+      // schliesst die Liste, sonst bliebe sie nach einem Fingertipp stehen.
+      document.addEventListener('click', function (e) {
+        if (!punkt.contains(e.target)) zu();
+      });
+    });
   })();
 
   // Die Fusszeile ist genauso hoch wie der Header. Die Hoehe wird gemessen
