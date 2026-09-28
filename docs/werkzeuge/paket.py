@@ -11,7 +11,7 @@ kann nichts vergessen werden und nichts Fremdes hineinrutschen.
 
 Aufruf:  python3 docs/werkzeuge/paket.py
 """
-import os, subprocess, sys, zipfile
+import os, shutil, subprocess, sys, zipfile
 from datetime import date
 
 # Diese gehoeren zur Entwicklung, nicht auf den Webserver.
@@ -32,6 +32,19 @@ alle = subprocess.run(['git', 'ls-files'], capture_output=True, text=True,
 dabei = [p for p in alle
          if not p.startswith(DRAUSSEN_ORDNER) and p not in DRAUSSEN_DATEI
          and not p.endswith(DRAUSSEN_ENDUNG)]
+
+# Zweiter Betriebsmodus, fuer die Automatik: statt eines Archivs legt das
+# Werkzeug die Dateien in einen Ordner. Damit steht die Frage "was gehoert auf
+# den Webserver" nur an dieser einen Stelle -- der GitHub-Ablauf beantwortet
+# sie nicht noch einmal selbst und kann deshalb auch nicht davon abweichen.
+if len(sys.argv) == 3 and sys.argv[1] == '--ordner':
+    ordner = sys.argv[2]
+    for p in dabei:
+        nach = os.path.join(ordner, p)
+        os.makedirs(os.path.dirname(nach) or '.', exist_ok=True)
+        shutil.copy2(p, nach)
+    print(f'{ordner}   {len(dabei)} Dateien')
+    sys.exit(0)
 
 ziel = f'seite-{date.today():%d-%m}.zip'
 with zipfile.ZipFile(ziel, 'w', zipfile.ZIP_DEFLATED) as z:

@@ -1,0 +1,222 @@
+# Laedt die Website nach jedem Push auf den Hostinger-Server.
+#
+# Warum ueber GitHub und nicht direkt aus der Arbeitssitzung: die Umgebung,
+# in der Claude laeuft, erreicht Hostinger nicht. Gemessen am 28.09.2026 --
+# Port 21 (FTP), 22 und 65002 (SFTP) abgewiesen, HTTPS zur Seite
+# `connect_rejected`. Die Server von GitHub stehen nicht hinter dieser Sperre.
+#
+# Der Ablauf tut von sich aus nichts, solange er nicht eingerichtet ist.
+# Noetig sind drei *Secrets* des Repositories:
+#
+#     HOSTINGER_FTP_SERVER      die FTP-Adresse aus dem Hostinger-Konto
+#     HOSTINGER_FTP_BENUTZER
+#     HOSTINGER_FTP_PASSWORT
+#
+# Und zwei *Variables* des Repositories, beide freiwillig:
+#
+#     HOSTINGER_BRANCH          welcher Branch hochgeladen wird.
+#                               Ohne sie: der Standardbranch.
+#     HOSTINGER_ZIELORDNER      das Webverzeichnis. Ohne sie: public_html
+#
+# Der Branchname steht hier bewusst NICHT im Klartext. Nach der Regel in
+# CLAUDE.md gehoert alles, was veralten kann -- Branchnamen zuerst -- nach
+# docs/ARBEITSSTAND.md und nirgendwo sonst. Eine Variable im Repository ist
+# keine Datei im Projekt und kann ihr deshalb auch nicht widersprechen.
+#
+# Fehlen alle drei Secrets, endet der Lauf gruen mit einem Hinweis. Fehlt nur
+# eines, bricht er ab: dann ist etwas halb eingerichtet, und das faellt sonst
+# erst auf, wenn die Seite veraltet ist.
+#
+# Was hochgeht, entscheidet docs/werkzeuge/paket.py -- dasselbe Werkzeug, das
+# auch das ZIP fuer den Dateimanager baut. So gibt es nur eine Antwort auf die
+# Frage, was auf den Webserver gehoert, und nicht zwei, die auseinanderlaufen.
+
+name: Zu Hostinger hochladen
+
+on:
+  push:
+    branches: ['**']
+  workflow_dispatch:
+    inputs:
+      probelauf:
+        description: 'Probelauf -- nur zeigen, was hochginge, nichts uebertragen'
+        type: boolean
+        default: false
+      aufraeumen:
+        description: 'Auf dem Server loeschen, was es hier nicht mehr gibt'
+        type: boolean
+        default: false
+
+# Immer nur ein Lauf gleichzeitig. Zwei Uebertragungen in dasselbe
+# Verzeichnis wuerden sich gegenseitig ueberschreiben.
+concurrency:
+  group: hostinger
+  cancel-in-progress: false
+
+jobs:
+  hochladen:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Arbeitsstand holen
+        uses: actions/checkout@v4
+
+      - name: Ist dieser Branch gemeint?
+        id: pruefen
+        env:
+          ZIELBRANCH: ${{ vars.HOSTINGER_BRANCH }}
+          STANDARD: ${{ github.event.repository.default_branch }}
+          ANLASS: ${{ github.event_name }}
+        run: |
+          set -euo pipefail
+          BRANCH="${GITHUB_REF#refs/heads/}"
+          if [ "$ANLASS" = "workflow_dispatch" ]; then
+            echo "Von Hand gestartet auf $BRANCH."
+            echo "weiter=ja" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          ZIEL="${ZIELBRANCH:-$STANDARD}"
+          if [ "$BRANCH" = "$ZIEL" ]; then
+            echo "$BRANCH wird hochgeladen."
+            echo "weiter=ja" >> "$GITHUB_OUTPUT"
+          else
+            echo "$BRANCH ist nicht der hochzuladende Branch ($ZIEL) -- nichts zu tun."
+            echo "weiter=nein" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Paket zusammenstellen
+        if: steps.pruefen.outputs.weiter == 'ja'
+        run: |
+          set -euo pipefail
+          rm -rf "$RUNNER_TEMP/paket"
+          python3 docs/werkzeuge/paket.py --ordner "$RUNNER_TEMP/paket"
+
+      - name: Was hochginge
+        if: steps.pruefen.outputs.weiter == 'ja'
+        run: |
+          set -euo pipefail
+          ANZAHL="$(find "$RUNNER_TEMP/paket" -type f | wc -l)"
+          GROESSE="$(du -sh "$RUNNER_TEMP/paket" | cut -f1)"
+          {
+            echo "### Paket"
+            echo ""
+            echo "$ANZAHL Dateien, $GROESSE"
+            echo ""
+            echo '```'
+            ( cd "$RUNNER_TEMP/paket" && find . -maxdepth 1 -type f | sed 's|^\./||' | sort )
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Zugangsdaten vorhanden?
+        id: zugang
+        if: steps.pruefen.outputs.weiter == 'ja'
+        env:
+          SERVER: ${{ secrets.HOSTINGER_FTP_SERVER }}
+          BENUTZER: ${{ secrets.HOSTINGER_FTP_BENUTZER }}
+          PASSWORT: ${{ secrets.HOSTINGER_FTP_PASSWORT }}
+        run: |
+          set -euo pipefail
+          da=0
+          fehlt=""
+          for name in SERVER BENUTZER PASSWORT; do
+            if [ -n "${!name}" ]; then
+              da=$((da + 1))
+            else
+              fehlt="$fehlt HOSTINGER_FTP_$name"
+            fi
+          done
+          if [ "$da" = "3" ]; then
+            echo "Alle drei Zugangsdaten sind hinterlegt."
+            echo "weiter=ja" >> "$GITHUB_OUTPUT"
+          elif [ "$da" = "0" ]; then
+            echo "Noch kein Zugang hinterlegt -- es wird nichts uebertragen."
+            echo "weiter=nein" >> "$GITHUB_OUTPUT"
+            {
+              echo "### Automatik noch nicht eingerichtet"
+              echo ""
+              echo "Es ist keines der drei Secrets hinterlegt, deshalb wurde"
+              echo "nichts hochgeladen. Das Paket oben zeigt, was hochginge."
+            } >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "Halb eingerichtet. Es fehlt:$fehlt"
+            echo "Entweder alle drei hinterlegen oder keines."
+            exit 1
+          fi
+
+      - name: Probelauf endet hier
+        if: steps.pruefen.outputs.weiter == 'ja' && inputs.probelauf
+        run: |
+          {
+            echo ""
+            echo "**Probelauf -- es wurde nichts uebertragen.**"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: lftp einrichten
+        if: steps.pruefen.outputs.weiter == 'ja' && steps.zugang.outputs.weiter == 'ja' && !inputs.probelauf
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq lftp
+          lftp --version | head -1
+
+      - name: Hochladen
+        if: steps.pruefen.outputs.weiter == 'ja' && steps.zugang.outputs.weiter == 'ja' && !inputs.probelauf
+        env:
+          SERVER: ${{ secrets.HOSTINGER_FTP_SERVER }}
+          BENUTZER: ${{ secrets.HOSTINGER_FTP_BENUTZER }}
+          LFTP_PASSWORD: ${{ secrets.HOSTINGER_FTP_PASSWORT }}
+          ORDNER: ${{ vars.HOSTINGER_ZIELORDNER || 'public_html' }}
+          AUFRAEUMEN: ${{ inputs.aufraeumen }}
+        run: |
+          set -euo pipefail
+          PAKET="$RUNNER_TEMP/paket"
+
+          # Voreinstellung ist: nichts loeschen. Auf dem Server liegen Dinge,
+          # die nicht aus diesem Projekt stammen -- unter anderem eine alte
+          # Kopie von public_html innerhalb des Webverzeichnisses. Geloescht
+          # wird nur, wenn der Lauf von Hand mit "aufraeumen" gestartet wird.
+          if [ "$AUFRAEUMEN" = "true" ]; then LOESCHEN="--delete"; else LOESCHEN=""; fi
+
+          # mirror ueberspringt Punktdateien nicht zuverlaessig, und .htaccess
+          # traegt die 301-Weiterleitungen von den alten Wix-Adressen. Deshalb
+          # wird sie danach noch einmal einzeln uebertragen. Zweimal schadet
+          # nicht, einmal zu wenig schon.
+          if [ -f "$PAKET/.htaccess" ]; then
+            NACHZIEHEN="put -O \"$ORDNER\" \"$PAKET/.htaccess\";"
+          else
+            NACHZIEHEN=""
+          fi
+
+          # --env-password haelt das Passwort aus der Befehlszeile heraus, es
+          # steht nur in der Umgebung. ssl-force erzwingt eine verschluesselte
+          # Verbindung, damit Zugangsdaten und Dateien nicht im Klartext ueber
+          # die Leitung gehen.
+          #
+          # Die Pruefung des Zertifikats ist aus: bei Massenhostern ist das
+          # FTP-Zertifikat oft auf einen anderen Namen ausgestellt als den, den
+          # man verbindet. Das ist UNGEPRUEFT -- diese Umgebung kommt an den
+          # Server nicht heran. Faellt der erste echte Lauf deswegen um, sagt
+          # die Fehlermeldung es deutlich.
+          lftp -c "
+            set cmd:fail-exit true;
+            set ftp:ssl-force true;
+            set ftp:ssl-protect-data true;
+            set ssl:verify-certificate no;
+            set net:max-retries 3;
+            set net:timeout 30;
+            open --env-password -u \"$BENUTZER\" \"$SERVER\";
+            mirror --reverse --verbose --parallel=3 $LOESCHEN \"$PAKET\" \"$ORDNER\";
+            $NACHZIEHEN
+          "
+
+      - name: Ergebnis
+        if: steps.pruefen.outputs.weiter == 'ja' && steps.zugang.outputs.weiter == 'ja' && !inputs.probelauf
+        run: |
+          {
+            echo ""
+            echo "### Hochgeladen"
+            echo ""
+            echo "Ziel: \`${{ vars.HOSTINGER_ZIELORDNER || 'public_html' }}\`"
+            echo ""
+            echo "**Der CDN-Zwischenspeicher bei Hostinger wird davon nicht geleert.**"
+            echo "Ohne das zeigt die Seite unter Umstaenden tagelang den alten Stand."
+          } >> "$GITHUB_STEP_SUMMARY"
