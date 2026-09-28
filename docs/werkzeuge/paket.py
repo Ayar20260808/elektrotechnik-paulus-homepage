@@ -17,6 +17,11 @@ from datetime import date
 # Diese gehoeren zur Entwicklung, nicht auf den Webserver.
 DRAUSSEN_ORDNER = ('docs/', '.github/')
 DRAUSSEN_DATEI  = ('AGENTS.md', 'CLAUDE.md', '.gitignore')
+# Die frueheren Pakete liegen selbst im Git-Verlauf. Ohne diese Zeile packt
+# sich das Paket die alten Pakete mit ein: gemessen am 28.09.2026 waren das
+# 5,0 MiB von 11 MiB, und auf dem Webserver laegen sie oeffentlich zum
+# Herunterladen bereit. Ein Paket ist ein Ergebnis, kein Seiteninhalt.
+DRAUSSEN_ENDUNG = ('.zip',)
 
 wurzel = subprocess.run(['git', 'rev-parse', '--show-toplevel'],
                         capture_output=True, text=True, check=True).stdout.strip()
@@ -25,7 +30,8 @@ os.chdir(wurzel)
 alle = subprocess.run(['git', 'ls-files'], capture_output=True, text=True,
                       check=True).stdout.splitlines()
 dabei = [p for p in alle
-         if not p.startswith(DRAUSSEN_ORDNER) and p not in DRAUSSEN_DATEI]
+         if not p.startswith(DRAUSSEN_ORDNER) and p not in DRAUSSEN_DATEI
+         and not p.endswith(DRAUSSEN_ENDUNG)]
 
 ziel = f'seite-{date.today():%d-%m}.zip'
 with zipfile.ZipFile(ziel, 'w', zipfile.ZIP_DEFLATED) as z:

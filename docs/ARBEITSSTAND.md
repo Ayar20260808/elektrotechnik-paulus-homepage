@@ -230,6 +230,8 @@ Damit sie nicht in jeder Sitzung neu erfragt werden.
 
 | Datum | Entscheidung | Begruendung |
 |---|---|---|
+| 28.09.2026 | `docs/werkzeuge/paket.py` nimmt **keine `.zip`-Dateien** mehr ins Paket | Die frueheren Pakete liegen selbst im Git-Verlauf, und die Aufnahmeregel des Werkzeugs („alles, was Git kennt, minus der Entwicklungsdateien“) hatte sie nicht ausgeschlossen. Gemessen: 5,0 MiB von 11 MiB waren alte Pakete -- sie haetten auf dem Webserver oeffentlich zum Herunterladen gelegen. Das neue Paket ist dadurch 4,36 statt rund 9 MiB gross |
+| 28.09.2026 | **Die Homepage bleibt bei Hostinger; Supabase kommt dafuer nicht in Frage** | Auf die Frage, ob nach Supabase hochgeladen werden kann. Supabase ist eine Datenbank mit Dateiablage und Serverfunktionen, kein Webhoster; `kontakt.php` liefe dort nicht. Dazu gemessen: diese Umgebung erreicht weder Supabase noch Hostinger (`CONNECT tunnel failed, response 403`), und die 27 Supabase-Werkzeuge haben keine Dateiablage. Das vorhandene Projekt `Ayar20260808's Project` (eu-west-1, seit 08.08.2026) gehoert zu Elektrohub und hat mit der Homepage nichts zu tun |
 | 27.09.2026 | Im Hero steht die **Waermepumpe zwischen Tiefenerder und Montage**; Regel dahinter: nie zwei Mitarbeiterfotos hintereinander | Auf Wunsch: „Jeweils ein anderes Foto, und dann Mitarbeiter.“ Die vier Fotos mit Menschen (`hero-0`, `hero-kabel`, `hero-tiefenerder`, `hero-montage`) liegen jetzt auf den Plaetzen 1, 3, 5, 7. Die Tabelle in 3.1 war dabei veraltet -- sie zeigte noch den Stand vor der Umsortierung vom selben Tag; jetzt steht dort die wirkliche Reihenfolge samt Motiv |
 | 27.09.2026 | **Jede Reaktion auf `resize` laeuft ueber `epBeiFensteraenderung`.** Auf Geraeten ohne Mauszeiger wird nur noch neu gerechnet, wenn sich die **Breite** aendert | Auf Wunsch: „beim Scrollen auf dem Handy flackern die Bilder“. Ursache gemessen: die Adressleiste faehrt beim Scrollen ein und aus, der Browser meldet das als `resize`, obwohl sich nur die Hoehe aendert. `--sh` haengt an `window.innerHeight`, und 37 Groessen haengen an `--sh`. Gemessen bei 390 px allein ueber diese 56 Pixel: Leistungsbild 198,6 -> 215,4 px, Kundenbild 140,0 -> 150,8 px, Seite 302 px laenger. Danach: alle drei Werte unveraendert, Breitenwechsel rechnet weiter neu, am Rechner alles wie bisher (53 Pruefungen gruen). **Beim Einbau entstand zuerst eine Endlosschleife**, weil die Weiche ihren eigenen `addEventListener` ersetzt bekam -- auf allen 14 Seiten, gefunden vom Test, nicht vom Auge |
 | 27.09.2026 | **Freie Stockfotos aus dem Netz sind aus dieser Umgebung nicht erreichbar** -- die Netzregel der Umgebung lehnt sie ab: `CONNECT tunnel failed, response 403` | Erneut gemessen am 27.09.2026 fuer alle acht Quellen (unsplash.com, images.unsplash.com, pexels.com, images.pexels.com, pixabay.com, commons.wikimedia.org, upload.wikimedia.org, openverse.org). **Was stattdessen hilft:** die Netzregel der Umgebung erweitern (Menue der Cloud-Umgebung in der Kopfzeile der Sitzung, *Edit*, *Network access*), oder die Fotos selbst herunterladen und in den Chat legen. Offen bleiben dadurch das Mehrfamilienhaus fuer Hausverwaltungen und die Fabrikhalle mit Foerderband fuer Industrie/Gewerbe |
@@ -270,24 +272,35 @@ Alles committet und gepusht, Arbeitsverzeichnis sauber. Letzter Commit
 
 **Offen, und das Wichtigste zuerst:**
 
-1. **Das Teilpaket `seite-teil-19-09-ee8378d.zip` war am Ende der Sitzung noch
-   nicht auf dem Server.** Irfan hatte es bekommen und wollte es hochladen.
-   **Am 24.09.2026 meldet er: „homepage laeuft".** Das ist eine Meldung, keine
-   Messung -- die Maschine sieht die Live-Seite nicht (siehe unten). Und es
-   sagt noch nicht, **welcher Stand** dort liegt: „laeuft" gilt auch fuer den
-   alten. Zum Unterscheiden dient ein Blick, der ohne Werkzeug auskommt: am
-   Rechner nach unten scrollen. **Bleibt der Kopf gross, ist das neue Paket
-   drauf; schrumpft er auf einen schmalen Streifen, der alte.** Solange das
-   nicht geklaert ist: **erst fragen, bevor etwas darauf aufbaut.**
-   Das Paket liegt nicht im Repository (`.gitignore`), laesst sich aber jederzeit
-   neu bauen: `git diff --name-only 0372489..HEAD` ohne `docs/`, `.github/`,
-   `CLAUDE.md`, `AGENTS.md`, `.gitignore`.
-2. **Eine unbeantwortete Rueckfrage:** In der Fusszeile steht noch die Koelner
+1. **Das Vollpaket `seite-28-09.zip` ist gebaut und an Irfan uebergeben
+   (28.09.2026); hochgeladen hat er es selbst.** 262 Dateien, 4,36 MiB, Stand
+   `639c87a`. Gegengeprueft: Archiv lesbar, alle vierzehn HTML-Seiten darin,
+   dazu `.htaccess` und `kontakt.php`, nichts Fremdes, `index.html` und
+   `hausverwaltungen.html` bytegleich mit der Arbeitskopie. **Entpacken nach**
+   `/files/domains/elektrotechnik-paulus.de/public_html/`, **danach den
+   CDN-Cache leeren.** `kontakt-konfig.php` liegt nur auf dem Server und ist
+   nicht im Paket -- das Entpacken fasst sie nicht an. Neu bauen jederzeit mit
+   `python3 docs/werkzeuge/paket.py`.
+   **Ob es oben liegt, ist ungeprueft** -- die Maschine sieht die Live-Seite
+   nicht (siehe unten). Zum Unterscheiden dient ein Blick, der ohne Werkzeug
+   auskommt: am Rechner nach unten scrollen. **Bleibt der Kopf gross, ist das
+   neue Paket drauf; schrumpft er auf einen schmalen Streifen, ein alter
+   Stand.** Solange das nicht geklaert ist: erst fragen, bevor etwas darauf
+   aufbaut.
+2. **Die Automatik ist beschlossen, aber noch nicht gebaut.** Ein
+   GitHub-Actions-Ablauf soll nach jedem Push per FTP nach `public_html`
+   hochladen. Das geht nur ueber GitHub: dessen Server erreichen Hostinger,
+   diese Umgebung nicht (gemessen am 28.09.2026 -- Port 21, 22 und 65002
+   abgewiesen, HTTPS zur Seite `connect_rejected`). Irfan wollte an diesem Tag
+   noch selbst hochladen und die Automatik spaeter einrichten. Dafuer noetig:
+   drei Repository-Secrets (FTP-Adresse, Benutzer, Passwort) und eine Variable
+   mit dem Branchnamen -- damit der Branchname nicht in einer Datei steht.
+3. **Eine unbeantwortete Rueckfrage:** In der Fusszeile steht noch die Koelner
    Silhouette (`footer.legalbar::before`, Maske aus `skyline-koeln.svg`).
    Irfan hatte „Logo und Icon loeschen" gesagt; entfernt wurde das Logo mit
    seinem Quadrat -- beides steckt in einer einzigen SVG-Datei und laesst sich
    nicht halbieren. Ob die Silhouette auch weg soll, ist **nicht beantwortet**.
-3. **Zwei aeltere Fragen, seit dem 15.09.2026 offen:** Ist die Testanfrage vom
+4. **Zwei aeltere Fragen, seit dem 15.09.2026 offen:** Ist die Testanfrage vom
    Handy als Mail bei `info@elektrotechnik-paulus.de` angekommen? Und: ohne
    JavaScript ist weder der Erfolgs- noch der Fehlerkasten des Formulars
    sichtbar -- das besteht seit dem 02.09.2026 und wurde nie entschieden.
