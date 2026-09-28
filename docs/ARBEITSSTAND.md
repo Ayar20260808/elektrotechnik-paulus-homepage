@@ -230,6 +230,7 @@ Damit sie nicht in jeder Sitzung neu erfragt werden.
 
 | Datum | Entscheidung | Begruendung |
 |---|---|---|
+| 28.09.2026 | **Die Automatik laedt ueber GitHub Actions hoch, nicht aus der Arbeitssitzung** -- und der Branchname steht dabei in einer Repository-*Variable*, nicht in der Ablaufdatei | Auf Wunsch vorbereitet. Ueber GitHub, weil diese Umgebung Hostinger nicht erreicht (Port 21, 22, 65002 abgewiesen, HTTPS `connect_rejected`). Der Branchname in einer Variablen statt in der YAML-Datei, weil nach CLAUDE.md alles, was veralten kann, nur in dieser Datei hier stehen darf -- eine Variable im Repository ist keine Datei im Projekt und kann ihr nicht widersprechen. Was hochgeht, entscheidet `docs/werkzeuge/paket.py` (neuer Schalter `--ordner`), damit es nicht zwei Antworten darauf gibt, was auf den Webserver gehoert |
 | 28.09.2026 | `docs/werkzeuge/paket.py` nimmt **keine `.zip`-Dateien** mehr ins Paket | Die frueheren Pakete liegen selbst im Git-Verlauf, und die Aufnahmeregel des Werkzeugs („alles, was Git kennt, minus der Entwicklungsdateien“) hatte sie nicht ausgeschlossen. Gemessen: 5,0 MiB von 11 MiB waren alte Pakete -- sie haetten auf dem Webserver oeffentlich zum Herunterladen gelegen. Das neue Paket ist dadurch 4,36 statt rund 9 MiB gross |
 | 28.09.2026 | **Die Homepage bleibt bei Hostinger; Supabase kommt dafuer nicht in Frage** | Auf die Frage, ob nach Supabase hochgeladen werden kann. Supabase ist eine Datenbank mit Dateiablage und Serverfunktionen, kein Webhoster; `kontakt.php` liefe dort nicht. Dazu gemessen: diese Umgebung erreicht weder Supabase noch Hostinger (`CONNECT tunnel failed, response 403`), und die 27 Supabase-Werkzeuge haben keine Dateiablage. Das vorhandene Projekt `Ayar20260808's Project` (eu-west-1, seit 08.08.2026) gehoert zu Elektrohub und hat mit der Homepage nichts zu tun |
 | 27.09.2026 | Im Hero steht die **Waermepumpe zwischen Tiefenerder und Montage**; Regel dahinter: nie zwei Mitarbeiterfotos hintereinander | Auf Wunsch: „Jeweils ein anderes Foto, und dann Mitarbeiter.“ Die vier Fotos mit Menschen (`hero-0`, `hero-kabel`, `hero-tiefenerder`, `hero-montage`) liegen jetzt auf den Plaetzen 1, 3, 5, 7. Die Tabelle in 3.1 war dabei veraltet -- sie zeigte noch den Stand vor der Umsortierung vom selben Tag; jetzt steht dort die wirkliche Reihenfolge samt Motiv |
@@ -287,14 +288,35 @@ Alles committet und gepusht, Arbeitsverzeichnis sauber. Letzter Commit
    neue Paket drauf; schrumpft er auf einen schmalen Streifen, ein alter
    Stand.** Solange das nicht geklaert ist: erst fragen, bevor etwas darauf
    aufbaut.
-2. **Die Automatik ist beschlossen, aber noch nicht gebaut.** Ein
-   GitHub-Actions-Ablauf soll nach jedem Push per FTP nach `public_html`
-   hochladen. Das geht nur ueber GitHub: dessen Server erreichen Hostinger,
+2. **Die Automatik ist gebaut und wartet nur noch auf die Zugangsdaten.**
+   `.github/workflows/hostinger-hochladen.yml` laedt das Paket per FTP nach
+   `public_html`. Das geht nur ueber GitHub: dessen Server erreichen Hostinger,
    diese Umgebung nicht (gemessen am 28.09.2026 -- Port 21, 22 und 65002
-   abgewiesen, HTTPS zur Seite `connect_rejected`). Irfan wollte an diesem Tag
-   noch selbst hochladen und die Automatik spaeter einrichten. Dafuer noetig:
-   drei Repository-Secrets (FTP-Adresse, Benutzer, Passwort) und eine Variable
-   mit dem Branchnamen -- damit der Branchname nicht in einer Datei steht.
+   abgewiesen, HTTPS zur Seite `connect_rejected`).
+
+   **Was noch fehlt, und nur Irfan kann es eintragen** -- drei *Secrets* des
+   Repositories:
+
+       HOSTINGER_FTP_SERVER      die FTP-Adresse aus dem Hostinger-Konto
+       HOSTINGER_FTP_BENUTZER
+       HOSTINGER_FTP_PASSWORT
+
+   Dazu eine *Variable* `HOSTINGER_BRANCH` mit dem Arbeitsbranch aus Abschnitt 1
+   dieser Datei. **Ohne sie laedt der Ablauf den Standardbranch hoch** -- also
+   `master`, und da wird nicht hineingemergt. Zweite, freiwillige Variable:
+   `HOSTINGER_ZIELORDNER`, ohne Angabe `public_html`.
+
+   Solange kein Secret hinterlegt ist, endet jeder Lauf gruen und uebertraegt
+   nichts; fehlt nur eines von dreien, bricht er ab. Zum Ausprobieren gibt es
+   den Ablauf auch von Hand mit zwei Schaltern: `probelauf` zeigt nur, was
+   hochginge, `aufraeumen` loescht auf dem Server, was es hier nicht mehr gibt
+   (Voreinstellung: nicht loeschen -- im Webverzeichnis liegt noch eine alte
+   Kopie von `public_html`, siehe weiter unten).
+
+   **Ungeprueft bleibt die FTP-Verbindung selbst.** Diese Umgebung kommt nicht
+   an den Server. Der erste echte Lauf ist die Probe; wahrscheinlichster
+   Stolperstein ist die TLS-Einstellung (`ftp:ssl-force`), falls Hostinger auf
+   diesem Zugang kein FTPS anbietet. Die Fehlermeldung sagt es dann deutlich.
 3. **Eine unbeantwortete Rueckfrage:** In der Fusszeile steht noch die Koelner
    Silhouette (`footer.legalbar::before`, Maske aus `skyline-koeln.svg`).
    Irfan hatte „Logo und Icon loeschen" gesagt; entfernt wurde das Logo mit
