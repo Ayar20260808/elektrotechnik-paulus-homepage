@@ -230,6 +230,7 @@ Damit sie nicht in jeder Sitzung neu erfragt werden.
 
 | Datum | Entscheidung | Begruendung |
 |---|---|---|
+| 28.09.2026 | **Die Telefonnummer auf der Seite bleibt, wie sie ist** -- `0157 7544 0510` war bereits die gewuenschte Handynummer | Auftrag war, die Seite auf die Handynummer umzustellen. Nachgemessen, bevor etwas geaendert wurde: die genannte `015775440510` ist ziffernweise dieselbe, die seit dem 15.09.2026 ueberall steht; im ganzen ausgelieferten Stand kommt **keine andere Telefonnummer** vor. Es war also nichts zu tun -- offen bleibt nur, ob das aktuelle Paket auf dem Server liegt. Fuer Google Ads ist ein Prompt uebergeben worden, weil dort noch die alte Festnetznummer stehen kann |
 | 28.09.2026 | **Die Automatik laedt ueber GitHub Actions hoch, nicht aus der Arbeitssitzung** -- und der Branchname steht dabei in einer Repository-*Variable*, nicht in der Ablaufdatei | Auf Wunsch vorbereitet. Ueber GitHub, weil diese Umgebung Hostinger nicht erreicht (Port 21, 22, 65002 abgewiesen, HTTPS `connect_rejected`). Der Branchname in einer Variablen statt in der YAML-Datei, weil nach CLAUDE.md alles, was veralten kann, nur in dieser Datei hier stehen darf -- eine Variable im Repository ist keine Datei im Projekt und kann ihr nicht widersprechen. Was hochgeht, entscheidet `docs/werkzeuge/paket.py` (neuer Schalter `--ordner`), damit es nicht zwei Antworten darauf gibt, was auf den Webserver gehoert |
 | 28.09.2026 | `docs/werkzeuge/paket.py` nimmt **keine `.zip`-Dateien** mehr ins Paket | Die frueheren Pakete liegen selbst im Git-Verlauf, und die Aufnahmeregel des Werkzeugs („alles, was Git kennt, minus der Entwicklungsdateien“) hatte sie nicht ausgeschlossen. Gemessen: 5,0 MiB von 11 MiB waren alte Pakete -- sie haetten auf dem Webserver oeffentlich zum Herunterladen gelegen. Das neue Paket ist dadurch 4,36 statt rund 9 MiB gross |
 | 28.09.2026 | **Die Homepage bleibt bei Hostinger; Supabase kommt dafuer nicht in Frage** | Auf die Frage, ob nach Supabase hochgeladen werden kann. Supabase ist eine Datenbank mit Dateiablage und Serverfunktionen, kein Webhoster; `kontakt.php` liefe dort nicht. Dazu gemessen: diese Umgebung erreicht weder Supabase noch Hostinger (`CONNECT tunnel failed, response 403`), und die 27 Supabase-Werkzeuge haben keine Dateiablage. Das vorhandene Projekt `Ayar20260808's Project` (eu-west-1, seit 08.08.2026) gehoert zu Elektrohub und hat mit der Homepage nichts zu tun |
@@ -317,12 +318,19 @@ Alles committet und gepusht, Arbeitsverzeichnis sauber. Letzter Commit
    an den Server. Der erste echte Lauf ist die Probe; wahrscheinlichster
    Stolperstein ist die TLS-Einstellung (`ftp:ssl-force`), falls Hostinger auf
    diesem Zugang kein FTPS anbietet. Die Fehlermeldung sagt es dann deutlich.
-3. **Eine unbeantwortete Rueckfrage:** In der Fusszeile steht noch die Koelner
+3. **Die Handynummer auf der Seite ist eine Uebergangsloesung.** Solange die
+   Vodafone-Leitung nicht laeuft, steht ueberall `0157 7544 0510`. Sie steht
+   dort schon seit dem 15.09.2026 -- am 28.09.2026 nachgemessen und bestaetigt:
+   in allen vierzehn Dateien nur diese eine Nummer, sichtbar und als
+   `tel:`-Form, und keine andere. **Sobald Vodafone laeuft, muss sie an
+   95 Stellen zurueck** -- und zwar zusammen mit Google Ads, sonst passen
+   Anzeige und Zielseite nicht mehr zusammen.
+4. **Eine unbeantwortete Rueckfrage:** In der Fusszeile steht noch die Koelner
    Silhouette (`footer.legalbar::before`, Maske aus `skyline-koeln.svg`).
    Irfan hatte „Logo und Icon loeschen" gesagt; entfernt wurde das Logo mit
    seinem Quadrat -- beides steckt in einer einzigen SVG-Datei und laesst sich
    nicht halbieren. Ob die Silhouette auch weg soll, ist **nicht beantwortet**.
-4. **Zwei aeltere Fragen, seit dem 15.09.2026 offen:** Ist die Testanfrage vom
+5. **Zwei aeltere Fragen, seit dem 15.09.2026 offen:** Ist die Testanfrage vom
    Handy als Mail bei `info@elektrotechnik-paulus.de` angekommen? Und: ohne
    JavaScript ist weder der Erfolgs- noch der Fehlerkasten des Formulars
    sichtbar -- das besteht seit dem 02.09.2026 und wurde nie entschieden.
