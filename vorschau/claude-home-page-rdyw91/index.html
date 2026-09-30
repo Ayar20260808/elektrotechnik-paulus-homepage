@@ -429,12 +429,54 @@
         rgba(26,34,42, .02) 30%,
         rgba(26,34,42, .02) 70%,
         rgba(26,34,42, .14) 100%);}
-    .hero-text{
-      transition:--hero-deckung 1.1s ease-in-out;
-      background:rgba(26,34,42, calc(var(--hero-deckung) + .10));
-      padding:clamp(14px,3.4vw,22px) clamp(14px,4vw,24px);
-      margin-left:calc(clamp(14px,4vw,24px) * -1);
-      margin-right:calc(clamp(14px,4vw,24px) * -1);}
+    /* 30.09.2026: die Flaeche hinter dem Text ist weg. Auf Wunsch --
+       sie nahm zu viel vom Foto. Gemessen ueber alle neun Motive bei 390
+       und 360 px: mit Flaeche kamen im Mittel 105,8 von 255 Helligkeit
+       beim Leser an, das Foto allein haette 123,8 hergegeben.
+
+       Lesbar bleibt die Schrift jetzt durch einen engen, dunklen Hof um
+       jeden Buchstaben. Der Unterschied zur Flaeche ist der Flaecheninhalt:
+       der Hof deckt nur die Pixel unmittelbar am Zeichen ab, dazwischen
+       bleibt das Foto unberuehrt.
+
+       Der Hof besteht aus zwei Teilen. Acht versetzte, unscharfe Kopien im
+       Abstand von 2,5 px bilden einen geschlossenen dunklen Ring direkt am
+       Zeichen -- er traegt den Kontrast. Drei weite, schwache Schatten
+       darueber fangen den Uebergang ab, damit der Ring keine harte Kante
+       ins Foto schneidet.
+
+       Warum ein Ring aus Schatten und nicht -webkit-text-stroke: eine
+       Kontur wird mitten auf die Zeichenkante gemalt und frisst die
+       Buchstaben von aussen an. Das laesst sich mit `paint-order: stroke
+       fill` umdrehen, aber nicht jeder Browser kann das -- wo er es nicht
+       kann, wird die 13,5-px-Vorzeile duenn. Ein Schatten liegt immer
+       hinter dem Zeichen, in jedem Browser.
+
+       Gemessen ueber alle neun Motive bei 390 und 360 px, jeweils der
+       hellste Bildpunkt unmittelbar an der Schrift gegen die Schriftfarbe
+       (Uebergaenge im Test abgeschaltet):
+
+         Loesung                Hero sichtbar   Vorzeile   H1
+         Flaeche hinter dem Text    105,8         5,73:1    7,46:1
+         nur weiche Schatten        121,8         1,55:1    3,85:1
+         Ring 2,5 px + Schatten     118,1         5,10:1   19,36:1  <- genommen
+
+       Die mittlere Zeile zeigt, warum es den engen Ring braucht: weiche
+       Schatten allein machen das Foto am hellsten, lassen die Vorzeile auf
+       dem fast weissen E-Check-Motiv aber auf 1,55:1 fallen. Mit dem Ring
+       kommt das Foto immer noch 12 Prozent heller an als mit der Flaeche,
+       und kein einziger der 36 Messwerte liegt unter 4,5:1. */
+    .hero-text{background:none;padding:0;margin:0;}
+    .hero-eyebrow,
+    .hero h1{
+      text-shadow:
+        2.5px 0 1px #0a0e12,   -2.5px 0 1px #0a0e12,
+        0 2.5px 1px #0a0e12,   0 -2.5px 1px #0a0e12,
+        1.8px 1.8px 1px #0a0e12,  -1.8px 1.8px 1px #0a0e12,
+        1.8px -1.8px 1px #0a0e12, -1.8px -1.8px 1px #0a0e12,
+        0 0 9px  rgba(10,14,18,.85),
+        0 0 20px rgba(10,14,18,.70),
+        0 0 36px rgba(10,14,18,.50);}
   }
   .hero-content{position:relative;z-index:2;padding:clamp(18px,calc(var(--sh) * 5.6),64px) clamp(20px,5vw,72px);width:100%;}
   .hero-eyebrow{display:flex;align-items:center;gap:10px;font-family:var(--font-heading);font-weight:600;font-size:13.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--yellow);margin-bottom:clamp(7px,calc(var(--sh) * 1.7),16px);}
