@@ -99,7 +99,30 @@ abweichende Bildlage, wo eine gesetzt ist, und das Motiv:
     7  hero-montage.jpg       0.62 / 0.66    Lage 12% top      zwei Mitarbeiter
     8  hero-4.jpg             0.74 / 0.70                      Lampen
 
-**Am Handy deckt seit 27.09.2026 nur noch der Textkasten ab.** Vorher lag ein
+**Seit 30.09.2026 deckt am Handy gar nichts mehr ab -- die Schrift traegt
+ihren eigenen Ring.** Um jeden Buchstaben liegen acht versetzte, unscharfe
+Kopien im Abstand von 2,5 px, darueber drei weite, schwache Schatten. Dadurch
+ist nur noch die Flaeche unmittelbar am Zeichen dunkel, dazwischen steht das
+Foto frei. Gemessen ueber alle neun Motive bei 390 und 360 px, Uebergaenge im
+Test abgeschaltet:
+
+    Loesung                     Hero sichtbar   Vorzeile   Ueberschrift
+    Flaeche hinter dem Text         105,8         5,73:1      7,46:1
+    nur weiche Schatten             121,8         1,55:1      3,85:1
+    Ring 2,5 px + Schatten          118,1         5,10:1     19,36:1
+
+Die mittlere Zeile ist der Grund fuer den Ring: weiche Schatten allein machen
+das Foto am hellsten, lassen die gelbe Vorzeile auf dem fast weissen
+E-Check-Motiv aber auf 1,55:1 fallen -- unlesbar. Mit dem Ring kommt das Foto
+immer noch 12 Prozent heller an als mit der Flaeche, die Ueberschrift wird von
+7,46:1 auf 19,36:1 deutlicher, und **kein einziger der 36 Messwerte liegt
+unter 4,5:1**. Kein `-webkit-text-stroke`: eine Kontur frisst die Buchstaben
+von aussen an, und `paint-order: stroke fill` dreht das nicht in jedem Browser
+um. Ein Schatten liegt immer hinter dem Zeichen.
+
+**Der Absatz darunter beschreibt den Stand vom 27.09.2026 und ist ueberholt.**
+
+**Am Handy deckte seit 27.09.2026 nur noch der Textkasten ab.** Vorher lag ein
 Verlauf ueber dem halben Bild; das Foto kam mit 63 bis 121 von 255 an und sah
 ausgewaschen aus. Der Grund war nie der Verlauf, sondern die gelbe Vorzeile:
 sie braucht 4,5:1, und das bekommt man ueber einem hellen Foto nur mit viel
@@ -230,6 +253,7 @@ Damit sie nicht in jeder Sitzung neu erfragt werden.
 
 | Datum | Entscheidung | Begruendung |
 |---|---|---|
+| 30.09.2026 | **Am Handy verschwindet die abdunkelnde Flaeche hinter dem Hero-Text.** Lesbar bleibt die Schrift durch einen engen Ring aus acht versetzten Schatten | Auf Wunsch: „das nimmt viel zu viel von den Bildern weg“. Gemessen ueber alle neun Motive bei 390 und 360 px: der sichtbare Hero wird von 105,8 auf 118,1 von 255 heller (+12 Prozent), die Ueberschrift steigt von 7,46:1 auf 19,36:1, die gelbe Vorzeile faellt von 5,73:1 auf 5,10:1 und bleibt damit ueber 4,5:1 -- keiner der 36 Messwerte darunter. Ein Zwischenschritt mit nur weichen Schatten war heller (121,8), liess die Vorzeile auf dem E-Check-Motiv aber auf 1,55:1 fallen; deshalb der geschlossene Ring |
 | 28.09.2026 | **Die Telefonnummer auf der Seite bleibt, wie sie ist** -- `0157 7544 0510` war bereits die gewuenschte Handynummer | Auftrag war, die Seite auf die Handynummer umzustellen. Nachgemessen, bevor etwas geaendert wurde: die genannte `015775440510` ist ziffernweise dieselbe, die seit dem 15.09.2026 ueberall steht; im ganzen ausgelieferten Stand kommt **keine andere Telefonnummer** vor. Es war also nichts zu tun -- offen bleibt nur, ob das aktuelle Paket auf dem Server liegt. Fuer Google Ads ist ein Prompt uebergeben worden, weil dort noch die alte Festnetznummer stehen kann |
 | 28.09.2026 | **Die Automatik laedt ueber GitHub Actions hoch, nicht aus der Arbeitssitzung** -- und der Branchname steht dabei in einer Repository-*Variable*, nicht in der Ablaufdatei | Auf Wunsch vorbereitet. Ueber GitHub, weil diese Umgebung Hostinger nicht erreicht (Port 21, 22, 65002 abgewiesen, HTTPS `connect_rejected`). Der Branchname in einer Variablen statt in der YAML-Datei, weil nach CLAUDE.md alles, was veralten kann, nur in dieser Datei hier stehen darf -- eine Variable im Repository ist keine Datei im Projekt und kann ihr nicht widersprechen. Was hochgeht, entscheidet `docs/werkzeuge/paket.py` (neuer Schalter `--ordner`), damit es nicht zwei Antworten darauf gibt, was auf den Webserver gehoert |
 | 28.09.2026 | `docs/werkzeuge/paket.py` nimmt **keine `.zip`-Dateien** mehr ins Paket | Die frueheren Pakete liegen selbst im Git-Verlauf, und die Aufnahmeregel des Werkzeugs („alles, was Git kennt, minus der Entwicklungsdateien“) hatte sie nicht ausgeschlossen. Gemessen: 5,0 MiB von 11 MiB waren alte Pakete -- sie haetten auf dem Webserver oeffentlich zum Herunterladen gelegen. Das neue Paket ist dadurch 4,36 statt rund 9 MiB gross |
