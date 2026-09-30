@@ -298,9 +298,15 @@ Alles committet und gepusht, Arbeitsverzeichnis sauber. Letzter Commit
 
 **Offen, und das Wichtigste zuerst:**
 
-1. **Das Vollpaket `seite-28-09.zip` ist gebaut und an Irfan uebergeben
-   (28.09.2026); hochgeladen hat er es selbst.** 262 Dateien, 4,36 MiB, Stand
-   `639c87a`. Gegengeprueft: Archiv lesbar, alle vierzehn HTML-Seiten darin,
+1. **Das Vollpaket `seite-30-09.zip` ist gebaut und an Irfan uebergeben
+   (30.09.2026); hochladen muss er es selbst.** 262 Dateien, 4,37 MiB, Stand
+   `037cdf0`. **Der Versuch, es ueber die Automatik hochzuladen, ist am
+   30.09.2026 belegt gescheitert:** der von Hand gestartete Lauf
+   (`workflow_dispatch`, Lauf 6) meldete „Noch kein Zugang hinterlegt" und
+   uebersprang die Uebertragung -- die drei FTP-Secrets fehlen weiterhin.
+   Chrome fernsteuern geht aus dieser Sitzung ebenfalls nicht: die Werkzeuge
+   der Erweiterung sind hier nicht vorhanden (geprueft am 30.09.2026).
+   Das Vorgaengerpaket war `seite-28-09.zip`, Stand `639c87a`. Gegengeprueft: Archiv lesbar, alle vierzehn HTML-Seiten darin,
    dazu `.htaccess` und `kontakt.php`, nichts Fremdes, `index.html` und
    `hausverwaltungen.html` bytegleich mit der Arbeitskopie. **Entpacken nach**
    `/files/domains/elektrotechnik-paulus.de/public_html/`, **danach den
