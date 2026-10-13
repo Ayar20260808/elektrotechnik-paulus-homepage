@@ -239,12 +239,14 @@ sechs Detailpunkte aus.
 18 verschiedene Bilder (nachgezaehlt am 13.10.2026; die frueher hier stehenden
 13 waren veraltet), **jedes zweimal eingebunden** (das Band wird
 verdoppelt, damit es nahtlos umlaeuft) — 36 Bildplaetze. Laufzeit steht in
-`.marquee-track.slow{animation-duration:166s}`. Am 13.10.2026 kamen drei
+`.marquee-track.slow{animation-duration:167s}`. Am 13.10.2026 kamen drei
 eigene Projektfotos dazu (Haus, Klingelanlage, Wolf-Waermepumpe); die
 Laufzeit wurde dafuer von 140 auf 168 s verlaengert (140 x 18/15), damit
 das Tempo gleich bleibt. Danach wurde das Hausfoto hoeher geschnitten
 (1,6:1 statt 2:1, mit Himmel); die Bandhaelfte schrumpfte bei 1440 px von
 2844 auf 2812 px, die Laufzeit deshalb 168 x 2812/2844 = 166 s.
+Noch einmal enger geschnitten (Haus fuellt die Breite, 1,73:1): Bandhaelfte
+2823 px, Laufzeit 166 x 2823/2812 = 167 s.
 
 Das Band wurde auf Wunsch um ein Fuenftel hoeher gemacht, die Laufzeit blieb
 gleich — dadurch laeuft es **19,7 % schneller** als vorher. 168 s wuerden das
@@ -259,6 +261,8 @@ Damit sie nicht in jeder Sitzung neu erfragt werden.
 
 | Datum | Entscheidung | Begruendung |
 |---|---|---|
+| 13.10.2026 | **Messungen-Karte: nach dem E-Check wechseln drei eigene Pruefplaketten** -- DIN VDE 0100-600 (Erstpruefung), DIN VDE 0105-100 (Wiederholungspruefung ortsfester Anlagen), DGUV V3 (Geraete nach DIN VDE 0701-0702). Eigene Gestaltung in Anthrazit/Gelb mit Monats- und Jahresring und „Elektrotechnik Paulus“, keine fremden Zeichen. Dateien `pruefzeichen-*.png`, 720 px, je rund 27 KB. Klasse `.wechsel.zeichen`: ganz gezeigt, auf hellem Grund, ohne Vergroesserung | Auf Wunsch Irfan („Messungen nach diesem E-Check“). Die genannte „VDE 0100-5100“ gibt es nicht; die Wiederholungspruefung ortsfester Anlagen steht in DIN VDE 0105-100. Fotos aus dem Netz gehen weiter nicht (Abschnitt 4, 27.09.2026). Gemessen bei 1440 und 390 px: 12 Takte, Messkarte laeuft 0-1-2-3, immer nur eine Karte wechselt; vergroesserte Karte zeigt die Plakette vollstaendig; 0 kaputte Bilder, 0 Fehler |
+| 13.10.2026 | **Hausfoto noch groesser:** eng auf das Gebaeude geschnitten (1,73:1), oben ein Streifen Himmel | Auf Wunsch „so gross wie es geht“ |
 | 13.10.2026 | **Hausfoto hoeher geschnitten: Himmel, Dach und Gaube sichtbar** -- 1,6:1 statt 2:1, in der Leistungskarte oben ausgerichtet (`.wechsel.lage-oben`); Band-Laufzeit 168 -> 166 s | Auf Wunsch Irfan: „Gebaeude groesser, dass man den Himmel noch sieht“. Kartenbild gemessen: 1,73:1 bei 1440 px, 1,95:1 bei 1920 px, 1,52:1 bei 390 px -- bei allen drei steht der Himmel ueber der Gaube. Bandhaelfte 2812/2812 px, 0 kaputte Bilder, 0 Fehler |
 | 13.10.2026 | **Die drei Projektfotos laufen auch im Bilderband „Aus dem Arbeitsalltag“ mit** -- Haus nach der Steckdose, Klingelanlage nach dem Trennschleifer, Wolf-Waermepumpe nach der Montage; Laufzeit 140 -> 168 s, Tempo unveraendert | Auf Wunsch Irfan. Gemessen bei 1440 und 390 px: 36 Bildplaetze, alle gleich breit (156 bzw. 106 px), beide Bandhaelften gleich lang (2844 bzw. 1937 px, also nahtloser Umlauf), 0 kaputte Bilder, 0 Fehler |
 | 13.10.2026 | **Leistungskarten zeigen wechselnde Projektfotos.** Weitere Fotos liegen als `<img class="wechsel">` ueber dem ersten Bild; reihum wechselt immer nur eine Karte, alle 4 s, Ueberblendung 1,6 s. Unter der Maus oder vergroessert bleibt eine Karte stehen, bei `prefers-reduced-motion` gibt es keinen Wechsel | Auf Wunsch Irfan: eigene Fotos zeigen, nach und nach mehr dazunehmen, „nacheinander, nicht alles auf einmal“. Erste Fotos aus dem fertigen Projekt Mehrfamilienhaus (Bauherr einverstanden): Haus bei Elektroinstallation, Wolf-Waermepumpe bei Waermepumpe, Klingel-/Briefkastenanlage bei Tuersprechanlage. Namensschilder durch leere Schilder ersetzt, Hausnummer und Spiegelbild weggeschnitten. Gebaut auf `claude/affectionate-thompson-uq3amz` aus diesem Arbeitsbranch, dort noch nicht uebernommen. Gemessen bei 1440 und 390 px: Wechselfolge 6 Takte je Karte einzeln, 0 kaputte Bilder, 0 Konsolenfehler; Waermepumpe 9 s unter der Maus ohne Wechsel |
