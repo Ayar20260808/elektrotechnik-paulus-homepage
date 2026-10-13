@@ -1385,6 +1385,7 @@
     <div class="service-card" data-reveal>
       <div class="service-img">
         <img src="leistung-solaranlage.jpg" alt="Photovoltaikanlage auf Satteldächern" loading="lazy">
+        <img class="wechsel" src="hero-solar.jpg" alt="Großes Modulfeld einer Photovoltaikanlage auf einem Hallendach" loading="lazy">
         <div class="service-shade"></div>
       </div>
       <div class="service-body">
@@ -3137,11 +3138,11 @@
     });
   })();
   // Leistungen: wechselnde Projektfotos (siehe CSS .wechsel).
-  // Reihum wechselt immer nur eine Karte, alle 4 Sekunden. Karten unter
+  // Reihum wechselt immer nur eine Karte, alle 3 Sekunden. Karten unter
   // der Maus oder vergroessert bleiben stehen.
   (function () {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    var TAKT = 4000;
+    var TAKT = 3000;
     var karten = Array.prototype.slice.call(
       document.querySelectorAll('#leistungen .service-card')
     ).filter(function (k) { return k.querySelector('.service-img img.wechsel'); });
