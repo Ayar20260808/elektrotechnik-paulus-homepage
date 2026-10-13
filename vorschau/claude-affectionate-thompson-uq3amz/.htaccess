@@ -1,0 +1,26 @@
+# Weiterleitungen von den alten Wix-Adressen auf die neue Seite.
+#
+# Warum das noetig ist: Die Google Search Console meldete am 11.09.2026 vier
+# Adressen als "Nicht gefunden (404)". Es sind die Seitennamen aus der
+# Wix-Zeit. Wer sie anklickt -- aus einem Google-Treffer, einem Lesezeichen,
+# einem Branchenbucheintrag -- landete auf einer Fehlerseite.
+#
+# 301 heisst "dauerhaft umgezogen". Google uebertraegt damit die Bewertung
+# der alten Adresse auf die neue. Bei 302 ("voruebergehend") passiert das
+# nicht -- deshalb hier ueberall 301.
+#
+# Die neue Seite hat keine Unterseiten fuer diese Inhalte, sie stehen alle
+# auf der Startseite. Das Zeichen nach der Raute springt zum richtigen
+# Abschnitt. Google wertet den Teil hinter der Raute nicht, fuer Google
+# zaehlt also die Startseite -- genau richtig, denn dort steht der Inhalt.
+#
+# ^ und $ begrenzen den Ausdruck auf genau diese Adresse, /? erlaubt sie
+# mit und ohne abschliessenden Schraegstrich.
+
+RedirectMatch 301 ^/unsere-leistungen/?$    https://www.elektrotechnik-paulus.de/#leistungen
+RedirectMatch 301 ^/kontakt/?$              https://www.elektrotechnik-paulus.de/#kontakt
+RedirectMatch 301 ^/cookie-einstellungen/?$ https://www.elektrotechnik-paulus.de/#datenschutz
+
+# Fuer "ueber uns" gibt es keinen passenden Abschnitt. Die Angaben zum
+# Betrieb verteilen sich ueber die ganze Startseite, deshalb dorthin.
+RedirectMatch 301 ^/ueber-uns/?$            https://www.elektrotechnik-paulus.de/

@@ -1,0 +1,9 @@
+# Suchmaschinen duerfen die ganze Seite lesen. Es gibt nichts, was
+# ausgeschlossen werden muesste -- alle zehn Seiten sind oeffentlich.
+User-agent: *
+Allow: /
+
+# Die Adresse steht mit www., genau wie in den canonical-Zeilen aller
+# zehn HTML-Dateien. Beide Formen muessen auf dieselbe Seite fuehren,
+# sonst meldet die Search Console spaeter Fehler.
+Sitemap: https://www.elektrotechnik-paulus.de/sitemap.xml
