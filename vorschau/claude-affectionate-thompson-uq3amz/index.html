@@ -802,6 +802,9 @@
      nur eine Zeile <img class="wechsel" ...> in der jeweiligen Karte. */
   .service-img img.wechsel{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.6s ease, transform .6s cubic-bezier(.25,.8,.25,1);}
   .service-img img.wechsel.aktiv{opacity:1;}
+  /* Fotos mit Himmel oben am oberen Rand ausrichten, damit Dach und
+     Himmel bei breiten Karten nicht abgeschnitten werden. */
+  .service-img img.wechsel.lage-oben{object-position:50% 0;}
   .service-shade{z-index:3;}
   .service-card.ep-gross .service-img img.wechsel{height:100%;object-fit:cover;}
   .service-body{position:relative;padding:clamp(9px,calc(var(--sh) * 1.4),34px) clamp(18px,2vw,34px) clamp(10px,calc(var(--sh) * 1.5),38px);display:flex;flex-direction:column;gap:clamp(5px,calc(var(--sh) * 0.9),12px);flex:1;}
@@ -838,7 +841,7 @@
      168 s wurden erwogen, um das Tempo von vor der Hoehenaenderung
      wiederherzustellen, und verworfen: bei 8 bis 12 px/s merkt kaum jemand
      noch, dass sich etwas bewegt. */
-  .marquee-track.slow{animation-duration:168s;}
+  .marquee-track.slow{animation-duration:166s;}
   /* Die Laufzeit haengt an der Breite einer Gruppe, damit das Band immer
      gleich schnell laeuft, egal wie viele Marken drinstehen. Massstab sind
      die urspruenglichen elf Namen: 1687 Pixel in 54 Sekunden, also rund 31
@@ -1336,7 +1339,7 @@
     <div class="service-card" data-reveal>
       <div class="service-img">
         <img class="zeichnung" src="installationszonen.png" alt="Zeichnung eines Raums mit den Installationszonen: 30 cm unter der Decke und ueber dem Boden, 15 cm neben Ecken, 20 cm neben Tueren und Fenstern, Schalter auf 115 cm Hoehe" loading="lazy">
-        <img class="wechsel" src="leistung-elektroinstallation-2.jpg" alt="Neubau Mehrfamilienhaus, Elektroinstallation durch Elektrotechnik Paulus" loading="lazy">
+        <img class="wechsel lage-oben" src="leistung-elektroinstallation-2.jpg" alt="Neubau Mehrfamilienhaus, Elektroinstallation durch Elektrotechnik Paulus" loading="lazy">
         <div class="service-shade"></div>
       </div>
       <div class="service-body">
