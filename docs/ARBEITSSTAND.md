@@ -239,10 +239,12 @@ sechs Detailpunkte aus.
 18 verschiedene Bilder (nachgezaehlt am 13.10.2026; die frueher hier stehenden
 13 waren veraltet), **jedes zweimal eingebunden** (das Band wird
 verdoppelt, damit es nahtlos umlaeuft) — 36 Bildplaetze. Laufzeit steht in
-`.marquee-track.slow{animation-duration:168s}`. Am 13.10.2026 kamen drei
+`.marquee-track.slow{animation-duration:166s}`. Am 13.10.2026 kamen drei
 eigene Projektfotos dazu (Haus, Klingelanlage, Wolf-Waermepumpe); die
 Laufzeit wurde dafuer von 140 auf 168 s verlaengert (140 x 18/15), damit
-das Tempo gleich bleibt -- alle Bilder sind 2:1 und damit gleich breit.
+das Tempo gleich bleibt. Danach wurde das Hausfoto hoeher geschnitten
+(1,6:1 statt 2:1, mit Himmel); die Bandhaelfte schrumpfte bei 1440 px von
+2844 auf 2812 px, die Laufzeit deshalb 168 x 2812/2844 = 166 s.
 
 Das Band wurde auf Wunsch um ein Fuenftel hoeher gemacht, die Laufzeit blieb
 gleich — dadurch laeuft es **19,7 % schneller** als vorher. 168 s wuerden das
@@ -257,6 +259,7 @@ Damit sie nicht in jeder Sitzung neu erfragt werden.
 
 | Datum | Entscheidung | Begruendung |
 |---|---|---|
+| 13.10.2026 | **Hausfoto hoeher geschnitten: Himmel, Dach und Gaube sichtbar** -- 1,6:1 statt 2:1, in der Leistungskarte oben ausgerichtet (`.wechsel.lage-oben`); Band-Laufzeit 168 -> 166 s | Auf Wunsch Irfan: „Gebaeude groesser, dass man den Himmel noch sieht“. Kartenbild gemessen: 1,73:1 bei 1440 px, 1,95:1 bei 1920 px, 1,52:1 bei 390 px -- bei allen drei steht der Himmel ueber der Gaube. Bandhaelfte 2812/2812 px, 0 kaputte Bilder, 0 Fehler |
 | 13.10.2026 | **Die drei Projektfotos laufen auch im Bilderband „Aus dem Arbeitsalltag“ mit** -- Haus nach der Steckdose, Klingelanlage nach dem Trennschleifer, Wolf-Waermepumpe nach der Montage; Laufzeit 140 -> 168 s, Tempo unveraendert | Auf Wunsch Irfan. Gemessen bei 1440 und 390 px: 36 Bildplaetze, alle gleich breit (156 bzw. 106 px), beide Bandhaelften gleich lang (2844 bzw. 1937 px, also nahtloser Umlauf), 0 kaputte Bilder, 0 Fehler |
 | 13.10.2026 | **Leistungskarten zeigen wechselnde Projektfotos.** Weitere Fotos liegen als `<img class="wechsel">` ueber dem ersten Bild; reihum wechselt immer nur eine Karte, alle 4 s, Ueberblendung 1,6 s. Unter der Maus oder vergroessert bleibt eine Karte stehen, bei `prefers-reduced-motion` gibt es keinen Wechsel | Auf Wunsch Irfan: eigene Fotos zeigen, nach und nach mehr dazunehmen, „nacheinander, nicht alles auf einmal“. Erste Fotos aus dem fertigen Projekt Mehrfamilienhaus (Bauherr einverstanden): Haus bei Elektroinstallation, Wolf-Waermepumpe bei Waermepumpe, Klingel-/Briefkastenanlage bei Tuersprechanlage. Namensschilder durch leere Schilder ersetzt, Hausnummer und Spiegelbild weggeschnitten. Gebaut auf `claude/affectionate-thompson-uq3amz` aus diesem Arbeitsbranch, dort noch nicht uebernommen. Gemessen bei 1440 und 390 px: Wechselfolge 6 Takte je Karte einzeln, 0 kaputte Bilder, 0 Konsolenfehler; Waermepumpe 9 s unter der Maus ohne Wechsel |
 | 30.09.2026 | **Am Handy verschwindet die abdunkelnde Flaeche hinter dem Hero-Text.** Lesbar bleibt die Schrift durch einen engen Ring aus acht versetzten Schatten | Auf Wunsch: „das nimmt viel zu viel von den Bildern weg“. Gemessen ueber alle neun Motive bei 390 und 360 px: der sichtbare Hero wird von 105,8 auf 118,1 von 255 heller (+12 Prozent), die Ueberschrift steigt von 7,46:1 auf 19,36:1, die gelbe Vorzeile faellt von 5,73:1 auf 5,10:1 und bleibt damit ueber 4,5:1 -- keiner der 36 Messwerte darunter. Ein Zwischenschritt mit nur weichen Schatten war heller (121,8), liess die Vorzeile auf dem E-Check-Motiv aber auf 1,55:1 fallen; deshalb der geschlossene Ring |
