@@ -796,6 +796,22 @@
     height:min(var(--ep-bildmax, 240px), 240px);max-height:none;}
   .service-card.ep-gross .service-img img.karte-zeichen{height:100%;object-fit:contain;}
   .service-card:hover .service-shade{opacity:1;}
+  /* Wechselnde Projektfotos: weitere Fotos liegen als Ebenen ueber dem
+     ersten Bild und werden reihum eingeblendet -- immer nur eine Karte
+     zur Zeit, damit die Flaeche ruhig bleibt. Ein weiteres Foto braucht
+     nur eine Zeile <img class="wechsel" ...> in der jeweiligen Karte. */
+  .service-img img.wechsel{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.6s ease, transform .6s cubic-bezier(.25,.8,.25,1);}
+  .service-img img.wechsel.aktiv{opacity:1;}
+  /* Fotos mit Himmel oben am oberen Rand ausrichten, damit Dach und
+     Himmel bei breiten Karten nicht abgeschnitten werden. */
+  .service-img img.wechsel.lage-oben{object-position:50% 0;}
+  /* Pruefplaketten wechseln wie das E-Check-Zeichen: ganz gezeigt statt
+     beschnitten, auf dem hellen Grund der Bildflaeche, ohne Vergroesserung. */
+  .service-img img.wechsel.zeichen,
+  .service-card.ep-gross .service-img img.wechsel.zeichen{object-fit:contain;background:var(--grey-100);}
+  .service-card:hover .service-img img.wechsel.zeichen{transform:none;}
+  .service-shade{z-index:3;}
+  .service-card.ep-gross .service-img img.wechsel{height:100%;object-fit:cover;}
   .service-body{position:relative;padding:clamp(9px,calc(var(--sh) * 1.4),34px) clamp(18px,2vw,34px) clamp(10px,calc(var(--sh) * 1.5),38px);display:flex;flex-direction:column;gap:clamp(5px,calc(var(--sh) * 0.9),12px);flex:1;}
   .service-body h3{font-weight:700;font-size:clamp(17px,calc(var(--sh) * 2.75),29px);}
   .service-body p{color:var(--grey-600);font-size:clamp(13.5px,calc(var(--sh) * 1.85),17.5px);line-height:1.7;}
@@ -830,7 +846,7 @@
      168 s wurden erwogen, um das Tempo von vor der Hoehenaenderung
      wiederherzustellen, und verworfen: bei 8 bis 12 px/s merkt kaum jemand
      noch, dass sich etwas bewegt. */
-  .marquee-track.slow{animation-duration:140s;}
+  .marquee-track.slow{animation-duration:167s;}
   /* Die Laufzeit haengt an der Breite einer Gruppe, damit das Band immer
      gleich schnell laeuft, egal wie viele Marken drinstehen. Massstab sind
      die urspruenglichen elf Namen: 1687 Pixel in 54 Sekunden, also rund 31
@@ -1328,6 +1344,7 @@
     <div class="service-card" data-reveal>
       <div class="service-img">
         <img class="zeichnung" src="installationszonen.png" alt="Zeichnung eines Raums mit den Installationszonen: 30 cm unter der Decke und ueber dem Boden, 15 cm neben Ecken, 20 cm neben Tueren und Fenstern, Schalter auf 115 cm Hoehe" loading="lazy">
+        <img class="wechsel lage-oben" src="leistung-elektroinstallation-2.jpg" alt="Neubau Mehrfamilienhaus, Elektroinstallation durch Elektrotechnik Paulus" loading="lazy">
         <div class="service-shade"></div>
       </div>
       <div class="service-body">
@@ -1368,6 +1385,7 @@
     <div class="service-card" data-reveal>
       <div class="service-img">
         <img src="leistung-solaranlage.jpg" alt="Photovoltaikanlage auf Satteldächern" loading="lazy">
+        <img class="wechsel" src="hero-solar.jpg" alt="Großes Modulfeld einer Photovoltaikanlage auf einem Hallendach" loading="lazy">
         <div class="service-shade"></div>
       </div>
       <div class="service-body">
@@ -1409,6 +1427,7 @@
     <div class="service-card" data-reveal>
       <div class="service-img">
         <img src="leistung-waermepumpe-aussen.jpg" alt="Außengerät einer Wärmepumpe neben einem Wohnhaus" loading="lazy">
+        <img class="wechsel" src="leistung-waermepumpe-2.jpg" alt="Angeschlossene Wolf-Wärmepumpe an einem Mehrfamilienhaus" loading="lazy">
         <div class="service-shade"></div>
       </div>
       <div class="service-body">
@@ -1429,6 +1448,9 @@
     <div class="service-card" data-reveal>
       <div class="service-img">
         <img class="karte-zeichen" src="echeck-zeichen.png" alt="E-CHECK — Geprüft nach VDE. Nur bei Ihrem Innungsfachbetrieb." loading="lazy">
+        <img class="wechsel zeichen" src="pruefzeichen-vde-0100-600.png" alt="Prüfplakette: geprüft nach DIN VDE 0100-600, Erstprüfung" loading="lazy">
+        <img class="wechsel zeichen" src="pruefzeichen-vde-0105-100.png" alt="Prüfplakette: geprüft nach DIN VDE 0105-100, Wiederholungsprüfung ortsfester Anlagen" loading="lazy">
+        <img class="wechsel zeichen" src="pruefzeichen-dguv-v3.png" alt="Prüfplakette: geprüft nach DGUV Vorschrift 3, Geräte nach DIN VDE 0701-0702" loading="lazy">
         <div class="service-shade"></div>
       </div>
       <div class="service-body">
@@ -1469,6 +1491,7 @@
     <div class="service-card" data-reveal>
       <div class="service-img">
         <img src="leistung-tuersprechanlage.jpg" alt="Video-Türsprechanlage an Hauseingang" loading="lazy">
+        <img class="wechsel" src="leistung-tuersprechanlage-2.jpg" alt="Klingel- und Sprechanlage mit Briefkästen in der Haustür eines Mehrfamilienhauses" loading="lazy">
         <div class="service-shade"></div>
       </div>
       <div class="service-body">
@@ -1722,12 +1745,15 @@
       <div class="imgband-group">
         <img src="band-team.jpg" alt="Zwei Mitarbeiter auf der Baustelle" loading="lazy">
         <img src="band-01-steckdose.jpg" alt="Steckdose wird verdrahtet" loading="lazy">
+        <img src="band-haus.jpg" alt="Fertiges Mehrfamilienhaus mit Balkonen, Elektroinstallation von uns" loading="lazy">
         <img src="band-kabel.jpg" alt="Monteur zieht eine Leitung an einer Ziegelfassade" loading="lazy">
         <img src="band-02-verteilung.jpg" alt="Arbeit an einer Unterverteilung" loading="lazy">
         <img src="band-trennschleifer.jpg" alt="Kabelrinne wird mit dem Trennschleifer gekuerzt" loading="lazy">
+        <img src="band-klingelanlage.jpg" alt="Klingel- und Briefkastenanlage in der Haustuer eines Mehrfamilienhauses" loading="lazy">
         <img src="band-05-kabeltrommeln.jpg" alt="Kabeltrommeln im Lager" loading="lazy">
         <img src="band-06-wallbox.jpg" alt="Wallbox an einer Backsteinwand" loading="lazy">
         <img src="band-montage.jpg" alt="Montage einer Leitung unter der Decke" loading="lazy">
+        <img src="band-waermepumpe-wolf.jpg" alt="Angeschlossene Wolf-Waermepumpe hinter einem Mehrfamilienhaus" loading="lazy">
         <img src="band-08-photovoltaik.jpg" alt="Photovoltaikanlage auf einem Flachdach" loading="lazy">
         <img src="band-tiefenerder.jpg" alt="Tiefenerder wird im Kabelgraben eingeschlagen" loading="lazy">
         <img src="band-09-waermepumpe.jpg" alt="Waermepumpe an einer Hauswand" loading="lazy">
@@ -1739,12 +1765,15 @@
       <div class="imgband-group" aria-hidden="true">
         <img src="band-team.jpg" alt="" loading="lazy">
         <img src="band-01-steckdose.jpg" alt="" loading="lazy">
+        <img src="band-haus.jpg" alt="" loading="lazy">
         <img src="band-kabel.jpg" alt="" loading="lazy">
         <img src="band-02-verteilung.jpg" alt="" loading="lazy">
         <img src="band-trennschleifer.jpg" alt="" loading="lazy">
+        <img src="band-klingelanlage.jpg" alt="" loading="lazy">
         <img src="band-05-kabeltrommeln.jpg" alt="" loading="lazy">
         <img src="band-06-wallbox.jpg" alt="" loading="lazy">
         <img src="band-montage.jpg" alt="" loading="lazy">
+        <img src="band-waermepumpe-wolf.jpg" alt="" loading="lazy">
         <img src="band-08-photovoltaik.jpg" alt="" loading="lazy">
         <img src="band-tiefenerder.jpg" alt="" loading="lazy">
         <img src="band-09-waermepumpe.jpg" alt="" loading="lazy">
@@ -3107,6 +3136,51 @@
       kopf: '#kontakt .eyebrow, #kontakt .kontakt-info h2, #kontakt .kontakt-info p',
       raster: '.kontakt-grid'
     });
+  })();
+  // Leistungen: wechselnde Projektfotos (siehe CSS .wechsel).
+  // Reihum wechselt immer nur eine Karte, alle 3 Sekunden. Karten unter
+  // der Maus oder vergroessert bleiben stehen.
+  (function () {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var TAKT = 3000;
+    var karten = Array.prototype.slice.call(
+      document.querySelectorAll('#leistungen .service-card')
+    ).filter(function (k) { return k.querySelector('.service-img img.wechsel'); });
+    if (!karten.length) return;
+
+    var stand = karten.map(function () { return 0; });
+    var naechste = 0;
+    var sichtbar = false;
+
+    function weiter() {
+      if (!sichtbar || document.hidden) return;
+      for (var versuch = 0; versuch < karten.length; versuch++) {
+        var i = naechste;
+        naechste = (naechste + 1) % karten.length;
+        var karte = karten[i];
+        if (karte.matches(':hover') || karte.classList.contains('ep-gross')) continue;
+        var ebenen = karte.querySelectorAll('.service-img img.wechsel');
+        var alt = stand[i];
+        var neu = (alt + 1) % (ebenen.length + 1);
+        stand[i] = neu;
+        // Stand 0 ist das erste Bild darunter: dann alle Ebenen ausblenden.
+        if (neu > 0) ebenen[neu - 1].classList.add('aktiv');
+        if (alt > 0) {
+          var vorher = ebenen[alt - 1];
+          if (neu > 0) setTimeout(function () { vorher.classList.remove('aktiv'); }, 1700);
+          else vorher.classList.remove('aktiv');
+        }
+        return;
+      }
+    }
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (e) { sichtbar = e[0].isIntersecting; })
+        .observe(document.getElementById('leistungen'));
+    } else {
+      sichtbar = true;
+    }
+    setInterval(weiter, TAKT);
   })();
 </script>
 
