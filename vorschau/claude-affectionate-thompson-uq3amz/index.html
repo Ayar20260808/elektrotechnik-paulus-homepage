@@ -1142,6 +1142,35 @@
   .reveal-group [data-reveal]:nth-child(4n+3){transition-delay:140ms;}
   .reveal-group [data-reveal]:nth-child(4n+4){transition-delay:210ms;}
 
+  /* BEWERTUNGEN: echte Google-Bewertungen als waagerechte Leiste.
+     Am Rechner drei Karten nebeneinander, am Handy eine, seitlich zum
+     Weiterwischen. Texte stehen wortgetreu wie bei Google; lange Texte
+     werden nach sieben Zeilen abgeschnitten und verlinken auf das Original. */
+  #bewertungen{background:var(--grey-0);}
+  .bew-kopf{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:32px;}
+  .bew-kopf .section-head{margin-bottom:0;}
+  .bew-schnitt{display:flex;align-items:center;gap:14px;}
+  .bew-schnitt-zahl{font-family:var(--font-heading);font-weight:700;font-size:44px;line-height:1;color:var(--ink);}
+  .bew-schnitt-text{font-size:14px;color:var(--grey-600);line-height:1.4;}
+  .bew-sterne{color:#F4B400;letter-spacing:2px;font-size:18px;line-height:1;}
+  .bew-leiste{display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 2 * 20px) / 3);gap:20px;
+    overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:14px;scrollbar-width:thin;}
+  .bew-karte{scroll-snap-align:start;border:2px solid var(--grey-300);background:var(--grey-0);padding:24px 24px 20px;
+    display:flex;flex-direction:column;gap:12px;min-width:0;}
+  .bew-text{font-size:15.5px;line-height:1.6;color:var(--ink);display:-webkit-box;-webkit-line-clamp:7;-webkit-box-orient:vertical;overflow:hidden;white-space:pre-line;}
+  .bew-fuss{margin-top:auto;display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:13.5px;color:var(--grey-600);}
+  .bew-name{font-weight:600;color:var(--ink);}
+  .bew-quelle{font-size:12.5px;color:var(--grey-600);text-decoration:none;white-space:nowrap;}
+  .bew-quelle:hover{color:var(--ink);text-decoration:underline;}
+  .bew-unten{margin-top:24px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;}
+  .bew-pfeile{display:flex;gap:10px;}
+  .bew-pfeil{width:48px;height:48px;border:2px solid var(--ink);background:var(--grey-0);color:var(--ink);font-size:20px;line-height:1;cursor:pointer;transition:background .2s ease;}
+  .bew-pfeil:hover:not(:disabled){background:var(--yellow);}
+  .bew-pfeil:disabled{opacity:.3;cursor:default;}
+  .bew-datum{white-space:nowrap;}
+  @media(max-width:900px){.bew-leiste{grid-auto-columns:calc((100% - 20px) / 2);}}
+  @media(max-width:600px){.bew-leiste{grid-auto-columns:86%;gap:14px;}.bew-schnitt-zahl{font-size:36px;}.bew-fuss{flex-direction:column;align-items:flex-start;gap:4px;}}
+
   /* Die Baender stehen im Markup hinter ihrem Abschnitt, weil sie auf dem
      Desktop die jeweilige Bildschirmseite unten abschliessen. Auf dem Handy
      gibt es keine Seiteneinteilung; dort bleibt die gewachsene Reihenfolge
@@ -1599,6 +1628,61 @@
   </div>
 </section>
 
+
+<section id="bewertungen">
+  <div class="wrap">
+    <div class="bew-kopf">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">Bewertungen</span>
+        <h2>Was Kunden über uns sagen.</h2>
+      </div>
+      <div class="bew-schnitt" data-reveal>
+        <span class="bew-schnitt-zahl">5,0</span>
+        <span><span class="bew-sterne" aria-hidden="true">★★★★★</span><br><span class="bew-schnitt-text">aus 5 Bewertungen auf Google</span></span>
+      </div>
+    </div>
+    <div class="bew-leiste reveal-group" tabindex="0" aria-label="Kundenbewertungen, seitlich weiterblättern">
+      <article class="bew-karte" data-reveal>
+        <div class="bew-sterne" aria-label="5 von 5 Sternen">★★★★★</div>
+        <p class="bew-text">Erstklassige Beratung, schnelle Kommunikation und ein gutes Preis-Leistungsverhältnis.
+
+Die Firma Paulus E-Technik hat im Rahmen einer Kernsanierung die gesamte Elektrik einer 3-Zimmer-Wohnung inklusive Steigleitung erneuert.
+
+Der Projektleiter Herr Ayar hat Dinge gut und schlüssig erklärt. Die zeitliche und logistische Abstimmung mit den anderen Handwerkern lief problemlos. Fuer mich war das insofern wichtig, da ich ueberwiegend im Ausland lebe und mit den Koelner Gepflogenheiten nicht immer vertraut bin.
+
+Ich kann die Firma nur sehr empfehlen.</p>
+        <div class="bew-fuss"><span><span class="bew-name">D. Christine K.</span> · <span class="bew-datum">September 2026</span></span><a class="bew-quelle" href="https://www.google.com/maps/reviews/data=!4m6!14m5!1m4!2m3!1sCi9DQUlRQUNvZENodHljRjlvT204MGRqRmhhRWhKWVZwa2JYcGpUMVZxVVVaZmQxRRAB!2m1!1s0x462b846821f37939:0x13348725cf6075b3" target="_blank" rel="noopener">auf Google</a></div>
+      </article>
+      <article class="bew-karte" data-reveal>
+        <div class="bew-sterne" aria-label="5 von 5 Sternen">★★★★★</div>
+        <p class="bew-text">Herr Ayar und Team haben die sehnsüchtig erwartete Wallbox fachgerecht und zügig installiert. Schnelle und nette Kommunikation, alle Termine wurden eingehalten und nicht zuletzt ein sehr gutes Preis- Leistungsverhältnis.  Das ist beim Elektriker- Handwerk aktuell wahrlich nicht selbstverständlich.</p>
+        <div class="bew-fuss"><span><span class="bew-name">Michael H.</span> · <span class="bew-datum">September 2026</span></span><a class="bew-quelle" href="https://www.google.com/maps/reviews/data=!4m6!14m5!1m4!2m3!1sCi9DQUlRQUNvZENodHljRjlvT2s1ZlZVWlNVVTAzWXpReWRscFZkazV3Y2pWelFtYxAB!2m1!1s0x462b846821f37939:0x13348725cf6075b3" target="_blank" rel="noopener">auf Google</a></div>
+      </article>
+      <article class="bew-karte" data-reveal>
+        <div class="bew-sterne" aria-label="5 von 5 Sternen">★★★★★</div>
+        <p class="bew-text">Die Installation unseres Balkonkraftwerk in Verbindung mit Batteriespeicher und Smartmeter wurde zügig installiert und in Betrieb genommen. Das Preis-Leistungsverhältnis war sehr gut.</p>
+        <div class="bew-fuss"><span><span class="bew-name">Helmut L.</span> · <span class="bew-datum">Oktober 2026</span></span><a class="bew-quelle" href="https://www.google.com/maps/reviews/data=!4m6!14m5!1m4!2m3!1sCi9DQUlRQUNvZENodHljRjlvT2pkcVozTmFNek5GZHpkUVoxUnJNVEZLU0ZCelVFRRAB!2m1!1s0x462b846821f37939:0x13348725cf6075b3" target="_blank" rel="noopener">auf Google</a></div>
+      </article>
+      <article class="bew-karte" data-reveal>
+        <div class="bew-sterne" aria-label="5 von 5 Sternen">★★★★★</div>
+        <p class="bew-text">Super flexibel und schnell in Notsituation ausgeholfen. Empfehle ich ab jetzt allen Bekannten weiter!</p>
+        <div class="bew-fuss"><span><span class="bew-name">Daniel B.</span> · <span class="bew-datum">Oktober 2026</span></span><a class="bew-quelle" href="https://www.google.com/maps/reviews/data=!4m6!14m5!1m4!2m3!1sCi9DQUlRQUNvZENodHljRjlvT21sc00wbDBTMGhvYUdKeVF6RXRTVEZ1Y1VobU9GRRAB!2m1!1s0x462b846821f37939:0x13348725cf6075b3" target="_blank" rel="noopener">auf Google</a></div>
+      </article>
+      <article class="bew-karte" data-reveal>
+        <div class="bew-sterne" aria-label="5 von 5 Sternen">★★★★★</div>
+        <p class="bew-text">Elektroinstallation in meiner Praxis</p>
+        <div class="bew-fuss"><span><span class="bew-name">Thomas S.</span> · <span class="bew-datum">September 2026</span></span><a class="bew-quelle" href="https://www.google.com/maps/reviews/data=!4m6!14m5!1m4!2m3!1sCi9DQUlRQUNvZENodHljRjlvT2swNVdFazRaVGxoTFhaTldGWkhjR1V0TlRCdlZXYxAB!2m1!1s0x462b846821f37939:0x13348725cf6075b3" target="_blank" rel="noopener">auf Google</a></div>
+      </article>
+    </div>
+    <div class="bew-unten" data-reveal>
+      <div class="bew-pfeile">
+        <button type="button" class="bew-pfeil" data-richtung="-1" aria-label="Vorherige Bewertungen">←</button>
+        <button type="button" class="bew-pfeil" data-richtung="1" aria-label="Weitere Bewertungen">→</button>
+      </div>
+      <a class="btn btn-ghost" href="https://maps.google.com/?cid=1383879581972329907" target="_blank" rel="noopener">Alle Bewertungen auf Google →</a>
+    </div>
+  </div>
+</section>
 
 <div class="seitenfolge">
 <section id="ablauf">
@@ -3181,6 +3265,35 @@
       sichtbar = true;
     }
     setInterval(weiter, TAKT);
+  })();
+  // Bewertungen: Pfeile blaettern um eine Karte; lange, abgeschnittene
+  // Texte bekommen den Hinweis, dass sie bei Google vollstaendig stehen.
+  (function () {
+    var leiste = document.querySelector('.bew-leiste');
+    if (!leiste) return;
+    var pfeile = document.querySelectorAll('.bew-pfeil');
+    function schritt() {
+      var k = leiste.querySelector('.bew-karte');
+      return k ? k.getBoundingClientRect().width + parseFloat(getComputedStyle(leiste).columnGap || 0) : leiste.clientWidth;
+    }
+    function pruefen() {
+      var ende = leiste.scrollWidth - leiste.clientWidth - 2;
+      pfeile[0].disabled = leiste.scrollLeft <= 2;
+      pfeile[1].disabled = leiste.scrollLeft >= ende;
+      Array.prototype.forEach.call(leiste.querySelectorAll('.bew-karte'), function (k) {
+        var t = k.querySelector('.bew-text'), a = k.querySelector('.bew-quelle');
+        a.textContent = t.scrollHeight > t.clientHeight + 1 ? 'weiterlesen auf Google' : 'auf Google';
+      });
+    }
+    Array.prototype.forEach.call(pfeile, function (b) {
+      b.addEventListener('click', function () {
+        leiste.scrollBy({ left: schritt() * Number(b.dataset.richtung), behavior: 'smooth' });
+      });
+    });
+    leiste.addEventListener('scroll', pruefen, { passive: true });
+    window.addEventListener('resize', pruefen);
+    window.addEventListener('load', pruefen);
+    pruefen();
   })();
 </script>
 
