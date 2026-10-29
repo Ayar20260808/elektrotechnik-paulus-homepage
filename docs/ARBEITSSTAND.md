@@ -261,6 +261,8 @@ Damit sie nicht in jeder Sitzung neu erfragt werden.
 
 | Datum | Entscheidung | Begruendung |
 |---|---|---|
+| 29.10.2026 | **Hinweis zur Entscheidung durch Irfan: Das Montagefoto zeigt einen Mitarbeiter auf den Schultern eines Kollegen** -- `hero-montage.jpg` (Hero, Platz 7) und `band-montage.jpg` (Bilderband). Nicht geaendert, nur gemeldet | Aufgefallen beim Zusammenstellen der Check24-Galerie. Steigen auf einen Kollegen statt auf Leiter/Tritt ist ein Arbeitsschutzverstoss (DGUV Information 208-016 Leitern und Tritte); auf der Seite eines Elektrofachbetriebs wirkt das unprofessionell. Aus der Check24-Galerie herausgelassen. Ob es auf der Homepage bleibt, entscheidet Irfan |
+| 29.10.2026 | **Check24-Galerie vorbereitet:** 5 eigene Fotos (Haus hochkant, Wolf-Waermepumpe, Klingel-/Briefkastenanlage mit leeren Namensschildern, Kabelverlegung an Ziegelfassade, Tiefenerder), ohne Kontaktdaten, als ZIP an Irfan | Check24 verlangt Galeriebilder, sonst wird das Profil nicht freigeschaltet (Mail 29.10.2026); Fotos mit Kontaktdaten nimmt Check24 nicht an |
 | 29.10.2026 | **Check24 jetzt erreichbar, aber kein oeffentliches Profil; Hostinger-Secrets weiter leer** | Netzfreigabe fuer `profis.check24.de`, `handwerk.check24.de`, `www.check24.de` wirkt (301/302 statt Sperre). Gemessen mit Browser: `profis.check24.de/nw/koeln/elektrotechniker` leitet auf die Handwerker-Werbeseite um, `www.check24.de/profis/elektriker/koeln/` liefert 404, nirgends „Paulus“. Mail von Check24 vom 29.10.2026: „Schalten Sie Ihr Profil frei“ -- es fehlen Galeriebilder; das Profil ist damit sehr wahrscheinlich nicht oeffentlich. Hostinger-Probelauf 24 (`probelauf=true`, nichts uebertragen): `SERVER`, `BENUTZER`, `PASSWORT` leer |
 | 29.10.2026 | **Bewertungsleiste noch kleiner, ohne Links nach aussen:** kein grosser Titel mehr (nur „Kundenstimmen“ + „5,0 · 5 Bewertungen bei Google“ in einer Zeile), alle 5 Karten nebeneinander ab 1100 px, Text 13 px nach 3 Zeilen mit „mehr“ zum Aufklappen an Ort und Stelle, Pfeile nur wenn es etwas zu blaettern gibt. „Alle Bewertungen auf Google“ und die Links je Karte entfernt | Auf Wunsch Irfan: „zu auffaellig, aufdringlich“; der Google-Link oeffnete Google Maps mit Foto und Adresse statt der Bewertungen. Gemessen: Abschnitt 282 px hoch bei 1440 px (vorher rund 500), 306 bei 1024, 333 bei 390; 0 Links im Abschnitt, „mehr“ klappt auf und zu, kein Querscrollen, 0 Fehler. Check24 weiter offen: `profis.check24.de` wird von der Netzregel der Umgebung abgewiesen |
 | 23.10.2026 | **Bewertungsleiste dezenter:** 4 statt 3 Karten am Rechner, duenne Linien, Schrift 14 statt 15,5 px, Sterne 13 px, Text nach 5 Zeilen gekuerzt, Abschnitt 56 statt 84 px Abstand, Schnitt-Zahl 28 statt 44 px, Textlink statt Rahmenknopf | Auf Wunsch Irfan („faellt zu sehr auf, Kaestchen kleiner“). Gemessen bei 1440 und 390 px: Pfeile blaettern und schalten am Ende ab, kein Querscrollen, 0 Fehler. Check24-Bewertungen noch offen: Check24 ist von hier gesperrt (`ENOTFOUND www.check24.de`), keine Bewertungsmails im Postfach, Profiladresse unbekannt |
@@ -305,6 +307,21 @@ Damit sie nicht in jeder Sitzung neu erfragt werden.
 ---
 
 ## 5. Was offen ist
+
+### Stand 29.10.2026 -- zum Weitermachen
+
+1. **Bewertungsleiste freigeben?** Kleine Fassung mit 5 Google-Bewertungen auf
+   `claude/affectionate-thompson-uq3amz` (Vorschau
+   `.../vorschau/claude-affectionate-thompson-uq3amz/` und Netlify
+   `homepage-paulus-vorschau`). Noch **nicht** im Arbeitsbranch.
+2. **Check24-Profil freischalten:** Galeriebilder hochladen (ZIP liegt bei
+   Irfan). Danach Bewertungen holen -- Netz zu Check24 ist freigegeben.
+3. **Hostinger-Automatik:** drei FTP-Secrets und Variable `HOSTINGER_BRANCH`
+   bei GitHub eintragen (Probelauf 24 am 29.10.: alle leer).
+4. **Montagefoto mit Mitarbeiter auf den Schultern** -- im Hero und im
+   Bilderband lassen oder ersetzen? Entscheidung Irfan.
+5. Ob `seite-13-10.zip` hochgeladen ist, ist unbekannt.
+
 
 ### Stand am Ende der Sitzung vom 19.09.2026
 
