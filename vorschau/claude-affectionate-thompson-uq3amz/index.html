@@ -1144,10 +1144,15 @@
 
   /* BEWERTUNGEN: echte Google-Bewertungen als schmale, ruhige Leiste.
      Bewusst zurueckhaltend: kein grosser Titel, kleine Karten, duenne Linien.
+     Sie steht am Anfang des Kontaktbereichs, direkt vor dem Formular.
      Am breiten Rechner stehen alle fuenf nebeneinander, darunter wird
      seitlich gewischt. Texte stehen wortgetreu wie bei Google; lange Texte
      zeigen drei Zeilen und klappen per "mehr" auf -- ohne Link nach aussen. */
-  #bewertungen{background:var(--grey-0);padding:36px 0 40px;border-top:1px solid var(--grey-300);}
+  /* Die Leiste eroeffnet den Kontaktbereich: weisse Karten auf dem dunklen
+     Grund, darunter folgen Ueberschrift und Formular. */
+  #bewertungen.bew-block{margin-bottom:48px;}
+  #kontakt .bew-schnitt{color:rgba(255,255,255,.8);}
+  #kontakt .bew-schnitt strong{color:#fff;}
   .bew-kopf{display:flex;justify-content:space-between;align-items:baseline;gap:8px 20px;flex-wrap:wrap;margin-bottom:14px;}
   .bew-kopf .eyebrow{margin:0;}
   .bew-schnitt{font-size:14px;color:var(--grey-600);}
@@ -1630,8 +1635,42 @@
 </section>
 
 
-<section id="bewertungen">
+<div class="seitenfolge">
+<section id="ablauf">
   <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">So arbeiten wir</span>
+      <h2>Von der Anfrage bis zur Abnahme.</h2>
+      <p>Keine Überraschungen auf der Rechnung. Sie wissen bei jedem Schritt, woran Sie sind.</p>
+    </div>
+    <div class="ablauf-grid">
+      <div class="ablauf-step" data-step><div class="ablauf-num">SCHRITT 01</div><h3>Anfrage</h3><p>Sie rufen an oder schreiben uns. Wir klären, worum es geht und was Sie sich vorstellen.</p></div>
+      <div class="ablauf-step" data-step><div class="ablauf-num">SCHRITT 02</div><h3>Termin vor Ort</h3><p>Wir sehen uns die Gegebenheiten an, messen nach und beraten Sie zur sinnvollsten Lösung.</p></div>
+      <div class="ablauf-step" data-step><div class="ablauf-num">SCHRITT 03</div><h3>Festes Angebot</h3><p>Schriftliches Angebot mit klaren Positionen, auf Wunsch mit Hinweis auf Förderungen.</p></div>
+      <div class="ablauf-step" data-step><div class="ablauf-num">SCHRITT 04</div><h3>Ausführung &amp; Abnahme</h3><p>Wir führen die Arbeiten zum vereinbarten Termin aus und übergeben die Anlage mit Messprotokoll.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee-section attached markenband">
+  <div class="marquee-head">Marken, mit denen wir arbeiten</div>
+  <div class="marquee-clip">
+    <div class="marquee-track marken">
+      <div class="marquee-group">
+        <img class="brand-logo" src="marke-hager.png" alt="Hager" loading="lazy"><img class="brand-logo" src="marke-gira.png" alt="Gira" loading="lazy"><img class="brand-logo" src="marke-buschjaeger.png" alt="Busch-Jaeger" loading="lazy"><img class="brand-logo" src="marke-jung.png" alt="JUNG" loading="lazy"><img class="brand-logo" src="marke-abb.png" alt="ABB" loading="lazy"><img class="brand-logo" src="marke-siemens.png" alt="Siemens" loading="lazy"><img class="brand-logo" src="marke-schneider.png" alt="Schneider Electric" loading="lazy"><img class="brand-logo" src="marke-bosch.png" alt="Bosch" loading="lazy"><img class="brand-logo" src="marke-mennekes.png" alt="MENNEKES" loading="lazy"><img class="brand-logo" src="marke-wago.png" alt="WAGO" loading="lazy"><img class="brand-logo" src="marke-eltako.png" alt="Eltako" loading="lazy"><img class="brand-logo" src="marke-theben.png" alt="Theben" loading="lazy"><img class="brand-logo" src="marke-sma.png" alt="SMA Solar" loading="lazy"><img class="brand-logo" src="marke-heidelberg.png" alt="Heidelberg" loading="lazy"><span class="brand-name">Ohme</span><img class="brand-logo" src="marke-jinko.png" alt="JinkoSolar" loading="lazy"><img class="brand-logo" src="marke-longi.png" alt="LONGi Green Energy" loading="lazy"><img class="brand-logo" src="marke-kostal.png" alt="KOSTAL" loading="lazy"><img class="brand-logo" src="marke-k2systems.png" alt="K2 Systems" loading="lazy"><img class="brand-logo" src="marke-keba.png" alt="KEBA" loading="lazy"><img class="brand-logo" src="marke-goe.png" alt="go-e" loading="lazy">
+      </div>
+      <div class="marquee-group" aria-hidden="true">
+        <img class="brand-logo" src="marke-hager.png" alt="Hager" loading="lazy"><img class="brand-logo" src="marke-gira.png" alt="Gira" loading="lazy"><img class="brand-logo" src="marke-buschjaeger.png" alt="Busch-Jaeger" loading="lazy"><img class="brand-logo" src="marke-jung.png" alt="JUNG" loading="lazy"><img class="brand-logo" src="marke-abb.png" alt="ABB" loading="lazy"><img class="brand-logo" src="marke-siemens.png" alt="Siemens" loading="lazy"><img class="brand-logo" src="marke-schneider.png" alt="Schneider Electric" loading="lazy"><img class="brand-logo" src="marke-bosch.png" alt="Bosch" loading="lazy"><img class="brand-logo" src="marke-mennekes.png" alt="MENNEKES" loading="lazy"><img class="brand-logo" src="marke-wago.png" alt="WAGO" loading="lazy"><img class="brand-logo" src="marke-eltako.png" alt="Eltako" loading="lazy"><img class="brand-logo" src="marke-theben.png" alt="Theben" loading="lazy"><img class="brand-logo" src="marke-sma.png" alt="SMA Solar" loading="lazy"><img class="brand-logo" src="marke-heidelberg.png" alt="Heidelberg" loading="lazy"><span class="brand-name">Ohme</span><img class="brand-logo" src="marke-jinko.png" alt="JinkoSolar" loading="lazy"><img class="brand-logo" src="marke-longi.png" alt="LONGi Green Energy" loading="lazy"><img class="brand-logo" src="marke-kostal.png" alt="KOSTAL" loading="lazy"><img class="brand-logo" src="marke-k2systems.png" alt="K2 Systems" loading="lazy"><img class="brand-logo" src="marke-keba.png" alt="KEBA" loading="lazy"><img class="brand-logo" src="marke-goe.png" alt="go-e" loading="lazy">
+      </div>
+    </div>
+  </div>
+</div>
+
+<section id="kontakt">
+  <div class="leistungen-bg" aria-hidden="true">
+    <div class="leistungen-bg-photo"></div>
+  </div>
+  <div class="wrap bew-block" id="bewertungen">
     <div class="bew-kopf">
       <span class="eyebrow">Kundenstimmen</span>
       <span class="bew-schnitt"><span class="bew-sterne" aria-hidden="true">★★★★★</span> <strong>5,0</strong> · 5 Bewertungen bei Google</span>
@@ -1678,43 +1717,6 @@ Ich kann die Firma nur sehr empfehlen.</p>
       <button type="button" class="bew-pfeil" data-richtung="-1" aria-label="Vorherige Bewertungen">←</button>
       <button type="button" class="bew-pfeil" data-richtung="1" aria-label="Weitere Bewertungen">→</button>
     </div>
-  </div>
-</section>
-
-<div class="seitenfolge">
-<section id="ablauf">
-  <div class="wrap">
-    <div class="section-head" data-reveal>
-      <span class="eyebrow">So arbeiten wir</span>
-      <h2>Von der Anfrage bis zur Abnahme.</h2>
-      <p>Keine Überraschungen auf der Rechnung. Sie wissen bei jedem Schritt, woran Sie sind.</p>
-    </div>
-    <div class="ablauf-grid">
-      <div class="ablauf-step" data-step><div class="ablauf-num">SCHRITT 01</div><h3>Anfrage</h3><p>Sie rufen an oder schreiben uns. Wir klären, worum es geht und was Sie sich vorstellen.</p></div>
-      <div class="ablauf-step" data-step><div class="ablauf-num">SCHRITT 02</div><h3>Termin vor Ort</h3><p>Wir sehen uns die Gegebenheiten an, messen nach und beraten Sie zur sinnvollsten Lösung.</p></div>
-      <div class="ablauf-step" data-step><div class="ablauf-num">SCHRITT 03</div><h3>Festes Angebot</h3><p>Schriftliches Angebot mit klaren Positionen, auf Wunsch mit Hinweis auf Förderungen.</p></div>
-      <div class="ablauf-step" data-step><div class="ablauf-num">SCHRITT 04</div><h3>Ausführung &amp; Abnahme</h3><p>Wir führen die Arbeiten zum vereinbarten Termin aus und übergeben die Anlage mit Messprotokoll.</p></div>
-    </div>
-  </div>
-</section>
-
-<div class="marquee-section attached markenband">
-  <div class="marquee-head">Marken, mit denen wir arbeiten</div>
-  <div class="marquee-clip">
-    <div class="marquee-track marken">
-      <div class="marquee-group">
-        <img class="brand-logo" src="marke-hager.png" alt="Hager" loading="lazy"><img class="brand-logo" src="marke-gira.png" alt="Gira" loading="lazy"><img class="brand-logo" src="marke-buschjaeger.png" alt="Busch-Jaeger" loading="lazy"><img class="brand-logo" src="marke-jung.png" alt="JUNG" loading="lazy"><img class="brand-logo" src="marke-abb.png" alt="ABB" loading="lazy"><img class="brand-logo" src="marke-siemens.png" alt="Siemens" loading="lazy"><img class="brand-logo" src="marke-schneider.png" alt="Schneider Electric" loading="lazy"><img class="brand-logo" src="marke-bosch.png" alt="Bosch" loading="lazy"><img class="brand-logo" src="marke-mennekes.png" alt="MENNEKES" loading="lazy"><img class="brand-logo" src="marke-wago.png" alt="WAGO" loading="lazy"><img class="brand-logo" src="marke-eltako.png" alt="Eltako" loading="lazy"><img class="brand-logo" src="marke-theben.png" alt="Theben" loading="lazy"><img class="brand-logo" src="marke-sma.png" alt="SMA Solar" loading="lazy"><img class="brand-logo" src="marke-heidelberg.png" alt="Heidelberg" loading="lazy"><span class="brand-name">Ohme</span><img class="brand-logo" src="marke-jinko.png" alt="JinkoSolar" loading="lazy"><img class="brand-logo" src="marke-longi.png" alt="LONGi Green Energy" loading="lazy"><img class="brand-logo" src="marke-kostal.png" alt="KOSTAL" loading="lazy"><img class="brand-logo" src="marke-k2systems.png" alt="K2 Systems" loading="lazy"><img class="brand-logo" src="marke-keba.png" alt="KEBA" loading="lazy"><img class="brand-logo" src="marke-goe.png" alt="go-e" loading="lazy">
-      </div>
-      <div class="marquee-group" aria-hidden="true">
-        <img class="brand-logo" src="marke-hager.png" alt="Hager" loading="lazy"><img class="brand-logo" src="marke-gira.png" alt="Gira" loading="lazy"><img class="brand-logo" src="marke-buschjaeger.png" alt="Busch-Jaeger" loading="lazy"><img class="brand-logo" src="marke-jung.png" alt="JUNG" loading="lazy"><img class="brand-logo" src="marke-abb.png" alt="ABB" loading="lazy"><img class="brand-logo" src="marke-siemens.png" alt="Siemens" loading="lazy"><img class="brand-logo" src="marke-schneider.png" alt="Schneider Electric" loading="lazy"><img class="brand-logo" src="marke-bosch.png" alt="Bosch" loading="lazy"><img class="brand-logo" src="marke-mennekes.png" alt="MENNEKES" loading="lazy"><img class="brand-logo" src="marke-wago.png" alt="WAGO" loading="lazy"><img class="brand-logo" src="marke-eltako.png" alt="Eltako" loading="lazy"><img class="brand-logo" src="marke-theben.png" alt="Theben" loading="lazy"><img class="brand-logo" src="marke-sma.png" alt="SMA Solar" loading="lazy"><img class="brand-logo" src="marke-heidelberg.png" alt="Heidelberg" loading="lazy"><span class="brand-name">Ohme</span><img class="brand-logo" src="marke-jinko.png" alt="JinkoSolar" loading="lazy"><img class="brand-logo" src="marke-longi.png" alt="LONGi Green Energy" loading="lazy"><img class="brand-logo" src="marke-kostal.png" alt="KOSTAL" loading="lazy"><img class="brand-logo" src="marke-k2systems.png" alt="K2 Systems" loading="lazy"><img class="brand-logo" src="marke-keba.png" alt="KEBA" loading="lazy"><img class="brand-logo" src="marke-goe.png" alt="go-e" loading="lazy">
-      </div>
-    </div>
-  </div>
-</div>
-
-<section id="kontakt">
-  <div class="leistungen-bg" aria-hidden="true">
-    <div class="leistungen-bg-photo"></div>
   </div>
   <div class="wrap kontakt-grid">
     <div class="kontakt-info">
