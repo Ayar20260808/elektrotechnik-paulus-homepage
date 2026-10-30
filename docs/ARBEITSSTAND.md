@@ -261,6 +261,8 @@ Damit sie nicht in jeder Sitzung neu erfragt werden.
 
 | Datum | Entscheidung | Begruendung |
 |---|---|---|
+| 30.10.2026 | **Telefonnummer zurueck auf Festnetz:** `0157 7544 0510` -> `0221 29894083`, `+4915775440510` -> `+4922129894083` (auch `tel:` und strukturierte Daten) | Auftrag Irfan (Uebergabe 30.10.2026): die Handynummer war laut Abschnitt 5 eine Uebergangsloesung bis zur Vodafone-Leitung. Gemessen: 52 sichtbare und 43 `tel:`/`telephone`-Vorkommen in 14 Dateien ersetzt, danach 0 Treffer der alten Nummer; im Browser alle 14 Seiten geprueft, je 3 Anruf-Links alle `tel:+4922129894083`, 0 Skriptfehler. Google Ads muss dieselbe Nummer zeigen -- ausserhalb dieses Projekts |
+| 30.10.2026 | **Conversion-Tracking (Google Ads `AW-16669401922`) noch NICHT eingebaut** | Das Tag setzt Cookies und uebertraegt Daten an Google; dafuer braucht es nach § 25 TDDDG und DSGVO eine Einwilligung. Die Seite hat keinen Cookie-Banner (0 Treffer „cookie“ in `index.html`), die Datenschutzerklaerung erwaehnt Google nicht. Entscheidung Irfan offen |
 | 29.10.2026 | **Bewertungskarten als liegende Rechtecke:** 3 breite Karten am Rechner statt 5 schmaler (2 bis 1100 px, 1 am Handy), Text 2 statt 3 Zeilen, Name und Datum in einer Zeile | Auf Wunsch Irfan („nicht quadratisch, rechteckig schoener“). Gemessen: Karte 343 x 138 px (2,5:1) bei 1440, 454 x 138 (3,3:1) bei 1024, 301 x 138 (2,2:1) bei 390; Pfeile sichtbar, kein Querscrollen, 0 Fehler |
 | 29.10.2026 | **Bewertungsleiste eroeffnet jetzt den Kontaktbereich** -- als erster Block in `#kontakt` (weisse Karten auf dunklem Grund), darunter Ueberschrift, Kontaktdaten und Formular. Der eigene Abschnitt zwischen „Unsere Kunden“ und „So arbeiten wir“ entfaellt | Auf Wunsch Irfan; Begruendung: Bewertungen wirken am Entscheidungspunkt am staerksten (allgemeine Erfahrung, an dieser Seite nicht gemessen -- es gibt keine Besucherstatistik). Gemessen bei 1440 und 390 px: Leiste 86 px unter der Oberkante von `#kontakt`, vor der Ueberschrift, kein Querscrollen, 0 Fehler |
 | 29.10.2026 | **Bewertungsleiste: Schrift einen Tick groesser** -- Text 13 -> 14,5 px, Name/Datum 11,5 -> 12,5 px, Kopfzeile 13 -> 14 px, Sterne 11 -> 12,5 px, „mehr“ 12 -> 13 px; Datum und Quelle in eigene Zeile | Auf Wunsch Irfan („etwas groesser, Tick deutlicher“). Gemessen: Abschnitt 296 px bei 1440, 338 bei 1024, 366 bei 390; „mehr“ klappt auf und zu, 0 Links, kein Querscrollen, 0 Fehler |
@@ -390,7 +392,7 @@ Alles committet und gepusht, Arbeitsverzeichnis sauber. Letzter Commit
    an den Server. Der erste echte Lauf ist die Probe; wahrscheinlichster
    Stolperstein ist die TLS-Einstellung (`ftp:ssl-force`), falls Hostinger auf
    diesem Zugang kein FTPS anbietet. Die Fehlermeldung sagt es dann deutlich.
-3. **Die Handynummer auf der Seite ist eine Uebergangsloesung.** Solange die
+3. ~~**Die Handynummer auf der Seite ist eine Uebergangsloesung.**~~ **Erledigt 30.10.2026: zurueck auf `0221 29894083`.** Solange die
    Vodafone-Leitung nicht laeuft, steht ueberall `0157 7544 0510`. Sie steht
    dort schon seit dem 15.09.2026 -- am 28.09.2026 nachgemessen und bestaetigt:
    in allen vierzehn Dateien nur diese eine Nummer, sichtbar und als
