@@ -569,6 +569,22 @@
      und Zeilenabstand knapper als im uebrigen Text. */
   .trust-item b{display:block;color:var(--ink);font-family:var(--font-heading);font-size:14px;font-weight:700;line-height:1.25;margin-bottom:2px;}
   .trust-item span{color:var(--grey-600);font-size:12.5px;line-height:1.35;display:block;}
+  /* Eine Google-Bewertung als fuenfter, breiterer Punkt rechts in der
+     Leiste. Die Texte werden per Skript aus #bewertungen uebernommen,
+     damit jede Bewertung nur an einer Stelle im Quelltext steht. */
+  @media(min-width:1001px){
+    .trustbar-inner.mit-bewertung{grid-template-columns:repeat(4,minmax(0,1fr)) minmax(0,1.5fr);}
+  }
+  .trust-bewertung{flex-direction:column;align-items:stretch;justify-content:center;gap:3px;min-width:0;}
+  .trust-bewertung[hidden]{display:none;}
+  .trust-bewertung .tb-kopf{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--grey-600);}
+  .trust-bewertung .tb-kopf strong{color:var(--ink);font-weight:700;}
+  .trust-bewertung .tb-pfeile{margin-left:auto;display:flex;gap:4px;}
+  .trust-bewertung .tb-pfeil{width:24px;height:24px;border:1px solid var(--grey-300);background:var(--grey-0);color:var(--ink);font-size:12px;line-height:1;cursor:pointer;padding:0;}
+  .trust-bewertung .tb-pfeil:hover{border-color:var(--ink);}
+  .trust-bewertung .tb-text{font-size:13px;line-height:1.35;color:var(--ink);margin:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .trust-bewertung .tb-fuss{font-size:12px;color:var(--grey-600);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .trust-bewertung .tb-fuss b,.trust-bewertung .tb-fuss span{display:inline;font-size:12px;margin:0;}
 
   /* SECTION generic */
   section{padding:84px 0;}
@@ -1360,7 +1376,19 @@
     </div>
     <div class="trust-item">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M9 15l2 2 4-4"/></svg>
-      <div><b>Dokumentiert &amp; normgerecht</b><span>Messprotokolle und Abnahme inklusive</span></div>
+      <div><b>Dokumentiert &amp; normgerecht</b><span>Abnahme inklusive Messprotokoll</span></div>
+    </div>
+    <div class="trust-item trust-bewertung" hidden aria-label="Google-Bewertung">
+      <div class="tb-kopf">
+        <span class="bew-sterne" aria-label="5 von 5 Sternen">★★★★★</span>
+        <span><strong>5,0</strong> bei Google</span>
+        <span class="tb-pfeile">
+          <button type="button" class="tb-pfeil" data-richtung="-1" aria-label="Vorherige Bewertung">←</button>
+          <button type="button" class="tb-pfeil" data-richtung="1" aria-label="Nächste Bewertung">→</button>
+        </span>
+      </div>
+      <p class="tb-text" aria-live="polite"></p>
+      <div class="tb-fuss"><b class="tb-name"></b> · <span class="tb-datum"></span></div>
     </div>
   </div>
 </div>
@@ -3306,5 +3334,38 @@ Ich kann die Firma nur sehr empfehlen.</p>
   })();
 </script>
 
+<script>
+  // Vertrauensleiste: eine Bewertung nach der anderen zeigen. Quelle sind
+  // die Karten in #bewertungen; fehlen sie, bleibt der Punkt ausgeblendet.
+  (function () {
+    var feld = document.querySelector('.trust-bewertung');
+    var karten = document.querySelectorAll('#bewertungen .bew-karte');
+    if (!feld || !karten.length) return;
+    var liste = Array.prototype.map.call(karten, function (k) {
+      return {
+        text: k.querySelector('.bew-text').textContent.replace(/\s+/g, ' ').trim(),
+        name: k.querySelector('.bew-name').textContent,
+        datum: k.querySelector('.bew-datum').textContent
+      };
+    });
+    var nr = 0;
+    function zeigen() {
+      var b = liste[nr];
+      feld.querySelector('.tb-text').textContent = '„' + b.text + '“';
+      feld.querySelector('.tb-name').textContent = b.name;
+      feld.querySelector('.tb-datum').textContent = b.datum;
+    }
+    Array.prototype.forEach.call(feld.querySelectorAll('.tb-pfeil'), function (knopf) {
+      knopf.addEventListener('click', function () {
+        nr = (nr + Number(knopf.getAttribute('data-richtung')) + liste.length) % liste.length;
+        zeigen();
+      });
+    });
+    if (liste.length < 2) feld.querySelector('.tb-pfeile').hidden = true;
+    zeigen();
+    feld.hidden = false;
+    feld.parentNode.classList.add('mit-bewertung');
+  })();
+</script>
 </body>
 </html>
