@@ -569,6 +569,36 @@
      und Zeilenabstand knapper als im uebrigen Text. */
   .trust-item b{display:block;color:var(--ink);font-family:var(--font-heading);font-size:14px;font-weight:700;line-height:1.25;margin-bottom:2px;}
   .trust-item span{color:var(--grey-600);font-size:12.5px;line-height:1.35;display:block;}
+  /* Eine Google-Bewertung als fuenfter, breiterer Punkt rechts in der
+     Leiste. Die Texte werden per Skript aus #bewertungen uebernommen,
+     damit jede Bewertung nur an einer Stelle im Quelltext steht. */
+  @media(min-width:1001px){
+    .trustbar-inner.mit-bewertung{grid-template-columns:repeat(4,minmax(0,1fr)) minmax(0,1.5fr);}
+  }
+  .trust-bewertung{flex-direction:column;align-items:stretch;justify-content:center;gap:3px;min-width:0;}
+  .trust-bewertung[hidden]{display:none;}
+  .trust-bewertung .tb-kopf{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--grey-600);}
+  .trust-bewertung .tb-kopf strong{color:var(--ink);font-weight:700;}
+  /* .trust-item span faerbt sonst auch die Sterne grau */
+  .trust-bewertung .bew-sterne{color:var(--yellow);}
+  .trust-bewertung .tb-pfeile{margin-left:auto;display:flex;gap:4px;}
+  .trust-bewertung .tb-pfeil{width:24px;height:24px;border:1px solid var(--grey-300);background:var(--grey-0);color:var(--ink);font-size:12px;line-height:1;cursor:pointer;padding:0;}
+  .trust-bewertung .tb-pfeil:hover{border-color:var(--ink);}
+  .trust-bewertung .tb-text{font-size:13px;line-height:1.35;color:var(--ink);margin:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .trust-bewertung .tb-fuss{font-size:12px;color:var(--grey-600);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .trust-bewertung .tb-fuss b,.trust-bewertung .tb-fuss span{display:inline;font-size:12px;margin:0;}
+  /* Ganze Bewertung: klappt nach oben ueber das Kopfbild auf, die Leiste
+     selbst behaelt ihre Hoehe. */
+  .trust-bewertung{position:relative;}
+  /* "… mehr" sitzt am Ende der zweiten Textzeile, wie bei den Karten unten */
+  .trust-bewertung .tb-textfeld{position:relative;}
+  .trust-bewertung .tb-mehr{position:absolute;right:0;bottom:0;background:var(--grey-0);border:0;padding:0 0 0 6px;font:inherit;font-size:13px;line-height:1.35;color:var(--grey-600);cursor:pointer;box-shadow:-14px 0 10px var(--grey-0);}
+  .trust-bewertung .tb-mehr[hidden]{display:none;}
+  .trust-bewertung .tb-mehr:hover{color:var(--ink);}
+  .trust-bewertung .tb-voll{position:absolute;left:0;right:0;bottom:calc(100% + 8px);z-index:210;background:var(--grey-0);border:1px solid var(--grey-300);border-top:3px solid var(--yellow);box-shadow:0 10px 30px rgba(0,0,0,.25);padding:14px 16px;max-height:60vh;overflow:auto;}
+  .trust-bewertung .tb-voll[hidden]{display:none;}
+  .trust-bewertung .tb-voll p{margin:6px 0 8px;font-size:14px;line-height:1.5;color:var(--ink);white-space:pre-line;}
+  .trust-bewertung .tb-zu{position:absolute;top:6px;right:8px;background:none;border:0;font-size:18px;line-height:1;color:var(--grey-600);cursor:pointer;}
 
   /* SECTION generic */
   section{padding:84px 0;}
@@ -748,6 +778,9 @@
   .kunden-img img{width:100%;height:100%;object-fit:cover;display:block;
     transition:transform .6s cubic-bezier(.25,.8,.25,1);}
   .kunden-card:hover .kunden-img img{transform:scale(1.08);}
+  /* Wechselfotos wie bei den Leistungen, siehe .service-img img.wechsel */
+  .kunden-img img.wechsel{position:absolute;inset:0;opacity:0;transition:opacity 1.6s ease, transform .6s cubic-bezier(.25,.8,.25,1);}
+  .kunden-img img.wechsel.aktiv{opacity:1;}
   .kunden-shade{position:absolute;inset:0;opacity:0;transition:opacity .4s ease;
     background:linear-gradient(180deg, rgba(18,24,30,0) 40%, rgba(18,24,30,.55) 100%);}
   .kunden-card:hover .kunden-shade{opacity:1;}
@@ -1157,7 +1190,7 @@
   .bew-kopf .eyebrow{margin:0;}
   .bew-schnitt{font-size:14px;color:var(--grey-600);}
   .bew-schnitt strong{color:var(--ink);font-weight:600;}
-  .bew-sterne{color:#F4B400;letter-spacing:1px;font-size:12.5px;line-height:1;}
+  .bew-sterne{color:var(--yellow);letter-spacing:1px;font-size:12.5px;line-height:1;}
   .bew-leiste{display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 2 * 14px) / 3);gap:14px;
     overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;}
   .bew-leiste::-webkit-scrollbar{display:none;}
@@ -1360,7 +1393,25 @@
     </div>
     <div class="trust-item">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M9 15l2 2 4-4"/></svg>
-      <div><b>Dokumentiert &amp; normgerecht</b><span>Messprotokolle und Abnahme inklusive</span></div>
+      <div><b>Dokumentiert &amp; normgerecht</b><span>Abnahme inklusive Messprotokoll</span></div>
+    </div>
+    <div class="trust-item trust-bewertung" hidden aria-label="Google-Bewertung">
+      <div class="tb-kopf">
+        <span class="bew-sterne" aria-label="5 von 5 Sternen">★★★★★</span>
+        <span><strong>5,0</strong> bei Google</span>
+        <span class="tb-pfeile">
+          <button type="button" class="tb-pfeil" data-richtung="-1" aria-label="Vorherige Bewertung">←</button>
+          <button type="button" class="tb-pfeil" data-richtung="1" aria-label="Nächste Bewertung">→</button>
+        </span>
+      </div>
+      <div class="tb-textfeld"><p class="tb-text" aria-live="polite"></p><button type="button" class="tb-mehr" aria-expanded="false">… mehr</button></div>
+      <div class="tb-fuss"><b class="tb-name"></b> · <span class="tb-datum"></span></div>
+      <div class="tb-voll" hidden role="dialog" aria-label="Ganze Bewertung">
+        <button type="button" class="tb-zu" aria-label="Schließen">×</button>
+        <span class="bew-sterne" aria-hidden="true">★★★★★</span>
+        <p class="tb-volltext"></p>
+        <div class="tb-fuss"><b class="tb-name"></b> · <span class="tb-datum"></span> · Google</div>
+      </div>
     </div>
   </div>
 </div>
@@ -1379,7 +1430,6 @@
     <div class="service-card" data-reveal>
       <div class="service-img">
         <img class="zeichnung" src="installationszonen.png" alt="Zeichnung eines Raums mit den Installationszonen: 30 cm unter der Decke und ueber dem Boden, 15 cm neben Ecken, 20 cm neben Tueren und Fenstern, Schalter auf 115 cm Hoehe" loading="lazy">
-        <img class="wechsel lage-oben" src="leistung-elektroinstallation-2.jpg" alt="Neubau Mehrfamilienhaus, Elektroinstallation durch Elektrotechnik Paulus" loading="lazy">
         <div class="service-shade"></div>
       </div>
       <div class="service-body">
@@ -1400,6 +1450,8 @@
     <div class="service-card" data-reveal>
       <div class="service-img">
         <img src="leistung-eauto.jpg" alt="Elektroauto lädt an einer Wandladestation" loading="lazy">
+        <img class="wechsel" src="leistung-wallbox-saeule.jpg" style="object-position:38% 50%;" alt="Von uns gesetzte Ladesäule mit Wallbox an einem Bürogebäude" loading="lazy">
+        <img class="wechsel" src="leistung-wallbox-laden.jpg" alt="Neue Ladesäule mit Wallbox, grüne Betriebsanzeige beim Laden" loading="lazy">
         <div class="service-shade"></div>
       </div>
       <div class="service-body">
@@ -1461,7 +1513,7 @@
 
     <div class="service-card" data-reveal>
       <div class="service-img">
-        <img src="leistung-waermepumpe-aussen.jpg" alt="Außengerät einer Wärmepumpe neben einem Wohnhaus" loading="lazy">
+        <img src="leistung-waermepumpe-eigen.jpg" alt="Von uns angeschlossene Wolf-Wärmepumpe an einem Neubau" loading="lazy">
         <img class="wechsel" src="leistung-waermepumpe-2.jpg" alt="Angeschlossene Wolf-Wärmepumpe an einem Mehrfamilienhaus" loading="lazy">
         <div class="service-shade"></div>
       </div>
@@ -1577,7 +1629,9 @@
 
     <div class="kunden-card" data-reveal>
       <div class="kunden-img">
-        <img src="kunden-privat.jpg" alt="Wallbox an der Hauswand, daneben ein Auto mit eingestecktem Ladekabel" loading="lazy" width="640" height="300">
+        <img src="leistung-wallbox-saeule.jpg" style="object-position:38% 50%;" alt="Von uns gesetzte Ladesäule mit Wallbox" loading="lazy" width="640" height="300">
+        <img class="wechsel" src="leistung-wallbox-laden.jpg" alt="Wallbox mit grüner Betriebsanzeige während des Ladens" loading="lazy">
+        <img class="wechsel" src="leistung-waermepumpe-eigen.jpg" alt="Von uns angeschlossene Wolf-Wärmepumpe an einem Neubau" loading="lazy">
         <div class="kunden-shade"></div>
       </div>
       <div class="kunden-body">
@@ -1605,7 +1659,8 @@
 
     <div class="kunden-card" data-reveal>
       <div class="kunden-img">
-        <img src="kunden-bauunternehmen.jpg" alt="Baustelle mit zwei Kränen an einem eingeruesteten Gebäude" loading="lazy" width="640" height="320">
+        <img src="kunden-bau-neubau.jpg" alt="Neubau mit Gaube und Photovoltaik, Elektroinstallation durch Elektrotechnik Paulus" loading="lazy" width="640" height="320">
+        <img class="wechsel" src="leistung-elektroinstallation-2.jpg" alt="Neubau Mehrfamilienhaus, Elektroinstallation durch Elektrotechnik Paulus" loading="lazy">
         <div class="kunden-shade"></div>
       </div>
       <div class="kunden-body">
@@ -3220,15 +3275,15 @@ Ich kann die Firma nur sehr empfehlen.</p>
       raster: '.kontakt-grid'
     });
   })();
-  // Leistungen: wechselnde Projektfotos (siehe CSS .wechsel).
-  // Reihum wechselt immer nur eine Karte, alle 3 Sekunden. Karten unter
+  // Leistungen und Kunden: wechselnde Projektfotos (siehe CSS .wechsel).
+  // Reihum wechselt immer nur eine Karte, alle 2 Sekunden. Karten unter
   // der Maus oder vergroessert bleiben stehen.
   (function () {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    var TAKT = 3000;
+    var TAKT = 2000;
     var karten = Array.prototype.slice.call(
-      document.querySelectorAll('#leistungen .service-card')
-    ).filter(function (k) { return k.querySelector('.service-img img.wechsel'); });
+      document.querySelectorAll('#leistungen .service-card, #kunden .kunden-card')
+    ).filter(function (k) { return k.querySelector('img.wechsel'); });
     if (!karten.length) return;
 
     var stand = karten.map(function () { return 0; });
@@ -3242,7 +3297,7 @@ Ich kann die Firma nur sehr empfehlen.</p>
         naechste = (naechste + 1) % karten.length;
         var karte = karten[i];
         if (karte.matches(':hover') || karte.classList.contains('ep-gross')) continue;
-        var ebenen = karte.querySelectorAll('.service-img img.wechsel');
+        var ebenen = karte.querySelectorAll('img.wechsel');
         var alt = stand[i];
         var neu = (alt + 1) % (ebenen.length + 1);
         stand[i] = neu;
@@ -3258,8 +3313,14 @@ Ich kann die Firma nur sehr empfehlen.</p>
     }
 
     if ('IntersectionObserver' in window) {
-      new IntersectionObserver(function (e) { sichtbar = e[0].isIntersecting; })
-        .observe(document.getElementById('leistungen'));
+      // Laeuft, solange Leistungen oder Kunden im Bild sind.
+      var imBild = {};
+      var beobachter = new IntersectionObserver(function (eintraege) {
+        eintraege.forEach(function (e) { imBild[e.target.id] = e.isIntersecting; });
+        sichtbar = imBild.leistungen || imBild.kunden;
+      });
+      beobachter.observe(document.getElementById('leistungen'));
+      beobachter.observe(document.getElementById('kunden'));
     } else {
       sichtbar = true;
     }
@@ -3306,5 +3367,60 @@ Ich kann die Firma nur sehr empfehlen.</p>
   })();
 </script>
 
+<script>
+  // Vertrauensleiste: eine Bewertung nach der anderen zeigen. Quelle sind
+  // die Karten in #bewertungen; fehlen sie, bleibt der Punkt ausgeblendet.
+  // "… mehr" klappt den vollen Text nach oben ueber das Kopfbild auf; es
+  // erscheint nur, wenn der Text in zwei Zeilen nicht ganz hineinpasst.
+  (function () {
+    var feld = document.querySelector('.trust-bewertung');
+    var karten = document.querySelectorAll('#bewertungen .bew-karte');
+    if (!feld || !karten.length) return;
+    var liste = Array.prototype.map.call(karten, function (k) {
+      var text = k.querySelector('.bew-text').textContent.trim();
+      return {
+        kurz: text.replace(/\s+/g, ' '),
+        voll: text,
+        name: k.querySelector('.bew-name').textContent,
+        datum: k.querySelector('.bew-datum').textContent
+      };
+    });
+    var voll = feld.querySelector('.tb-voll');
+    var mehr = feld.querySelector('.tb-mehr');
+    var nr = 0;
+    function setzen(auswahl, wert) {
+      Array.prototype.forEach.call(feld.querySelectorAll(auswahl), function (el) { el.textContent = wert; });
+    }
+    function zeigen() {
+      var b = liste[nr];
+      var textEl = feld.querySelector('.tb-text');
+      textEl.textContent = '„' + b.kurz + '“';
+      mehr.hidden = textEl.scrollHeight <= textEl.clientHeight + 1;
+      if (mehr.hidden) aufklappen(false);
+      feld.querySelector('.tb-volltext').textContent = b.voll;
+      setzen('.tb-name', b.name);
+      setzen('.tb-datum', b.datum);
+    }
+    function aufklappen(auf) {
+      voll.hidden = !auf;
+      mehr.setAttribute('aria-expanded', auf ? 'true' : 'false');
+    }
+    Array.prototype.forEach.call(feld.querySelectorAll('.tb-pfeil'), function (knopf) {
+      knopf.addEventListener('click', function () {
+        nr = (nr + Number(knopf.getAttribute('data-richtung')) + liste.length) % liste.length;
+        zeigen();
+      });
+    });
+    mehr.addEventListener('click', function () { aufklappen(voll.hidden); });
+    feld.querySelector('.tb-zu').addEventListener('click', function () { aufklappen(false); });
+    document.addEventListener('click', function (e) { if (!feld.contains(e.target)) aufklappen(false); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') aufklappen(false); });
+    if (liste.length < 2) feld.querySelector('.tb-pfeile').hidden = true;
+    feld.hidden = false;
+    feld.parentNode.classList.add('mit-bewertung');
+    zeigen();
+    window.addEventListener('resize', zeigen);
+  })();
+</script>
 </body>
 </html>
