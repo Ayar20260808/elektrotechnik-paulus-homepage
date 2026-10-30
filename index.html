@@ -944,12 +944,12 @@
      treten davor genauso hervor wie die Leistungskarten; die Angaben in der
      linken Spalte stehen deshalb in Weiss. */
   #kontakt{position:relative;overflow:hidden;background:var(--dark);border-top:2px solid var(--ink);}
-  /* Der Kontaktbereich und das Bilderband darunter fuellen zusammen eine
-     Bildschirmseite: das Band schliesst sie unten ab. Das Bilderband steht
-     auf dem 1,2-fachen der vollen Kopfhoehe. Nur ab 901 px, auf dem Handy
-     gibt es keine Seiteneinteilung. */
+  /* Der Kontaktbereich fuellt eine Bildschirmseite. Das Bilderband stand
+     frueher darunter und schloss die Seite ab; seit 30.10.2026 steht es
+     zwischen Leistungen und Kunden. Nur ab 901 px, auf dem Handy gibt es
+     keine Seiteneinteilung. */
   @media(min-width:901px){
-    #kontakt{min-height:calc(100vh - var(--header-klein, 46px) - var(--band-bilder-hoehe));
+    #kontakt{min-height:calc(100vh - var(--header-klein, 46px));
       display:flex;flex-direction:column;justify-content:center;}
   }
   #kontakt > .wrap{position:relative;z-index:1;}
@@ -1186,8 +1186,7 @@
     .seitenfolge{display:flex;flex-direction:column;}
     .seitenfolge > .markenband{order:1;}
     .seitenfolge > #ablauf{order:2;}
-    .seitenfolge > .bilderband{order:3;}
-    .seitenfolge > #kontakt{order:4;}
+    .seitenfolge > #kontakt{order:3;}
   }
   @media(max-width:900px){
     .nav-links{display:none;}
@@ -1566,6 +1565,54 @@
   </div>
 </section>
 
+<div class="marquee-section attached bilderband">
+  <div class="marquee-head">Aus dem Arbeitsalltag</div>
+  <div class="marquee-clip">
+    <div class="marquee-track slow">
+      <div class="imgband-group">
+        <img src="band-team.jpg" alt="Zwei Mitarbeiter auf der Baustelle" loading="lazy">
+        <img src="band-01-steckdose.jpg" alt="Steckdose wird verdrahtet" loading="lazy">
+        <img src="band-haus.jpg" alt="Fertiges Mehrfamilienhaus mit Balkonen, Elektroinstallation von uns" loading="lazy">
+        <img src="band-kabel.jpg" alt="Monteur zieht eine Leitung an einer Ziegelfassade" loading="lazy">
+        <img src="band-02-verteilung.jpg" alt="Arbeit an einer Unterverteilung" loading="lazy">
+        <img src="band-trennschleifer.jpg" alt="Kabelrinne wird mit dem Trennschleifer gekuerzt" loading="lazy">
+        <img src="band-klingelanlage.jpg" alt="Klingel- und Briefkastenanlage in der Haustuer eines Mehrfamilienhauses" loading="lazy">
+        <img src="band-05-kabeltrommeln.jpg" alt="Kabeltrommeln im Lager" loading="lazy">
+        <img src="band-06-wallbox.jpg" alt="Wallbox an einer Backsteinwand" loading="lazy">
+        <img src="band-montage.jpg" alt="Montage einer Leitung unter der Decke" loading="lazy">
+        <img src="band-waermepumpe-wolf.jpg" alt="Angeschlossene Wolf-Waermepumpe hinter einem Mehrfamilienhaus" loading="lazy">
+        <img src="band-08-photovoltaik.jpg" alt="Photovoltaikanlage auf einem Flachdach" loading="lazy">
+        <img src="band-tiefenerder.jpg" alt="Tiefenerder wird im Kabelgraben eingeschlagen" loading="lazy">
+        <img src="band-09-waermepumpe.jpg" alt="Waermepumpe an einer Hauswand" loading="lazy">
+        <img src="band-10-smarthome.jpg" alt="Smart-Home-Steuerung per Tablet" loading="lazy">
+        <img src="band-11-kamera.jpg" alt="Montage einer Deckenkamera" loading="lazy">
+        <img src="band-13-licht.jpg" alt="Indirekte Beleuchtung im Wohnzimmer" loading="lazy">
+        <img src="band-14-notleuchte.jpg" alt="Notausgangsleuchte und Alarmgeber" loading="lazy">
+      </div>
+      <div class="imgband-group" aria-hidden="true">
+        <img src="band-team.jpg" alt="" loading="lazy">
+        <img src="band-01-steckdose.jpg" alt="" loading="lazy">
+        <img src="band-haus.jpg" alt="" loading="lazy">
+        <img src="band-kabel.jpg" alt="" loading="lazy">
+        <img src="band-02-verteilung.jpg" alt="" loading="lazy">
+        <img src="band-trennschleifer.jpg" alt="" loading="lazy">
+        <img src="band-klingelanlage.jpg" alt="" loading="lazy">
+        <img src="band-05-kabeltrommeln.jpg" alt="" loading="lazy">
+        <img src="band-06-wallbox.jpg" alt="" loading="lazy">
+        <img src="band-montage.jpg" alt="" loading="lazy">
+        <img src="band-waermepumpe-wolf.jpg" alt="" loading="lazy">
+        <img src="band-08-photovoltaik.jpg" alt="" loading="lazy">
+        <img src="band-tiefenerder.jpg" alt="" loading="lazy">
+        <img src="band-09-waermepumpe.jpg" alt="" loading="lazy">
+        <img src="band-10-smarthome.jpg" alt="" loading="lazy">
+        <img src="band-11-kamera.jpg" alt="" loading="lazy">
+        <img src="band-13-licht.jpg" alt="" loading="lazy">
+        <img src="band-14-notleuchte.jpg" alt="" loading="lazy">
+      </div>
+    </div>
+  </div>
+</div>
+
 <section id="kunden">
   <div class="wrap">
     <div class="section-head" data-reveal>
@@ -1821,54 +1868,6 @@ Ich kann die Firma nur sehr empfehlen.</p>
 </section>
 
 <!-- Impressum -->
-<div class="marquee-section attached bilderband">
-  <div class="marquee-head">Aus dem Arbeitsalltag</div>
-  <div class="marquee-clip">
-    <div class="marquee-track slow">
-      <div class="imgband-group">
-        <img src="band-team.jpg" alt="Zwei Mitarbeiter auf der Baustelle" loading="lazy">
-        <img src="band-01-steckdose.jpg" alt="Steckdose wird verdrahtet" loading="lazy">
-        <img src="band-haus.jpg" alt="Fertiges Mehrfamilienhaus mit Balkonen, Elektroinstallation von uns" loading="lazy">
-        <img src="band-kabel.jpg" alt="Monteur zieht eine Leitung an einer Ziegelfassade" loading="lazy">
-        <img src="band-02-verteilung.jpg" alt="Arbeit an einer Unterverteilung" loading="lazy">
-        <img src="band-trennschleifer.jpg" alt="Kabelrinne wird mit dem Trennschleifer gekuerzt" loading="lazy">
-        <img src="band-klingelanlage.jpg" alt="Klingel- und Briefkastenanlage in der Haustuer eines Mehrfamilienhauses" loading="lazy">
-        <img src="band-05-kabeltrommeln.jpg" alt="Kabeltrommeln im Lager" loading="lazy">
-        <img src="band-06-wallbox.jpg" alt="Wallbox an einer Backsteinwand" loading="lazy">
-        <img src="band-montage.jpg" alt="Montage einer Leitung unter der Decke" loading="lazy">
-        <img src="band-waermepumpe-wolf.jpg" alt="Angeschlossene Wolf-Waermepumpe hinter einem Mehrfamilienhaus" loading="lazy">
-        <img src="band-08-photovoltaik.jpg" alt="Photovoltaikanlage auf einem Flachdach" loading="lazy">
-        <img src="band-tiefenerder.jpg" alt="Tiefenerder wird im Kabelgraben eingeschlagen" loading="lazy">
-        <img src="band-09-waermepumpe.jpg" alt="Waermepumpe an einer Hauswand" loading="lazy">
-        <img src="band-10-smarthome.jpg" alt="Smart-Home-Steuerung per Tablet" loading="lazy">
-        <img src="band-11-kamera.jpg" alt="Montage einer Deckenkamera" loading="lazy">
-        <img src="band-13-licht.jpg" alt="Indirekte Beleuchtung im Wohnzimmer" loading="lazy">
-        <img src="band-14-notleuchte.jpg" alt="Notausgangsleuchte und Alarmgeber" loading="lazy">
-      </div>
-      <div class="imgband-group" aria-hidden="true">
-        <img src="band-team.jpg" alt="" loading="lazy">
-        <img src="band-01-steckdose.jpg" alt="" loading="lazy">
-        <img src="band-haus.jpg" alt="" loading="lazy">
-        <img src="band-kabel.jpg" alt="" loading="lazy">
-        <img src="band-02-verteilung.jpg" alt="" loading="lazy">
-        <img src="band-trennschleifer.jpg" alt="" loading="lazy">
-        <img src="band-klingelanlage.jpg" alt="" loading="lazy">
-        <img src="band-05-kabeltrommeln.jpg" alt="" loading="lazy">
-        <img src="band-06-wallbox.jpg" alt="" loading="lazy">
-        <img src="band-montage.jpg" alt="" loading="lazy">
-        <img src="band-waermepumpe-wolf.jpg" alt="" loading="lazy">
-        <img src="band-08-photovoltaik.jpg" alt="" loading="lazy">
-        <img src="band-tiefenerder.jpg" alt="" loading="lazy">
-        <img src="band-09-waermepumpe.jpg" alt="" loading="lazy">
-        <img src="band-10-smarthome.jpg" alt="" loading="lazy">
-        <img src="band-11-kamera.jpg" alt="" loading="lazy">
-        <img src="band-13-licht.jpg" alt="" loading="lazy">
-        <img src="band-14-notleuchte.jpg" alt="" loading="lazy">
-      </div>
-    </div>
-  </div>
-</div>
-
 </div>
 
 <section id="impressum" style="padding:80px 20px;background:var(--grey-100);display:none;" class="legal-page">
