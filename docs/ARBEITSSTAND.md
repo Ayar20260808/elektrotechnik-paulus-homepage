@@ -261,6 +261,7 @@ Damit sie nicht in jeder Sitzung neu erfragt werden.
 
 | Datum | Entscheidung | Begruendung |
 |---|---|---|
+| 30.10.2026 | **Freigabe Irfan: Google-Bewertungsleiste uebernommen.** Arbeitsbranch `claude/home-page-rdyw91` auf den Stand von `claude/affectionate-thompson-uq3amz` vorgespult (Bewertungsleiste am Anfang des Kontaktbereichs + Festnetznummer). Paket `seite-30-10b.zip` | Vorher komplett gemessen: alle 14 Seiten ohne alte Nummer, je 3 Anruf-Links `tel:+4922129894083`, 0 Fehler; Bewertungsleiste bei 1440 und 390 px vor der Kontakt-Ueberschrift; Wechselfotos 10 Takte, 0 kaputte Bilder |
 | 30.10.2026 | **Telefonnummer zurueck auf Festnetz:** `0157 7544 0510` -> `0221 29894083`, `+4915775440510` -> `+4922129894083` (auch `tel:` und strukturierte Daten) | Auftrag Irfan (Uebergabe 30.10.2026): die Handynummer war laut Abschnitt 5 eine Uebergangsloesung bis zur Vodafone-Leitung. Gemessen: 52 sichtbare und 43 `tel:`/`telephone`-Vorkommen in 14 Dateien ersetzt, danach 0 Treffer der alten Nummer; im Browser alle 14 Seiten geprueft, je 3 Anruf-Links alle `tel:+4922129894083`, 0 Skriptfehler. Google Ads muss dieselbe Nummer zeigen -- ausserhalb dieses Projekts |
 | 30.10.2026 | **Conversion-Tracking (Google Ads `AW-16669401922`) noch NICHT eingebaut** | Das Tag setzt Cookies und uebertraegt Daten an Google; dafuer braucht es nach § 25 TDDDG und DSGVO eine Einwilligung. Die Seite hat keinen Cookie-Banner (0 Treffer „cookie“ in `index.html`), die Datenschutzerklaerung erwaehnt Google nicht. Entscheidung Irfan offen |
 | 29.10.2026 | **Bewertungskarten als liegende Rechtecke:** 3 breite Karten am Rechner statt 5 schmaler (2 bis 1100 px, 1 am Handy), Text 2 statt 3 Zeilen, Name und Datum in einer Zeile | Auf Wunsch Irfan („nicht quadratisch, rechteckig schoener“). Gemessen: Karte 343 x 138 px (2,5:1) bei 1440, 454 x 138 (3,3:1) bei 1024, 301 x 138 (2,2:1) bei 390; Pfeile sichtbar, kein Querscrollen, 0 Fehler |
@@ -315,7 +316,7 @@ Damit sie nicht in jeder Sitzung neu erfragt werden.
 
 ### Stand 29.10.2026 -- zum Weitermachen
 
-1. **Bewertungsleiste freigeben?** Kleine Fassung mit 5 Google-Bewertungen auf
+1. ~~**Bewertungsleiste freigeben?**~~ **Freigegeben 30.10.2026, im Arbeitsbranch.** Kleine Fassung mit 5 Google-Bewertungen auf
    `claude/affectionate-thompson-uq3amz` (Vorschau
    `.../vorschau/claude-affectionate-thompson-uq3amz/` und Netlify
    `homepage-paulus-vorschau`). Noch **nicht** im Arbeitsbranch.
