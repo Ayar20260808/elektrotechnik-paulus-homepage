@@ -590,7 +590,10 @@
   /* Ganze Bewertung: klappt nach oben ueber das Kopfbild auf, die Leiste
      selbst behaelt ihre Hoehe. */
   .trust-bewertung{position:relative;}
-  .trust-bewertung .tb-mehr{background:none;border:0;padding:0;font:inherit;font-size:12px;color:var(--grey-600);text-decoration:underline;cursor:pointer;}
+  /* "… mehr" sitzt am Ende der zweiten Textzeile, wie bei den Karten unten */
+  .trust-bewertung .tb-textfeld{position:relative;}
+  .trust-bewertung .tb-mehr{position:absolute;right:0;bottom:0;background:var(--grey-0);border:0;padding:0 0 0 6px;font:inherit;font-size:13px;line-height:1.35;color:var(--grey-600);cursor:pointer;box-shadow:-14px 0 10px var(--grey-0);}
+  .trust-bewertung .tb-mehr[hidden]{display:none;}
   .trust-bewertung .tb-mehr:hover{color:var(--ink);}
   .trust-bewertung .tb-voll{position:absolute;left:0;right:0;bottom:calc(100% + 8px);z-index:210;background:var(--grey-0);border:1px solid var(--grey-300);border-top:3px solid var(--yellow);box-shadow:0 10px 30px rgba(0,0,0,.25);padding:14px 16px;max-height:60vh;overflow:auto;}
   .trust-bewertung .tb-voll[hidden]{display:none;}
@@ -1398,8 +1401,8 @@
           <button type="button" class="tb-pfeil" data-richtung="1" aria-label="Nächste Bewertung">→</button>
         </span>
       </div>
-      <p class="tb-text" aria-live="polite"></p>
-      <div class="tb-fuss"><b class="tb-name"></b> · <span class="tb-datum"></span> · <button type="button" class="tb-mehr" aria-expanded="false">ganz lesen</button></div>
+      <div class="tb-textfeld"><p class="tb-text" aria-live="polite"></p><button type="button" class="tb-mehr" aria-expanded="false">… mehr</button></div>
+      <div class="tb-fuss"><b class="tb-name"></b> · <span class="tb-datum"></span></div>
       <div class="tb-voll" hidden role="dialog" aria-label="Ganze Bewertung">
         <button type="button" class="tb-zu" aria-label="Schließen">×</button>
         <span class="bew-sterne" aria-hidden="true">★★★★★</span>
@@ -3356,7 +3359,8 @@ Ich kann die Firma nur sehr empfehlen.</p>
 <script>
   // Vertrauensleiste: eine Bewertung nach der anderen zeigen. Quelle sind
   // die Karten in #bewertungen; fehlen sie, bleibt der Punkt ausgeblendet.
-  // "ganz lesen" klappt den vollen Text nach oben ueber das Kopfbild auf.
+  // "… mehr" klappt den vollen Text nach oben ueber das Kopfbild auf; es
+  // erscheint nur, wenn der Text in zwei Zeilen nicht ganz hineinpasst.
   (function () {
     var feld = document.querySelector('.trust-bewertung');
     var karten = document.querySelectorAll('#bewertungen .bew-karte');
@@ -3378,7 +3382,10 @@ Ich kann die Firma nur sehr empfehlen.</p>
     }
     function zeigen() {
       var b = liste[nr];
-      feld.querySelector('.tb-text').textContent = '„' + b.kurz + '“';
+      var textEl = feld.querySelector('.tb-text');
+      textEl.textContent = '„' + b.kurz + '“';
+      mehr.hidden = textEl.scrollHeight <= textEl.clientHeight + 1;
+      if (mehr.hidden) aufklappen(false);
       feld.querySelector('.tb-volltext').textContent = b.voll;
       setzen('.tb-name', b.name);
       setzen('.tb-datum', b.datum);
@@ -3398,9 +3405,10 @@ Ich kann die Firma nur sehr empfehlen.</p>
     document.addEventListener('click', function (e) { if (!feld.contains(e.target)) aufklappen(false); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') aufklappen(false); });
     if (liste.length < 2) feld.querySelector('.tb-pfeile').hidden = true;
-    zeigen();
     feld.hidden = false;
     feld.parentNode.classList.add('mit-bewertung');
+    zeigen();
+    window.addEventListener('resize', zeigen);
   })();
 </script>
 </body>
