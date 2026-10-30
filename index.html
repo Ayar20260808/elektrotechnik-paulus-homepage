@@ -3276,8 +3276,9 @@ Ich kann die Firma nur sehr empfehlen.</p>
     });
   })();
   // Leistungen und Kunden: wechselnde Projektfotos (siehe CSS .wechsel).
-  // Reihum wechselt immer nur eine Karte, alle 2 Sekunden. Karten unter
-  // der Maus oder vergroessert bleiben stehen.
+  // Alle 2 Sekunden wechselt in jeder Kartenreihe genau eine Karte, reihum
+  // die, die am laengsten nicht dran war. Karten unter der Maus oder
+  // vergroessert bleiben stehen.
   (function () {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     var TAKT = 2000;
@@ -3287,29 +3288,39 @@ Ich kann die Firma nur sehr empfehlen.</p>
     if (!karten.length) return;
 
     var stand = karten.map(function () { return 0; });
-    var naechste = 0;
+    var zuletzt = karten.map(function (k, i) { return i; });
+    var runde = karten.length;
     var sichtbar = false;
+
+    function umschalten(i) {
+      var ebenen = karten[i].querySelectorAll('img.wechsel');
+      var alt = stand[i];
+      var neu = (alt + 1) % (ebenen.length + 1);
+      stand[i] = neu;
+      // Stand 0 ist das erste Bild darunter: dann alle Ebenen ausblenden.
+      if (neu > 0) ebenen[neu - 1].classList.add('aktiv');
+      if (alt > 0) {
+        var vorher = ebenen[alt - 1];
+        if (neu > 0) setTimeout(function () { vorher.classList.remove('aktiv'); }, 1700);
+        else vorher.classList.remove('aktiv');
+      }
+    }
 
     function weiter() {
       if (!sichtbar || document.hidden) return;
-      for (var versuch = 0; versuch < karten.length; versuch++) {
-        var i = naechste;
-        naechste = (naechste + 1) % karten.length;
-        var karte = karten[i];
-        if (karte.matches(':hover') || karte.classList.contains('ep-gross')) continue;
-        var ebenen = karte.querySelectorAll('img.wechsel');
-        var alt = stand[i];
-        var neu = (alt + 1) % (ebenen.length + 1);
-        stand[i] = neu;
-        // Stand 0 ist das erste Bild darunter: dann alle Ebenen ausblenden.
-        if (neu > 0) ebenen[neu - 1].classList.add('aktiv');
-        if (alt > 0) {
-          var vorher = ebenen[alt - 1];
-          if (neu > 0) setTimeout(function () { vorher.classList.remove('aktiv'); }, 1700);
-          else vorher.classList.remove('aktiv');
-        }
-        return;
-      }
+      // Reihe = gleiche Oberkante im selben Abschnitt; offsetTop bleibt
+      // vom Einblende-Effekt (transform) unberuehrt und folgt dem Umbruch.
+      var reihen = {};
+      karten.forEach(function (k, i) {
+        if (k.matches(':hover') || k.classList.contains('ep-gross')) return;
+        var reihe = k.closest('section').id + ':' + k.offsetTop;
+        if (!(reihe in reihen) || zuletzt[i] < zuletzt[reihen[reihe]]) reihen[reihe] = i;
+      });
+      Object.keys(reihen).forEach(function (reihe) {
+        var i = reihen[reihe];
+        umschalten(i);
+        zuletzt[i] = runde++;
+      });
     }
 
     if ('IntersectionObserver' in window) {
