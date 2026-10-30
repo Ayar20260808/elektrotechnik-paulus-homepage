@@ -778,6 +778,9 @@
   .kunden-img img{width:100%;height:100%;object-fit:cover;display:block;
     transition:transform .6s cubic-bezier(.25,.8,.25,1);}
   .kunden-card:hover .kunden-img img{transform:scale(1.08);}
+  /* Wechselfotos wie bei den Leistungen, siehe .service-img img.wechsel */
+  .kunden-img img.wechsel{position:absolute;inset:0;opacity:0;transition:opacity 1.6s ease, transform .6s cubic-bezier(.25,.8,.25,1);}
+  .kunden-img img.wechsel.aktiv{opacity:1;}
   .kunden-shade{position:absolute;inset:0;opacity:0;transition:opacity .4s ease;
     background:linear-gradient(180deg, rgba(18,24,30,0) 40%, rgba(18,24,30,.55) 100%);}
   .kunden-card:hover .kunden-shade{opacity:1;}
@@ -1427,7 +1430,6 @@
     <div class="service-card" data-reveal>
       <div class="service-img">
         <img class="zeichnung" src="installationszonen.png" alt="Zeichnung eines Raums mit den Installationszonen: 30 cm unter der Decke und ueber dem Boden, 15 cm neben Ecken, 20 cm neben Tueren und Fenstern, Schalter auf 115 cm Hoehe" loading="lazy">
-        <img class="wechsel lage-oben" src="leistung-elektroinstallation-2.jpg" alt="Neubau Mehrfamilienhaus, Elektroinstallation durch Elektrotechnik Paulus" loading="lazy">
         <div class="service-shade"></div>
       </div>
       <div class="service-body">
@@ -1448,8 +1450,8 @@
     <div class="service-card" data-reveal>
       <div class="service-img">
         <img src="leistung-eauto.jpg" alt="Elektroauto lädt an einer Wandladestation" loading="lazy">
-        <img class="wechsel" src="leistung-wallbox-saeule.jpg" alt="Von uns gesetzte Ladesäule mit Wallbox an einem Bürogebäude" loading="lazy">
-        <img class="wechsel" src="leistung-wallbox-laden.jpg" alt="Elektroauto lädt an der neuen Ladesäule, grüne Betriebsanzeige" loading="lazy">
+        <img class="wechsel" src="leistung-wallbox-saeule.jpg" style="object-position:38% 50%;" alt="Von uns gesetzte Ladesäule mit Wallbox an einem Bürogebäude" loading="lazy">
+        <img class="wechsel" src="leistung-wallbox-laden.jpg" alt="Neue Ladesäule mit Wallbox, grüne Betriebsanzeige beim Laden" loading="lazy">
         <div class="service-shade"></div>
       </div>
       <div class="service-body">
@@ -1627,7 +1629,8 @@
 
     <div class="kunden-card" data-reveal>
       <div class="kunden-img">
-        <img src="kunden-privat.jpg" alt="Wallbox an der Hauswand, daneben ein Auto mit eingestecktem Ladekabel" loading="lazy" width="640" height="300">
+        <img src="leistung-wallbox-saeule.jpg" style="object-position:38% 50%;" alt="Von uns gesetzte Ladesäule mit Wallbox" loading="lazy" width="640" height="300">
+        <img class="wechsel" src="leistung-wallbox-laden.jpg" alt="Wallbox mit grüner Betriebsanzeige während des Ladens" loading="lazy">
         <div class="kunden-shade"></div>
       </div>
       <div class="kunden-body">
@@ -1655,7 +1658,8 @@
 
     <div class="kunden-card" data-reveal>
       <div class="kunden-img">
-        <img src="kunden-bauunternehmen.jpg" alt="Baustelle mit zwei Kränen an einem eingeruesteten Gebäude" loading="lazy" width="640" height="320">
+        <img src="kunden-bau-neubau.jpg" alt="Neubau mit Gaube und Photovoltaik, Elektroinstallation durch Elektrotechnik Paulus" loading="lazy" width="640" height="320">
+        <img class="wechsel" src="leistung-elektroinstallation-2.jpg" alt="Neubau Mehrfamilienhaus, Elektroinstallation durch Elektrotechnik Paulus" loading="lazy">
         <div class="kunden-shade"></div>
       </div>
       <div class="kunden-body">
@@ -3270,15 +3274,15 @@ Ich kann die Firma nur sehr empfehlen.</p>
       raster: '.kontakt-grid'
     });
   })();
-  // Leistungen: wechselnde Projektfotos (siehe CSS .wechsel).
+  // Leistungen und Kunden: wechselnde Projektfotos (siehe CSS .wechsel).
   // Reihum wechselt immer nur eine Karte, alle 3 Sekunden. Karten unter
   // der Maus oder vergroessert bleiben stehen.
   (function () {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     var TAKT = 3000;
     var karten = Array.prototype.slice.call(
-      document.querySelectorAll('#leistungen .service-card')
-    ).filter(function (k) { return k.querySelector('.service-img img.wechsel'); });
+      document.querySelectorAll('#leistungen .service-card, #kunden .kunden-card')
+    ).filter(function (k) { return k.querySelector('img.wechsel'); });
     if (!karten.length) return;
 
     var stand = karten.map(function () { return 0; });
@@ -3292,7 +3296,7 @@ Ich kann die Firma nur sehr empfehlen.</p>
         naechste = (naechste + 1) % karten.length;
         var karte = karten[i];
         if (karte.matches(':hover') || karte.classList.contains('ep-gross')) continue;
-        var ebenen = karte.querySelectorAll('.service-img img.wechsel');
+        var ebenen = karte.querySelectorAll('img.wechsel');
         var alt = stand[i];
         var neu = (alt + 1) % (ebenen.length + 1);
         stand[i] = neu;
@@ -3308,8 +3312,14 @@ Ich kann die Firma nur sehr empfehlen.</p>
     }
 
     if ('IntersectionObserver' in window) {
-      new IntersectionObserver(function (e) { sichtbar = e[0].isIntersecting; })
-        .observe(document.getElementById('leistungen'));
+      // Laeuft, solange Leistungen oder Kunden im Bild sind.
+      var imBild = {};
+      var beobachter = new IntersectionObserver(function (eintraege) {
+        eintraege.forEach(function (e) { imBild[e.target.id] = e.isIntersecting; });
+        sichtbar = imBild.leistungen || imBild.kunden;
+      });
+      beobachter.observe(document.getElementById('leistungen'));
+      beobachter.observe(document.getElementById('kunden'));
     } else {
       sichtbar = true;
     }
