@@ -261,6 +261,8 @@ Damit sie nicht in jeder Sitzung neu erfragt werden.
 
 | Datum | Entscheidung | Begruendung |
 |---|---|---|
+| 30.10.2026 | **Telefonnummer zurueck auf Festnetz:** `0157 7544 0510` -> `0221 29894083`, `+4915775440510` -> `+4922129894083` (auch `tel:` und strukturierte Daten) | Auftrag Irfan (Uebergabe 30.10.2026): die Handynummer war laut Abschnitt 5 eine Uebergangsloesung bis zur Vodafone-Leitung. Gemessen: 52 sichtbare und 43 `tel:`/`telephone`-Vorkommen in 14 Dateien ersetzt, danach 0 Treffer der alten Nummer; im Browser alle 14 Seiten geprueft, je 3 Anruf-Links alle `tel:+4922129894083`, 0 Skriptfehler. Google Ads muss dieselbe Nummer zeigen -- ausserhalb dieses Projekts |
+| 30.10.2026 | **Conversion-Tracking (Google Ads `AW-16669401922`) noch NICHT eingebaut** | Das Tag setzt Cookies und uebertraegt Daten an Google; dafuer braucht es nach § 25 TDDDG und DSGVO eine Einwilligung. Die Seite hat keinen Cookie-Banner (0 Treffer „cookie“ in `index.html`), die Datenschutzerklaerung erwaehnt Google nicht. Entscheidung Irfan offen |
 | 14.10.2026 | **Erneuter Hochladeversuch, beide Wege gemessen gescheitert** | Direkt aus der Sitzung: elektrotechnik-paulus.de und die Hostinger-Testadresse antworten mit `CONNECT tunnel failed, response 403` (Netzregel der Umgebung). Ueber GitHub: Lauf 17 von Hand auf `claude/home-page-rdyw91` gestartet, Paket zusammengestellt, dann „Noch kein Zugang hinterlegt -- es wird nichts uebertragen“: `HOSTINGER_FTP_SERVER`, `_BENUTZER`, `_PASSWORT` sind leer. Ein Werkzeug zum Eintragen von Secrets gibt es in der Sitzung nicht |
 | 13.10.2026 | **Freigabe Irfan: Wechselfotos und Pruefplaketten veroeffentlichen.** Arbeitsbranch `claude/home-page-rdyw91` auf `03dc005` vorgespult (von `claude/affectionate-thompson-uq3amz`). Paket `seite-13-10.zip` gebaut: 271 Dateien, 4,88 MiB, `index.html` = 182.045 Bytes = **177,78 KiB** (Pruefwert fuer den Dateimanager) | Die Automatik hat **nicht** hochgeladen, gemessen im Lauf 14: `HOSTINGER_BRANCH` ist leer, der Ablauf wartet deshalb auf `master` und meldet „claude/home-page-rdyw91 ist nicht der hochzuladende Branch (master) -- nichts zu tun“. Hochladen also wieder von Hand per ZIP, oder Variable und drei FTP-Secrets eintragen (Abschnitt 5, Punkt 2) |
 | 13.10.2026 | **Wechsel schneller: alle 3 s statt 4 s** (`TAKT = 3000`); **Solaranlagen-Karte wechselt mit dem Solarfoto aus dem Hero** (`hero-solar.jpg`, dieselbe Datei, keine Kopie) | Auf Wunsch Irfan („ein Tick schneller“, „Solaranlagenfoto vom Hero mit dazu“). Gemessen bei 1440 und 390 px: 10 Takte, immer nur eine Karte im Wechsel, 0 kaputte Bilder, 0 Fehler; Waermepumpe 9 s unter der Maus ohne Wechsel |
@@ -365,7 +367,7 @@ Alles committet und gepusht, Arbeitsverzeichnis sauber. Letzter Commit
    an den Server. Der erste echte Lauf ist die Probe; wahrscheinlichster
    Stolperstein ist die TLS-Einstellung (`ftp:ssl-force`), falls Hostinger auf
    diesem Zugang kein FTPS anbietet. Die Fehlermeldung sagt es dann deutlich.
-3. **Die Handynummer auf der Seite ist eine Uebergangsloesung.** Solange die
+3. ~~**Die Handynummer auf der Seite ist eine Uebergangsloesung.**~~ **Erledigt 30.10.2026: zurueck auf `0221 29894083`.** Solange die
    Vodafone-Leitung nicht laeuft, steht ueberall `0157 7544 0510`. Sie steht
    dort schon seit dem 15.09.2026 -- am 28.09.2026 nachgemessen und bestaetigt:
    in allen vierzehn Dateien nur diese eine Nummer, sichtbar und als
