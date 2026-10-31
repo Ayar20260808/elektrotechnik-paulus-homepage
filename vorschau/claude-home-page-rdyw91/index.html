@@ -766,6 +766,16 @@
      Kunden. */
   #kunden{padding-bottom:clamp(16px,calc(var(--sh) * 3.0),48px);}
   #kunden > .bilderband{margin-top:clamp(16px,calc(var(--sh) * 3.0),48px);}
+  /* Kunden samt Bilderband fuellen am Rechner genau einen Bildschirm unter
+     dem Kopf: das Band schliesst die Seite unten ab, wie das Markenband
+     beim Ablauf. Ueberschrift und Kacheln stehen mittig im freien Raum
+     darueber. Nur ab 901 px, am Handy ist der Abschnitt ohnehin hoeher. */
+  @media(min-width:901px){
+    #kunden{min-height:calc(100vh - var(--header-klein, 46px));
+      display:flex;flex-direction:column;}
+    #kunden > .wrap{margin-top:auto;}
+    #kunden > .kunden-grid{margin-bottom:auto;}
+  }
   /* Vier Kacheln, vier Spalten -- eine je Kundengruppe, in derselben
      Reihenfolge wie im Menuepunkt "Unsere Kunden". Der fruehere
      Sechs-Spalten-Trick ist entfallen: er war noetig, solange fuenf Kacheln
