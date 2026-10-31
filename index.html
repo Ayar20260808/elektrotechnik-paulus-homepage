@@ -905,7 +905,7 @@
   :root{
     --band-luft: 4px;
     --band-schrift: 19px;
-    --band-bildhoehe: calc((var(--header-hoehe, 139px) - 38px) * 1.2);
+    --band-bildhoehe: calc((var(--header-hoehe, 139px) - 38px) * 1.6);
     --band-marken-hoehe: calc(var(--band-luft) * 3 + var(--band-schrift) + 34px);
     --band-bilder-hoehe: calc(var(--band-luft) * 3 + var(--band-schrift) + var(--band-bildhoehe));
   }
@@ -914,9 +914,9 @@
     padding-top:var(--band-luft);padding-bottom:var(--band-luft);
     display:flex;flex-direction:column;justify-content:center;}
   .marquee-section.markenband{min-height:var(--band-marken-hoehe);}
-  /* Das Bilderband ist als einziges Band um ein Fuenftel hoeher als der
-     Header, so gewuenscht. Markenband, Vertrauensleiste und Fusszeile
-     bleiben auf Headerhoehe. */
+  /* Die Bilder im Bilderband sind auf Wunsch groesser als der restliche
+     Bandinhalt: Faktor 1,6 statt frueher 1,2 (31.10.2026). Markenband,
+     Vertrauensleiste und Fusszeile bleiben unveraendert. */
   .marquee-section.bilderband{min-height:var(--band-bilder-hoehe);}
   /* Beide Baender: derselbe schmale Abstand unter der Schrift wie oben
      und unten. Die frueheren Rechnungen mit einem Drittel des
