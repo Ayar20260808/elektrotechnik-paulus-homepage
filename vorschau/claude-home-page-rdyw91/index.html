@@ -769,10 +769,12 @@
   /* Kunden samt Bilderband fuellen am Rechner genau einen Bildschirm unter
      dem Kopf: das Band schliesst die Seite unten ab, wie das Markenband
      beim Ablauf. Ueberschrift und Kacheln stehen mittig im freien Raum
-     darueber. Nur ab 901 px, am Handy ist der Abschnitt ohnehin hoeher. */
+     darueber. Nur ab 901 px, am Handy ist der Abschnitt ohnehin hoeher.
+     Auf Wunsch sitzt das Band ganz unten am Bildschirmrand, ohne grauen
+     Streifen darunter. */
   @media(min-width:901px){
     #kunden{min-height:calc(100vh - var(--header-klein, 46px));
-      display:flex;flex-direction:column;}
+      display:flex;flex-direction:column;padding-bottom:0;}
     #kunden > .wrap{margin-top:auto;}
     #kunden > .kunden-grid{margin-bottom:auto;}
   }
