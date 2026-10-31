@@ -618,11 +618,11 @@
   /* Kein overflow:hidden am Abschnitt -- das Planfoto und die Symbole
      werden bereits von .leistungen-bg beschnitten, und die vergroesserte
      Karte darf mit ihrem verlaengerten Feld ueber die Kante reichen. */
-  #leistungen{position:relative;background:var(--dark);padding-top:clamp(18px,calc(var(--sh) * 3.6),64px);padding-bottom:clamp(12px,calc(var(--sh) * 2.4),40px);}
-  /* Das Bilderband steht innerhalb der Leistungen: ueber ihm der bisherige
-     Abstand unter den Karten, unter ihm ein Streifen des grauen
-     Planhintergrunds (padding-bottom oben). So sieht man, dass das Band
-     zu den Leistungen gehoert und nicht zu den Kunden darunter. */
+  #leistungen{position:relative;background:var(--dark);padding-top:clamp(18px,calc(var(--sh) * 3.6),64px);padding-bottom:clamp(5px,calc(var(--sh) * 1),24px);}
+  /* Das Bilderband steht innerhalb der Leistungen: ueber und unter ihm
+     ein gleich breiter Streifen des grauen Planhintergrunds (margin-top
+     hier, padding-bottom oben -- dieselbe Formel). So sieht man, dass das
+     Band zu den Leistungen gehoert und nicht zu den Kunden darunter. */
   #leistungen > .bilderband{position:relative;z-index:1;margin-top:clamp(5px,calc(var(--sh) * 1),24px);}
   /* Dunkler Hintergrund, damit die weissen Leistungskarten kraeftig
      hervortreten -- derselbe dunkle Ton wie im Hero. */
@@ -905,7 +905,7 @@
   :root{
     --band-luft: 4px;
     --band-schrift: 19px;
-    --band-bildhoehe: calc((var(--header-hoehe, 139px) - 38px) * 1.6);
+    --band-bildhoehe: calc((var(--header-hoehe, 139px) - 38px) * 2);
     --band-marken-hoehe: calc(var(--band-luft) * 3 + var(--band-schrift) + 34px);
     --band-bilder-hoehe: calc(var(--band-luft) * 3 + var(--band-schrift) + var(--band-bildhoehe));
   }
@@ -915,7 +915,7 @@
     display:flex;flex-direction:column;justify-content:center;}
   .marquee-section.markenband{min-height:var(--band-marken-hoehe);}
   /* Die Bilder im Bilderband sind auf Wunsch groesser als der restliche
-     Bandinhalt: Faktor 1,6 statt frueher 1,2 (31.10.2026). Markenband,
+     Bandinhalt: Faktor 2 statt frueher 1,2 (31.10.2026). Markenband,
      Vertrauensleiste und Fusszeile bleiben unveraendert. */
   .marquee-section.bilderband{min-height:var(--band-bilder-hoehe);}
   /* Beide Baender: derselbe schmale Abstand unter der Schrift wie oben
@@ -1440,7 +1440,7 @@
       </div>
       <div class="service-body">
         <h3>Elektroinstallation</h3>
-        <p>Von der Basisinstallation bis zur kompletten Elektroanlage, nach aktuellen Normen.</p>
+        <p>Von der einfachen Steckdose bis zur neuesten Technik – sinnvoll eingesetzt, nach den anerkannten Regeln der Technik und VDE-Vorschriften ausgeführt.</p>
         <ul class="service-detail">
             <li>Neubau &amp; Sanierung</li>
             <li>Zählerschrank erneuern</li>
