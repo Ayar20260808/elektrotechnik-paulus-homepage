@@ -889,8 +889,10 @@
   /* Die Laufzeit haengt an der Breite einer Gruppe, damit das Band immer
      gleich schnell laeuft, egal wie viele Marken drinstehen. Massstab sind
      die urspruenglichen elf Namen: 1687 Pixel in 54 Sekunden, also rund 31
-     Pixel je Sekunde. Jetzt sind es 3179 Pixel, dafuer 102 Sekunden. */
-  .marquee-track.marken{animation-duration:102s;}
+     Pixel je Sekunde. Jetzt sind es 3179 Pixel, dafuer 102 Sekunden.
+     Logos doppelt so gross (31.10.2026): Gruppe bei 2560 px Fenster 5051
+     statt 3197 Pixel, also 102 x 5051/3197 = 161 Sekunden, Tempo gleich. */
+  .marquee-track.marken{animation-duration:161s;}
   /* Das Markenband ist genauso hoch wie der Header -- dieselbe gemessene
      Groesse, die Vertrauensleiste und Fusszeile schon nutzen. Mindesthoehe
      statt fester Hoehe, damit auf schmalen Schirmen nichts abgeschnitten
@@ -906,7 +908,7 @@
     --band-luft: 4px;
     --band-schrift: 19px;
     --band-bildhoehe: calc((var(--header-hoehe, 139px) - 38px) * 2);
-    --band-marken-hoehe: calc(var(--band-luft) * 3 + var(--band-schrift) + 34px);
+    --band-marken-hoehe: calc(var(--band-luft) * 3 + var(--band-schrift) + 68px);
     --band-bilder-hoehe: calc(var(--band-luft) * 3 + var(--band-schrift) + var(--band-bildhoehe));
   }
   .marquee-section.markenband,
@@ -925,15 +927,16 @@
   .marquee-section.bilderband .marquee-head{margin-bottom:var(--band-luft);}
   .marquee-section.bilderband .imgband-group img{height:var(--band-bildhoehe);}
   .marquee-group{display:flex;align-items:center;gap:64px;padding-right:64px;}
-  .brand-name{font-family:var(--font-heading);font-weight:700;font-size:21px;color:var(--grey-600);white-space:nowrap;}
+  .brand-name{font-family:var(--font-heading);font-weight:700;font-size:42px;color:var(--grey-600);white-space:nowrap;}
   /* Logos im Markenband. Alle Dateien sind 120 Pixel hoch; das Motiv sitzt
      darin mittig. Wie hoch, haengt von der Form ab: reine Versalien-
      Schriftzuege 72 Pixel, Gemischtschrift 88, kompakte und zweizeilige
      Marken 104. Ohne diese Staffelung wirken Versalien doppelt so gross wie
      die Markennamen daneben, weil deren Versalhoehe nur bei 15 Pixeln
-     liegt. Die 34 Pixel Anzeigehoehe entsprechen der Zeilenhoehe der
-     Namen. */
-  .brand-logo{height:34px;width:auto;display:block;flex:0 0 auto;}
+     liegt. Die Anzeigehoehe entspricht der Zeilenhoehe der Namen; auf
+     Wunsch doppelt so gross wie frueher (68 statt 34 Pixel, Name 42 statt
+     21 Pixel, 31.10.2026). */
+  .brand-logo{height:68px;width:auto;display:block;flex:0 0 auto;}
   .imgband-group{display:flex;gap:2px;padding-right:2px;}
   /* Das Band soll im Hintergrund mitlaufen, nicht die Aufmerksamkeit
      ziehen: gedaempft und leicht entsaettigt. Beim Ueberfahren zeigen
