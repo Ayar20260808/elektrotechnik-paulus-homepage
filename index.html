@@ -618,7 +618,12 @@
   /* Kein overflow:hidden am Abschnitt -- das Planfoto und die Symbole
      werden bereits von .leistungen-bg beschnitten, und die vergroesserte
      Karte darf mit ihrem verlaengerten Feld ueber die Kante reichen. */
-  #leistungen{position:relative;background:var(--dark);padding-top:clamp(18px,calc(var(--sh) * 3.6),64px);padding-bottom:clamp(5px,calc(var(--sh) * 1),24px);}
+  #leistungen{position:relative;background:var(--dark);padding-top:clamp(18px,calc(var(--sh) * 3.6),64px);padding-bottom:clamp(12px,calc(var(--sh) * 2.4),40px);}
+  /* Das Bilderband steht innerhalb der Leistungen: ueber ihm der bisherige
+     Abstand unter den Karten, unter ihm ein Streifen des grauen
+     Planhintergrunds (padding-bottom oben). So sieht man, dass das Band
+     zu den Leistungen gehoert und nicht zu den Kunden darunter. */
+  #leistungen > .bilderband{position:relative;z-index:1;margin-top:clamp(5px,calc(var(--sh) * 1),24px);}
   /* Dunkler Hintergrund, damit die weissen Leistungskarten kraeftig
      hervortreten -- derselbe dunkle Ton wie im Hero. */
   /* Die Ueberschrift des Abschnitts steht mittig ueber dem Raster,
@@ -1617,8 +1622,6 @@
       </div>
     </div>
   </div>
-</section>
-
 <div class="marquee-section attached bilderband">
   <div class="marquee-head">Aus dem Arbeitsalltag</div>
   <div class="marquee-clip">
@@ -1666,6 +1669,7 @@
     </div>
   </div>
 </div>
+</section>
 
 <section id="kunden">
   <div class="wrap">
