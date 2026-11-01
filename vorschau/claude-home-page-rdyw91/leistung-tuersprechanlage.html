@@ -111,13 +111,7 @@
      Bildschirmfotos, nicht geschaetzt. Sobald der Kopf schrumpft, ist
      kein Platz mehr, dann blendet sie aus.
 
-     In der Fusszeile traegt sie eine durchgehende Horizontlinie: die
-     kommt aus dem Hintergrundverlauf der Fusszeile und laeuft ueber die
-     ganze Breite, die Silhouette steht darauf. Der Faktor 0.983 ist die
-     Lage der Wasserlinie in der Zeichnung (235 von 239 Einheiten).
-     Der Fusszeilen-Teil steht weiter unten, direkt hinter der Regel
-     footer.legalbar -- sonst loescht deren background-Kurzschreibweise
-     die Horizontlinie wieder. */
+     In der Fusszeile steht die Silhouette seit 01.11.2026 nicht mehr. */
   header::after{
     content:"";position:absolute;pointer-events:none;bottom:0;
     left:calc(max(24px,calc((100% - var(--inhalt-breite))/2)) + clamp(215px,20.5vw,305px));
@@ -363,10 +357,8 @@
      der weiter unten gemessenen echten Headerhoehe. */
   footer.legalbar{background:var(--grey-0);border-top:2px solid var(--ink);padding:0;
     min-height:var(--header-hoehe, 139px);display:flex;align-items:center;}
-  /* Die Fusszeile bleibt so hoch wie der Kopf im Ruhezustand -- kein
-     zusaetzlicher Platz fuer die Silhouette. Sie liegt deshalb HINTER
-     dem Inhalt, steht auf der Unterkante und laeuft ueber die ganze
-     Breite. Deckung entsprechend zurueckhaltend. */
+  /* Die Koeln-Silhouette steht nur noch im Kopf; in der Fusszeile wurde
+     sie auf Wunsch entfernt (01.11.2026) -- zweimal war es zu viel. */
   /* Kein overflow:hidden. Es war fuer die Silhouette gedacht, wurde dort
      aber nie gebraucht -- die Maske kann den Kasten ohnehin nicht
      verlassen. Dafuer schnitt es bei 900 bis 1024 px den Schriftzug des
@@ -374,14 +366,6 @@
      als die Zeile, und align-items:center laesst ihn nach oben und unten
      gleichzeitig ueberstehen. */
   footer.legalbar{position:relative;}
-  footer.legalbar::before{
-    content:"";position:absolute;pointer-events:none;bottom:0;left:0;right:0;
-    height:clamp(52px,8.5vw,88px);
-    background-color:var(--ink);opacity:.15;z-index:0;
-    -webkit-mask-image:url('skyline-koeln.svg');mask-image:url('skyline-koeln.svg');
-    -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
-    -webkit-mask-size:auto 100%;mask-size:auto 100%;
-    -webkit-mask-position:center bottom;mask-position:center bottom;}
   footer.legalbar .footer-row{position:relative;z-index:1;}
 
   .footer-row{width:var(--inhalt-breite);max-width:100%;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:clamp(20px,1.8vw,34px);}
