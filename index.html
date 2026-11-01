@@ -553,11 +553,12 @@
   @media(max-width:820px){
     .trust-item{padding:20px clamp(16px,2.2vw,28px);}
   }
-  .trust-item svg{flex-shrink:0;margin-top:2px;color:var(--green);}
+  /* Zeichen auf Wunsch um die Haelfte groesser (01.11.2026): Symbole 33
+     statt 22 px, Innungszeichen 39 statt 26 px. */
+  .trust-item svg{flex-shrink:0;margin-top:2px;color:var(--green);width:33px;height:33px;}
   /* Das Innungszeichen steht anstelle des allgemeinen Symbols. Es ist eine
-     geschuetzte Marke und wird unveraendert wiedergegeben -- nur klein, damit
-     es die Leiste nicht dominiert. */
-  .trust-zeichen{flex-shrink:0;width:26px;height:26px;display:block;margin-top:2px;}
+     geschuetzte Marke und wird unveraendert wiedergegeben. */
+  .trust-zeichen{flex-shrink:0;width:39px;height:39px;display:block;margin-top:2px;}
   /* Die Leiste ist nur noch so hoch wie der Header, also rund doppelte
      Logohoehe. Damit zwei Textzeilen je Punkt hineinpassen, sind Schrift
      und Zeilenabstand knapper als im uebrigen Text. */
@@ -1111,6 +1112,14 @@
   .form-error.show{display:block;}
   .form-error p{color:var(--red-text);font-size:14.5px;margin:0;}
   form button[type="submit"]:disabled{opacity:.6;cursor:not-allowed;}
+  /* Der Absendeknopf sieht auf Wunsch genauso aus wie der schwebende Knopf
+     "Angebot anfragen" (01.11.2026): gelb, dunkler Rahmen, Schatten,
+     pulsierender Punkt, 46 px hoch, nur so breit wie sein Text. */
+  #kontaktform .absenden{justify-self:start;height:46px;padding:0 22px;gap:10px;
+    background:var(--yellow);color:var(--dark);border:2px solid var(--dark);
+    font-weight:700;font-size:15.5px;box-shadow:0 12px 32px rgba(18,24,30,.28);}
+  #kontaktform .absenden:hover{background:var(--yellow-hover);border-color:var(--dark);}
+  #kontaktform .absenden .dot{width:9px;height:9px;background:var(--dark);display:inline-block;animation:ep-pulse 2.4s ease-in-out infinite;}
   /* Der Honigtopf muss im Seitenquelltext stehen, aber fuer Menschen
      unsichtbar sein. Nicht display:none -- manche Spam-Programme
      ueberspringen ausgeblendete Felder und wuerden durchkommen. */
@@ -1151,6 +1160,11 @@
      noch die Anschrift. Die frueher trennende Linie vor ihr haette ohne
      Logo im Nichts gestanden. */
   .footer-marke{display:flex;align-items:center;gap:clamp(20px,2.2vw,38px);flex-wrap:wrap;}
+  /* Zeichen "Innungsbetrieb" wie im Briefkopf von Angebot und Rechnung
+     (01.11.2026): links in der Fusszeile, 39 px hoch wie das Innungszeichen
+     in der Leiste unter dem Kopfbild. */
+  .innungsbetrieb{display:block;width:auto;flex:0 0 auto;}
+  .footer-marke .innungsbetrieb{height:39px;}
   .footer-marke address{font-style:normal;color:var(--grey-600);font-size:14px;line-height:1.6;
     max-width:44ch;overflow-wrap:break-word;}
   .footer-marke address strong{display:block;color:var(--ink);font-family:var(--font-heading);font-weight:700;
@@ -1773,7 +1787,7 @@
         <img src="band-waermepumpe-wolf.jpg" alt="Angeschlossene Wolf-Waermepumpe hinter einem Mehrfamilienhaus" loading="lazy">
         <img src="band-08-photovoltaik.jpg" alt="Photovoltaikanlage auf einem Flachdach" loading="lazy">
         <img src="band-tiefenerder.jpg" alt="Tiefenerder wird im Kabelgraben eingeschlagen" loading="lazy">
-        <img src="band-09-waermepumpe.jpg" alt="Waermepumpe an einer Hauswand" loading="lazy">
+        <img src="band-waermepumpe-neubau.jpg" alt="Von uns angeschlossene Wolf-Waermepumpe an einem Neubau" loading="lazy">
         <img src="band-10-smarthome.jpg" alt="Smart-Home-Steuerung per Tablet" loading="lazy">
         <img src="band-11-kamera.jpg" alt="Montage einer Deckenkamera" loading="lazy">
         <img src="band-13-licht.jpg" alt="Indirekte Beleuchtung im Wohnzimmer" loading="lazy">
@@ -1793,7 +1807,7 @@
         <img src="band-waermepumpe-wolf.jpg" alt="" loading="lazy">
         <img src="band-08-photovoltaik.jpg" alt="" loading="lazy">
         <img src="band-tiefenerder.jpg" alt="" loading="lazy">
-        <img src="band-09-waermepumpe.jpg" alt="" loading="lazy">
+        <img src="band-waermepumpe-neubau.jpg" alt="" loading="lazy">
         <img src="band-10-smarthome.jpg" alt="" loading="lazy">
         <img src="band-11-kamera.jpg" alt="" loading="lazy">
         <img src="band-13-licht.jpg" alt="" loading="lazy">
@@ -1933,16 +1947,16 @@ Ich kann die Firma nur sehr empfehlen.</p>
                wandert per JavaScript in das Feld darueber. -->
           <input id="kameraFotoEingabe" type="file" accept="image/*" capture="environment" hidden>
           <input id="kameraVideoEingabe" type="file" accept="video/*" capture="environment" hidden>
-          <p class="feld-hinweis">Ein Bild sagt oft mehr als eine lange Beschreibung: Verteilung,
-            Zählerschrank oder einfach die Stelle, um die es geht. So können wir Ihr Anliegen
-            gleich richtig einschätzen. Fotos verkleinert Ihr Browser vor dem Senden automatisch.
+          <p class="feld-hinweis">Fotos verkleinert Ihr Browser vor dem Senden automatisch.
             Bis zu <span id="grenzeAnzahl">5</span> Dateien, je höchstens
             <span id="grenzeEinzel">2&nbsp;MB</span>, zusammen
             <span id="grenzeGesamt">6&nbsp;MB</span> — Größeres senden Sie am besten an
             <a href="mailto:info@elektrotechnik-paulus.de">info@elektrotechnik-paulus.de</a>.</p>
+          <p class="feld-hinweis"><b>Am Handy können Sie direkt aus dem Kontaktformular Fotos
+            und Kurzvideos aufnehmen und mitschicken.</b></p>
           <p class="feld-status" id="anhangStatus" aria-live="polite"></p>
         </div>
-        <button class="btn btn-primary" type="submit">Angebot anfragen</button>
+        <button class="btn btn-primary absenden" type="submit"><span class="dot"></span>Angebot anfragen</button>
         <p class="form-note">* Pflichtfeld.</p>
         <div class="form-error" id="formError">
           <p>Die Anfrage konnte nicht gesendet werden. Bitte versuchen Sie es erneut oder schreiben Sie uns direkt an <a href="mailto:info@elektrotechnik-paulus.de">info@elektrotechnik-paulus.de</a>.</p>
@@ -2075,6 +2089,7 @@ Ich kann die Firma nur sehr empfehlen.</p>
 <footer class="legalbar">
   <div class="footer-row">
     <div class="footer-marke">
+      <img class="innungsbetrieb" src="innungsbetrieb.png" alt="Innungsbetrieb – Mitglied der Elektroinnung" width="690" height="200" loading="lazy">
       <address>
         <strong>Elektrotechnik Paulus GmbH</strong>
         Wartburgstr. 12 · 50733 Köln · <a href="tel:+4922129894083">0221 29894083</a> · <a href="mailto:info@elektrotechnik-paulus.de">info@elektrotechnik-paulus.de</a>
@@ -2423,21 +2438,27 @@ Ich kann die Firma nur sehr empfehlen.</p>
     }, { passive: true });
 
     // Im Kontaktbereich verschwindet er ganz -- dort steht das Formular,
-    // der Knopf wuerde nur auf sein eigenes Ziel zeigen.
-    var kontakt = document.getElementById('kontakt');
+    // der Knopf wuerde nur auf sein eigenes Ziel zeigen. Auf Wunsch erst,
+    // wenn die Ueberschrift "Lassen Sie uns ueber Ihr Projekt sprechen"
+    // erscheint, nicht schon bei den Kundenstimmen darueber (01.11.2026).
+    var kontakt = document.querySelector('#kontakt .kontakt-info h2');
     if (kontakt && window.IntersectionObserver) {
+      // Weg bleibt er auch, wenn die Ueberschrift schon oben hinausgescrollt
+      // ist -- darunter folgen nur noch Formular und Fusszeile.
       new IntersectionObserver(function (eintraege) {
-        floatCta.classList.toggle('aus', eintraege[0].isIntersecting);
+        var e = eintraege[0];
+        floatCta.classList.toggle('aus', e.isIntersecting || e.boundingClientRect.top < 0);
       }, { threshold: 0.01 }).observe(kontakt);
     }
 
     // Steht eine Leiste im Weg, setzt sich der Knopf darueber: die
-    // Vertrauensleiste unter dem Kopfbild und die Fusszeile am Seitenende.
+    // Vertrauensleiste unter dem Kopfbild, die Fusszeile am Seitenende und
+    // (seit 01.11.2026) das Marken- und das Bilderband.
     // Gerechnet wird mit der echten Oberkante der Leiste, nicht mit ihrer
     // Hoehe -- sie steht je nach Scrollstand unterschiedlich hoch im Bild.
     // Neu gerechnet wird, wenn das Scrollen zur Ruhe gekommen ist; waehrend
     // des Scrollens ist der Knopf ohnehin ausgeblendet.
-    var LEISTEN = ['.trustbar', 'footer.legalbar'];
+    var LEISTEN = ['.trustbar', 'footer.legalbar', '.marquee-section.markenband', '.marquee-section.bilderband'];
     function hebeRechnen() {
       var eigen = floatCta.getBoundingClientRect();
       var hoehe = eigen.height || 48;
@@ -2454,6 +2475,17 @@ Ich kann die Firma nur sehr empfehlen.</p>
           hebe = Math.max(hebe, window.innerHeight - r.top);
         }
       });
+      // Am Rechner steht der Knopf auf Wunsch immer an derselben Stelle
+      // (01.11.2026): senkrecht mittig auf der Hoehe der Leisten und Baender
+      // am unteren Rand -- egal, ob gerade eine im Bild ist.
+      if (window.innerWidth > 900) {
+        var leiste = 0;
+        LEISTEN.forEach(function (auswahl) {
+          var el = document.querySelector(auswahl);
+          if (el) leiste = Math.max(leiste, el.offsetHeight);
+        });
+        hebe = (leiste - hoehe) / 2 - rand;
+      }
       // Nie so hoch, dass der Knopf oben aus dem Bild laeuft.
       var grenze = window.innerHeight - hoehe - rand - 8;
       if (hebe > grenze) hebe = grenze < 0 ? 0 : grenze;
