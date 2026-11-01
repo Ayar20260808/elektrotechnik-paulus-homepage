@@ -972,14 +972,16 @@
          ist border-box, die Gesamthoehe bleibt gleich. */
       padding-bottom:calc(84px + 7vh);}
   }
-  .ablauf-grid{display:grid;grid-template-columns:repeat(4, minmax(0,1fr));gap:28px;}
+  /* Auf Wunsch etwas groesser (01.11.2026): Schrift der Schritte 24 statt
+     19 px, Text 17 statt 15 px, mehr Abstand zwischen den Spalten. */
+  .ablauf-grid{display:grid;grid-template-columns:repeat(4, minmax(0,1fr));gap:40px;}
   @media(max-width:1020px){.ablauf-grid{grid-template-columns:repeat(2, minmax(0,1fr));}}
   @media(max-width:560px){.ablauf-grid{grid-template-columns:1fr;}}
-  .ablauf-step{padding-top:22px;border-top:3px solid var(--grey-300);transition:border-top-color .6s ease;}
+  .ablauf-step{padding-top:26px;border-top:3px solid var(--grey-300);transition:border-top-color .6s ease;}
   .ablauf-step.in{border-top-color:var(--yellow);}
-  .ablauf-num{font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:.1em;color:var(--yellow-text);margin-bottom:12px;}
-  .ablauf-step h3{font-weight:700;font-size:19px;margin-bottom:10px;}
-  .ablauf-step p{color:var(--grey-600);font-size:15px;line-height:1.65;}
+  .ablauf-num{font-family:var(--font-heading);font-weight:600;font-size:13px;letter-spacing:.1em;color:var(--yellow-text);margin-bottom:14px;}
+  .ablauf-step h3{font-weight:700;font-size:24px;margin-bottom:12px;}
+  .ablauf-step p{color:var(--grey-600);font-size:17px;line-height:1.65;}
 
   /* REFERENZEN / BEWERTUNGEN gemeinsames Rastermuster */
   .card-grid-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;padding-bottom:24px;border-bottom:3px solid var(--ink);margin-bottom:2px;}
@@ -1750,10 +1752,10 @@
       <p>Keine Überraschungen auf der Rechnung. Sie wissen bei jedem Schritt, woran Sie sind.</p>
     </div>
     <div class="ablauf-grid">
-      <div class="ablauf-step" data-step><div class="ablauf-num">SCHRITT 01</div><h3>Anfrage</h3><p>Sie rufen an oder schreiben uns. Wir klären, worum es geht und was Sie sich vorstellen.</p></div>
-      <div class="ablauf-step" data-step><div class="ablauf-num">SCHRITT 02</div><h3>Termin vor Ort</h3><p>Wir sehen uns die Gegebenheiten an, messen nach und beraten Sie zur sinnvollsten Lösung.</p></div>
-      <div class="ablauf-step" data-step><div class="ablauf-num">SCHRITT 03</div><h3>Festes Angebot</h3><p>Schriftliches Angebot mit klaren Positionen, auf Wunsch mit Hinweis auf Förderungen.</p></div>
-      <div class="ablauf-step" data-step><div class="ablauf-num">SCHRITT 04</div><h3>Ausführung &amp; Abnahme</h3><p>Wir führen die Arbeiten zum vereinbarten Termin aus und übergeben die Anlage mit Messprotokoll.</p></div>
+      <div class="ablauf-step" data-step><div class="ablauf-num">SCHRITT 01</div><h3>Anfrage</h3><p>Sie rufen an oder schreiben uns, gerne mit ein paar Fotos. Wir klären, worum es geht und was Sie sich vorstellen.</p></div>
+      <div class="ablauf-step" data-step><div class="ablauf-num">SCHRITT 02</div><h3>Termin vor Ort</h3><p>Wir schauen uns alles vor Ort an und messen nach. Dann besprechen wir mit Ihnen, was gemacht werden sollte oder muss und was sich lohnt.</p></div>
+      <div class="ablauf-step" data-step><div class="ablauf-num">SCHRITT 03</div><h3>Faires Angebot</h3><p>Sie bekommen ein faires, schriftliches Angebot, in dem jede Position nachvollziehbar ist. Gegebenenfalls mit Hinweis auf Förderungen.</p></div>
+      <div class="ablauf-step" data-step><div class="ablauf-num">SCHRITT 04</div><h3>Ausführung &amp; Abnahme</h3><p>Wir führen die Arbeiten zum vereinbarten Termin aus. Zum Schluss übergeben wir Ihnen die Anlage mit Messprotokoll.</p></div>
     </div>
   </div>
 </section>
