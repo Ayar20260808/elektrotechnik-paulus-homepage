@@ -972,6 +972,11 @@
          ist border-box, die Gesamthoehe bleibt gleich. */
       padding-bottom:calc(84px + 7vh);}
   }
+  /* Auf Wunsch so breit wie der Kopfinhalt (Logo bis "Kontakt") statt
+     1200 px, wie beim Kontakt. Erst ab 1101 px. */
+  @media(min-width:1101px){
+    #ablauf > .wrap{max-width:none;width:var(--inhalt-breite);padding:0;}
+  }
   /* Auf Wunsch etwas groesser (01.11.2026): Schrift der Schritte 24 statt
      19 px, Text 17 statt 15 px, mehr Abstand zwischen den Spalten. */
   .ablauf-grid{display:grid;grid-template-columns:repeat(4, minmax(0,1fr));gap:40px;}
