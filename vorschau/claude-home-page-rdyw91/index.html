@@ -616,8 +616,8 @@
      werden bereits von .leistungen-bg beschnitten, und die vergroesserte
      Karte darf mit ihrem verlaengerten Feld ueber die Kante reichen. */
   #leistungen{position:relative;background:var(--dark);padding-top:clamp(18px,calc(var(--sh) * 3.6),64px);padding-bottom:clamp(5px,calc(var(--sh) * 1),24px);}
-  /* Das Bilderband steht am Ende von "Unsere Kunden", siehe
-     #kunden > .bilderband. */
+  /* Das Bilderband steht unter "So arbeiten wir", am Ende von "Unsere
+     Kunden" das Markenband (#kunden > .markenband). */
   /* Dunkler Hintergrund, damit die weissen Leistungskarten kraeftig
      hervortreten -- derselbe dunkle Ton wie im Hero. */
   /* Die Ueberschrift des Abschnitts steht mittig ueber dem Raster,
@@ -760,11 +760,11 @@
      zwei dunkle Flaechen hintereinander lassen den Wechsel verschwinden. */
   #kunden{background:var(--grey-100);border-top:2px solid var(--ink);
     padding:clamp(34px,calc(var(--sh) * 6.5),96px) 0;}
-  /* Bilderband "Aus dem Arbeitsalltag" am Ende von Unsere Kunden, so hoch
-     wie der Kopf (01.11.2026): ueber dem Band derselbe Abstand wie zwischen
+  /* Markenband am Ende von Unsere Kunden (01.11.2026, auf Wunsch mit dem
+     Bilderband getauscht): ueber dem Band derselbe Abstand wie zwischen
      den Kundenkacheln, im hellen Grau des Abschnitts. */
   #kunden{padding-bottom:clamp(16px,calc(var(--sh) * 3.0),48px);}
-  #kunden > .bilderband{margin-top:clamp(16px,calc(var(--sh) * 3.0),48px);}
+  #kunden > .markenband{margin-top:clamp(16px,calc(var(--sh) * 3.0),48px);}
   /* Kunden samt Bilderband fuellen am Rechner genau einen Bildschirm unter
      dem Kopf: das Band schliesst die Seite unten ab, wie das Markenband
      beim Ablauf. Ueberschrift und Kacheln stehen mittig im freien Raum
@@ -958,14 +958,14 @@
 
   /* ABLAUF */
   #ablauf{background:var(--grey-100);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);}
-  /* Der Ablauf-Abschnitt und das Markenband darunter fuellen zusammen
+  /* Der Ablauf-Abschnitt und das Bilderband darunter fuellen zusammen
      genau einen Bildschirm: das Band schliesst diese Seite unten ab.
      Gerechnet mit --header-klein, weil nach dem Scrollen nur der
      geschrumpfte Kopf noch etwas verdeckt.
      Nur ab 901 px -- auf dem Handy ist der Abschnitt ohnehin hoeher und
      die Seiteneinteilung waere dort sinnlos. */
   @media(min-width:901px){
-    #ablauf{min-height:calc(100vh - var(--header-klein, 46px) - var(--band-marken-hoehe));
+    #ablauf{min-height:calc(100vh - var(--header-klein, 46px) - var(--band-bilder-hoehe));
       display:flex;flex-direction:column;justify-content:center;
       /* Der Inhalt sitzt einen Tick ueber der Mitte: mehr Abstand nach
          unten, die senkrechte Mitte rueckt dadurch nach oben. box-sizing
@@ -1257,7 +1257,7 @@
      ist nur dafuer da, dass order hier greifen kann. */
   @media(max-width:900px){
     .seitenfolge{display:flex;flex-direction:column;}
-    .seitenfolge > .markenband{order:1;}
+    .seitenfolge > .bilderband{order:1;}
     .seitenfolge > #ablauf{order:2;}
     .seitenfolge > #kontakt{order:3;}
   }
@@ -1725,6 +1725,39 @@
     </div>
 
   </div>
+<div class="marquee-section attached markenband">
+  <div class="marquee-head">Marken, mit denen wir arbeiten</div>
+  <div class="marquee-clip">
+    <div class="marquee-track marken">
+      <div class="marquee-group">
+        <img class="brand-logo" src="marke-hager.png" alt="Hager" loading="lazy"><img class="brand-logo" src="marke-gira.png" alt="Gira" loading="lazy"><img class="brand-logo" src="marke-buschjaeger.png" alt="Busch-Jaeger" loading="lazy"><img class="brand-logo" src="marke-jung.png" alt="JUNG" loading="lazy"><img class="brand-logo" src="marke-abb.png" alt="ABB" loading="lazy"><img class="brand-logo" src="marke-siemens.png" alt="Siemens" loading="lazy"><img class="brand-logo" src="marke-schneider.png" alt="Schneider Electric" loading="lazy"><img class="brand-logo" src="marke-bosch.png" alt="Bosch" loading="lazy"><img class="brand-logo" src="marke-mennekes.png" alt="MENNEKES" loading="lazy"><img class="brand-logo" src="marke-wago.png" alt="WAGO" loading="lazy"><img class="brand-logo" src="marke-eltako.png" alt="Eltako" loading="lazy"><img class="brand-logo" src="marke-theben.png" alt="Theben" loading="lazy"><img class="brand-logo" src="marke-sma.png" alt="SMA Solar" loading="lazy"><img class="brand-logo" src="marke-heidelberg.png" alt="Heidelberg" loading="lazy"><span class="brand-name">Ohme</span><img class="brand-logo" src="marke-jinko.png" alt="JinkoSolar" loading="lazy"><img class="brand-logo" src="marke-longi.png" alt="LONGi Green Energy" loading="lazy"><img class="brand-logo" src="marke-kostal.png" alt="KOSTAL" loading="lazy"><img class="brand-logo" src="marke-k2systems.png" alt="K2 Systems" loading="lazy"><img class="brand-logo" src="marke-keba.png" alt="KEBA" loading="lazy"><img class="brand-logo" src="marke-goe.png" alt="go-e" loading="lazy">
+      </div>
+      <div class="marquee-group" aria-hidden="true">
+        <img class="brand-logo" src="marke-hager.png" alt="Hager" loading="lazy"><img class="brand-logo" src="marke-gira.png" alt="Gira" loading="lazy"><img class="brand-logo" src="marke-buschjaeger.png" alt="Busch-Jaeger" loading="lazy"><img class="brand-logo" src="marke-jung.png" alt="JUNG" loading="lazy"><img class="brand-logo" src="marke-abb.png" alt="ABB" loading="lazy"><img class="brand-logo" src="marke-siemens.png" alt="Siemens" loading="lazy"><img class="brand-logo" src="marke-schneider.png" alt="Schneider Electric" loading="lazy"><img class="brand-logo" src="marke-bosch.png" alt="Bosch" loading="lazy"><img class="brand-logo" src="marke-mennekes.png" alt="MENNEKES" loading="lazy"><img class="brand-logo" src="marke-wago.png" alt="WAGO" loading="lazy"><img class="brand-logo" src="marke-eltako.png" alt="Eltako" loading="lazy"><img class="brand-logo" src="marke-theben.png" alt="Theben" loading="lazy"><img class="brand-logo" src="marke-sma.png" alt="SMA Solar" loading="lazy"><img class="brand-logo" src="marke-heidelberg.png" alt="Heidelberg" loading="lazy"><span class="brand-name">Ohme</span><img class="brand-logo" src="marke-jinko.png" alt="JinkoSolar" loading="lazy"><img class="brand-logo" src="marke-longi.png" alt="LONGi Green Energy" loading="lazy"><img class="brand-logo" src="marke-kostal.png" alt="KOSTAL" loading="lazy"><img class="brand-logo" src="marke-k2systems.png" alt="K2 Systems" loading="lazy"><img class="brand-logo" src="marke-keba.png" alt="KEBA" loading="lazy"><img class="brand-logo" src="marke-goe.png" alt="go-e" loading="lazy">
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+
+<div class="seitenfolge">
+<section id="ablauf">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">So arbeiten wir</span>
+      <h2>Von der Anfrage bis zur Abnahme.</h2>
+      <p>Keine Überraschungen auf der Rechnung. Sie wissen bei jedem Schritt, woran Sie sind.</p>
+    </div>
+    <div class="ablauf-grid">
+      <div class="ablauf-step" data-step><div class="ablauf-num">SCHRITT 01</div><h3>Anfrage</h3><p>Sie rufen an oder schreiben uns. Wir klären, worum es geht und was Sie sich vorstellen.</p></div>
+      <div class="ablauf-step" data-step><div class="ablauf-num">SCHRITT 02</div><h3>Termin vor Ort</h3><p>Wir sehen uns die Gegebenheiten an, messen nach und beraten Sie zur sinnvollsten Lösung.</p></div>
+      <div class="ablauf-step" data-step><div class="ablauf-num">SCHRITT 03</div><h3>Festes Angebot</h3><p>Schriftliches Angebot mit klaren Positionen, auf Wunsch mit Hinweis auf Förderungen.</p></div>
+      <div class="ablauf-step" data-step><div class="ablauf-num">SCHRITT 04</div><h3>Ausführung &amp; Abnahme</h3><p>Wir führen die Arbeiten zum vereinbarten Termin aus und übergeben die Anlage mit Messprotokoll.</p></div>
+    </div>
+  </div>
+</section>
+
 <div class="marquee-section attached bilderband">
   <div class="marquee-head">Aus dem Arbeitsalltag</div>
   <div class="marquee-clip">
@@ -1768,39 +1801,6 @@
         <img src="band-11-kamera.jpg" alt="" loading="lazy">
         <img src="band-13-licht.jpg" alt="" loading="lazy">
         <img src="band-14-notleuchte.jpg" alt="" loading="lazy">
-      </div>
-    </div>
-  </div>
-</div>
-</section>
-
-
-<div class="seitenfolge">
-<section id="ablauf">
-  <div class="wrap">
-    <div class="section-head" data-reveal>
-      <span class="eyebrow">So arbeiten wir</span>
-      <h2>Von der Anfrage bis zur Abnahme.</h2>
-      <p>Keine Überraschungen auf der Rechnung. Sie wissen bei jedem Schritt, woran Sie sind.</p>
-    </div>
-    <div class="ablauf-grid">
-      <div class="ablauf-step" data-step><div class="ablauf-num">SCHRITT 01</div><h3>Anfrage</h3><p>Sie rufen an oder schreiben uns. Wir klären, worum es geht und was Sie sich vorstellen.</p></div>
-      <div class="ablauf-step" data-step><div class="ablauf-num">SCHRITT 02</div><h3>Termin vor Ort</h3><p>Wir sehen uns die Gegebenheiten an, messen nach und beraten Sie zur sinnvollsten Lösung.</p></div>
-      <div class="ablauf-step" data-step><div class="ablauf-num">SCHRITT 03</div><h3>Festes Angebot</h3><p>Schriftliches Angebot mit klaren Positionen, auf Wunsch mit Hinweis auf Förderungen.</p></div>
-      <div class="ablauf-step" data-step><div class="ablauf-num">SCHRITT 04</div><h3>Ausführung &amp; Abnahme</h3><p>Wir führen die Arbeiten zum vereinbarten Termin aus und übergeben die Anlage mit Messprotokoll.</p></div>
-    </div>
-  </div>
-</section>
-
-<div class="marquee-section attached markenband">
-  <div class="marquee-head">Marken, mit denen wir arbeiten</div>
-  <div class="marquee-clip">
-    <div class="marquee-track marken">
-      <div class="marquee-group">
-        <img class="brand-logo" src="marke-hager.png" alt="Hager" loading="lazy"><img class="brand-logo" src="marke-gira.png" alt="Gira" loading="lazy"><img class="brand-logo" src="marke-buschjaeger.png" alt="Busch-Jaeger" loading="lazy"><img class="brand-logo" src="marke-jung.png" alt="JUNG" loading="lazy"><img class="brand-logo" src="marke-abb.png" alt="ABB" loading="lazy"><img class="brand-logo" src="marke-siemens.png" alt="Siemens" loading="lazy"><img class="brand-logo" src="marke-schneider.png" alt="Schneider Electric" loading="lazy"><img class="brand-logo" src="marke-bosch.png" alt="Bosch" loading="lazy"><img class="brand-logo" src="marke-mennekes.png" alt="MENNEKES" loading="lazy"><img class="brand-logo" src="marke-wago.png" alt="WAGO" loading="lazy"><img class="brand-logo" src="marke-eltako.png" alt="Eltako" loading="lazy"><img class="brand-logo" src="marke-theben.png" alt="Theben" loading="lazy"><img class="brand-logo" src="marke-sma.png" alt="SMA Solar" loading="lazy"><img class="brand-logo" src="marke-heidelberg.png" alt="Heidelberg" loading="lazy"><span class="brand-name">Ohme</span><img class="brand-logo" src="marke-jinko.png" alt="JinkoSolar" loading="lazy"><img class="brand-logo" src="marke-longi.png" alt="LONGi Green Energy" loading="lazy"><img class="brand-logo" src="marke-kostal.png" alt="KOSTAL" loading="lazy"><img class="brand-logo" src="marke-k2systems.png" alt="K2 Systems" loading="lazy"><img class="brand-logo" src="marke-keba.png" alt="KEBA" loading="lazy"><img class="brand-logo" src="marke-goe.png" alt="go-e" loading="lazy">
-      </div>
-      <div class="marquee-group" aria-hidden="true">
-        <img class="brand-logo" src="marke-hager.png" alt="Hager" loading="lazy"><img class="brand-logo" src="marke-gira.png" alt="Gira" loading="lazy"><img class="brand-logo" src="marke-buschjaeger.png" alt="Busch-Jaeger" loading="lazy"><img class="brand-logo" src="marke-jung.png" alt="JUNG" loading="lazy"><img class="brand-logo" src="marke-abb.png" alt="ABB" loading="lazy"><img class="brand-logo" src="marke-siemens.png" alt="Siemens" loading="lazy"><img class="brand-logo" src="marke-schneider.png" alt="Schneider Electric" loading="lazy"><img class="brand-logo" src="marke-bosch.png" alt="Bosch" loading="lazy"><img class="brand-logo" src="marke-mennekes.png" alt="MENNEKES" loading="lazy"><img class="brand-logo" src="marke-wago.png" alt="WAGO" loading="lazy"><img class="brand-logo" src="marke-eltako.png" alt="Eltako" loading="lazy"><img class="brand-logo" src="marke-theben.png" alt="Theben" loading="lazy"><img class="brand-logo" src="marke-sma.png" alt="SMA Solar" loading="lazy"><img class="brand-logo" src="marke-heidelberg.png" alt="Heidelberg" loading="lazy"><span class="brand-name">Ohme</span><img class="brand-logo" src="marke-jinko.png" alt="JinkoSolar" loading="lazy"><img class="brand-logo" src="marke-longi.png" alt="LONGi Green Energy" loading="lazy"><img class="brand-logo" src="marke-kostal.png" alt="KOSTAL" loading="lazy"><img class="brand-logo" src="marke-k2systems.png" alt="K2 Systems" loading="lazy"><img class="brand-logo" src="marke-keba.png" alt="KEBA" loading="lazy"><img class="brand-logo" src="marke-goe.png" alt="go-e" loading="lazy">
       </div>
     </div>
   </div>
