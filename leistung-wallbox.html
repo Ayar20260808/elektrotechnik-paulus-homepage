@@ -212,7 +212,7 @@
      Skript und legt ihn in --header-klein ab. */
   @keyframes ep-pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
   .float-cta{position:fixed;right:clamp(16px,3vw,28px);bottom:clamp(16px,3vw,28px);z-index:200;background:var(--yellow);color:var(--dark);font-family:var(--font-heading);font-weight:700;font-size:15.5px;height:var(--header-klein, 48px);padding:0 22px;border:2px solid var(--dark);box-shadow:0 12px 32px rgba(18,24,30,.28);display:inline-flex;align-items:center;gap:10px;}
-  .float-cta:hover{background:var(--yellow-hover);text-decoration:none;}
+  .float-cta:hover{background:var(--grey-0);text-decoration:none;}
   /* Der Knopf hing an --header-klein, der Hoehe des geschrumpften Kopfes.
      Seit der Kopf ab 901 px nicht mehr schrumpft, misst die Variable dort
      die volle Hoehe -- gemessen wurde der Knopf damit 103 px hoch statt 46.
@@ -337,6 +337,16 @@
      schmaler wird die Ueberschrift, nicht der Knopf. */
   .closing-actions{display:flex;gap:16px;flex-wrap:nowrap;flex:0 0 auto;margin-left:auto;}
   .closing-actions .btn{white-space:nowrap;}
+  /* Auf Wunsch weniger Gelb (01.11.2026): die Leiste selbst ist weiss, gelb
+     sind nur noch drei Kaesten im Design des schwebenden Knopfs -- der Satz
+     im Rahmen, die beiden Knoepfe zusaetzlich mit pulsierendem Punkt. */
+  .closing{background:var(--grey-0);border-top:2px solid var(--grey-300);padding:14px 0;}
+  .closing h2,.closing .btn{background:var(--yellow);color:var(--dark);border:2px solid var(--dark);
+    box-shadow:0 12px 32px rgba(18,24,30,.28);min-height:46px;display:inline-flex;align-items:center;}
+  .closing h2{padding:6px 20px;}
+  .closing .btn{padding:0 22px;gap:10px;font-weight:700;font-size:15.5px;}
+  .closing .btn:hover{background:var(--grey-0);color:var(--dark);}
+  .closing .btn .dot{width:9px;height:9px;background:var(--dark);display:inline-block;animation:ep-pulse 2.4s ease-in-out infinite;}
   /* Auf schmalen Schirmen passt das nicht in eine Reihe -- dort waechst
      das Band wieder mit seinem Inhalt, wie die Fusszeile auch. */
   @media(max-width:820px){
@@ -344,14 +354,6 @@
     .closing .wrap{flex-direction:column;align-items:flex-start;flex-wrap:wrap;}
     .closing-actions{margin-left:0;flex-wrap:wrap;}
   }
-  /* Beide Knoepfe im gelben Band gleich: dunkler Rahmen, beim Ueberfahren
-     der helle Gelbton. Vorher war der linke Knopf ein gelber Knopf auf
-     gelbem Grund -- im Ruhezustand unsichtbar, nur beim Ueberfahren kam ein
-     dunkleres Rechteck. */
-  .closing .btn-ghost,
-  .closing .btn-primary{background:transparent;border-color:var(--dark);color:var(--dark);}
-  .closing .btn-primary:hover,
-  .closing .btn-ghost:hover{background:var(--yellow-tint);border-color:var(--dark);color:var(--dark);}
 
   /* FUSSZEILE -- Wort fuer Wort dieselbe wie am Ende der Startseite:
      spiegelbildlich zum Header, gleiche Hoehe, gleiche seitliche
@@ -545,8 +547,8 @@
   <div class="wrap">
     <h2>Wallbox geplant? Wir schauen uns den Anschluss an.</h2>
     <div class="closing-actions">
-      <a href="index.html#kontakt" class="btn btn-primary">Angebot anfragen</a>
-      <a href="tel:+4922129894083" class="btn btn-ghost">0221 29894083</a>
+      <a href="index.html#kontakt" class="btn btn-primary"><span class="dot"></span>Angebot anfragen</a>
+      <a href="tel:+4922129894083" class="btn btn-ghost"><span class="dot"></span>0221 29894083</a>
     </div>
   </div>
 </div>
