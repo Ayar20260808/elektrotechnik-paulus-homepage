@@ -261,8 +261,10 @@
   .nav-links.mobile-open > a::after,.nav-links.mobile-open .nav-item > a::after{display:none;}
 
   .svc-hero{position:relative;background:var(--ink);min-height:420px;display:flex;align-items:center;overflow:hidden;}
-  .svc-hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.45;}
-  .svc-hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg, rgba(18,24,30,.92) 0%, rgba(18,24,30,.7) 100%);}
+  /* Kopffoto auf Wunsch heller (01.11.2026): 70 statt 45 % Deckkraft, der
+     Schleier bleibt links hinter dem Text dunkel und laeuft nach rechts aus. */
+  .svc-hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.7;}
+  .svc-hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg, rgba(18,24,30,.92) 0%, rgba(18,24,30,.8) 40%, rgba(18,24,30,.15) 75%, rgba(18,24,30,0) 100%);}
   .svc-hero-content{position:relative;z-index:2;padding-top:64px;padding-bottom:64px;display:flex;align-items:center;gap:clamp(24px,4vw,64px);}
   .svc-hero-text{flex:1 1 auto;min-width:0;}
   .breadcrumb{font-size:13.5px;color:rgba(255,255,255,.6);margin-bottom:22px;}
@@ -415,6 +417,10 @@
      noch die Anschrift. Die frueher trennende Linie vor ihr haette ohne
      Logo im Nichts gestanden. */
   .footer-marke{display:flex;align-items:center;gap:clamp(20px,2.2vw,38px);flex-wrap:wrap;}
+  /* Zeichen "Innungsbetrieb" wie im Briefkopf (01.11.2026), 39 px hoch wie
+     auf der Startseite. */
+  .innungsbetrieb{display:block;width:auto;flex:0 0 auto;}
+  .footer-marke .innungsbetrieb{height:39px;}
   .footer-marke address{font-style:normal;color:var(--grey-600);font-size:14px;line-height:1.6;
     max-width:44ch;overflow-wrap:break-word;}
   .footer-marke address strong{display:block;color:var(--ink);font-family:var(--font-heading);font-weight:700;
@@ -563,6 +569,7 @@
 <footer class="legalbar">
   <div class="footer-row">
     <div class="footer-marke">
+      <img class="innungsbetrieb" src="innungsbetrieb.png" alt="Innungsbetrieb – Mitglied der Elektroinnung" width="690" height="200" loading="lazy">
       <address>
         <strong>Elektrotechnik Paulus GmbH</strong>
         Wartburgstr. 12 · 50733 Köln · <a href="tel:+4922129894083">0221 29894083</a> · <a href="mailto:info@elektrotechnik-paulus.de">info@elektrotechnik-paulus.de</a>
