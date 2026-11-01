@@ -912,19 +912,25 @@
   :root{
     --band-luft: 4px;
     --band-schrift: 19px;
-    --band-bildhoehe: calc(var(--header-hoehe, 139px) - var(--band-luft) * 3 - var(--band-schrift));
+    --band-bildhoehe: var(--header-hoehe, 139px);
     --band-marken-hoehe: calc(var(--band-luft) * 3 + var(--band-schrift) + 68px);
-    --band-bilder-hoehe: calc(var(--band-luft) * 3 + var(--band-schrift) + var(--band-bildhoehe));
+    --band-bilder-hoehe: var(--band-bildhoehe);
   }
   .marquee-section.markenband,
   .marquee-section.bilderband{
     padding-top:var(--band-luft);padding-bottom:var(--band-luft);
     display:flex;flex-direction:column;justify-content:center;}
   .marquee-section.markenband{min-height:var(--band-marken-hoehe);}
-  /* Das Bilderband ist auf Wunsch insgesamt so hoch wie der Kopf
-     (01.11.2026, vorher Bilder doppelt so hoch): Bildhoehe = Kopfhoehe
-     minus Luft und Schrift. */
-  .marquee-section.bilderband{min-height:var(--band-bilder-hoehe);}
+  /* Das Bilderband ist auf Wunsch so hoch wie der Kopf, und die Bilder
+     fuellen es ganz aus (01.11.2026). Die Zeile "Aus dem Arbeitsalltag"
+     steht waagerecht mittig ganz oben direkt unter dem Strich, auf leicht
+     weissem Grund und schmal, damit sie wenig vom Bild verdeckt; die
+     Bilder laufen darunter durch. Ohne Innenabstand und ohne Linie unten. */
+  .marquee-section.bilderband{min-height:var(--band-bilder-hoehe);position:relative;}
+  .marquee-section.marquee-section.bilderband{padding:0;border-bottom:0;}
+  .marquee-section.bilderband .marquee-head.marquee-head{position:absolute;top:0;left:50%;
+    transform:translateX(-50%);z-index:2;margin:0;padding:3px 14px;
+    background:rgba(255,255,255,.85);color:var(--ink);white-space:nowrap;pointer-events:none;}
   /* Beide Baender: derselbe schmale Abstand unter der Schrift wie oben
      und unten. Die frueheren Rechnungen mit einem Drittel des
      Ueberschusses entfallen -- es gibt keinen Ueberschuss mehr. */
