@@ -766,6 +766,9 @@
      Kunden. */
   #kunden{padding-bottom:clamp(16px,calc(var(--sh) * 3.0),48px);}
   #kunden > .bilderband{margin-top:clamp(16px,calc(var(--sh) * 3.0),48px);}
+  /* Auf Wunsch so breit wie die Kundenkacheln darueber: derselbe
+     seitliche Abstand wie .kunden-grid statt von Kante zu Kante. */
+  #kunden > .bilderband{margin-left:clamp(20px,5vw,72px);margin-right:clamp(20px,5vw,72px);}
   /* Kunden samt Bilderband fuellen am Rechner genau einen Bildschirm unter
      dem Kopf: das Band schliesst die Seite unten ab, wie das Markenband
      beim Ablauf. Ueberschrift und Kacheln stehen mittig im freien Raum
