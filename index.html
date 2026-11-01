@@ -919,7 +919,7 @@
   :root{
     --band-luft: 4px;
     --band-schrift: 19px;
-    --band-bildhoehe: calc((var(--header-hoehe, 139px) - 38px) * 2);
+    --band-bildhoehe: calc(var(--header-hoehe, 139px) - var(--band-luft) * 3 - var(--band-schrift));
     --band-marken-hoehe: calc(var(--band-luft) * 3 + var(--band-schrift) + 68px);
     --band-bilder-hoehe: calc(var(--band-luft) * 3 + var(--band-schrift) + var(--band-bildhoehe));
   }
@@ -928,9 +928,9 @@
     padding-top:var(--band-luft);padding-bottom:var(--band-luft);
     display:flex;flex-direction:column;justify-content:center;}
   .marquee-section.markenband{min-height:var(--band-marken-hoehe);}
-  /* Die Bilder im Bilderband sind auf Wunsch groesser als der restliche
-     Bandinhalt: Faktor 2 statt frueher 1,2 (31.10.2026). Markenband,
-     Vertrauensleiste und Fusszeile bleiben unveraendert. */
+  /* Das Bilderband ist auf Wunsch insgesamt so hoch wie der Kopf
+     (01.11.2026, vorher Bilder doppelt so hoch): Bildhoehe = Kopfhoehe
+     minus Luft und Schrift. */
   .marquee-section.bilderband{min-height:var(--band-bilder-hoehe);}
   /* Beide Baender: derselbe schmale Abstand unter der Schrift wie oben
      und unten. Die frueheren Rechnungen mit einem Drittel des
@@ -959,15 +959,14 @@
 
   /* ABLAUF */
   #ablauf{background:var(--grey-100);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);}
-  /* Der Ablauf-Abschnitt und das Bilderband darunter fuellen zusammen
-     genau einen Bildschirm: das Band schliesst diese Seite unten ab.
+  /* Der Ablauf-Abschnitt fuellt allein genau einen Bildschirm; das
+     Bilderband steht seit 01.11.2026 unten auf der Kontaktseite.
      Gerechnet mit --header-klein, weil nach dem Scrollen nur der
-     geschrumpfte Kopf noch etwas verdeckt, und mit der vollen Kopfhoehe
-     fuer das Markenband (.marquee-section.markenband steht auf 1,0).
+     geschrumpfte Kopf noch etwas verdeckt.
      Nur ab 901 px -- auf dem Handy ist der Abschnitt ohnehin hoeher und
      die Seiteneinteilung waere dort sinnlos. */
   @media(min-width:901px){
-    #ablauf{min-height:calc(100vh - var(--header-klein, 46px) - var(--band-bilder-hoehe));
+    #ablauf{min-height:calc(100vh - var(--header-klein, 46px));
       display:flex;flex-direction:column;justify-content:center;
       /* Der Inhalt sitzt einen Tick ueber der Mitte: mehr Abstand nach
          unten, die senkrechte Mitte rueckt dadurch nach oben. box-sizing
@@ -998,12 +997,12 @@
      treten davor genauso hervor wie die Leistungskarten; die Angaben in der
      linken Spalte stehen deshalb in Weiss. */
   #kontakt{position:relative;overflow:hidden;background:var(--dark);border-top:2px solid var(--ink);}
-  /* Der Kontaktbereich fuellt eine Bildschirmseite. Das Bilderband stand
-     frueher darunter und schloss die Seite ab; seit 30.10.2026 steht es
-     zwischen Leistungen und Kunden. Nur ab 901 px, auf dem Handy gibt es
-     keine Seiteneinteilung. */
+  /* Kontaktbereich, Bilderband und Fusszeile mit Impressum fuellen
+     zusammen eine Bildschirmseite (01.11.2026): Band und Fusszeile sind
+     je so hoch wie der Kopf. Nur ab 901 px, auf dem Handy gibt es keine
+     Seiteneinteilung. */
   @media(min-width:901px){
-    #kontakt{min-height:calc(100vh - var(--header-klein, 46px));
+    #kontakt{min-height:calc(100vh - var(--header-klein, 46px) - var(--band-bilder-hoehe) - var(--header-hoehe, 139px));
       display:flex;flex-direction:column;justify-content:center;}
   }
   #kontakt > .wrap{position:relative;z-index:1;}
@@ -1025,6 +1024,28 @@
   #kontakt .kontakt-block .label,
   #kontakt .kontakt-block a, #kontakt .kontakt-block span{text-shadow:0 2px 14px rgba(18,24,30,.55);}
   .kontakt-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:56px;}
+  /* Auf Wunsch breiteres, niedrigeres Formular (01.11.2026): Text links
+     schmaler, Felder in drei Spalten. Reihe 1 Vorname, Nachname, E-Mail;
+     Reihe 2 Telefon und Anliegen; Reihe 3 Nachricht und Fotos nebeneinander.
+     .form-row loest sich dafuer per display:contents ins Formularraster auf.
+     Erst ab 1101 px, darunter bleiben zwei Spalten. */
+  @media(min-width:1101px){
+    /* Kundenstimmen und Kontakt so breit wie der Kopfinhalt (Logo bis
+       "Kontakt") statt 1200 px -- das Formular wird breiter und dadurch
+       niedriger. */
+    #kontakt > .wrap{max-width:none;width:var(--inhalt-breite);padding:0;}
+    /* Weniger Rand oben und unten (36 statt 84 px), damit bei 2560 x 1223
+       Kontakt, Bilderband und Fusszeile auf einen Bildschirm passen. */
+    #kontakt{padding-top:36px;padding-bottom:36px;}
+    .kontakt-grid{grid-template-columns:.55fr 1.45fr;}
+    #kontaktform{grid-template-columns:repeat(3,minmax(0,1fr));}
+    #kontaktform .form-row{display:contents;}
+    #kontaktform .field.full{grid-column:auto;}
+    #kontaktform .field:has(#anliegen),
+    #kontaktform .field:has(#nachricht){grid-column:span 2;}
+    #kontaktform .field:has(#nachricht) textarea{flex:1;}
+    #kontaktform > .btn, #kontaktform > .form-note, #kontaktform > .form-error{grid-column:1/-1;}
+  }
   .kontakt-info h2{font-weight:700;font-size:clamp(28px,3vw,36px);margin:16px 0 18px;}
   .kontakt-info p{color:var(--grey-600);margin-bottom:28px;}
   .kontakt-block{padding:18px 0;border-top:2px solid var(--grey-300);}
@@ -1238,7 +1259,7 @@
      ist nur dafuer da, dass order hier greifen kann. */
   @media(max-width:900px){
     .seitenfolge{display:flex;flex-direction:column;}
-    .seitenfolge > .bilderband{order:1;}
+    .seitenfolge > .bilderband{order:4;}
     .seitenfolge > #ablauf{order:2;}
     .seitenfolge > #kontakt{order:3;}
   }
@@ -1739,54 +1760,6 @@
   </div>
 </section>
 
-<div class="marquee-section attached bilderband">
-  <div class="marquee-head">Aus dem Arbeitsalltag</div>
-  <div class="marquee-clip">
-    <div class="marquee-track slow">
-      <div class="imgband-group">
-        <img src="band-team.jpg" alt="Zwei Mitarbeiter auf der Baustelle" loading="lazy">
-        <img src="band-01-steckdose.jpg" alt="Steckdose wird verdrahtet" loading="lazy">
-        <img src="band-haus.jpg" alt="Fertiges Mehrfamilienhaus mit Balkonen, Elektroinstallation von uns" loading="lazy">
-        <img src="band-kabel.jpg" alt="Monteur zieht eine Leitung an einer Ziegelfassade" loading="lazy">
-        <img src="band-02-verteilung.jpg" alt="Arbeit an einer Unterverteilung" loading="lazy">
-        <img src="band-trennschleifer.jpg" alt="Kabelrinne wird mit dem Trennschleifer gekuerzt" loading="lazy">
-        <img src="band-klingelanlage.jpg" alt="Klingel- und Briefkastenanlage in der Haustuer eines Mehrfamilienhauses" loading="lazy">
-        <img src="band-05-kabeltrommeln.jpg" alt="Kabeltrommeln im Lager" loading="lazy">
-        <img src="band-06-wallbox.jpg" alt="Wallbox an einer Backsteinwand" loading="lazy">
-        <img src="band-montage.jpg" alt="Montage einer Leitung unter der Decke" loading="lazy">
-        <img src="band-waermepumpe-wolf.jpg" alt="Angeschlossene Wolf-Waermepumpe hinter einem Mehrfamilienhaus" loading="lazy">
-        <img src="band-08-photovoltaik.jpg" alt="Photovoltaikanlage auf einem Flachdach" loading="lazy">
-        <img src="band-tiefenerder.jpg" alt="Tiefenerder wird im Kabelgraben eingeschlagen" loading="lazy">
-        <img src="band-09-waermepumpe.jpg" alt="Waermepumpe an einer Hauswand" loading="lazy">
-        <img src="band-10-smarthome.jpg" alt="Smart-Home-Steuerung per Tablet" loading="lazy">
-        <img src="band-11-kamera.jpg" alt="Montage einer Deckenkamera" loading="lazy">
-        <img src="band-13-licht.jpg" alt="Indirekte Beleuchtung im Wohnzimmer" loading="lazy">
-        <img src="band-14-notleuchte.jpg" alt="Notausgangsleuchte und Alarmgeber" loading="lazy">
-      </div>
-      <div class="imgband-group" aria-hidden="true">
-        <img src="band-team.jpg" alt="" loading="lazy">
-        <img src="band-01-steckdose.jpg" alt="" loading="lazy">
-        <img src="band-haus.jpg" alt="" loading="lazy">
-        <img src="band-kabel.jpg" alt="" loading="lazy">
-        <img src="band-02-verteilung.jpg" alt="" loading="lazy">
-        <img src="band-trennschleifer.jpg" alt="" loading="lazy">
-        <img src="band-klingelanlage.jpg" alt="" loading="lazy">
-        <img src="band-05-kabeltrommeln.jpg" alt="" loading="lazy">
-        <img src="band-06-wallbox.jpg" alt="" loading="lazy">
-        <img src="band-montage.jpg" alt="" loading="lazy">
-        <img src="band-waermepumpe-wolf.jpg" alt="" loading="lazy">
-        <img src="band-08-photovoltaik.jpg" alt="" loading="lazy">
-        <img src="band-tiefenerder.jpg" alt="" loading="lazy">
-        <img src="band-09-waermepumpe.jpg" alt="" loading="lazy">
-        <img src="band-10-smarthome.jpg" alt="" loading="lazy">
-        <img src="band-11-kamera.jpg" alt="" loading="lazy">
-        <img src="band-13-licht.jpg" alt="" loading="lazy">
-        <img src="band-14-notleuchte.jpg" alt="" loading="lazy">
-      </div>
-    </div>
-  </div>
-</div>
-
 <section id="kontakt">
   <div class="leistungen-bg" aria-hidden="true">
     <div class="leistungen-bg-photo"></div>
@@ -1940,6 +1913,54 @@ Ich kann die Firma nur sehr empfehlen.</p>
     </div>
   </div>
 </section>
+
+<div class="marquee-section attached bilderband">
+  <div class="marquee-head">Aus dem Arbeitsalltag</div>
+  <div class="marquee-clip">
+    <div class="marquee-track slow">
+      <div class="imgband-group">
+        <img src="band-team.jpg" alt="Zwei Mitarbeiter auf der Baustelle" loading="lazy">
+        <img src="band-01-steckdose.jpg" alt="Steckdose wird verdrahtet" loading="lazy">
+        <img src="band-haus.jpg" alt="Fertiges Mehrfamilienhaus mit Balkonen, Elektroinstallation von uns" loading="lazy">
+        <img src="band-kabel.jpg" alt="Monteur zieht eine Leitung an einer Ziegelfassade" loading="lazy">
+        <img src="band-02-verteilung.jpg" alt="Arbeit an einer Unterverteilung" loading="lazy">
+        <img src="band-trennschleifer.jpg" alt="Kabelrinne wird mit dem Trennschleifer gekuerzt" loading="lazy">
+        <img src="band-klingelanlage.jpg" alt="Klingel- und Briefkastenanlage in der Haustuer eines Mehrfamilienhauses" loading="lazy">
+        <img src="band-05-kabeltrommeln.jpg" alt="Kabeltrommeln im Lager" loading="lazy">
+        <img src="band-06-wallbox.jpg" alt="Wallbox an einer Backsteinwand" loading="lazy">
+        <img src="band-montage.jpg" alt="Montage einer Leitung unter der Decke" loading="lazy">
+        <img src="band-waermepumpe-wolf.jpg" alt="Angeschlossene Wolf-Waermepumpe hinter einem Mehrfamilienhaus" loading="lazy">
+        <img src="band-08-photovoltaik.jpg" alt="Photovoltaikanlage auf einem Flachdach" loading="lazy">
+        <img src="band-tiefenerder.jpg" alt="Tiefenerder wird im Kabelgraben eingeschlagen" loading="lazy">
+        <img src="band-09-waermepumpe.jpg" alt="Waermepumpe an einer Hauswand" loading="lazy">
+        <img src="band-10-smarthome.jpg" alt="Smart-Home-Steuerung per Tablet" loading="lazy">
+        <img src="band-11-kamera.jpg" alt="Montage einer Deckenkamera" loading="lazy">
+        <img src="band-13-licht.jpg" alt="Indirekte Beleuchtung im Wohnzimmer" loading="lazy">
+        <img src="band-14-notleuchte.jpg" alt="Notausgangsleuchte und Alarmgeber" loading="lazy">
+      </div>
+      <div class="imgband-group" aria-hidden="true">
+        <img src="band-team.jpg" alt="" loading="lazy">
+        <img src="band-01-steckdose.jpg" alt="" loading="lazy">
+        <img src="band-haus.jpg" alt="" loading="lazy">
+        <img src="band-kabel.jpg" alt="" loading="lazy">
+        <img src="band-02-verteilung.jpg" alt="" loading="lazy">
+        <img src="band-trennschleifer.jpg" alt="" loading="lazy">
+        <img src="band-klingelanlage.jpg" alt="" loading="lazy">
+        <img src="band-05-kabeltrommeln.jpg" alt="" loading="lazy">
+        <img src="band-06-wallbox.jpg" alt="" loading="lazy">
+        <img src="band-montage.jpg" alt="" loading="lazy">
+        <img src="band-waermepumpe-wolf.jpg" alt="" loading="lazy">
+        <img src="band-08-photovoltaik.jpg" alt="" loading="lazy">
+        <img src="band-tiefenerder.jpg" alt="" loading="lazy">
+        <img src="band-09-waermepumpe.jpg" alt="" loading="lazy">
+        <img src="band-10-smarthome.jpg" alt="" loading="lazy">
+        <img src="band-11-kamera.jpg" alt="" loading="lazy">
+        <img src="band-13-licht.jpg" alt="" loading="lazy">
+        <img src="band-14-notleuchte.jpg" alt="" loading="lazy">
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Impressum -->
 </div>
