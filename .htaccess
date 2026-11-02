@@ -24,3 +24,9 @@ RedirectMatch 301 ^/cookie-einstellungen/?$ https://www.elektrotechnik-paulus.de
 # Fuer "ueber uns" gibt es keinen passenden Abschnitt. Die Angaben zum
 # Betrieb verteilen sich ueber die ganze Startseite, deshalb dorthin.
 RedirectMatch 301 ^/ueber-uns/?$            https://www.elektrotechnik-paulus.de/
+
+# Impressum und Datenschutz stehen als Abschnitte auf der Startseite. Die
+# ueblichen Adressen /impressum und /datenschutz lieferten bis 02.11.2026
+# einen 404-Fehler; jetzt fuehren sie dorthin.
+RedirectMatch 301 ^/impressum/?$            https://www.elektrotechnik-paulus.de/#impressum
+RedirectMatch 301 ^/datenschutz/?$          https://www.elektrotechnik-paulus.de/#datenschutz
