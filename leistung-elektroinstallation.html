@@ -190,6 +190,9 @@
   .leistungen-bg-photo{position:absolute;inset:-6%;background:url('hero-plan.jpg') center/cover no-repeat;
     filter:grayscale(1);opacity:.3;animation:ep-plan-zoom 44s ease-in-out infinite alternate;}
   @keyframes ep-plan-zoom{from{transform:scale(1);} to{transform:scale(1.06);}}
+  /* Am Handy steht das Planfoto still (09.11.2026): die grosse, gefilterte
+     und bewegte Flaeche flackerte dort beim Scrollen. */
+  @media(max-width:900px){.leistungen-bg-photo{animation:none;}}
   /* Symbole als maskierte Flaechen statt <img>, damit sie im Marken-Gelb
      eingefaerbt werden koennen. Icon-Bild und Seitenverhaeltnis kommen je
      Symbol ueber Inline-Style. */
