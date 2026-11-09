@@ -631,6 +631,9 @@
     filter:grayscale(1);opacity:.3;
     animation:ep-plan-zoom 44s ease-in-out infinite alternate;}
   @keyframes ep-plan-zoom{from{transform:scale(1);} to{transform:scale(1.06);}}
+  /* Am Handy steht das Planfoto still (09.11.2026): die grosse, gefilterte
+     und bewegte Flaeche flackerte dort beim Scrollen. */
+  @media(max-width:900px){.leistungen-bg-photo{animation:none;}}
   /* Symbole als maskierte Flaechen statt <img>, damit sie exakt im
      Marken-Gelb eingefaerbt werden koennen (Icon-Form als Maske,
      Farbe kommt von background-color). Icon-Bild und Seitenverhaeltnis
@@ -841,6 +844,18 @@
     height:min(var(--ep-bildmax, 240px), 240px);max-height:none;}
   .service-card.ep-gross .service-img img.karte-zeichen{height:100%;object-fit:contain;}
   .service-card:hover .service-shade{opacity:1;}
+  /* Am Handy gibt es kein Ueberfahren mit der Maus. Der Browser setzt
+     :hover dort beim Antippen -- auch wenn der Finger zum Scrollen nur
+     ueber eine Karte streicht. Die Karte hob sich dann kurz an, das Foto
+     zoomte und der Schatten blitzte auf: beim Scrollen durch Leistungen und
+     Kunden sah das wie Flackern aus (gemeldet 09.11.2026). Ohne echten
+     Mauszeiger bleiben die Karten deshalb ruhig. */
+  @media(hover:none){
+    .service-card:hover,.kunden-card:hover{transform:none;box-shadow:none;}
+    .service-card:hover{background:var(--grey-0);}
+    .service-card:hover .service-img img,.kunden-card:hover .kunden-img img{transform:none;}
+    .service-card:hover .service-shade,.kunden-card:hover .kunden-shade{opacity:0;}
+  }
   /* Wechselnde Projektfotos: weitere Fotos liegen als Ebenen ueber dem
      ersten Bild und werden reihum eingeblendet -- immer nur eine Karte
      zur Zeit, damit die Flaeche ruhig bleibt. Ein weiteres Foto braucht
@@ -1058,6 +1073,17 @@
   .kontakt-block:last-of-type{border-bottom:2px solid var(--grey-300);}
   .kontakt-block .label{font-family:var(--font-heading);font-size:11px;color:var(--grey-600);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;}
   .kontakt-block a, .kontakt-block span{font-size:17px;color:var(--ink);}
+  /* Telefon und E-Mail als gelbe Knoepfe im Design des schwebenden Knopfs
+     (09.11.2026), damit man sofort sieht, dass Antippen anruft bzw. eine
+     Mail oeffnet. Beim Ueberfahren weiss wie alle Angebot-Knoepfe. */
+  #kontakt .kontakt-block a.kontakt-knopf{display:inline-flex;align-items:center;gap:10px;
+    min-height:46px;padding:0 20px;background:var(--yellow);color:var(--dark);
+    border:2px solid var(--dark);box-shadow:0 12px 32px rgba(18,24,30,.28);
+    font-family:var(--font-heading);font-weight:700;font-size:15.5px;text-shadow:none;
+    max-width:100%;overflow-wrap:anywhere;text-decoration:none;}
+  #kontakt .kontakt-block a.kontakt-knopf:hover{background:var(--grey-0);color:var(--dark);}
+  #kontakt .kontakt-block a.kontakt-knopf .dot{width:9px;height:9px;flex:none;background:var(--dark);
+    display:inline-block;animation:ep-pulse 2.4s ease-in-out infinite;}
 
   form{background:var(--grey-0);border:2px solid var(--ink);padding:clamp(24px,3vw,36px);display:grid;gap:16px;}
   .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
@@ -1091,6 +1117,16 @@
     border:none;padding:8px 14px;margin-right:12px;cursor:pointer;}
   .field input[type=file]:hover::file-selector-button{background:var(--tech-blue);}
   .feld-hinweis{font-size:12.5px;line-height:1.5;color:var(--grey-600);margin:2px 0 0;}
+  /* Der Handy-Hinweis soll auffallen (09.11.2026): hellgelber Kasten mit
+     dunklem Rahmen und gelbem Streifen links, davor ein Kamerazeichen. */
+  .feld-hinweis.hinweis-handy{display:flex;align-items:flex-start;gap:10px;margin-top:8px;
+    padding:10px 12px;background:var(--yellow-tint);border:2px solid var(--dark);
+    border-left:6px solid var(--yellow);color:var(--dark);font-size:13.5px;line-height:1.45;}
+  .feld-hinweis.hinweis-handy svg{width:20px;height:20px;flex:none;margin-top:1px;}
+  /* Am Handy selbst braucht es den Hinweis nicht: dort stehen schon die
+     Knoepfe "Foto aufnehmen" und "Video aufnehmen". Sobald das Skript sie
+     einblendet, verschwindet der Kasten. */
+  .kamera-reihe:not([hidden]) ~ .hinweis-handy{display:none;}
   /* Rueckmeldung zur Auswahl: leer, solange nichts gewaehlt ist. Rot nur,
      wenn die Auswahl so nicht abgeschickt werden kann. */
   .feld-status{font-size:12.5px;line-height:1.5;color:var(--grey-600);margin:0;}
@@ -1261,17 +1297,10 @@
   .bew-pfeil:disabled{opacity:.3;cursor:default;}
   @media(max-width:1100px){.bew-leiste{grid-auto-columns:calc((100% - 14px) / 2);}}
   @media(max-width:700px){.bew-leiste{grid-auto-columns:88%;gap:10px;}}
-  /* Die Baender stehen im Markup hinter ihrem Abschnitt, weil sie auf dem
-     Desktop die jeweilige Bildschirmseite unten abschliessen. Auf dem Handy
-     gibt es keine Seiteneinteilung; dort bleibt die gewachsene Reihenfolge
-     erhalten -- erst das Band, dann der Abschnitt. Die Huelle .seitenfolge
-     ist nur dafuer da, dass order hier greifen kann. */
-  @media(max-width:900px){
-    .seitenfolge{display:flex;flex-direction:column;}
-    .seitenfolge > .bilderband{order:1;}
-    .seitenfolge > #ablauf{order:2;}
-    .seitenfolge > #kontakt{order:3;}
-  }
+  /* Am Handy gilt dieselbe Reihenfolge wie am Rechner (09.11.2026): jedes
+     Band steht hinter seinem Abschnitt. Vorher zog das Handy das Bilderband
+     vor "So arbeiten wir" -- direkt unter das Markenband am Ende von
+     "Unsere Kunden", zwei Baender lagen aufeinander. */
   @media(max-width:900px){
     .nav-links{display:none;}
     .burger{display:flex;}
@@ -1824,7 +1853,7 @@
   <div class="wrap bew-block" id="bewertungen">
     <div class="bew-kopf">
       <span class="eyebrow">Kundenstimmen</span>
-      <span class="bew-schnitt"><span class="bew-sterne" aria-hidden="true">★★★★★</span> <strong>5,0</strong> · 5 Bewertungen bei Google</span>
+      <span class="bew-schnitt"><span class="bew-sterne" aria-hidden="true">★★★★★</span> <strong>5,0</strong> · 6 Bewertungen bei Google</span>
     </div>
     <div class="bew-leiste" tabindex="0" aria-label="Kundenbewertungen">
       <article class="bew-karte">
@@ -1863,6 +1892,12 @@ Ich kann die Firma nur sehr empfehlen.</p>
         <button type="button" class="bew-mehr" hidden>mehr</button>
         <div class="bew-fuss"><span class="bew-name">Helmut L.</span> · <span class="bew-datum">Oktober 2026</span> · Google</div>
       </article>
+      <article class="bew-karte">
+        <div class="bew-sterne" aria-label="5 von 5 Sternen">★★★★★</div>
+        <p class="bew-text">Alles bestens,  schneller Termin,  saubere und zügige Arbeit. Gerne wieder.</p>
+        <button type="button" class="bew-mehr" hidden>mehr</button>
+        <div class="bew-fuss"><span class="bew-name">Kat E.</span> · <span class="bew-datum">November 2026</span> · Google</div>
+      </article>
     </div>
     <div class="bew-pfeile" hidden>
       <button type="button" class="bew-pfeil" data-richtung="-1" aria-label="Vorherige Bewertungen">←</button>
@@ -1877,8 +1912,8 @@ Ich kann die Firma nur sehr empfehlen.</p>
         <p data-reveal>Ob Neubau, Sanierung oder einzelne Komponente — schreiben Sie uns oder rufen Sie an. Wir melden uns schnellstmöglich zurück.</p>
       </div>
       <div class="kontakt-daten">
-        <div class="kontakt-block" data-reveal><div class="label">Telefon</div><a href="tel:+4922129894083">0221 29894083</a></div>
-        <div class="kontakt-block" data-reveal><div class="label">E-Mail</div><a href="mailto:info@elektrotechnik-paulus.de">info@elektrotechnik-paulus.de</a></div>
+        <div class="kontakt-block" data-reveal><div class="label">Telefon</div><a class="kontakt-knopf" href="tel:+4922129894083"><span class="dot"></span>0221 29894083</a></div>
+        <div class="kontakt-block" data-reveal><div class="label">E-Mail</div><a class="kontakt-knopf" href="mailto:info@elektrotechnik-paulus.de"><span class="dot"></span>info@elektrotechnik-paulus.de</a></div>
         <div class="kontakt-block" data-reveal><div class="label">Standort</div><span>Köln Nippes</span></div>
       </div>
     </div>
@@ -1952,7 +1987,10 @@ Ich kann die Firma nur sehr empfehlen.</p>
             <span id="grenzeEinzel">2&nbsp;MB</span>, zusammen
             <span id="grenzeGesamt">6&nbsp;MB</span> — Größeres senden Sie am besten an
             <a href="mailto:info@elektrotechnik-paulus.de">info@elektrotechnik-paulus.de</a>.</p>
-          <p class="feld-hinweis"><b>Am Handy können Sie direkt aus dem Kontaktformular Fotos
+          <p class="feld-hinweis hinweis-handy">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            <b>Am Handy können Sie direkt aus dem Kontaktformular Fotos
             und Kurzvideos aufnehmen und mitschicken.</b></p>
           <p class="feld-status" id="anhangStatus" aria-live="polite"></p>
         </div>
