@@ -2457,6 +2457,20 @@ Ich kann die Firma nur sehr empfehlen.</p>
     if (!document.hidden) revealEls.forEach(function (el) { el.classList.add('in'); });
   });
 
+  // Bilder weiter unten (Leistungen, Kunden, Baender, Fusszeile) tragen
+  // loading="lazy": der erste Seitenaufbau wartet nicht auf sie. Der Browser
+  // holt sie aber erst kurz bevor sie ins Bild kommen -- beim schnellen
+  // Scrollen oder im Handynetz standen Kacheln und Markenband dann leer
+  // (gemeldet 13.11.2026). Deshalb nach dem Laden der Seite alle nachholen,
+  // im Hintergrund, zusammen rund 2,7 MB.
+  window.addEventListener('load', function () {
+    setTimeout(function () {
+      document.querySelectorAll('img[loading="lazy"]').forEach(function (bild) {
+        bild.loading = 'eager';
+      });
+    }, 500);
+  });
+
   // Hero-Hintergrund: die Bildebenen wechseln reihum durch, immer eine
   // sichtbar. Die Bilder ausser dem ersten werden erst nach dem Laden
   // gesetzt, damit der erste Seitenaufbau nur auf ein Bild wartet.
